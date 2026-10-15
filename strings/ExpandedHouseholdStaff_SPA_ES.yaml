@@ -2,19 +2,19 @@
     "/UI":
         "/Dialogs":
             "/NamespaceListDialog":
-                ":Title": "Namespace"
+                ":Title": "Select Namespace"
                 "/Titles":
-                    ":InteractionDefinition": "Interaction Definition Namespace"
-                    ":Target": "Target Namespace"
+                    ":InteractionDefinition": "Select Interaction Definition Namespace"
+                    ":Target": "Select Target Namespace"
                 "/Headers":
                     "/Text":
                         ":Text": "Namespace"
                         ":Tooltip": "The namespace of the class"
             "/TypeListDialog":
-                ":Title": "Class"
+                ":Title": "Select Class"
                 "/Titles":
-                    ":InteractionDefinition": "Interaction Definition Class"
-                    ":Target": "Target Class"
+                    ":InteractionDefinition": "Select Interaction Definition Class"
+                    ":Target": "Select Target Class"
                 "/Headers":
                     "/Type":
                         ":Text": "Class"
