@@ -488,7 +488,10 @@ namespace Destrospean.ExpandedHouseholdStaff
                     }
                     else
                     {
-                        text += Common.Localize("TagData:Pregnancy", sim.IsFemale, new object[] { miniSimDescription });
+                        text += Common.Localize("TagData:Pregnancy", sim.IsFemale, new object[]
+                            {
+                                miniSimDescription
+                            });
                     }
                 }
                 else
