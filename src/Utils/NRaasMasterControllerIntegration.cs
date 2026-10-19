@@ -1,6 +1,5 @@
 ﻿extern alias NRaasMasterController;
 using Sims3.Gameplay;
-using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.CAS;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
