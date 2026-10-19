@@ -1725,7 +1725,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     profile.ExtraWaitTimeAfterSocializing.ToString()
                 };
             CASAgeGenderFlags gender = profile.ValidGenders;
-            List<Trait> hiddenTraits = profile.HiddenTraits.ConvertAll(x => TraitManager.GetTraitFromDictionary(x));
+            List<Trait> hiddenTraits = profile.HiddenTraits.ConvertAll(TraitManager.GetTraitFromDictionary);
             string[] messages = new[]
                 {
                     profile.RequestedMessage,
@@ -1734,12 +1734,12 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 };
             CommodityKind[] motives = profile.Motives.ToArray();
             string potentialTraitCountString = profile.PotentialTraitCount.ToString();
-            List<Trait> potentialTraits = profile.PotentialTraits.ConvertAll(x => TraitManager.GetTraitFromDictionary(x));
+            List<Trait> potentialTraits = profile.PotentialTraits.ConvertAll(TraitManager.GetTraitFromDictionary);
             ServiceProfileFlags serviceProfileFlags = profile.GetFlags();
             List<SkillLevelPair> skills = profile.Skills.ConvertAll(x => new SkillLevelPair(x.SkillName, x.SkillLevel));
             string timeToSpendWorkingString = profile.TimeToSpendWorking.ToString();
             string title = profile.Title;
-            List<Trait> traits = profile.Traits.ConvertAll(x => TraitManager.GetTraitFromDictionary(x));
+            List<Trait> traits = profile.Traits.ConvertAll(TraitManager.GetTraitFromDictionary);
 
             sbyte step = 0;
             while (true)
