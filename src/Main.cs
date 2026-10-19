@@ -323,16 +323,15 @@ namespace Destrospean.ExpandedHouseholdStaff
                     }
                     string listString = ", ";
                     int motiveIndex = 0;
-                    CommodityKind[] motives = (Responder.Instance.HudModel as HudModel).GetMotives(sim.CreatedSim);
-                    foreach (CommodityKind commodityKind in motives)
+                    foreach (CommodityKind motive in (Responder.Instance.HudModel as HudModel).GetMotives(sim.CreatedSim))
                     {
-                        if (sim.CreatedSim.Motives.HasMotive(commodityKind))
+                        if (sim.CreatedSim.Motives.HasMotive(motive))
                         {
                             if (motiveIndex >= 6)
                             {
                                 break;
                             }
-                            listString += TagDataHelper.FetchMotiveLocalization(sim.Species, commodityKind) + ": (" + sim.CreatedSim.Motives.GetValue(commodityKind).ToString("0.") + ") ";
+                            listString += TagDataHelper.FetchMotiveLocalization(sim.Species, motive) + ": (" + sim.CreatedSim.Motives.GetValue(motive).ToString("0.") + ") ";
                         }
                         motiveIndex++;
                     }
