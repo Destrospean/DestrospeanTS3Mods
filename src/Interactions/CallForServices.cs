@@ -136,8 +136,6 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
             }
         }
 
-        public static InteractionDefinition Singleton = new Definition();
-
         [DoesntRequireTuning]
         public class Definition : CallDefinition<CallForServices>
         {

@@ -159,6 +159,12 @@
     </Reference>
     <Reference Include="NRaasMasterController">
       <HintPath>..\libs\NRaasMasterController.dll</HintPath>
+      <Aliases>NRaasMasterController</Aliases>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NRaasTagger">
+      <HintPath>..\libs\NRaasTagger.dll</HintPath>
+      <Aliases>NRaasTagger</Aliases>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

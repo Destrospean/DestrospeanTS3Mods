@@ -1,12 +1,13 @@
-﻿using NRaas;
-using NRaas.CommonSpace.Options;
-using NRaas.MasterControllerSpace.Sims;
+﻿extern alias NRaasMasterController;
 using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.CAS;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Destrospean.Utils;
+using GameHitParameters = NRaasMasterController::NRaas.CommonSpace.Options.GameHitParameters<Sims3.Gameplay.Abstracts.GameObject>;
+using SpeedTrap = NRaasMasterController::NRaas.SpeedTrap;
+using Stylist = NRaasMasterController::NRaas.MasterControllerSpace.Sims.Stylist;
 
 namespace Sims3.Gameplay.Destrospean.Utils
 {
@@ -33,7 +34,7 @@ namespace Sims3.Gameplay.Destrospean.Utils
                         simDescription.RemoveSpecialOutfit(specialOutfitKey);
                         sim.SwitchToOutfitWithoutSpin(OutfitCategories.Everyday, 0);
                         CASLogic casLogic = CASLogic.GetSingleton();
-                        new Stylist().Perform(new GameHitParameters<GameObject>(sim, sim, GameObjectHit.NoHit));
+                        new Stylist().Perform(new GameHitParameters(sim, sim, GameObjectHit.NoHit));
                         casLogic.ShowUI += OutfitExtensions.OnShowUI;
                         while (GameStates.NextInWorldStateId != 0)
                         {
