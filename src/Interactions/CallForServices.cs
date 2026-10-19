@@ -57,7 +57,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
                 }
                 foreach (Service service in services)
                 {
-                    if (service != null && service.CanRequestServiceFromPhone(Lot))
+                    if (service != null && (service.CanRequestServiceFromPhone(Lot) || Settings.kAllowAllServicesOnCommunityLots))
                     {
                         serviceInfoList.Add(GetServiceInfo(this, service));
                     }
@@ -158,7 +158,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     return false;
                 }
-                if (!actor.HouseholdOwnsResidentialLot(actor.LotCurrent))
+                if (!actor.HouseholdOwnsResidentialLot(actor.LotCurrent) && !Settings.kAllowAllServicesOnCommunityLots)
                 {
                     greyedOutTooltipCallback = () => LocalizeString("ServicesOnlyOnHomeLot");
                     return false;
