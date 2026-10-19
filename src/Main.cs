@@ -451,15 +451,15 @@ namespace Destrospean.ExpandedHouseholdStaff
                 if (Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.PartnerInfo] && sim.Partner != null)
                 {
                     Relationship relationship = sim.GetRelationship(sim.Partner, false);
-                    string happilyOrUnhappilyString = "Happily";
+                    string happilyOrUnhappily = "Happily";
                     if (relationship != null && relationship.CurrentLTRLiking < -15f)
                     {
-                        happilyOrUnhappilyString = "Unhappily";
+                        happilyOrUnhappily = "Unhappily";
                     }
                     text += Common.NewLine;
                     text = sim.IsMarried ? text + Common.Localize("TagData:Spouse", sim.IsFemale, new object[]
                         {
-                            Common.Localize("TagData:" + happilyOrUnhappilyString),
+                            Common.Localize("TagData:" + happilyOrUnhappily),
                             sim.Partner
                         }) : text + Common.Localize("TagData:Partner", sim.IsFemale, new object[]
                             {
