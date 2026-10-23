@@ -72,7 +72,7 @@ namespace Destrospean.ExpandedAlchemy.Generator
 
             // Copy the elements from the XML to put into the new package
             var rootNode = xmlDocument.SelectSingleNode("ExpandedAlchemyData");
-            List<XmlNode> elements = new List<XmlNode>();
+            var elements = new List<XmlNode>();
             foreach (XmlNode node in rootNode.ChildNodes)
             {
                 if (node is XmlElement)
