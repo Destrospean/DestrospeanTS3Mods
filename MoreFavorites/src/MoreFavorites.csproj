@@ -97,10 +97,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup />
-  <Target Name="Generate STBLs" BeforeTargets="Build">
-    <Exec Command="&quot;$(SolutionDir)scripts\GenerateSTBLs.bat&quot; &quot;$(ProjectDir)..&quot;" Condition="'$(OS)' == 'Windows_NT'" />
-    <Exec Command="sh &quot;$(SolutionDir)scripts\GenerateSTBLs.sh&quot; &quot;$(ProjectDir)..&quot;" Condition="'$(OS)' != 'Windows_NT'" />
-  </Target>
   <Target Name="Create Package" AfterTargets="Build">
     <Exec Command="&quot;$(SolutionDir)scripts\CreatePackage.bat&quot; &quot;MoreFavorites&quot; &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..&quot; &quot;$(ProjectDir)..\dist\&quot;" Condition="'$(OS)' == 'Windows_NT'" />
     <Exec Command="sh &quot;$(SolutionDir)scripts\CreatePackage.sh&quot; &quot;MoreFavorites&quot; &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..&quot; &quot;$(ProjectDir)..\dist\&quot;" Condition="'$(OS)' != 'Windows_NT'" />
