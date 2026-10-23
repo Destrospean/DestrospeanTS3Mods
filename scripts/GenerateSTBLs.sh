@@ -1,6 +1,7 @@
 #!/bin/bash
 cd "${0%/*}"
-rm ../resources/*.stbl
-for i in ../strings/*.yaml; do
-    mono ../tools/STBLize+/STBLize+.exe $i -d ../resources -nu
+projectDir=$1
+rm "${projectDir}/resources"/*.stbl
+for i in "${projectDir}/strings"/*.yaml; do
+    mono ../tools/STBLize+/STBLize+.exe "$i" -d "${projectDir}/resources" -nu
 done

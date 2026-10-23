@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpandedHouseholdStaff", "src\ExpandedHouseholdStaff.csproj", "{A217F96A-14F1-4FA3-A82E-52EA73FD56E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpandedHouseholdStaff", "ExpandedHouseholdStaff\src\ExpandedHouseholdStaff.csproj", "{A217F96A-14F1-4FA3-A82E-52EA73FD56E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

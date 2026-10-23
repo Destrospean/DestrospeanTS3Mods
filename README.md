@@ -1,4 +1,4 @@
-This is the source code of the WIP Expanded Household Staff mod.
+This is the source code of the Destrospean's mods.
 
 The structure is a bit newish/unorthodox compared to most Sims 3 mod repos, so I'll explain things here:
 
@@ -27,7 +27,7 @@ As mentioned above, to carry over newly added strings to other locales, run the 
 
 ### resources
 
-This folder contains the resources in their finalized forms (except for the DLLs, which are added a bit differently) to be added to the package. nameMap.xml is where you would list these resources. Look at [Arro's repository for ts3buildtool](https://github.com/Paprotk/ts3buildtool) for more info on that.
+This folder contains the resources in their finalized forms (except for the DLLs, which are added a bit differently) to be added to the package. `nameMap.xml` is where you would list these resources. Look at [Arro's repository for ts3buildtool](https://github.com/Paprotk/ts3buildtool) for more info on that.
 
 ### tools
 

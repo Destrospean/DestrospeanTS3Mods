@@ -1,7 +1,8 @@
 @echo off
 pushd "%~dp0"
-del ..\resources\*.stbl
-for %%i in (..\strings\*.yaml) do (
-    ..\tools\STBLize+\STBLize+.exe "..\strings\%%i" -d ..\resources -nu
+set projectDir=%1
+del %projectDir%\resources\*.stbl
+for %%i in (%projectDir%\strings\*.yaml) do (
+    ..\tools\STBLize+\STBLize+.exe "%projectDir%\strings\%%i" -d %projectDir%\resources -nu
 )
 popd
