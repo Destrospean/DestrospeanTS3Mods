@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filetable", "sims3-package-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrapperDealer", "sims3-package-interface\s3pi\s3pi\WrapperDealer\WrapperDealer.csproj", "{FE111523-3266-409B-BC72-F8D4A909A554}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpandedAlchemy_Test", "ExpandedAlchemy_Test\src\ExpandedAlchemy_Test.csproj", "{DBA5E460-66AD-49B9-8EEF-3A7A682DCE71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{C0297A33-3628-46E9-9324-408A72E2E922}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0297A33-3628-46E9-9324-408A72E2E922}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0297A33-3628-46E9-9324-408A72E2E922}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBA5E460-66AD-49B9-8EEF-3A7A682DCE71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBA5E460-66AD-49B9-8EEF-3A7A682DCE71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBA5E460-66AD-49B9-8EEF-3A7A682DCE71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBA5E460-66AD-49B9-8EEF-3A7A682DCE71}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E6A29044-2388-4687-B3BA-06AD5C4DE6A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E6A29044-2388-4687-B3BA-06AD5C4DE6A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6A29044-2388-4687-B3BA-06AD5C4DE6A3}.Release|Any CPU.ActiveCfg = Release|Any CPU

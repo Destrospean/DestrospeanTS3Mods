@@ -76,8 +76,6 @@
     <Compile Include="Spawners\GlowBugTerrarium.cs" />
     <Compile Include="Spawners\NaniteTerrarium.cs" />
     <Compile Include="Spawners\NormalTerrarium.cs" />
-    <Compile Include="AlchemyHairLoss.cs" />
-    <Compile Include="RockGemMetalSpawnerUranium.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
