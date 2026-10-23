@@ -1,4 +1,4 @@
-This is the source code of the Destrospean's mods.
+This is the source code of miscellaneous mods by Destrospean for The Sims 3.
 
 The structure is a bit newish/unorthodox compared to most Sims 3 mod repos, so I'll explain things here:
 
