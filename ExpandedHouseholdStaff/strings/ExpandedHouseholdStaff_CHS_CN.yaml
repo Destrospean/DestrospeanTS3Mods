@@ -2,411 +2,411 @@
     "/UI":
         "/Dialogs":
             "/NamespaceListDialog":
-                ":Title": "Select Namespace"
+                ":Title": "选择命名空间"
                 "/Titles":
-                    ":InteractionDefinition": "Select Interaction Definition Namespace"
-                    ":Target": "Select Target Namespace"
+                    ":InteractionDefinition": "选择互动定义命名空间"
+                    ":Target": "选择目标命名空间"
                 "/Headers":
                     "/Text":
-                        ":Text": "Namespace"
-                        ":Tooltip": "The namespace of the class"
+                        ":Text": "命名空间"
+                        ":Tooltip": "类别的命名空间"
             "/TypeListDialog":
-                ":Title": "Select Class"
+                ":Title": "选择类别"
                 "/Titles":
-                    ":InteractionDefinition": "Select Interaction Definition Class"
-                    ":Target": "Select Target Class"
+                    ":InteractionDefinition": "选择互动定义类别"
+                    ":Target": "选择目标类别"
                 "/Headers":
                     "/Type":
-                        ":Text": "Class"
-                        ":Tooltip": "The name of the class"
+                        ":Text": "类别"
+                        ":Tooltip": "类别的名称"
             "/SkillListDialog":
-                ":Title": "Specify Skill Levels"
+                ":Title": "指定技能等级"
                 "/SubmenuTitles":
-                    ":SkillLevel": "Specify Skill Level"
+                    ":SkillLevel": "指定技能等级"
                 "/SubmenuPrompts":
-                    ":SkillLevel": "Enter in the skill level (a value greater than maximum sets it to maximum)."
+                    ":SkillLevel": "输入技能等级（超过上限的数值将设为上限）。"
                 "/Headers":
                     "/Skill":
-                        ":Text": "Skill"
-                        ":Tooltip": "The name of the skill"
+                        ":Text": "技能"
+                        ":Tooltip": "技能的名称"
                     "/Level":
-                        ":Text": "Level"
-                        ":Tooltip": "The skill level"
+                        ":Text": "等级"
+                        ":Tooltip": "技能等级"
             "/TraitListDialog":
-                ":Title": "Select Traits"
+                ":Title": "选择特质"
                 "/Titles":
-                    ":Explicit": "Select Explicit Traits"
-                    ":Hidden": "Select Hidden Traits"
-                    ":Potential": "Select Possible Random Traits"
+                    ":Explicit": "选择明确特质"
+                    ":Hidden": "选择隐藏特质"
+                    ":Potential": "选择可能的随机特质"
                 "/Headers":
                     "/Trait":
-                        ":Text": "Trait"
-                        ":Tooltip": "The name of the trait"
+                        ":Text": "特质"
+                        ":Tooltip": "特质的名称"
                     "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the trait is enabled"
+                        ":Text": "启用"
+                        ":Tooltip": "是否启用该特质"
                 "/Options":
                     "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
+                        ":True": "是"
+                        ":False": "否"
             "/MotiveListDialog":
-                ":Title": "Select Motives"
+                ":Title": "选择需求"
                 "/Headers":
                     "/Text":
-                        ":Text": "Motive"
-                        ":Tooltip": "The name of the motive"
+                        ":Text": "需求"
+                        ":Tooltip": "需求的名称"
                     "/TextInList":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the motive is enabled"
+                        ":Text": "启用"
+                        ":Tooltip": "是否启用该需求"
                 "/Options":
                     "/TextInList":
-                        ":True": "True"
-                        ":False": "False"
+                        ":True": "是"
+                        ":False": "否"
             "/CASAgeGenderFlagListDialog":
-                ":Title": "Select Allowed Demographics"
+                ":Title": "选择允许的人口属性"
                 "/Titles":
-                    ":Age": "Select Allowed Ages"
-                    ":Gender": "Select Allowed Genders"
+                    ":Age": "选择允许的年龄"
+                    ":Gender": "选择允许的性别"
                 "/Headers":
                     "/CASAgeGenderFlag":
-                        ":Text": "Setting"
-                        ":Tooltip": "The name of the setting corresponding to the demographic to allow"
+                        ":Text": "设置"
+                        ":Tooltip": "对应允许之人口属性的设置名称"
                     "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the demographic is allowed"
+                        ":Text": "启用"
+                        ":Tooltip": "是否允许该人口属性"
                 "/Options":
                     "/CASAgeGenderFlag":
-                        ":Baby": "Allow Babies"
-                        ":Toddler": "Allow Toddlers"
-                        ":Child": "Allow Children"
-                        ":Teen": "Allow Teens"
-                        ":YoungAdult": "Allow Young Adults"
-                        ":Adult": "Allow Adults"
-                        ":Elder": "Allow Elders"
-                        ":Male": "Allow Males"
-                        ":Female": "Allow Females"
+                        ":Baby": "允许婴儿"
+                        ":Toddler": "允许幼儿"
+                        ":Child": "允许儿童"
+                        ":Teen": "允许青少年"
+                        ":YoungAdult": "允许青年"
+                        ":Adult": "允许成人"
+                        ":Elder": "允许老人"
+                        ":Male": "允许男性"
+                        ":Female": "允许女性"
                     "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
+                        ":True": "是"
+                        ":False": "否"
             "/ServiceOutfitDemographicDialog":
-                ":Title": "Select Demographic"
+                ":Title": "选择人口属性"
                 "/Titles":
-                    ":Age": "Select Age"
-                    ":Gender": "Select Gender"
+                    ":Age": "选择年龄"
+                    ":Gender": "选择性别"
                 "/Headers":
                     "/CASAgeGenderFlag":
-                        ":Text": "Demographic"
-                        ":Tooltip": "The name of the demographic"
+                        ":Text": "人口属性"
+                        ":Tooltip": "人口属性的名称"
                 "/Options":
                     "/CASAgeGenderFlag":
-                        ":Baby": "Baby"
-                        ":Toddler": "Toddler"
-                        ":Child": "Child"
-                        ":Teen": "Teen"
-                        ":Adult": "Young Adult/Adult"
-                        ":Elder": "Elder"
-                        ":Male": "Male"
-                        ":Female": "Female"
+                        ":Baby": "婴儿"
+                        ":Toddler": "幼儿"
+                        ":Child": "儿童"
+                        ":Teen": "青少年"
+                        ":Adult": "青年/成人"
+                        ":Elder": "老人"
+                        ":Male": "男性"
+                        ":Female": "女性"
             "/PartOverrideListDialog":
-                ":Title": "Select Part Overrides"
+                ":Title": "选择部位覆盖"
                 "/Headers":
                     "/PartType":
-                        ":Text": "Part Type"
-                        ":Tooltip": "The name of the part type"
+                        ":Text": "部位类型"
+                        ":Tooltip": "部位类型的名称"
                     "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the part override is enabled"
+                        ":Text": "启用"
+                        ":Tooltip": "是否启用该部位覆盖"
                 "/Options":
                     "/PartType":
-                        ":Accessories": "Accessories"
-                        ":Armband": "Armband"
-                        ":Beard": "Facial Hair"
-                        ":Blush": "Blush"
-                        ":BodyHairCalves": "Body Hair (Calves)"
-                        ":BodyHairFeet": "Body Hair (Feet)"
-                        ":BodyHairForearms": "Body Hair (Forearms)"
-                        ":BodyHairFullBack": "Body Hair (Full Back)"
-                        ":BodyHairLowerBack": "Body Hair (Lower Back)"
-                        ":BodyHairStomach": "Body Hair (Stomach)"
-                        ":BodyHairUpperBack": "Body Hair (Upper Back)"
-                        ":BodyHairUpperChest": "Body Hair (Upper Chest)"
-                        ":Bracelet": "Bracelet"
-                        ":CostumeMakeup": "Costume Makeup"
-                        ":Earrings": "Earrings"
-                        ":Eyebrows": "Eyebrows"
-                        ":EyeLiner": "Eyeliner"
-                        ":EyeShadow": "Eyeshadow"
-                        ":FirstAccessories": "Accessories"
-                        ":FirstFace": "Lipstick"
-                        ":FullBody": "Full Body"
-                        ":Glasses": "Glasses"
-                        ":Gloves": "Gloves"
-                        ":Hair": "Hair"
-                        ":Lipstick": "Lipstick"
-                        ":LeftEarring": "Left Earring"
-                        ":LeftGarter": "Left Garter"
-                        ":LowerBody": "Lower Body"
-                        ":Mascara": "Mascara"
-                        ":Necklace": "Necklace"
-                        ":NoseRing": "Nose Ring"
-                        ":RightEarring": "Right Earring"
-                        ":RightGarter": "Right Garter"
-                        ":Ring": "Ring"
-                        ":Shoes": "Shoes"
-                        ":Socks": "Socks"
-                        ":UpperBody": "Upper Body"
-                        ":WeddingRing": "Wedding Ring"
+                        ":Accessories": "配件"
+                        ":Armband": "臂环"
+                        ":Beard": "胡须"
+                        ":Blush": "腮红"
+                        ":BodyHairCalves": "体毛（小腿）"
+                        ":BodyHairFeet": "体毛（脚部）"
+                        ":BodyHairForearms": "体毛（前臂）"
+                        ":BodyHairFullBack": "体毛（整个背部）"
+                        ":BodyHairLowerBack": "体毛（下背部）"
+                        ":BodyHairStomach": "体毛（腹部）"
+                        ":BodyHairUpperBack": "体毛（上背部）"
+                        ":BodyHairUpperChest": "体毛（上胸部）"
+                        ":Bracelet": "手链"
+                        ":CostumeMakeup": "化装"
+                        ":Earrings": "耳环"
+                        ":Eyebrows": "眉毛"
+                        ":EyeLiner": "眼线"
+                        ":EyeShadow": "眼影"
+                        ":FirstAccessories": "配件"
+                        ":FirstFace": "唇膏"
+                        ":FullBody": "全身"
+                        ":Glasses": "眼镜"
+                        ":Gloves": "手套"
+                        ":Hair": "头发"
+                        ":Lipstick": "唇膏"
+                        ":LeftEarring": "左耳环"
+                        ":LeftGarter": "左吊袜带"
+                        ":LowerBody": "下半身"
+                        ":Mascara": "睫毛膏"
+                        ":Necklace": "项链"
+                        ":NoseRing": "鼻环"
+                        ":RightEarring": "右耳环"
+                        ":RightGarter": "右吊袜带"
+                        ":Ring": "戒指"
+                        ":Shoes": "鞋子"
+                        ":Socks": "袜子"
+                        ":UpperBody": "上半身"
+                        ":WeddingRing": "结婚戒指"
                     "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
+                        ":True": "是"
+                        ":False": "否"
             "/ServiceProfileFlagListDialog":
-                ":Title": "Select Service Properties"
+                ":Title": "选择服务属性"
                 "/Headers":
                     "/ServiceProfileFlag":
-                        ":Text": "Property"
-                        ":Tooltip": "The name of the property"
+                        ":Text": "属性"
+                        ":Tooltip": "属性的名称"
                     "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the property is enabled"
+                        ":Text": "启用"
+                        ":Tooltip": "是否启用该属性"
                 "/Options":
                     "/ServiceProfileFlag":
-                        ":LiveInService": "Live-In Service"
-                        ":QuietAroundSleepingSims": "Quiet Around Sleeping Sims"
-                        ":ReportsFires": "Report Fires to the Fire Department"
-                        ":ScaredOfBonehilda": "Scared of Bonehilda"
-                        ":WaitsBeforePuttingAwayLeftovers": "Wait Before Putting Away Leftovers"
-                        ":Recurrent": "Recurring"
-                        ":EmergencyService": "Emergency Service"
-                        ":AlwaysTryToSendTheSameSim": "Always Try to Send the Same Sim"
-                        ":BabysittingService": "Care for Babies, Toddlers, and Children"
-                        ":RequireBeInSameRoom": "Must Be in the Same Room As Babies, Toddlers, and Children"
-                        ":PreventSocialization": "Prevent Socializing"
+                        ":LiveInService": "住家服务"
+                        ":QuietAroundSleepingSims": "在模拟市民睡觉时保持安静"
+                        ":ReportsFires": "向消防局报告火灾"
+                        ":ScaredOfBonehilda": "害怕骸骨仆人"
+                        ":WaitsBeforePuttingAwayLeftovers": "收拾剩菜前先等待"
+                        ":Recurrent": "周期性"
+                        ":EmergencyService": "紧急服务"
+                        ":AlwaysTryToSendTheSameSim": "总是尝试派遣同一位模拟市民"
+                        ":BabysittingService": "照顾婴儿、幼儿和儿童"
+                        ":RequireBeInSameRoom": "必须与婴儿、幼儿和儿童位于同一房间"
+                        ":PreventSocialization": "禁止社交"
                     "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
+                        ":True": "是"
+                        ":False": "否"
             "/ActiveTopicActionActivenessDialog":
-                ":Title": "Select Actor Type"
+                ":Title": "选择行动者类型"
                 "/Options":
-                    ":FPA": "First Person Actor"
-                    ":SPA": "Second Person Actor"
+                    ":FPA": "第一人称行动者"
+                    ":SPA": "第二人称行动者"
             "/LongTermRelationshipTypeDialog":
-                ":Title": "Select Long Term Relationship"
+                ":Title": "选择长期关系"
                 "/Options":
-                    ":All": "All"
-                    ":Default": "Default"
-                    ":Spouse": "Spouse"
-                    ":Ex": "Ex"
-                    ":ExSpouse": "Ex-Spouse"
+                    ":All": "全部"
+                    ":Default": "默认"
+                    ":Spouse": "配偶"
+                    ":Ex": "前任"
+                    ":ExSpouse": "前配偶"
             "/UpdateTypeDialog":
-                ":Title": "Select Update Type"
+                ":Title": "选择更新类型"
                 "/Options":
-                    ":First": "Continuous Flow"
-                    ":ContinuousFlow": "Continuous Flow"
-                    ":ImmediateDelta": "Immediate Delta"
+                    ":First": "持续流动"
+                    ":ContinuousFlow": "持续流动"
+                    ":ImmediateDelta": "即时增量"
             "/ServiceProfileListDialog":
                 "/Titles":
-                    ":Singular": "Select Service"
-                    ":Plural": "Select Services"
+                    ":Singular": "选择服务"
+                    ":Plural": "选择服务"
                 "/Headers":
                     "/Name":
-                        ":Text": "Name"
-                        ":Tooltip": "The internal name of the profile"
+                        ":Text": "名称"
+                        ":Tooltip": "配置文件的内部名称"
                     "/Title":
-                        ":Text": "Title"
-                        ":Tooltip": "The display name of the profile"
+                        ":Text": "标题"
+                        ":Tooltip": "配置文件的显示名称"
             "/ActiveTopicActionListDialog":
                 "/Titles":
-                    ":Singular": "Select Action"
-                    ":Plural": "Select Actions"
+                    ":Singular": "选择动作"
+                    ":Plural": "选择动作"
                 "/Headers":
                     "/ActiveTopicAction":
-                        ":Text": "Action"
-                        ":Tooltip": "The name of the action"
+                        ":Text": "动作"
+                        ":Tooltip": "动作的名称"
                     "/Grouping":
-                        ":Text": "Grouping"
-                        ":Tooltip": "The grouping of the action"
+                        ":Text": "分组"
+                        ":Tooltip": "动作的分组"
                     "/Activeness":
                         ":Text": "FPA/SPA"
-                        ":Tooltip": "Whether the actor of the action is the first person actor (FPA) or second person actor (SPA)"
+                        ":Tooltip": "动作的行动者为第一人称行动者（FPA）还是第二人称行动者（SPA）"
                 "/Options":
                     "/Activeness":
                         ":FPA": "FPA"
                         ":SPA": "SPA"
             "/OutputListDialog":
                 "/Titles":
-                    ":Singular": "Select Output"
-                    ":Plural": "Select Outputs"
+                    ":Singular": "选择输出"
+                    ":Plural": "选择输出"
                 "/Headers":
                     "/InteractionDefinitionType":
-                        ":Text": "Interaction Definition"
-                        ":Tooltip": "The namespace + class name of the interaction definition"
+                        ":Text": "互动定义"
+                        ":Tooltip": "互动定义的命名空间＋类别名称"
                     "/TargetType":
-                        ":Text": "Target Type"
-                        ":Tooltip": "The namespace + class name of the target object type"
+                        ":Text": "目标类型"
+                        ":Tooltip": "目标对象类型的命名空间＋类别名称"
             "/InventoryObjectListDialog":
                 "/Titles":
-                    ":Singular": "Select Inventory Item"
-                    ":Plural": "Select Inventory Items"
+                    ":Singular": "选择库存物品"
+                    ":Plural": "选择库存物品"
                 "/Headers":
                     "/InstanceName":
-                        ":Text": "Instance Name"
-                        ":Tooltip": "The instance name of the inventory item"
+                        ":Text": "实例名称"
+                        ":Tooltip": "库存物品的实例名称"
                     "/Group":
-                        ":Text": "Group"
-                        ":Tooltip": "The group ID of the inventory item"
+                        ":Text": "群组"
+                        ":Tooltip": "库存物品的群组 ID"
                     "/Count":
-                        ":Text": "Count"
-                        ":Tooltip": "The number of instances of the inventory item"
+                        ":Text": "数量"
+                        ":Tooltip": "库存物品的实例数量"
             "/CreateServiceProfileDialog":
-                ":Title": "Create Service"
+                ":Title": "创建服务"
                 "/Prompts":
-                    ":Name": "Enter in the internal name of the service (must be unique)."
-                    ":Title": "Enter in display name of the service (what shows up in the UI)."
-                ":ServiceCreationFailed": "Service Creation Failed"
-                ":NotUnique": "The internal name was not unique."
-                ":NameEmpty": "The internal name was not specified."
-                ":TitleEmpty": "The display name was not specified."
+                    ":Name": "输入服务的内部名称（必须唯一）。"
+                    ":Title": "输入服务的显示名称（显示在用户界面上的名称）。"
+                ":ServiceCreationFailed": "服务创建失败"
+                ":NotUnique": "内部名称并非唯一。"
+                ":NameEmpty": "未指定内部名称。"
+                ":TitleEmpty": "未指定显示名称。"
             "/CloneServiceProfileDialog":
-                ":Title": "Clone Service"
-                ":Prompt": "Enter in the new internal name of the cloned service (must be unique)."
+                ":Title": "复制服务"
+                ":Prompt": "输入复制服务的新内部名称（必须唯一）。"
             "/EditServiceProfileDialog":
-                ":Title": "Specify Display Name"
-                ":Prompt": "Enter in display name of the service (what shows up in the UI)."
-                ":TitleChangeFailed": "Invalid Input"
+                ":Title": "指定显示名称"
+                ":Prompt": "输入服务的显示名称（显示在用户界面上的名称）。"
+                ":TitleChangeFailed": "无效的输入"
             "/PhoneCallFeedbackDialog":
-                ":Title": "Specify Phone Call Feedback"
+                ":Title": "指定电话通话反馈"
                 "/Prompts":
-                    ":SetCancelledMessage": "Enter in the feedback for cancelling the service."
-                    ":SetCancelledWhileActiveMessage": "Enter in the feedback for cancelling the service while it's active."
-                    ":SetRequestedMessage": "Enter in the feedback for requesting the service."
+                    ":SetCancelledMessage": "输入取消服务时的反馈。"
+                    ":SetCancelledWhileActiveMessage": "输入在服务进行中取消服务时的反馈。"
+                    ":SetRequestedMessage": "输入要求服务时的反馈。"
             "/DelaysDialog":
-                ":Title": "Specify Arrival and Departure Delays"
+                ":Title": "指定到达与离开延迟"
                 "/Prompts":
-                    ":SetDelayBeforeArriving": "Enter in the delay (in minutes) for the worker to arrive."
-                    ":SetDelayBeforeLeaving": "Enter in the delay (in minutes) for the worker to leave."
-                    ":SetExtraWaitTimeAfterSocializing": "Enter in the time added to the delay (in minutes) from socializing before the worker leaves."
+                    ":SetDelayBeforeArriving": "输入工作人员到达的延迟时间（以分钟为单位）。"
+                    ":SetDelayBeforeLeaving": "输入工作人员离开的延迟时间（以分钟为单位）。"
+                    ":SetExtraWaitTimeAfterSocializing": "输入工作人员离开前因社交而增加至延迟的时间（以分钟为单位）。"
             "/AddInventoryObjectDialog":
-                ":Title": "Specify Inventory Item Properties"
+                ":Title": "指定库存物品属性"
                 "/Prompts":
-                    ":SetInstanceName": "Enter in the instance name of the inventory item the worker spawns with."
-                    ":SetGroup": "Enter in the group ID of the inventory item the worker spawns with."
-                    ":SetCount": "Enter in the number of instances of the inventory item the worker spawns with."
+                    ":SetInstanceName": "输入工作人员生成时所携带库存物品的实例名称。"
+                    ":SetGroup": "输入工作人员生成时所携带库存物品的群组 ID。"
+                    ":SetCount": "输入工作人员生成时所携带库存物品的实例数量。"
             "/CostDialog":
-                ":Title": "Specify Cost"
+                ":Title": "指定费用"
                 "/Prompts":
-                    ":Daily": "Enter in the daily cost of the service."
-                    ":Weekly": "Enter in the weekly cost of the service."
+                    ":Daily": "输入服务的每日费用。"
+                    ":Weekly": "输入服务的每周费用。"
             "/TimeToSpendWorkingDialog":
-                ":Title": "Specify Hours"
-                ":Prompt": "Enter in the number of hours the worker spends performing their service."
+                ":Title": "指定时数"
+                ":Prompt": "输入工作人员执行服务所花费的小时数。"
             "/PotentialTraitCountDialog":
-                ":Title": "Specify Possible Random Trait Count"
-                ":Prompt": "Enter in number of traits that will be selected randomly from the possible random traits pool."
+                ":Title": "指定可能的随机特质数量"
+                ":Prompt": "输入将从可能的随机特质池中随机选取的特质数量。"
             "/ActionNameDialog":
-                ":Title": "Specify Action Name"
-                ":Prompt": "Enter in the name of the action."
+                ":Title": "指定动作名称"
+                ":Prompt": "输入动作的名称。"
             "/ActualValueDialog":
-                ":Title": "Specify Actual Priority"
-                ":Prompt": "Enter in the actual priority value."
+                ":Title": "指定实际优先级"
+                ":Prompt": "输入实际优先级的值。"
             "/AdvertisedValueDialog":
-                ":Title": "Specify Advertised Priority"
-                ":Prompt": "Enter in the advertised priority value."
+                ":Title": "指定宣传优先级"
+                ":Prompt": "输入宣传优先级的值。"
             "/ServiceCollectionListDialog":
-                ":Title": "Select Service Collection"
+                ":Title": "选择服务集合"
                 "/Headers":
                     "/Text":
-                        ":Text": "Service Collection"
-                        ":Tooltip": "The name of the service collection"
+                        ":Text": "服务集合"
+                        ":Tooltip": "服务集合的名称"
             "/ExportServiceCollectionFilenameDialog":
-                ":Title": "Export Services"
-                ":Prompt": "Enter in the name of the service collection to export."
+                ":Title": "导出服务"
+                ":Prompt": "输入要导出之服务集合的名称。"
             "/ImportServiceCollectionSuccessDialog":
-                ":Title": "Import Successful"
-                ":Message": "The selected service collection was successfully imported."
+                ":Title": "导入成功"
+                ":Message": "已成功导入选择的服务集合。"
             "/ExportServiceCollectionSuccessDialog":
-                ":Title": "Export Successful"
-                ":Message": "The service collection was successfully exported."
+                ":Title": "导出成功"
+                ":Message": "已成功导出服务集合。"
             "/DeleteServiceCollectionSuccessDialog":
-                ":Title": "Deletion Successful"
-                ":Message": "The selected service collections were successfully deleted."
+                ":Title": "删除成功"
+                ":Message": "已成功删除选择的服务集合。"
             "/NoServiceCollectionsExistDialog":
-                ":Title": "Import Failed"
-                ":Message": "No service collections currently exist."
+                ":Title": "导入失败"
+                ":Message": "目前没有任何服务集合。"
             "/ServiceCollectionExistsDialog":
-                ":Title": "Export Failed"
-                ":Message": "A service collection of this name already exists."
+                ":Title": "导出失败"
+                ":Message": "此名称的服务集合已存在。"
     "/ExpandedHouseholdStaff":
         "/Interactions":
             "/ListInteractions":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "List Internal Data of Interactions"
+                ":Path": "扩充家庭员工…"
+                ":Name": "列出互动的内部数据"
                 "/Headers":
-                    ":ObjectName": "Object Name: "
-                    ":InteractionName": "Interaction Name: "
-                    ":InteractionDefinitionType": "Interaction Definition Type: "
-                    ":TargetType": "Target Type: "
+                    ":ObjectName": "对象名称："
+                    ":InteractionName": "互动名称："
+                    ":InteractionDefinitionType": "互动定义类型："
+                    ":TargetType": "目标类型："
             "/CreateServiceProfile":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Create Service"
+                ":Path": "扩充家庭员工…"
+                ":Name": "创建服务"
             "/CloneServiceProfile":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Clone Service"
+                ":Path": "扩充家庭员工…"
+                ":Name": "复制服务"
             "/DeleteServiceProfile":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Delete Services"
+                ":Path": "扩充家庭员工…"
+                ":Name": "删除服务"
             "/EditServiceProfile":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Edit Service"
+                ":Path": "扩充家庭员工…"
+                ":Name": "编辑服务"
             "/EditServiceUniform":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Edit Service Uniform"
+                ":Path": "扩充家庭员工…"
+                ":Name": "编辑服务制服"
             "/ResetServiceUniform":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Reset Service Uniform"
+                ":Path": "扩充家庭员工…"
+                ":Name": "重置服务制服"
             "/AssignCarToService":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Assign Car to Service"
+                ":Path": "扩充家庭员工…"
+                ":Name": "指派车辆给服务"
             "/ResetServiceCar":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Reset Service Cars"
+                ":Path": "扩充家庭员工…"
+                ":Name": "重置服务车辆"
             "/AddActiveTopicAction":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Add Active Topic Action"
+                ":Path": "扩充家庭员工…"
+                ":Name": "添加进行中话题动作"
             "/RemoveActiveTopicAction":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Remove Active Topic Actions"
+                ":Path": "扩充家庭员工…"
+                ":Name": "移除进行中话题动作"
             "/AddAutonomousInteraction":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Add Autonomous Interaction"
+                ":Path": "扩充家庭员工…"
+                ":Name": "添加自主互动"
             "/RemoveAutonomousInteraction":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Remove Autonomous Interactions"
+                ":Path": "扩充家庭员工…"
+                ":Name": "移除自主互动"
             "/AddInventoryObjectToService":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Add As Inventory Item for Service"
+                ":Path": "扩充家庭员工…"
+                ":Name": "添加为服务的库存物品"
             "/AddInventoryObject":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Add Inventory Item"
+                ":Path": "扩充家庭员工…"
+                ":Name": "添加库存物品"
             "/RemoveInventoryObject":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Remove Inventory Items"
+                ":Path": "扩充家庭员工…"
+                ":Name": "移除库存物品"
             "/ImportServiceCollection":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Import Service Collection"
+                ":Path": "扩充家庭员工…"
+                ":Name": "导入服务集合"
             "/ExportServiceCollection":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Export Service Collection"
+                ":Path": "扩充家庭员工…"
+                ":Name": "导出服务集合"
             "/DeleteServiceCollection":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Delete Service Collections"
+                ":Path": "扩充家庭员工…"
+                ":Name": "删除服务集合"
         "/Services":
             "/CustomService":
-                ":RequestService": "Hire {0.String}"
-                ":ServiceRequested": "Thanks for the call. I'll be over as soon as I can."
-                ":ServiceCancelled": "The {0.String} service has been cancelled."
-                ":ServiceCancelledWhileActive": "We have already sent a {0.String} over today, but we have cancelled your recurring service."
-                ":NotEnoughFunds": "You don't have enough funds to pay the {0.String}."
-                ":WeeklyPayment": "I'll be taking my weekly salary of {0.Money}. Good Day."
+                ":RequestService": "雇用 {0.String}"
+                ":ServiceRequested": "感谢来电。我会尽快赶过去。"
+                ":ServiceCancelled": "{0.String} 服务已取消。"
+                ":ServiceCancelledWhileActive": "我们今天已经派过 {0.String}，但我们已经取消您的周期性服务。"
+                ":NotEnoughFunds": "您的资金不足以支付 {0.String}。"
+                ":WeeklyPayment": "我要领取 {0.Money} 的周薪。祝您有美好的一天。"
                 "/SetUnsetServiceBed":
-                    ":SetInteractionName": "Set as {1.String} {0.SimFirstName}'s Bed"
-                    ":UnsetInteractionName": "Unset as {1.String} {0.SimFirstName}'s Bed"
+                    ":SetInteractionName": "设为 {1.String} {0.SimFirstName} 的床"
+                    ":UnsetInteractionName": "取消设为 {1.String} {0.SimFirstName} 的床"
