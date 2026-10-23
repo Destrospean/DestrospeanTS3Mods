@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<Favorites>
+  <!-- The "IsGroup" attribute specifies whether an entry is a group of other entries and therefore shouldn't be invalidated -->
+  <!-- The "Parent" attribute should match the color name, recipe key, or station name of the parent; leave the attribute blank if an entry doesn't have a parent -->
+  <!-- The "Hidden" attribute specifies whether an entry should be hidden from the favorites dialogs and removed from the randomization pools, but a Sim with a parent favorite should still receive the perks for it -->
+
+  <!-- The "Display_Name" attribute should be the name of the color that's displayed in game (in the STBLs the tool generates; strings in STBLs for other languages will need to be modified afterward) -->
+  <!-- The "Drink_Display_Name" attribute should be the name the drink from the drink synthesizer for the corresponding color -->
+  <!-- The "Opposite" attribute should be the name of the opposite color, which is relevant to drinks from the drink synthesizer; it's okay to leave the attribute blank -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <FavoriteColor Name="" Hex="#000000" Display_Name="" Drink_Display_Name="" Opposite="" Parent="" Hidden="False" />
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <FavoriteFood Recipe_Key="" Icon_Key="" Small_Icon_Key="" IsGroup="False" Parent="" Hidden="False" />
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <FavoriteMusic Station_Name="" Icon_Key="" Small_Icon_Key="" IsGroup="False" Parent="" Hidden="False" />
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- Below is to blacklist favorites from the dialogs and randomization pools, also disallowing any perks of it being a favorite even if it has a parent that a Sim has as their favorite -->
+  <!-- The "Favorite_Type" attribute should be either "Color", "Food", or "Music" -->
+  <!-- The "Name" attribute should match the color name, recipe key, or station name of the favorite being blacklisted -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Unfavorite Favorite_Type="Color|Food|Music" Name="Name|Recipe_Key|Station_Name" />
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+</Favorites>

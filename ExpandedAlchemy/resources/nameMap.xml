@@ -2,4 +2,12 @@
 <resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nameMap.xsd">
   <resource name="ExpandedAlchemy" type="0x073FAA07"/>
   <resource name="*.stbl" type="0x220557DA"/>
+  <resource name="NormalTerrarium" type="0x02DC343F" group="0x00000000" instance="0x0000000000000BD0"/>
+  <resource name="MeteorHuge" type="0x02DC343F" group="0x00000000" instance="0x0000000000000BDB"/>
+  <resource name="Metal" type="0x02DC343F" group="0x00000000" instance="0x0000000000000BDC"/>
+  <resource name="MeteorMedium" type="0x02DC343F" group="0x00000000" instance="0x0000000000000BDD"/>
+  <resource name="Gem" type="0x02DC343F" group="0x00000000" instance="0x0000000000000BDE"/>
+  <resource name="MeteorLarge" type="0x02DC343F" group="0x00000000" instance="0x0000000000000BDF"/>
+  <resource name="GlowBugTerrarium" type="0x02DC343F" group="0x58000000" instance="0x000000000098D219"/>
+  <resource name="NaniteTerrarium" type="0x02DC343F" group="0xA0000000" instance="0x000000000098DE64"/>
 </resources>

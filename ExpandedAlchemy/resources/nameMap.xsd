@@ -205,6 +205,34 @@
                                 </xs:union>
                             </xs:simpleType>
                         </xs:attribute>
+                        <xs:attribute name="group" use="optional">
+                            <xs:annotation>
+                                <xs:documentation>The 4-byte Hexadecimal Resource Group (TGI Group).</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:union>
+                                    <xs:simpleType>
+                                        <xs:restriction base="xs:string">
+                                            <xs:pattern value="0x[0-9A-Fa-f]{8}" />
+                                        </xs:restriction>
+                                    </xs:simpleType>
+                                </xs:union>
+                            </xs:simpleType>
+                        </xs:attribute>
+                        <xs:attribute name="instance" use="optional">
+                            <xs:annotation>
+                                <xs:documentation>The 8-byte Hexadecimal Resource Instance (TGI Instance). This attribute will force a resource to have a TGI with the instance specified.</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:union>
+                                    <xs:simpleType>
+                                        <xs:restriction base="xs:string">
+                                            <xs:pattern value="0x[0-9A-Fa-f]{16}" />
+                                        </xs:restriction>
+                                    </xs:simpleType>
+                                </xs:union>
+                            </xs:simpleType>
+                        </xs:attribute>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
