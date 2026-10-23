@@ -7,7 +7,6 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Destrospean.ExpandedAlchemy.Generator</RootNamespace>
     <AssemblyName>ExpandedAlchemy_Generator</AssemblyName>
-    <ApplicationIcon>ExpandedAlchemy.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -63,13 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="ExpandedAlchemy.ico" />
-    <None Include="ExpandedAlchemy.svg" />
-    <None Include="Fishing.xml" />
-    <None Include="RockGemMetal.xml" />
-    <None Include="Insects.xml" />
-    <None Include="AlchemyRecipes.xml" />
-    <None Include="Register.xml" />
+    <None Include="Templates\AlchemyRecipes.xml" />
+    <None Include="Templates\Fishing.xml" />
+    <None Include="Templates\Insects.xml" />
+    <None Include="Templates\Register.xml" />
+    <None Include="Templates\RockGemMetal.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\ExpandedAlchemy_Base\bin\Release\ExpandedAlchemy_Base.dll">
@@ -114,5 +111,8 @@
       <Project>{5B43F245-AB0D-49FA-BC1E-1168103C7522}</Project>
       <Name>NameMapResource</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Templates\" />
   </ItemGroup>
 </Project>
