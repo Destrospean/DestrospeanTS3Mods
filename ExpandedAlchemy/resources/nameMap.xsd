@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="resources">
+        <xs:annotation>
+            <xs:documentation>Root element for the Sims 3 Build Tool resource map.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="resource">
+                    <xs:annotation>
+                        <xs:documentation>Defines a single resource to be injected into the .package file.</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                        <xs:attribute name="name" type="xs:string" use="required">
+                            <xs:annotation>
+                                <xs:documentation>The name of the resource. Use "*.dll" to target the compiled assembly for S3SA types.</xs:documentation>
+                            </xs:annotation>
+                        </xs:attribute>
+                        <xs:attribute name="type" use="required">
+                            <xs:annotation>
+                                <xs:documentation>The 4-byte Hexadecimal Resource Type (TGI Type).</xs:documentation>
+                            </xs:annotation>
+                            <xs:simpleType>
+                                <xs:union>
+                                    <xs:simpleType>
+                                        <xs:restriction base="xs:string">
+                                            <xs:enumeration value="0x00AE6C67"> <xs:annotation><xs:documentation>BONE (.skcon)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x00B2D882"> <xs:annotation><xs:documentation>_IMG (.dds)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x00B552EA"> <xs:annotation><xs:documentation>_SPT (.tree)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x010077BB"> <xs:annotation><xs:documentation>_AUD (.mp3)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x010077C4"> <xs:annotation><xs:documentation>_AUD (.wav)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x010077CA"> <xs:annotation><xs:documentation>_AUD (.xa)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x015A1849"> <xs:annotation><xs:documentation>GEOM (.simgeom)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0166038C"> <xs:annotation><xs:documentation>_KEY (.keyname)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x01661233"> <xs:annotation><xs:documentation>MODL (.model)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0175E5CD"> <xs:annotation><xs:documentation>SCPT (.oldscript)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0181B0D2"> <xs:annotation><xs:documentation>_AUD (.abk)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x01A527DB"> <xs:annotation><xs:documentation>_AUD (.snr)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x01D0E75D"> <xs:annotation><xs:documentation>MATD (.material)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x01D10F34"> <xs:annotation><xs:documentation>MLOD (.lod)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x01EEF63A"> <xs:annotation><xs:documentation>_AUD (.sns)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x02019972"> <xs:annotation><xs:documentation>MTST (.mtst)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x021D7E8C"> <xs:annotation><xs:documentation>SPT2 (.speedtree)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x022B756C"> <xs:annotation><xs:documentation>WRDH (.wdescnamehash)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x024A0E52"> <xs:annotation><xs:documentation>CNFG (.cfg)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x025C90A6"> <xs:annotation><xs:documentation>_CSS (.css)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x025C95B6"> <xs:annotation><xs:documentation>LAYO (.layout)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x025ED6F4"> <xs:annotation><xs:documentation>SIMO (.outfit)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x029E333B"> <xs:annotation><xs:documentation>VOCE (.voicemix)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x02B9F662"> <xs:annotation><xs:documentation>PROP (.audprop)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x02C9EFF2"> <xs:annotation><xs:documentation>MIXR (.audmix)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x02D5DF13"> <xs:annotation><xs:documentation>JAZZ (.jazz)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x02DC343F"> <xs:annotation><xs:documentation>OBJK (.objkey)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x033260E3"> <xs:annotation><xs:documentation>TkMk (.trackmask)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0333406C"> <xs:annotation><xs:documentation>_XML (.xml)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x033A1435"> <xs:annotation><xs:documentation>TXTC (.compositor)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0341ACC9"> <xs:annotation><xs:documentation>TXTF (.fabric)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x034AEECB"> <xs:annotation><xs:documentation>CASP (.caspart)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0354796A"> <xs:annotation><xs:documentation>TONE (.skintone)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x03555BA8"> <xs:annotation><xs:documentation>TONE (.hairtone)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0355E0A6"> <xs:annotation><xs:documentation>BOND (.bonedelta)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0358B08A"> <xs:annotation><xs:documentation>FACE (.faceblend)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x03B33DDF"> <xs:annotation><xs:documentation>ITUN (.tuning)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x03B4C61D"> <xs:annotation><xs:documentation>LITE (.light)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x03D843C2"> <xs:annotation><xs:documentation>CCHE (.cacheentry)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x03D86EA4"> <xs:annotation><xs:documentation>DETL (.details)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x3F8662EA"> <xs:annotation><xs:documentation>JPEG (.jpg)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0418FE2A"> <xs:annotation><xs:documentation>CFEN (.fence)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x044AE110"> <xs:annotation><xs:documentation>COMP (.complate)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x049CA4CD"> <xs:annotation><xs:documentation>CSTR (.stairs)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x04A4D951"> <xs:annotation><xs:documentation>WDET (.wrlddetail)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x04AC5D93"> <xs:annotation><xs:documentation>CPRX (.proxyprod)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x04B30669"> <xs:annotation><xs:documentation>CTTL (.terraintool)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x04C58103"> <xs:annotation><xs:documentation>CRAL (.railing)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x04D82D90"> <xs:annotation><xs:documentation>CMRU (.cachemru)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x04ED4BB2"> <xs:annotation><xs:documentation>CTPT (.terrainpaint)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x04F3CC01"> <xs:annotation><xs:documentation>CFIR (.fireplace)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x04F51033"> <xs:annotation><xs:documentation>SBNO (.binoutfit)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x04F88964"> <xs:annotation><xs:documentation>SIME (.simexport)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x051DF2DD"> <xs:annotation><xs:documentation>CBLN (.compblend)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0580A2B4"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0580A2B5"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0580A2B6"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0580A2CD"> <xs:annotation><xs:documentation>SNAP (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0580A2CE"> <xs:annotation><xs:documentation>SNAP (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0580A2CF"> <xs:annotation><xs:documentation>SNAP (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0589DC44"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0589DC45"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0589DC46"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0589DC47"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0591B1AF"> <xs:annotation><xs:documentation>UPST (.usercastpreset)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x05B17698"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x05B17699"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x05B1769A"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x05B1B524"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x05B1B525"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x05B1B526"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x05ED1226"> <xs:annotation><xs:documentation>REFS (.references)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x05FF6BA4"> <xs:annotation><xs:documentation>2ARY (.bnry)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0604ABDA"> <xs:annotation><xs:documentation>DMTR (.dreamtree)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x060B390C"> <xs:annotation><xs:documentation>CWAT (.water)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x062853A8"> <xs:annotation><xs:documentation>FAMD (.household)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x062C8204"> <xs:annotation><xs:documentation>BBLN (.bodyblend)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x062E9EE0"> <xs:annotation><xs:documentation>_TTF (.ttf)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x06302271"> <xs:annotation><xs:documentation>CINF (.color)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x063261DA"> <xs:annotation><xs:documentation>HINF (.haircolor)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x06326213"> <xs:annotation><xs:documentation>OBCI (.objcolor)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x065DF841"> <xs:annotation><xs:documentation>CPCA (.cpcache)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0668F628"> <xs:annotation><xs:documentation>WDDT (.wdescdetail)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0668F630"> <xs:annotation><xs:documentation>WDNL (.numlots)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0668F635"> <xs:annotation><xs:documentation>TWNI (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0668F639"> <xs:annotation><xs:documentation>TWNP (.imgpath)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x067CAA11"> <xs:annotation><xs:documentation>BGEO (.blendgeom)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x06B981ED"> <xs:annotation><xs:documentation>OBJS (.objs)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x06CE4804"> <xs:annotation><xs:documentation>META (.worldmeta)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x073FAA07"> <xs:annotation><xs:documentation>S3SA (.s3sa)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0A36F07A"> <xs:annotation><xs:documentation>CCFP (.fountain)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0A98EAF0"> <xs:annotation><xs:documentation>JSON (.json)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0C07456D"> <xs:annotation><xs:documentation>COLL (.bnry)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0C07469F"> <xs:annotation><xs:documentation>CLDR (.bnry)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x0C37A5B5"> <xs:annotation><xs:documentation>LOOK (.lookuptab)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x11C258C0"> <xs:annotation><xs:documentation>CTRG (.bnry)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x1A3201CD"> <xs:annotation><xs:documentation>_MOD (.override)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x1F886EAD"> <xs:annotation><xs:documentation>_INI (.ini)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x220557DA"> <xs:annotation><xs:documentation>STBL (.stbl)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2653E3C8"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2653E3C9"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2653E3CA"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2D4284F0"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2D4284F1"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2D4284F2"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2E75C764"> <xs:annotation><xs:documentation>ICON (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2E75C765"> <xs:annotation><xs:documentation>ICON (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2E75C766"> <xs:annotation><xs:documentation>ICON (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2E75C767"> <xs:annotation><xs:documentation>ICON (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2F7D0002"> <xs:annotation><xs:documentation>IMAG (.jpg)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2F7D0004"> <xs:annotation><xs:documentation>IMAG (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2F7D0006"> <xs:annotation><xs:documentation>IMAG (.tga)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x2F7D0008"> <xs:annotation><xs:documentation>UITX (.uitexture)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x316C78F2"> <xs:annotation><xs:documentation>CFND (.foundation)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x319E4F1D"> <xs:annotation><xs:documentation>OBJD (.object)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x35A33E29"> <xs:annotation><xs:documentation>WDSH (.wdeschash)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x3A65AF29"> <xs:annotation><xs:documentation>MINF (.makeup)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x4D1A5589"> <xs:annotation><xs:documentation>OBJN (.objn)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x4E97BAD8"> <xs:annotation><xs:documentation>OBSC (.objscript)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x515CA4CD"> <xs:annotation><xs:documentation>CWAL (.wall)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x5DE9DBA0"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x5DE9DBA1"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x5DE9DBA2"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x626F60CC"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x626F60CD"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x626F60CE"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x63A33EA7"> <xs:annotation><xs:documentation>ANIM (.animimg)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x67771F5C"> <xs:annotation><xs:documentation>JSON (.json)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x6B20C4F3"> <xs:annotation><xs:documentation>CLIP (.animation)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x6B6D837D"> <xs:annotation><xs:documentation>SNAP (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x6B6D837E"> <xs:annotation><xs:documentation>SNAP (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x6B6D837F"> <xs:annotation><xs:documentation>SNAP (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x72683C15"> <xs:annotation><xs:documentation>STPR (.sktonepreset)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x736884F1"> <xs:annotation><xs:documentation>VPXY (.proxy)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x73E93EEB"> <xs:annotation><xs:documentation>_XML (.manifest)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x8070223D"> <xs:annotation><xs:documentation>AUDT (.audtun)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x82B43584"> <xs:annotation><xs:documentation>_CRC (.checksum)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x8EAF13DE"> <xs:annotation><xs:documentation>_RIG (.grannyrig)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x8FFB80F6"> <xs:annotation><xs:documentation>_ADS (.dds)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x9063660D"> <xs:annotation><xs:documentation>WTXT (.wrldtxtrmap)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x9151E6BC"> <xs:annotation><xs:documentation>CWST (.wallstyle)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x91EDBD3E"> <xs:annotation><xs:documentation>CRST (.roofstyle)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0x94C5D14A"> <xs:annotation><xs:documentation>SIGR (.signature)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xA8D58BE5"> <xs:annotation><xs:documentation>SKIL (.xml)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xAD366F95"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xAD366F96"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xB1CC1AF6"> <xs:annotation><xs:documentation>_VID (.video)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xB4DD716B"> <xs:annotation><xs:documentation>_INV (.inventory)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xB52F5055"> <xs:annotation><xs:documentation>FBLN (.blendunit)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xCF9A4ACE"> <xs:annotation><xs:documentation>MDLR (.modular)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xD063545B"> <xs:annotation><xs:documentation>LDES (.lotdesc)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xD3044521"> <xs:annotation><xs:documentation>RSLT (.slot)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xD382BF57"> <xs:annotation><xs:documentation>FTPT (.footprint)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xD4D9FBE5"> <xs:annotation><xs:documentation>PTRN (.patternlist)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xD55F7CAF"> <xs:annotation><xs:documentation>LRIG (.lightrig)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xD84E7FC5"> <xs:annotation><xs:documentation>ICON (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xD84E7FC6"> <xs:annotation><xs:documentation>ICON (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xD84E7FC7"> <xs:annotation><xs:documentation>ICON (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xD9BD0909"> <xs:annotation><xs:documentation>WDNM (.wdescname)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xDD3223A7"> <xs:annotation><xs:documentation>BUFF (.xml)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xDD6233D6"> <xs:annotation><xs:documentation>HTML (.html)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xDEA2951C"> <xs:annotation><xs:documentation>PETB (.breed)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xE5105066"> <xs:annotation><xs:documentation>_XML (.xml)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xE5105067"> <xs:annotation><xs:documentation>RMLS (.xml)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xE5105068"> <xs:annotation><xs:documentation>_XML (.xml)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xEA5118B0"> <xs:annotation><xs:documentation>_SWB (.effects)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xF0FF5598"> <xs:annotation><xs:documentation>TRIG (.triggers)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xF1EDBD86"> <xs:annotation><xs:documentation>CRMT (.roofmatrl)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xF3A38370"> <xs:annotation><xs:documentation>NGMP (.guidmap)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xF609FD60"> <xs:annotation><xs:documentation>WPID (.wpackid)</xs:documentation></xs:annotation> </xs:enumeration>
+                                            <xs:enumeration value="0xFCEAB65B"> <xs:annotation><xs:documentation>THUM (.png)</xs:documentation></xs:annotation> </xs:enumeration>
+                                        </xs:restriction>
+                                    </xs:simpleType>
+                                    <xs:simpleType>
+                                        <xs:restriction base="xs:string">
+                                            <xs:pattern value="0x[0-9A-Fa-f]{8}" />
+                                        </xs:restriction>
+                                    </xs:simpleType>
+                                </xs:union>
+                            </xs:simpleType>
+                        </xs:attribute>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{95B27166-5E72-4116-9E53-3AC352B8BC47}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Destrospean.ExpandedAlchemy.Generator</RootNamespace>
+    <AssemblyName>ExpandedAlchemy_Generator</AssemblyName>
+    <ApplicationIcon>ExpandedAlchemy.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceKey.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\ILRepack.2.0.48\build\ILRepack.props" Condition="Exists('..\packages\ILRepack.2.0.48\build\ILRepack.props')" />
+  <Target Name="ILRepack" AfterTargets="Build">
+    <Exec Command="&quot;$(ILRepack)&quot; /out:&quot;$(TargetDir)ExpandedAlchemy_Generator.exe&quot; &quot;$(TargetDir)ExpandedAlchemy_Generator.exe&quot; &quot;$(TargetDir)&quot;\*.dll" Condition="'$(OS)' == 'Windows_NT'" />
+    <Exec Command="mono &quot;$(ILRepack)&quot; /out:&quot;$(TargetDir)ExpandedAlchemy_Generator.exe&quot; &quot;$(TargetDir)ExpandedAlchemy_Generator.exe&quot; &quot;$(TargetDir)&quot;\*.dll" Condition="'$(OS)' != 'Windows_NT'" />
+  </Target>
+  <Target Name="Remove DLLs" AfterTargets="ILRepack">
+    <Exec Command="del &quot;$(TargetDir)&quot;\*.dll" Condition="'$(OS)' == 'Windows_NT'" />
+    <Exec Command="rm &quot;$(TargetDir)&quot;\*.dll" Condition="'$(OS)' != 'Windows_NT'" />
+  </Target>
+  <ItemGroup>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\Mono.Cecil.0.11.6\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\packages\Mono.Cecil.0.11.6\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\packages\Mono.Cecil.0.11.6\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\packages\Mono.Cecil.0.11.6\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="s3pi.CASPartResource">
+      <HintPath>libs\s3pi.CASPartResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.CatalogResource">
+      <HintPath>libs\s3pi.CatalogResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.ComplateResource">
+      <HintPath>libs\s3pi.ComplateResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.Controls">
+      <HintPath>libs\s3pi.Controls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.CustomForms">
+      <HintPath>libs\s3pi.CustomForms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.DefaultResource">
+      <HintPath>libs\s3pi.DefaultResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.Extensions">
+      <HintPath>libs\s3pi.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.Filetable">
+      <HintPath>libs\s3pi.Filetable.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.GenericRCOLResource">
+      <HintPath>libs\s3pi.GenericRCOLResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.Helpers">
+      <HintPath>libs\s3pi.Helpers.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.ImageResource">
+      <HintPath>libs\s3pi.ImageResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.Interfaces">
+      <HintPath>libs\s3pi.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="s3pi.JazzResource">
+      <HintPath>libs\s3pi.JazzResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.MeshChunks">
+      <HintPath>libs\s3pi.MeshChunks.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.ModularResource">
+      <HintPath>libs\s3pi.ModularResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.NameMapResource">
+      <HintPath>libs\s3pi.NameMapResource.dll</HintPath>
+    </Reference>
+    <Reference Include="s3pi.NGMPHashMapResource">
+      <HintPath>libs\s3pi.NGMPHashMapResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.ObjKeyResource">
+      <HintPath>libs\s3pi.ObjKeyResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.Package">
+      <HintPath>libs\s3pi.Package.dll</HintPath>
+    </Reference>
+    <Reference Include="s3pi.RCOLChunks">
+      <HintPath>libs\s3pi.RCOLChunks.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.RigResource">
+      <HintPath>libs\s3pi.RigResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.ScriptResource">
+      <HintPath>libs\s3pi.ScriptResource.dll</HintPath>
+    </Reference>
+    <Reference Include="s3pi.Settings">
+      <HintPath>libs\s3pi.Settings.dll</HintPath>
+    </Reference>
+    <Reference Include="s3pi.StblResource">
+      <HintPath>libs\s3pi.StblResource.dll</HintPath>
+    </Reference>
+    <Reference Include="s3pi.TextResource">
+      <HintPath>libs\s3pi.TextResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.TxtcResource">
+      <HintPath>libs\s3pi.TxtcResource.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.UserCAStPreset">
+      <HintPath>libs\s3pi.UserCAStPreset.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="s3pi.WrapperDealer">
+      <HintPath>libs\s3pi.WrapperDealer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Custom">
+      <HintPath>libs\System.Custom.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="LICENSE.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ExpandedAlchemy.ico" />
+    <None Include="ExpandedAlchemy.svg" />
+    <None Include="Fishing.xml" />
+    <None Include="RockGemMetal.xml" />
+    <None Include="Insects.xml" />
+    <None Include="AlchemyRecipes.xml" />
+    <None Include="Register.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\ExpandedAlchemy_Base\bin\Release\ExpandedAlchemy_Base.dll">
+      <Link>ExpandedAlchemy_Base.dll</Link>
+      <LogicalName>ExpandedAlchemy_Base.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Template.xml">
+      <LogicalName>Template.xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExpandedAlchemy_Base\ExpandedAlchemy_Base.csproj">
+      <Project>{E6A29044-2388-4687-B3BA-06AD5C4DE6A3}</Project>
+      <Name>ExpandedAlchemy_Base</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

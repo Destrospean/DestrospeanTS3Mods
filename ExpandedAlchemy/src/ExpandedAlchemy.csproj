@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A217F96A-14F1-4FA3-A82E-52EA73FD56E7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sims3.Gameplay.Destrospean.ExpandedAlchemy</RootNamespace>
+    <AssemblyName>ExpandedAlchemy</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\build\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>6</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>..\build\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>6</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\Common\src\ExtensionAttribute.cs" />
+    <Compile Include="..\..\Common\src\Delegates\Action.cs" />
+    <Compile Include="..\..\Common\src\Delegates\Func.cs" />
+    <Compile Include="..\..\Common\src\Enums\ActiveTopicActionActiveness.cs" />
+    <Compile Include="..\..\Common\src\Enums\CommodityKindType.cs" />
+    <Compile Include="..\..\Common\src\Enums\DummyEnum.cs" />
+    <Compile Include="..\..\Common\src\Misc\ActionTask.cs" />
+    <Compile Include="..\..\Common\src\Misc\DummyComparer.cs" />
+    <Compile Include="..\..\Common\src\Misc\InventoryObjectCreationParameters.cs" />
+    <Compile Include="..\..\Common\src\Misc\SkillLevelPair.cs" />
+    <Compile Include="..\..\Common\src\Misc\Utf8StringWriter.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\BodyTypes\BodyTypeColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\BodyTypes\BodyTypeEnabledColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\CASAgeGenderFlags\CASAgeGenderFlagColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\CASAgeGenderFlags\CASAgeGenderFlagEnabledColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\Skill\SkillColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\Skill\SkillLevelColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\TextColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\TextInListColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\Trait\TraitColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\Trait\TraitEnabledColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Columns\TypeColumn.cs" />
+    <Compile Include="..\..\Common\src\UI\Dialogs\ComboSelectionDialog.cs" />
+    <Compile Include="..\..\Common\src\UI\Dialogs\ObjectPickerDialog.cs" />
+    <Compile Include="..\..\Common\src\Utils\CommonUtils.cs" />
+    <Compile Include="..\..\Common\src\Utils\DebugUtils.cs" />
+    <Compile Include="..\..\Common\src\Utils\InteractionObjectTypeUtils.cs" />
+    <Compile Include="..\..\Common\src\Utils\NRaasMasterControllerIntegration.cs" />
+    <Compile Include="..\..\Common\src\Utils\OutfitExtensions.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Spawners\Gem.cs" />
+    <Compile Include="Spawners\RockHuge.cs" />
+    <Compile Include="Spawners\Rock.cs" />
+    <Compile Include="Spawners\Metal.cs" />
+    <Compile Include="Spawners\GlowBugTerrarium.cs" />
+    <Compile Include="Spawners\NaniteTerrarium.cs" />
+    <Compile Include="Spawners\NormalTerrarium.cs" />
+    <Compile Include="AlchemyHairLoss.cs" />
+    <Compile Include="RockGemMetalSpawnerUranium.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="mscorlib">
+      <HintPath>..\..\libs\mscorlib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ScriptCore">
+      <HintPath>..\..\libs\ScriptCore.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SimIFace">
+      <HintPath>..\..\libs\SimIFace.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sims3GameplayObjects">
+      <HintPath>..\..\libs\Sims3GameplayObjects.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sims3GameplaySystems">
+      <HintPath>..\..\libs\Sims3GameplaySystems.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sims3Metadata">
+      <HintPath>..\..\libs\Sims3MetaData.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Sims3StoreObjects">
+      <HintPath>..\..\libs\Sims3StoreObjects.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>..\..\libs\System.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>..\..\libs\System.Xml.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UI">
+      <HintPath>..\..\libs\UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NRaasMasterController">
+      <HintPath>..\..\libs\NRaasMasterController.dll</HintPath>
+      <Aliases>NRaasMasterController</Aliases>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NRaasTagger">
+      <HintPath>..\..\libs\NRaasTagger.dll</HintPath>
+      <Aliases>NRaasTagger</Aliases>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup />
+  <Target Name="Generate STBLs" BeforeTargets="Build">
+    <Exec Command="&quot;$(SolutionDir)scripts\GenerateSTBLs.bat&quot; &quot;$(ProjectDir)..&quot;" Condition="'$(OS)' == 'Windows_NT'" />
+    <Exec Command="sh &quot;$(SolutionDir)scripts\GenerateSTBLs.sh&quot; &quot;$(ProjectDir)..&quot;" Condition="'$(OS)' != 'Windows_NT'" />
+  </Target>
+  <Target Name="Create Package" AfterTargets="Build">
+    <Exec Command="&quot;$(SolutionDir)scripts\CreatePackage.bat&quot; &quot;ExpandedAlchemy&quot; &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..&quot; &quot;$(ProjectDir)..\dist\&quot;" Condition="'$(OS)' == 'Windows_NT'" />
+    <Exec Command="sh &quot;$(SolutionDir)scripts\CreatePackage.sh&quot; &quot;ExpandedAlchemy&quot; &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..&quot; &quot;$(ProjectDir)..\dist\&quot;" Condition="'$(OS)' != 'Windows_NT'" />
+  </Target>
+  <Target Name="Generate Tunable _XMLs" AfterTargets="Create Package">
+    <Exec Command="&quot;$(SolutionDir)scripts\GenerateTunables.bat&quot;" Condition="'$(OS)' == 'Windows_NT'" />
+    <Exec Command="sh &quot;$(SolutionDir)scripts\GenerateTunables.sh&quot;" Condition="'$(OS)' != 'Windows_NT'" />
+  </Target>
+  <ItemGroup>
+    <Folder Include="..\" />
+    <Folder Include="..\..\" />
+    <Folder Include="..\..\Common\" />
+    <Folder Include="..\..\Common\src\" />
+    <Folder Include="..\..\Common\src\Delegates\" />
+    <Folder Include="..\..\Common\src\Enums\" />
+    <Folder Include="..\..\Common\src\Misc\" />
+    <Folder Include="..\..\Common\src\UI\" />
+    <Folder Include="..\..\Common\src\Utils\" />
+    <Folder Include="Spawners\" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,109 @@
+﻿<?xml version="1.0"?>
+<RockGemMetal>
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Metals>
+    <Name></Name>
+    <Description></Description>
+    <Hex>0</Hex>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <MinWeight>0.1</MinWeight>
+    <MaxWeight>10</MaxWeight>
+    <MinPrice>100</MinPrice>
+    <MaxPrice>1000</MaxPrice>
+    <MedatorName></MedatorName>
+    <LookAtInterest>20</LookAtInterest>
+    <RockMaterialName></RockMaterialName>
+    <BarMaterialName></BarMaterialName>
+    <RegisterChance></RegisterChance>
+    <RegisterValue></RegisterValue>
+    <RegisterMinAmountToSpawn></RegisterMinAmountToSpawn>
+    <RegisterMaxAmountToSpawn></RegisterMaxAmountToSpawn>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <BonusWeightAfterLifetimeOpp>0</BonusWeightAfterLifetimeOpp>
+    <Rarity></Rarity>
+  </Metals>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Gems>
+    <Name></Name>
+    <Description></Description>
+    <Hex></Hex>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <MinWeight>0.1</MinWeight>
+    <MaxWeight>10</MaxWeight>
+    <MinPrice>100</MinPrice>
+    <MaxPrice>1000</MaxPrice>
+    <MedatorName></MedatorName>
+    <LookAtInterest>20</LookAtInterest>
+    <RockMaterialName></RockMaterialName>
+    <GemMaterialName></GemMaterialName>
+    <RegisterChance></RegisterChance>
+    <RegisterValue></RegisterValue>
+    <RegisterMinAmountToSpawn></RegisterMinAmountToSpawn>
+    <RegisterMaxAmountToSpawn></RegisterMaxAmountToSpawn>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <BonusWeightAfterLifetimeOpp>0</BonusWeightAfterLifetimeOpp>
+    <Rarity></Rarity>
+  </Gems>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <GemCuts>
+    <Name></Name>
+    <cutString>0</cutString>
+    <CodeVersion>BaseGame</CodeVersion>
+    <Multiplier>1.5</Multiplier>
+    <Cuts>5</Cuts>
+    <Cost>100</Cost>
+  </GemCuts>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Rocks>
+    <Name></Name>
+    <Description></Description>
+    <Hex>0</Hex>
+    <MinWeight>0.1</MinWeight>
+    <MaxWeight>10</MaxWeight>
+    <MinPrice>100</MinPrice>
+    <MaxPrice>1000</MaxPrice>
+    <MedatorName></MedatorName>
+    <LookAtInterest>20</LookAtInterest>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <BonusWeightAfterLifetimeOpp>0</BonusWeightAfterLifetimeOpp>
+    <Rarity></Rarity>
+  </Rocks>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <RockNames>
+    <Name></Name>
+    <ValueMultiplier></ValueMultiplier>
+  </RockNames>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Spawners>
+    <SpawnerClassName></SpawnerClassName>
+    <Spawns>Iron</Spawns>
+    <Probability>1</Probability>
+    <MaxSpawnCapacity>2</MaxSpawnCapacity>
+    <SpawnMinTime>0.5</SpawnMinTime>
+    <SpawnMaxTime>2</SpawnMaxTime>
+    <SpawnChance>0.9</SpawnChance>
+    <DeleteUntaken>2</DeleteUntaken>
+  </Spawners>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+</RockGemMetal>

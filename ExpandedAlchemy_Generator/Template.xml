@@ -1,0 +1,477 @@
+<?xml version="1.0"?>
+<ExpandedAlchemyData>
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <AlchemyRecipes>
+    <Key></Key>
+    <Name></Name>
+    <Description></Description>
+    <CodeVersion>BaseGame</CodeVersion>
+    <DataVersion>BaseGame</DataVersion>
+    <Category></Category>
+    <CustomClassName></CustomClassName>
+    <ResearchAlchemy>True</ResearchAlchemy>
+    <AutoLearnAtSkillLevel>False</AutoLearnAtSkillLevel>
+    <CanBeLearnedSomeOtherWay>False</CanBeLearnedSomeOtherWay>
+    <SpellcraftSkillLevel></SpellcraftSkillLevel>
+    <ItemCanBeRandomAward>True</ItemCanBeRandomAward>
+    <EnvironmentScore>0</EnvironmentScore>
+    <DisallowedOccults></DisallowedOccults>
+    <DisallowAliens>False</DisallowAliens>
+    <AgeSpeciesAvailability>C,T,Y,A,E</AgeSpeciesAvailability>
+    <ServicesAllowed></ServicesAllowed>
+    <ActiveRolesAllowed></ActiveRolesAllowed>
+    <InactiveRolesAllowed></InactiveRolesAllowed>
+    <ConsumptionTestFunction></ConsumptionTestFunction>
+    <CanConsumeIfPregnant>True</CanConsumeIfPregnant>
+    <CanConsumeIfIsGhost>True</CanConsumeIfIsGhost>
+    <MedatorName></MedatorName>
+    <ModelName></ModelName>
+    <GeometryStates></GeometryStates>
+    <MaterialName></MaterialName>
+    <IdleVFX></IdleVFX>
+    <DrinkVFX></DrinkVFX>
+    <FailureVFX></FailureVFX>
+    <ThrowAtSelfHandVFX></ThrowAtSelfHandVFX>
+    <ThrowAtSelfGroundVFX></ThrowAtSelfGroundVFX>
+    <ThrowAtSimThrowerVFX></ThrowAtSimThrowerVFX>
+    <ThrowAtSimTargetVFX></ThrowAtSimTargetVFX>
+    <CreationCauldronBubbleVFX>ep7CauldronBubble_main</CreationCauldronBubbleVFX>
+    <Price>0</Price>
+    <CreationSpellcraftSkillPoints>0</CreationSpellcraftSkillPoints>
+    <Ingredient1></Ingredient1>
+    <Ingredient2></Ingredient2>
+    <Ingredient3></Ingredient3>
+    <BenefitValue>0</BenefitValue>
+    <Effect1></Effect1>
+    <Effect2></Effect2>
+    <Effect3></Effect3>
+    <Effect4></Effect4>
+    <Effect5></Effect5>
+    <EffectTNS></EffectTNS>
+    <EffectThrowAtTNS></EffectThrowAtTNS>
+    <FailureEffectTNS></FailureEffectTNS>
+    <EffectCustomJazzGraphVersion>BaseGame</EffectCustomJazzGraphVersion>
+    <EffectCustomJazzGraph></EffectCustomJazzGraph>
+    <EffectCallback></EffectCallback>
+    <IsEffectPermanent>False</IsEffectPermanent>
+  </AlchemyRecipes>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Fish>
+    <Name></Name>
+    <Description></Description>
+    <Hex>0</Hex>
+    <WaterTypes>All</WaterTypes>
+    <Bait>All Bait</Bait>
+    <Level>1</Level>
+    <MinWeight>0.1</MinWeight>
+    <MaxWeight>10</MaxWeight>
+    <OverMax>False</OverMax>
+    <MinPrice>100</MinPrice>
+    <MaxPrice>1000</MaxPrice>
+    <SkillPoints>30</SkillPoints>
+    <MedatorName></MedatorName>
+    <EffectSize></EffectSize>
+    <Ingredient_Key></Ingredient_Key>
+    <Model_Name></Model_Name>
+    <Fertilizer_Value></Fertilizer_Value>
+    <Fertilizer_Days></Fertilizer_Days>
+    <CanBuyFromStore></CanBuyFromStore>
+    <FishBowlMaterialState></FishBowlMaterialState>
+    <CodeVersion>BaseGame</CodeVersion>
+    <DataVersion>BaseGame</DataVersion>
+    <RequiredWorld>Undefined</RequiredWorld>
+    <Rarity>Common</Rarity>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <EdibleRawAnimation></EdibleRawAnimation>
+  </Fish>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <SpawnerFish>
+    <SpawnerClassName></SpawnerClassName>
+    <InactiveFish>Minnow</InactiveFish>
+    <InactiveProbability>1</InactiveProbability>
+    <AvgLength>30</AvgLength>
+    <MaxRange>1</MaxRange>
+    <ActiveMaxFish>0</ActiveMaxFish>
+    <ActiveFish></ActiveFish>
+    <ActiveProbability></ActiveProbability>
+    <ActiveVfx></ActiveVfx>
+    <HourActive>-1</HourActive>
+    <HourDepletionStarts>-1</HourDepletionStarts>
+    <HourInactive>-1</HourInactive>
+  </SpawnerFish>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <GlobalSpawnerFish>
+    <WaterAffected>7</WaterAffected>
+    <Fish>Minnow</Fish>
+    <Probability>1</Probability>
+    <AvgLength>60</AvgLength>
+    <WorldName></WorldName>
+  </GlobalSpawnerFish>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <BoxItemsFish>
+    <ItemDbName></ItemDbName>
+    <Happy>True</Happy>
+    <RelativeProbability>1</RelativeProbability>
+    <AllowedWorldType>Undefined</AllowedWorldType>
+    <AllowedWorldNames></AllowedWorldNames>
+    <ProductVersion></ProductVersion>
+  </BoxItemsFish>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Butterflies>
+    <LocalizedName></LocalizedName>
+    <LocalizedDescription></LocalizedDescription>
+    <Type>ButterflyMoth</Type>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <ModelMaterial>butterfly:ButterflyMoth</ModelMaterial>
+    <VfxSubstring>Moth</VfxSubstring>
+    <Rarity>Common</Rarity>
+    <Value>20</Value>
+    <ValueRandomness>0.25</ValueRandomness>
+    <CatchChance>0.9</CatchChance>
+    <TimeOfDayStartSpawn>7</TimeOfDayStartSpawn>
+    <TimeOfDayStopSpawn>19</TimeOfDayStopSpawn>
+  </Butterflies>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Beetles>
+    <LocalizedName></LocalizedName>
+    <LocalizedDescription></LocalizedDescription>
+    <Type>BeetleLadybug</Type>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <ModelMaterial>beetleRound:BeetleLady</ModelMaterial>
+    <VfxSubstring>Lady</VfxSubstring>
+    <Rarity>Common</Rarity>
+    <Value>20</Value>
+    <ValueRandomness>0.25</ValueRandomness>
+    <CatchChance>0.9</CatchChance>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <TimeOfDayStartSpawn>0</TimeOfDayStartSpawn>
+    <TimeOfDayStopSpawn>23</TimeOfDayStopSpawn>
+  </Beetles>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <GlowBugs>
+    <LocalizedName></LocalizedName>
+    <LocalizedDescription></LocalizedDescription>
+    <Type>GlowBugYellow</Type>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <ModelMaterial>butterfly:ButterflyMoth</ModelMaterial>
+    <VfxSubstring>Moth</VfxSubstring>
+    <Rarity>Common</Rarity>
+    <Value>20</Value>
+    <ValueRandomness>0.25</ValueRandomness>
+    <CatchChance>0.9</CatchChance>
+    <TimeOfDayStartSpawn>7</TimeOfDayStartSpawn>
+    <TimeOfDayStopSpawn>19</TimeOfDayStopSpawn>
+  </GlowBugs>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Mosquitoes>
+    <LocalizedName></LocalizedName>
+    <LocalizedDescription></LocalizedDescription>
+    <Type>MosquitoStandard</Type>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <ModelMaterial>butterfly:ButterflyMoth</ModelMaterial>
+    <VfxSubstring></VfxSubstring>
+    <Rarity>Common</Rarity>
+    <Value>0</Value>
+    <ValueRandomness>0</ValueRandomness>
+    <CatchChance>0</CatchChance>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>0</MaxHuntSkillLevel>
+    <MinHuntWeight>0</MinHuntWeight>
+    <MaxHuntWeight>0</MaxHuntWeight>
+    <TimeOfDayStartSpawn>0</TimeOfDayStartSpawn>
+    <TimeOfDayStopSpawn>23</TimeOfDayStopSpawn>
+  </Mosquitoes>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Nanites>
+    <LocalizedName></LocalizedName>
+    <LocalizedDescription></LocalizedDescription>
+    <Type>BeetleLadybug</Type>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <ModelMaterial>beetleRound:BeetleLady</ModelMaterial>
+    <VfxSubstring>Lady</VfxSubstring>
+    <Rarity>Common</Rarity>
+    <Value>20</Value>
+    <ValueRandomness>0.25</ValueRandomness>
+    <CatchChance>0.9</CatchChance>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <TimeOfDayStartSpawn>0</TimeOfDayStartSpawn>
+    <TimeOfDayStopSpawn>23</TimeOfDayStopSpawn>
+  </Nanites>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <SpawnersInsect>
+    <SpawnerClassName></SpawnerClassName>
+    <Spawns>ButterflyMoth</Spawns>
+    <Probability>1</Probability>
+    <TimeOfDayStart>0</TimeOfDayStart>
+    <TimeOfDayStop>24</TimeOfDayStop>
+    <DaysOfWeek>M,T,W,R,F,S,U</DaysOfWeek>
+    <MaxSpawnCapacity>1</MaxSpawnCapacity>
+    <MinSpawnFrequency>14</MinSpawnFrequency>
+    <MaxSpawnFrequency>30</MaxSpawnFrequency>
+    <SpawnChance>0.5</SpawnChance>
+    <DeleteUntaken>240</DeleteUntaken>
+    <ButterflySpawner>False</ButterflySpawner>
+    <BeetleSpawner>False</BeetleSpawner>
+  </SpawnersInsect>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Metals>
+    <Name></Name>
+    <Description></Description>
+    <Hex>0</Hex>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <MinWeight>0.1</MinWeight>
+    <MaxWeight>10</MaxWeight>
+    <MinPrice>100</MinPrice>
+    <MaxPrice>1000</MaxPrice>
+    <MedatorName></MedatorName>
+    <LookAtInterest>20</LookAtInterest>
+    <RockMaterialName></RockMaterialName>
+    <BarMaterialName></BarMaterialName>
+    <RegisterChance></RegisterChance>
+    <RegisterValue></RegisterValue>
+    <RegisterMinAmountToSpawn></RegisterMinAmountToSpawn>
+    <RegisterMaxAmountToSpawn></RegisterMaxAmountToSpawn>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <BonusWeightAfterLifetimeOpp>0</BonusWeightAfterLifetimeOpp>
+    <Rarity></Rarity>
+  </Metals>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Gems>
+    <Name></Name>
+    <Description></Description>
+    <Hex></Hex>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <MinWeight>0.1</MinWeight>
+    <MaxWeight>10</MaxWeight>
+    <MinPrice>100</MinPrice>
+    <MaxPrice>1000</MaxPrice>
+    <MedatorName></MedatorName>
+    <LookAtInterest>20</LookAtInterest>
+    <RockMaterialName></RockMaterialName>
+    <GemMaterialName></GemMaterialName>
+    <RegisterChance></RegisterChance>
+    <RegisterValue></RegisterValue>
+    <RegisterMinAmountToSpawn></RegisterMinAmountToSpawn>
+    <RegisterMaxAmountToSpawn></RegisterMaxAmountToSpawn>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <BonusWeightAfterLifetimeOpp>0</BonusWeightAfterLifetimeOpp>
+    <Rarity></Rarity>
+  </Gems>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <GemCuts>
+    <Name></Name>
+    <cutString>0</cutString>
+    <CodeVersion>BaseGame</CodeVersion>
+    <Multiplier>1.5</Multiplier>
+    <Cuts>5</Cuts>
+    <Cost>100</Cost>
+  </GemCuts>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Rocks>
+    <Name></Name>
+    <Description></Description>
+    <Hex>0</Hex>
+    <MinWeight>0.1</MinWeight>
+    <MaxWeight>10</MaxWeight>
+    <MinPrice>100</MinPrice>
+    <MaxPrice>1000</MaxPrice>
+    <MedatorName></MedatorName>
+    <LookAtInterest>20</LookAtInterest>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <BonusWeightAfterLifetimeOpp>0</BonusWeightAfterLifetimeOpp>
+    <Rarity></Rarity>
+  </Rocks>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <RockNames>
+    <Name></Name>
+    <ValueMultiplier></ValueMultiplier>
+  </RockNames>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <SpawnersRockGemMetal>
+    <SpawnerClassName></SpawnerClassName>
+    <Spawns>Iron</Spawns>
+    <Probability>1</Probability>
+    <MaxSpawnCapacity>2</MaxSpawnCapacity>
+    <SpawnMinTime>0.5</SpawnMinTime>
+    <SpawnMaxTime>2</SpawnMaxTime>
+    <SpawnChance>0.9</SpawnChance>
+    <DeleteUntaken>2</DeleteUntaken>
+  </SpawnersRockGemMetal>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <GeneralStore>
+    <GameObjectName></GameObjectName>
+    <PlacedInFamilyInventory>False</PlacedInFamilyInventory>
+    <AllowedWorlds></AllowedWorlds>
+  </GeneralStore>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Nectar>
+    <GameObjectName></GameObjectName>
+    <PlacedInFamilyInventory></PlacedInFamilyInventory>
+    <AllowedWorlds></AllowedWorlds>
+  </Nectar>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Relics>
+    <Type></Type>
+    <Chance></Chance>
+    <Value></Value>
+    <RelicAgeMin></RelicAgeMin>
+    <RelicAgeMax></RelicAgeMax>
+    <RelicType></RelicType>
+    <KeystoneTypes></KeystoneTypes>
+    <GemType></GemType>
+    <MinAmount></MinAmount>
+    <MaxAmount></MaxAmount>
+    <RequiredWorld></RequiredWorld>
+  </Relics>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Consignment>
+    <Object></Object>
+    <ProductVersion>BaseGame</ProductVersion>
+    <Parameters></Parameters>
+    <Weight>100</Weight>
+    <RequiredProductVersion>BaseGame</RequiredProductVersion>
+    <SellerAge>YAE</SellerAge>
+    <SellerSkill>None</SellerSkill>
+    <SellPriceMinimum>0.75</SellPriceMinimum>
+    <SellPriceMaximum>1.25</SellPriceMaximum>
+    <DepreciationAgeMinimum>0</DepreciationAgeMinimum>
+    <DepreciationAgeMaximum>5</DepreciationAgeMaximum>
+    <Lifespan>3</Lifespan>
+  </Consignment>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <PetStore>
+    <GameObjectName></GameObjectName>
+    <PlacedInFamilyInventory>True</PlacedInFamilyInventory>
+    <AllowedWorlds></AllowedWorlds>
+    <CodeVersion>EP5</CodeVersion>
+    <Category></Category>
+  </PetStore>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <PotionShopConsignment>
+    <Object></Object>
+    <ProductVersion>BaseGame</ProductVersion>
+    <Parameters></Parameters>
+    <Weight>100</Weight>
+    <RequiredProductVersion>BaseGame</RequiredProductVersion>
+    <SellerAge>YAE</SellerAge>
+    <SellerSkill>None</SellerSkill>
+    <SellPriceMinimum>1.25</SellPriceMinimum>
+    <SellPriceMaximum>1.75</SellPriceMaximum>
+    <DepreciationAgeMinimum>0</DepreciationAgeMinimum>
+    <DepreciationAgeMaximum>5</DepreciationAgeMaximum>
+    <Lifespan>3</Lifespan>
+  </PotionShopConsignment>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <ConcessionsStand>
+    <GUID></GUID>
+    <FoodType></FoodType>
+    <RecipeKey></RecipeKey>
+    <BeverageName></BeverageName>
+    <BeverageFoodUnits>5</BeverageFoodUnits>
+    <Price>10</Price>
+    <BuffToAdd></BuffToAdd>
+    <SeasonsAvailable>Summer,Fall,WinterSpring</SeasonsAvailable>
+  </ConcessionsStand>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <ResortFoodStand>
+    <GUID></GUID>
+    <FoodType></FoodType>
+    <RecipeKey></RecipeKey>
+    <BeverageName></BeverageName>
+    <BeverageFoodUnits>5</BeverageFoodUnits>
+    <BuffToAdd></BuffToAdd>
+    <QualitiesAvailable>Low,Medium,High</QualitiesAvailable>
+    <AgesAvailable>C,T,Y,A,E</AgesAvailable>
+  </ResortFoodStand>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <BotConsignmentShop>
+    <Object></Object>
+    <ProductVersion>BaseGame</ProductVersion>
+    <Parameters></Parameters>
+    <Weight>100</Weight>
+    <RequiredProductVersion>BaseGame</RequiredProductVersion>
+    <SellerAge>YAE</SellerAge>
+    <SellerSkill>None</SellerSkill>
+    <SellPriceMinimum>0.75</SellPriceMinimum>
+    <SellPriceMaximum>1.25</SellPriceMaximum>
+    <DepreciationAgeMinimum>0</DepreciationAgeMinimum>
+    <DepreciationAgeMaximum>5</DepreciationAgeMaximum>
+    <Lifespan>3</Lifespan>
+  </BotConsignmentShop>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+</ExpandedAlchemyData>

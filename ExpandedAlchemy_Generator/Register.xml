@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<Register>
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <GeneralStore>
+    <GameObjectName></GameObjectName>
+    <PlacedInFamilyInventory>False</PlacedInFamilyInventory>
+    <AllowedWorlds></AllowedWorlds>
+  </GeneralStore>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Nectar>
+    <GameObjectName></GameObjectName>
+    <PlacedInFamilyInventory></PlacedInFamilyInventory>
+    <AllowedWorlds></AllowedWorlds>
+  </Nectar>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Relics>
+    <Type></Type>
+    <Chance></Chance>
+    <Value></Value>
+    <RelicAgeMin></RelicAgeMin>
+    <RelicAgeMax></RelicAgeMax>
+    <RelicType></RelicType>
+    <KeystoneTypes></KeystoneTypes>
+    <GemType></GemType>
+    <MinAmount></MinAmount>
+    <MaxAmount></MaxAmount>
+    <RequiredWorld></RequiredWorld>
+  </Relics>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Consignment>
+    <Object></Object>
+    <ProductVersion>BaseGame</ProductVersion>
+    <Parameters></Parameters>
+    <Weight>100</Weight>
+    <RequiredProductVersion>BaseGame</RequiredProductVersion>
+    <SellerAge>YAE</SellerAge>
+    <SellerSkill>None</SellerSkill>
+    <SellPriceMinimum>0.75</SellPriceMinimum>
+    <SellPriceMaximum>1.25</SellPriceMaximum>
+    <DepreciationAgeMinimum>0</DepreciationAgeMinimum>
+    <DepreciationAgeMaximum>5</DepreciationAgeMaximum>
+    <Lifespan>3</Lifespan>
+  </Consignment>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <PetStore>
+    <GameObjectName></GameObjectName>
+    <PlacedInFamilyInventory>True</PlacedInFamilyInventory>
+    <AllowedWorlds></AllowedWorlds>
+    <CodeVersion>EP5</CodeVersion>
+    <Category></Category>
+  </PetStore>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <PotionShopConsignment>
+    <Object></Object>
+    <ProductVersion>BaseGame</ProductVersion>
+    <Parameters></Parameters>
+    <Weight>100</Weight>
+    <RequiredProductVersion>BaseGame</RequiredProductVersion>
+    <SellerAge>YAE</SellerAge>
+    <SellerSkill>None</SellerSkill>
+    <SellPriceMinimum>1.25</SellPriceMinimum>
+    <SellPriceMaximum>1.75</SellPriceMaximum>
+    <DepreciationAgeMinimum>0</DepreciationAgeMinimum>
+    <DepreciationAgeMaximum>5</DepreciationAgeMaximum>
+    <Lifespan>3</Lifespan>
+  </PotionShopConsignment>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <ConcessionsStand>
+    <GUID></GUID>
+    <FoodType></FoodType>
+    <RecipeKey></RecipeKey>
+    <BeverageName></BeverageName>
+    <BeverageFoodUnits>5</BeverageFoodUnits>
+    <Price>10</Price>
+    <BuffToAdd></BuffToAdd>
+    <SeasonsAvailable>Summer,Fall,WinterSpring</SeasonsAvailable>
+  </ConcessionsStand>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <ResortFoodStand>
+    <GUID></GUID>
+    <FoodType></FoodType>
+    <RecipeKey></RecipeKey>
+    <BeverageName></BeverageName>
+    <BeverageFoodUnits>5</BeverageFoodUnits>
+    <BuffToAdd></BuffToAdd>
+    <QualitiesAvailable>Low,Medium,High</QualitiesAvailable>
+    <AgesAvailable>C,T,Y,A,E</AgesAvailable>
+  </ResortFoodStand>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <BotConsignmentShop>
+    <Object></Object>
+    <ProductVersion>BaseGame</ProductVersion>
+    <Parameters></Parameters>
+    <Weight>100</Weight>
+    <RequiredProductVersion>BaseGame</RequiredProductVersion>
+    <SellerAge>YAE</SellerAge>
+    <SellerSkill>None</SellerSkill>
+    <SellPriceMinimum>0.75</SellPriceMinimum>
+    <SellPriceMaximum>1.25</SellPriceMaximum>
+    <DepreciationAgeMinimum>0</DepreciationAgeMinimum>
+    <DepreciationAgeMaximum>5</DepreciationAgeMaximum>
+    <Lifespan>3</Lifespan>
+  </BotConsignmentShop>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+</Register>

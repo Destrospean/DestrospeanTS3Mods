@@ -1,0 +1,122 @@
+﻿<?xml version="1.0"?>
+<Insects>
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Butterflies>
+    <LocalizedName></LocalizedName>
+    <LocalizedDescription></LocalizedDescription>
+    <Type>ButterflyMoth</Type>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <ModelMaterial>butterfly:ButterflyMoth</ModelMaterial>
+    <VfxSubstring>Moth</VfxSubstring>
+    <Rarity>Common</Rarity>
+    <Value>20</Value>
+    <ValueRandomness>0.25</ValueRandomness>
+    <CatchChance>0.9</CatchChance>
+    <TimeOfDayStartSpawn>7</TimeOfDayStartSpawn>
+    <TimeOfDayStopSpawn>19</TimeOfDayStopSpawn>
+  </Butterflies>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Beetles>
+    <LocalizedName></LocalizedName>
+    <LocalizedDescription></LocalizedDescription>
+    <Type>BeetleLadybug</Type>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <ModelMaterial>beetleRound:BeetleLady</ModelMaterial>
+    <VfxSubstring>Lady</VfxSubstring>
+    <Rarity>Common</Rarity>
+    <Value>20</Value>
+    <ValueRandomness>0.25</ValueRandomness>
+    <CatchChance>0.9</CatchChance>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <TimeOfDayStartSpawn>0</TimeOfDayStartSpawn>
+    <TimeOfDayStopSpawn>23</TimeOfDayStopSpawn>
+  </Beetles>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <GlowBugs>
+    <LocalizedName></LocalizedName>
+    <LocalizedDescription></LocalizedDescription>
+    <Type>GlowBugYellow</Type>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <ModelMaterial>butterfly:ButterflyMoth</ModelMaterial>
+    <VfxSubstring>Moth</VfxSubstring>
+    <Rarity>Common</Rarity>
+    <Value>20</Value>
+    <ValueRandomness>0.25</ValueRandomness>
+    <CatchChance>0.9</CatchChance>
+    <TimeOfDayStartSpawn>7</TimeOfDayStartSpawn>
+    <TimeOfDayStopSpawn>19</TimeOfDayStopSpawn>
+  </GlowBugs>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Mosquitoes>
+    <LocalizedName></LocalizedName>
+    <LocalizedDescription></LocalizedDescription>
+    <Type>MosquitoStandard</Type>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <ModelMaterial>butterfly:ButterflyMoth</ModelMaterial>
+    <VfxSubstring></VfxSubstring>
+    <Rarity>Common</Rarity>
+    <Value>0</Value>
+    <ValueRandomness>0</ValueRandomness>
+    <CatchChance>0</CatchChance>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>0</MaxHuntSkillLevel>
+    <MinHuntWeight>0</MinHuntWeight>
+    <MaxHuntWeight>0</MaxHuntWeight>
+    <TimeOfDayStartSpawn>0</TimeOfDayStartSpawn>
+    <TimeOfDayStopSpawn>23</TimeOfDayStopSpawn>
+  </Mosquitoes>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Nanites>
+    <LocalizedName></LocalizedName>
+    <LocalizedDescription></LocalizedDescription>
+    <Type>BeetleLadybug</Type>
+    <CodeVersion>BaseGame</CodeVersion>
+    <RequiredWorld></RequiredWorld>
+    <ModelMaterial>beetleRound:BeetleLady</ModelMaterial>
+    <VfxSubstring>Lady</VfxSubstring>
+    <Rarity>Common</Rarity>
+    <Value>20</Value>
+    <ValueRandomness>0.25</ValueRandomness>
+    <CatchChance>0.9</CatchChance>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <TimeOfDayStartSpawn>0</TimeOfDayStartSpawn>
+    <TimeOfDayStopSpawn>23</TimeOfDayStopSpawn>
+  </Nanites>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Spawners>
+    <SpawnerClassName></SpawnerClassName>
+    <Spawns>ButterflyMoth</Spawns>
+    <Probability>1</Probability>
+    <TimeOfDayStart>0</TimeOfDayStart>
+    <TimeOfDayStop>24</TimeOfDayStop>
+    <DaysOfWeek>M,T,W,R,F,S,U</DaysOfWeek>
+    <MaxSpawnCapacity>1</MaxSpawnCapacity>
+    <MinSpawnFrequency>14</MinSpawnFrequency>
+    <MaxSpawnFrequency>30</MaxSpawnFrequency>
+    <SpawnChance>0.5</SpawnChance>
+    <DeleteUntaken>240</DeleteUntaken>
+    <ButterflySpawner>False</ButterflySpawner>
+    <BeetleSpawner>False</BeetleSpawner>
+  </Spawners>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+</Insects>

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0"?>
+<Fishing>
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Fish>
+    <Name></Name>
+    <Description></Description>
+    <Hex>0</Hex>
+    <WaterTypes>All</WaterTypes>
+    <Bait>All Bait</Bait>
+    <Level>1</Level>
+    <MinWeight>0.1</MinWeight>
+    <MaxWeight>10</MaxWeight>
+    <OverMax>False</OverMax>
+    <MinPrice>100</MinPrice>
+    <MaxPrice>1000</MaxPrice>
+    <SkillPoints>30</SkillPoints>
+    <MedatorName></MedatorName>
+    <EffectSize></EffectSize>
+    <Ingredient_Key></Ingredient_Key>
+    <Model_Name></Model_Name>
+    <Fertilizer_Value></Fertilizer_Value>
+    <Fertilizer_Days></Fertilizer_Days>
+    <CanBuyFromStore></CanBuyFromStore>
+    <FishBowlMaterialState></FishBowlMaterialState>
+    <CodeVersion>BaseGame</CodeVersion>
+    <DataVersion>BaseGame</DataVersion>
+    <RequiredWorld>Undefined</RequiredWorld>
+    <Rarity>Common</Rarity>
+    <MinHuntSkillLevel>0</MinHuntSkillLevel>
+    <MaxHuntSkillLevel>10</MaxHuntSkillLevel>
+    <MinHuntWeight>1</MinHuntWeight>
+    <MaxHuntWeight>10</MaxHuntWeight>
+    <EdibleRawAnimation></EdibleRawAnimation>
+  </Fish>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <Spawner>
+    <SpawnerClassName></SpawnerClassName>
+    <InactiveFish>Minnow</InactiveFish>
+    <InactiveProbability>1</InactiveProbability>
+    <AvgLength>30</AvgLength>
+    <MaxRange>1</MaxRange>
+    <ActiveMaxFish>0</ActiveMaxFish>
+    <ActiveFish></ActiveFish>
+    <ActiveProbability></ActiveProbability>
+    <ActiveVfx></ActiveVfx>
+    <HourActive>-1</HourActive>
+    <HourDepletionStarts>-1</HourDepletionStarts>
+    <HourInactive>-1</HourInactive>
+  </Spawner>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <GlobalSpawner>
+    <WaterAffected>7</WaterAffected>
+    <Fish>Minnow</Fish>
+    <Probability>1</Probability>
+    <AvgLength>60</AvgLength>
+    <WorldName></WorldName>
+  </GlobalSpawner>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+
+  <!-- DO NOT REMOVE THE ENTRY BELOW -->
+  <BoxItems>
+    <ItemDbName></ItemDbName>
+    <Happy>True</Happy>
+    <RelativeProbability>1</RelativeProbability>
+    <AllowedWorldType>Undefined</AllowedWorldType>
+    <AllowedWorldNames></AllowedWorldNames>
+    <ProductVersion></ProductVersion>
+  </BoxItems>
+  <!-- DO NOT REMOVE THE ENTRY ABOVE -->
+</Fishing>
