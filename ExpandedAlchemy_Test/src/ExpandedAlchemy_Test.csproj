@@ -134,6 +134,5 @@
     <Folder Include="..\..\Common\src\Misc\" />
     <Folder Include="..\..\Common\src\UI\" />
     <Folder Include="..\..\Common\src\Utils\" />
-    <Folder Include="Spawners\" />
   </ItemGroup>
 </Project>
