@@ -41,9 +41,11 @@
     <Compile Include="Main.cs" />
     <Compile Include="FavoritesUtils.cs" />
     <Compile Include="Replacements.cs" />
-    <Compile Include="ExtensionAttribute.cs" />
     <Compile Include="NRaasMasterControllerIntegration.cs" />
     <Compile Include="Tuning.cs" />
+    <Compile Include="..\..\Common\src\ExtensionAttribute.cs">
+      <Link>ExtensionAttribute.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

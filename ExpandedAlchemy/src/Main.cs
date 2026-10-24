@@ -27,21 +27,6 @@ namespace Destrospean.ExpandedAlchemy
 
         static Main()
         {
-            List<EventListener> listeners = new List<EventListener>();
-            World.OnObjectPlacedInLotEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
-                {
-                    World.OnObjectPlacedInLotEventArgs onObjectPlacedInLotEventArgs = e as World.OnObjectPlacedInLotEventArgs;
-                    if (onObjectPlacedInLotEventArgs != null)
-                    {
-                        //GameObject gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
-                    }
-                });
-            World.sOnWorldLoadFinishedEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
-                {
-                    foreach (GameObject gameObject in Sims3.Gameplay.Queries.GetObjects<GameObject>())
-                    {
-                    }
-                });
             World.sOnWorldLoadStartedEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                 {
                     foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -354,14 +339,6 @@ namespace Destrospean.ExpandedAlchemy
                         }
                     }
                 });
-            World.sOnWorldQuitEventHandler += (sender, e) =>
-                {
-                    foreach (EventListener listener in listeners)
-                    {
-                        EventTracker.RemoveListener(listener);
-                    }
-                    listeners.Clear();
-                };
         }
 
         public static T GetGuid<T>(string guidKey, bool isStore, ref string name) where T : struct
