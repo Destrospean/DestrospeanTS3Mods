@@ -1,6 +1,5 @@
 using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
-using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Objects.Alchemy;
 using Sims3.Gameplay.Objects.Fishing;
 using Sims3.Gameplay.Objects.FoodObjects;
