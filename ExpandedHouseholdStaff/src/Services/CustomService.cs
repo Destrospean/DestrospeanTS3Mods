@@ -261,7 +261,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
 
         public new void AddInteractions(Bed bed)
         {
-            DebugUtils.TryDisplayScriptError(() => bed.AddInteraction(SetUnsetServiceBedInstance, true));
+            bed.AddInteraction(SetUnsetServiceBedInstance, true);
         }
 
         public override void AddOutputs()
@@ -425,27 +425,21 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
         public override ServiceSituation InternalCreateSituation(Lot assignedLot, Sim createdSim, int cost, ObjectGuid requestingSim)
         {
             ServiceSituation retVal = null;
-            DebugUtils.TryDisplayScriptError(() =>
-                {
-                    createdSim.SimDescription.ShowSocialsOnSim = true;
-                    createdSim.CanBeFired = true;
-                    retVal = new CustomServiceSituation(this, assignedLot, createdSim, cost);
-                });
+            createdSim.SimDescription.ShowSocialsOnSim = true;
+            createdSim.CanBeFired = true;
+            retVal = new CustomServiceSituation(this, assignedLot, createdSim, cost);
             return retVal;
         }
 
         public void RemoveInteractions(Bed bed)
         {
-            DebugUtils.TryDisplayScriptError(() =>
+            foreach (InteractionObjectPair interaction in new List<InteractionObjectPair>(bed.Interactions))
+            {
+                if ((interaction.InteractionDefinition as SetUnsetServiceBed.Definition)?.Service == this)
                 {
-                    foreach (InteractionObjectPair interaction in new List<InteractionObjectPair>(bed.Interactions))
-                    {
-                        if ((interaction.InteractionDefinition as SetUnsetServiceBed.Definition)?.Service == this)
-                        {
-                            bed.RemoveInteraction(interaction);
-                        }
-                    }
-                });
+                    bed.RemoveInteraction(interaction);
+                }
+            }
         }
 
         public override void RemoveOutputs()
@@ -466,29 +460,26 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
 
         public override void SetTraits(SimDescription simDescription)
         {
-            DebugUtils.TryDisplayScriptError(() =>
+            foreach (TraitNames traitName in Profile.Traits)
+            {
+                simDescription.TraitManager.AddElement(traitName);
+            }
+            foreach (TraitNames traitName in Profile.HiddenTraits)
+            {
+                if (TraitManager.GetTraitFromDictionary(traitName).IsReward)
                 {
-                    foreach (TraitNames traitName in Profile.Traits)
-                    {
-                        simDescription.TraitManager.AddElement(traitName);
-                    }
-                    foreach (TraitNames traitName in Profile.HiddenTraits)
-                    {
-                        if (TraitManager.GetTraitFromDictionary(traitName).IsReward)
-                        {
-                            simDescription.TraitManager.AddElement(traitName);
-                            continue;
-                        }
-                        simDescription.TraitManager.AddHiddenElement(traitName);
-                    }
-                    List<TraitNames> potentialTraits = new List<TraitNames>(Profile.PotentialTraits);
-                    for (int i = 0; i < Math.Min(Profile.PotentialTraitCount, Profile.PotentialTraits.Count); i++)
-                    {
-                        TraitNames traitName = RandomUtil.GetRandomObjectFromList(potentialTraits);
-                        simDescription.TraitManager.AddElement(traitName);
-                        potentialTraits.Remove(traitName);
-                    }
-                });
+                    simDescription.TraitManager.AddElement(traitName);
+                    continue;
+                }
+                simDescription.TraitManager.AddHiddenElement(traitName);
+            }
+            List<TraitNames> potentialTraits = new List<TraitNames>(Profile.PotentialTraits);
+            for (int i = 0; i < Math.Min(Profile.PotentialTraitCount, Profile.PotentialTraits.Count); i++)
+            {
+                TraitNames traitName = RandomUtil.GetRandomObjectFromList(potentialTraits);
+                simDescription.TraitManager.AddElement(traitName);
+                potentialTraits.Remove(traitName);
+            }
         }
 
         public override bool ShouldSimBeRemovedFromService(SimDescription sim)

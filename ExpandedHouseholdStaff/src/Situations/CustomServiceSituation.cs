@@ -42,40 +42,31 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
             public override void CleanUp()
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        AlarmManager.RemoveAlarm(mAlarmHandle);
-                        base.CleanUp();
-                    });
+                AlarmManager.RemoveAlarm(mAlarmHandle);
+                base.CleanUp();
             }
 
             public override void Init(CustomServiceSituation parent)
             {
                 parent.MoveAllPossibleToTargetInventory();
                 CustomService service = (CustomService)parent.Service;
-                DebugUtils.TryDisplayScriptError(() => mAlarmHandle = AlarmManager.AddAlarm(service.DelayBeforeLeaving, TimeUnit.Minutes, TimeToRoute, service.Profile.Name + " waiting to leave", AlarmType.DeleteOnReset, parent.Worker));
+                mAlarmHandle = AlarmManager.AddAlarm(service.DelayBeforeLeaving, TimeUnit.Minutes, TimeToRoute, service.Profile.Name + " waiting to leave", AlarmType.DeleteOnReset, parent.Worker);
             }
 
             public override void OnSocializedWith(Sim sim)
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        CustomService service = (CustomService)Parent.Service;
-                        float timeLeft = AlarmManager.GetTimeLeft(mAlarmHandle, TimeUnit.Minutes);
-                        if (timeLeft < service.ExtraWaitTimeAfterSocializing)
-                        {
-                            AlarmManager.UpdateAlarmTime(mAlarmHandle, service.ExtraWaitTimeAfterSocializing - timeLeft, TimeUnit.Minutes);
-                        }
-                    });
+                CustomService service = (CustomService)Parent.Service;
+                float timeLeft = AlarmManager.GetTimeLeft(mAlarmHandle, TimeUnit.Minutes);
+                if (timeLeft < service.ExtraWaitTimeAfterSocializing)
+                {
+                    AlarmManager.UpdateAlarmTime(mAlarmHandle, service.ExtraWaitTimeAfterSocializing - timeLeft, TimeUnit.Minutes);
+                }
             }
 
             public void TimeToRoute()
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        Parent.NPCLeavingMessage(LeavingReason.NPCJobDone);
-                        Parent.SetState(new LeaveLot<CustomServiceSituation>(Parent));
-                    });
+                Parent.NPCLeavingMessage(LeavingReason.NPCJobDone);
+                Parent.SetState(new LeaveLot<CustomServiceSituation>(Parent));
             }
         }
 
@@ -91,13 +82,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
             public override void Init(CustomServiceSituation parent)
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        parent.Worker.InteractionQueue.CancelAllInteractions();
-                        parent.NPCLeavingMessage(LeavingReason.NPCDismissed);
-                        parent.UnsetServiceBed();
-                        parent.ChargeForService((s, x) => ForceSituationSpecificInteraction(parent.Lot, parent.Worker, new DriveAwayInServiceCar.Definition(parent.Car), null, OnFinished, OnFinished));
-                    });
+                parent.Worker.InteractionQueue.CancelAllInteractions();
+                parent.NPCLeavingMessage(LeavingReason.NPCDismissed);
+                parent.UnsetServiceBed();
+                parent.ChargeForService((s, x) => ForceSituationSpecificInteraction(parent.Lot, parent.Worker, new DriveAwayInServiceCar.Definition(parent.Car), null, OnFinished, OnFinished));
             }
 
             public void OnFinished(Sim actor, float x)
@@ -119,12 +107,9 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
             public override void OnFinished(Sim actor, float x)
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        Parent.NPCLeavingMessage(LeavingReason.NPCFired);
-                        Parent.SetState(new LeaveLot<ServiceSituation<CustomServiceSituation>>(Parent));
-                        Parent.Service.FireSim(actor);
-                    });
+                Parent.NPCLeavingMessage(LeavingReason.NPCFired);
+                Parent.SetState(new LeaveLot<ServiceSituation<CustomServiceSituation>>(Parent));
+                Parent.Service.FireSim(actor);
             }
         }
 
@@ -284,8 +269,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             {
                 CustomService service = (CustomService)parent.Service;
                 parent.Worker.GreetSimOnLot(parent.Lot);
-                DebugUtils.TryDisplayScriptError(() => mAlarmHandle = parent.Worker.AddAlarmRepeating(service.CheckTime, TimeUnit.Minutes, CheckForDuties, service.CheckTime, TimeUnit.Minutes, "Time for " + service.Profile.Name + " to check if everything is done", AlarmType.AlwaysPersisted));
-            }
+                mAlarmHandle = parent.Worker.AddAlarmRepeating(service.CheckTime, TimeUnit.Minutes, CheckForDuties, service.CheckTime, TimeUnit.Minutes, "Time for " + service.Profile.Name + " to check if everything is done", AlarmType.AlwaysPersisted);            }
 
             public void PushSwitchToServiceUniform()
             {
@@ -310,13 +294,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
             public override void Init(CustomServiceSituation parent)
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        parent.Worker.InteractionQueue.CancelAllInteractions();
-                        RequestWalkStyle(parent.Worker, Sim.WalkStyle.Run);
-                        ForceSituationSpecificInteraction(parent.Lot, parent.Worker, new Maid.QuitBecauseOfBonehilda.Definition(), null, (s, x) => s.RequestWalkStyle(Sim.WalkStyle.OnFire), null);
-                        ForceSituationSpecificInteraction(parent.Lot, parent.Worker, new DriveAwayInServiceCar.Definition(parent.Car), null, OnFinished, OnFinished);
-                    });
+                parent.Worker.InteractionQueue.CancelAllInteractions();
+                RequestWalkStyle(parent.Worker, Sim.WalkStyle.Run);
+                ForceSituationSpecificInteraction(parent.Lot, parent.Worker, new Maid.QuitBecauseOfBonehilda.Definition(), null, (s, x) => s.RequestWalkStyle(Sim.WalkStyle.OnFire), null);
+                ForceSituationSpecificInteraction(parent.Lot, parent.Worker, new DriveAwayInServiceCar.Definition(parent.Car), null, OnFinished, OnFinished);
             }
 
             public void OnFinished(Sim actor, float x)
@@ -339,12 +320,9 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
             public override void Init(CustomServiceSituation parent)
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        parent.OnArriveOnLot();
-                        parent.SetMotivesAndCommodities();
-                        parent.SetState(new PerformDuties(parent));
-                    });
+                parent.OnArriveOnLot();
+                parent.SetMotivesAndCommodities();
+                parent.SetState(new PerformDuties(parent));
             }
         }
 
@@ -362,30 +340,24 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
             public override void CleanUp()
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        AlarmManager.RemoveAlarm(mAlarmHandle);
-                        base.CleanUp();
-                    });
+                AlarmManager.RemoveAlarm(mAlarmHandle);
+                base.CleanUp();
             }
 
             public override void Init(CustomServiceSituation parent)
             {
                 CustomService service = (CustomService)parent.Service;
-                DebugUtils.TryDisplayScriptError(() => mAlarmHandle = AlarmManager.AddAlarm(service.DelayBeforeArriving, TimeUnit.Minutes, TimeToRoute, service.Profile.Name + " waiting to route", AlarmType.DeleteOnReset, parent.Worker));
+                mAlarmHandle = AlarmManager.AddAlarm(service.DelayBeforeArriving, TimeUnit.Minutes, TimeToRoute, service.Profile.Name + " waiting to route", AlarmType.DeleteOnReset, parent.Worker);
             }
 
             public void TimeToRoute()
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        Parent.mProtectedInventory = Parent.Worker.Inventory.FindAll<IGameObject>(false);
-                        Parent.OnServiceStarting();
-                        CustomService service = (CustomService)Parent.Service;
-                        RouteToLot<CustomServiceSituation, StartPerformingDuties> routeToLot = string.IsNullOrEmpty(service.Profile.CarInstanceName) ? new WalkToLot<CustomServiceSituation, StartPerformingDuties>(Parent) : new RouteToLot<CustomServiceSituation, StartPerformingDuties>(Parent);
-                        routeToLot.SetRouteTime(service.DriveTime);
-                        Parent.SetState(routeToLot);
-                    });
+                Parent.mProtectedInventory = Parent.Worker.Inventory.FindAll<IGameObject>(false);
+                Parent.OnServiceStarting();
+                CustomService service = (CustomService)Parent.Service;
+                RouteToLot<CustomServiceSituation, StartPerformingDuties> routeToLot = string.IsNullOrEmpty(service.Profile.CarInstanceName) ? new WalkToLot<CustomServiceSituation, StartPerformingDuties>(Parent) : new RouteToLot<CustomServiceSituation, StartPerformingDuties>(Parent);
+                routeToLot.SetRouteTime(service.DriveTime);
+                Parent.SetState(routeToLot);
             }
         }
 

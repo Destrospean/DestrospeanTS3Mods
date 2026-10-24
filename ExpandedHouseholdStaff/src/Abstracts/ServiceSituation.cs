@@ -12,7 +12,6 @@ using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.Utilities;
 using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations;
-using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
@@ -60,31 +59,25 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
             public override void Init(ServiceSituation<T> parent)
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        Relationship relationship = Relationship.Get(parent.Worker, mFirer, true);
-                        if (relationship.LTR.Liking <= 20)
-                        {
-                            ForceSituationSpecificInteraction(mFirer, parent.Worker, new SituationSocial.Definition("Insult", new string[0], null, false), null, OnFinished, OnFinished);
-                        }
-                        else if (relationship.LTR.Liking >= 50 || LTRData.Get(relationship.LTR.CurrentLTR).IsRomantic)
-                        {
-                            ForceSituationSpecificInteraction(mFirer, parent.Worker, new SituationSocial.Definition("Cry on Shoulder", new string[0], null, false), null, OnFinished, OnFinished);
-                        }
-                        else
-                        {
-                            ForceSituationSpecificInteraction(mFirer, parent.Worker, new SituationSocial.Definition("Chat", new string[0], null, false), null, OnFinished, OnFinished);
-                        } 
-                    });
+                Relationship relationship = Relationship.Get(parent.Worker, mFirer, true);
+                if (relationship.LTR.Liking <= 20)
+                {
+                    ForceSituationSpecificInteraction(mFirer, parent.Worker, new SituationSocial.Definition("Insult", new string[0], null, false), null, OnFinished, OnFinished);
+                }
+                else if (relationship.LTR.Liking >= 50 || LTRData.Get(relationship.LTR.CurrentLTR).IsRomantic)
+                {
+                    ForceSituationSpecificInteraction(mFirer, parent.Worker, new SituationSocial.Definition("Cry on Shoulder", new string[0], null, false), null, OnFinished, OnFinished);
+                }
+                else
+                {
+                    ForceSituationSpecificInteraction(mFirer, parent.Worker, new SituationSocial.Definition("Chat", new string[0], null, false), null, OnFinished, OnFinished);
+                }
             }
 
             public virtual void OnFinished(Sim actor, float x)
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        Parent.SetState(new LeaveLot<ServiceSituation<T>>(Parent));
-                        Parent.Service.FireSim(actor);
-                    });
+                Parent.SetState(new LeaveLot<ServiceSituation<T>>(Parent));
+                Parent.Service.FireSim(actor);
             }
         }
 
@@ -196,20 +189,17 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public ServiceSituation(Service service, Lot lot, Sim worker, int cost) : base(service, lot, worker, cost)
         {
-            DebugUtils.TryDisplayScriptError(() =>
-                {
-                    if (IsLiveInService)
-                    {
-                        mDateLastPaid = SimClock.ElapsedCalendarDays();
-                    }
-                    worker.AssignRole(this);
-                    worker.Autonomy.AllowedToRunMetaAutonomy = false;
-                    FreezeMotives();
-                    Type waitToRouteType = DerivedType.GetNestedType("WaitToRoute");
-                    SetState(waitToRouteType == null ? new WaitToRoute(this) : (Situation)Activator.CreateInstance(waitToRouteType, this));
-                    ScheduleSwitchWorkerToServiceOutfit();
-                    AddCheckForFireAlarm();
-                });
+            if (IsLiveInService)
+            {
+                mDateLastPaid = SimClock.ElapsedCalendarDays();
+            }
+            worker.AssignRole(this);
+            worker.Autonomy.AllowedToRunMetaAutonomy = false;
+            FreezeMotives();
+            Type waitToRouteType = DerivedType.GetNestedType("WaitToRoute");
+            SetState(waitToRouteType == null ? new WaitToRoute(this) : (Situation)Activator.CreateInstance(waitToRouteType, this));
+            ScheduleSwitchWorkerToServiceOutfit();
+            AddCheckForFireAlarm();
         }
 
         public ServiceSituation(DummyEnum dummyArgForBaseOfBase, Service service, Lot lot, Sim worker, int cost) : base(service, lot, worker, cost)
@@ -366,23 +356,20 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public override void SwitchWorkerToServiceOutfit()
         {
-            DebugUtils.TryDisplayScriptError(() =>
+            string uniformName = GetUniformName(Worker.SimDescription);
+            if (uniformName != null)
+            {
+                SimOutfit resultOutfit;
+                if (OutfitUtils.TryApplyUniformToOutfit(Worker.SimDescription.GetOutfit(OutfitCategories.Everyday, 0), new SimOutfit(ResourceKey.CreateOutfitKeyFromProductVersion(uniformName, ProductVersion.BaseGame)), Worker.SimDescription, DerivedType.Name + ".SwitchWorkerToServiceOutfit", out resultOutfit))
                 {
-                    string uniformName = GetUniformName(Worker.SimDescription);
-                    if (uniformName != null)
+                    Worker.SimDescription.AddOutfit(resultOutfit, OutfitCategories.Career, true);
+                    for (int i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
                     {
-                        SimOutfit resultOutfit;
-                        if (OutfitUtils.TryApplyUniformToOutfit(Worker.SimDescription.GetOutfit(OutfitCategories.Everyday, 0), new SimOutfit(ResourceKey.CreateOutfitKeyFromProductVersion(uniformName, ProductVersion.BaseGame)), Worker.SimDescription, DerivedType.Name + ".SwitchWorkerToServiceOutfit", out resultOutfit))
-                        {
-                            Worker.SimDescription.AddOutfit(resultOutfit, OutfitCategories.Career, true);
-                            for (int i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
-                            {
-                                Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
-                            }
-                        }
+                        Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
                     }
-                    base.SwitchWorkerToServiceOutfit();
-                });
+                }
+            }
+            base.SwitchWorkerToServiceOutfit();
         }
 
         public void UnsetServiceBed()

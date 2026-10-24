@@ -100,9 +100,6 @@
     <Compile Include="..\..\Common\src\Enums\CommodityKindType.cs">
       <Link>Enums\CommodityKindType.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\src\Enums\DummyEnum.cs">
-      <Link>Enums\DummyEnum.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\src\Misc\DummyComparer.cs">
       <Link>Misc\DummyComparer.cs</Link>
     </Compile>
@@ -171,6 +168,9 @@
     </Compile>
     <Compile Include="..\..\Common\src\UI\Dialogs\ComboSelectionDialog.cs">
       <Link>UI\Dialogs\ComboSelectionDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Enums\DummyEnum.cs">
+      <Link>Enums\DummyEnum.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

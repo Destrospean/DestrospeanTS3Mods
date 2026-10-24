@@ -2,7 +2,6 @@
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
-using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
@@ -285,49 +284,38 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool ShowPartOverrideListDialog(AssignedOutfit assignedOutfit, out BodyTypes[] partOverrides, BodyTypes[] preSelectedPartOverrides = null)
         {
-            bool retVal;
-            BodyTypes[] tempPartOverrides = null;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    string entryKey = typeof(UI.Dialogs.ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "PartOverrideListDialog");
-                    List<BodyTypes> partOverrideList = new List<BodyTypes>(preSelectedPartOverrides ?? assignedOutfit.PartOverrides.ToArray());
-                    bool cancelled, confirmed;
-                    while (true)
-                    {
-                        List<BodyTypes> selectedPartOverrides = UI.Dialogs.ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<BodyTypes>(OverridableBodyTypes).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<UI.Dialogs.ObjectPickerDialog.CommonHeaderInfo<BodyTypes>>
-                            {
-                                new BodyTypeColumn(entryKey),
-                                new BodyTypeEnabledColumn(entryKey, partOverrideList.ToArray())
-                            }, 1, out confirmed, out cancelled, true);
-                        if (cancelled)
-                        {
-                            tempPartOverrides = null;
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            tempPartOverrides = partOverrideList.ToArray();
-                            return true;
-                        }
-                        if (partOverrideList.Contains(selectedPartOverrides[0]))
-                        {
-                            partOverrideList.Remove(selectedPartOverrides[0]);
-                        }
-                        else
-                        {
-                            partOverrideList.Add(selectedPartOverrides[0]);
-                        }
-                    }
-                }, out retVal))
+            string entryKey = typeof(UI.Dialogs.ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "PartOverrideListDialog");
+            List<BodyTypes> partOverrideList = new List<BodyTypes>(preSelectedPartOverrides ?? assignedOutfit.PartOverrides.ToArray());
+            bool cancelled, confirmed;
+            while (true)
             {
-                partOverrides = null;
-                return false;
+                List<BodyTypes> selectedPartOverrides = UI.Dialogs.ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<BodyTypes>(OverridableBodyTypes).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<UI.Dialogs.ObjectPickerDialog.CommonHeaderInfo<BodyTypes>>
+                    {
+                        new BodyTypeColumn(entryKey),
+                        new BodyTypeEnabledColumn(entryKey, partOverrideList.ToArray())
+                    }, 1, out confirmed, out cancelled, true);
+                if (cancelled)
+                {
+                    partOverrides = null;
+                    return false;
+                }
+                if (confirmed)
+                {
+                    partOverrides = partOverrideList.ToArray();
+                    return true;
+                }
+                if (partOverrideList.Contains(selectedPartOverrides[0]))
+                {
+                    partOverrideList.Remove(selectedPartOverrides[0]);
+                }
+                else
+                {
+                    partOverrideList.Add(selectedPartOverrides[0]);
+                }
             }
-            partOverrides = tempPartOverrides;
-            return retVal;
         }
 
         public static void SwitchToAssignedOutfit(this Sim sim, OutfitAssignment outfitAssignment, bool spin = true)

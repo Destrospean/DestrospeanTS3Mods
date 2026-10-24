@@ -1,5 +1,4 @@
-﻿using Sims3.Gameplay.Destrospean.Utils;
-using Sims3.SimIFace;
+﻿using Sims3.SimIFace;
 using Sims3.UI;
 using System;
 using System.Collections.Generic;
@@ -110,21 +109,18 @@ namespace Destrospean.UI.Dialogs
 
         void OnTabSelect(TabControl oldTab, TabControl newTab)
         {
-            DebugUtils.TryDisplayScriptError(() =>
-                {
-                    if (mTable.mSortedTab == (int)newTab.Tag)
-                    {
-                        return;
-                    }
-                    mTable.mSortedTab = (int)newTab.Tag;
-                    mTable.mSortText.Caption = mTable.mItems[mTable.mSortedTab].TabText;
-                    mTable.mTable.mPopulationCompletedCallback += mTable.OnPopulationComplete;
-                    mTable.mTable.mPopulationCompletedCallback += OnComplete;
-                    if (mTable.RepopulateTable())
-                    {
-                        OnComplete();
-                    }
-                });
+            if (mTable.mSortedTab == (int)newTab.Tag)
+            {
+                return;
+            }
+            mTable.mSortedTab = (int)newTab.Tag;
+            mTable.mSortText.Caption = mTable.mItems[mTable.mSortedTab].TabText;
+            mTable.mTable.mPopulationCompletedCallback += mTable.OnPopulationComplete;
+            mTable.mTable.mPopulationCompletedCallback += OnComplete;
+            if (mTable.RepopulateTable())
+            {
+                OnComplete();
+            }
         }
 
         void ResizeWindow(bool center)
@@ -148,7 +144,7 @@ namespace Destrospean.UI.Dialogs
 
         public void OnComplete()
         {
-            DebugUtils.TryDisplayScriptError(() => ResizeWindow(true));
+            ResizeWindow(true);
         }
 
         public override bool OnEnd(uint endID)

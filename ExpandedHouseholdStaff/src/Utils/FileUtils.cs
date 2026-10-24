@@ -5,7 +5,6 @@ using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.Utilities;
-using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.SimIFace.CustomContent;
@@ -752,38 +751,27 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool TryUIGetSelectedSavedSettingsNames(out string[] selectedNames, string[] allNames, string title = null, int selectableRowCount = int.MaxValue)
         {
-            bool retVal;
-            string[] tempSelectedNames = null;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    Array.Sort(allNames);
-                    bool cancelled, confirmed;
-                    while (true)
-                    {
-                        tempSelectedNames = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(kLocalizationKey + "/ServiceCollectionListDialog:Title"), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<string>(allNames).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
-                            {
-                                new TextColumn(kLocalizationKey + "/ServiceCollectionListDialog")
-                            }, selectableRowCount, out confirmed, out cancelled) ?? new List<string>()).ToArray();
-                        if (cancelled)
-                        {
-                            tempSelectedNames = null;
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            return true;
-                        }
-                    }
-                }, out retVal))
+            Array.Sort(allNames);
+            bool cancelled, confirmed;
+            while (true)
             {
-                selectedNames = null;
-                return false;
+                selectedNames = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(kLocalizationKey + "/ServiceCollectionListDialog:Title"), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<string>(allNames).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
+                    {
+                        new TextColumn(kLocalizationKey + "/ServiceCollectionListDialog")
+                    }, selectableRowCount, out confirmed, out cancelled) ?? new List<string>()).ToArray();
+                if (cancelled)
+                {
+                    selectedNames = null;
+                    return false;
+                }
+                if (confirmed)
+                {
+                    return true;
+                }
             }
-            selectedNames = tempSelectedNames;
-            return retVal;
         }
 
         public static string WrapInnerXmlAsDocument(XmlNode node)

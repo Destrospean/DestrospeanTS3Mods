@@ -11,7 +11,6 @@ using Sims3.Gameplay.Objects.Miscellaneous.Shopping;
 using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.Utilities;
 using Sims3.Gameplay.Destrospean.ExpandedAlchemy;
-using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ namespace Destrospean.ExpandedAlchemy
 
         static Main()
         {
-            World.sOnWorldLoadStartedEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
+            World.sOnWorldLoadStartedEventHandler += (sender, e) =>
                 {
                     foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                     {
@@ -338,7 +337,7 @@ namespace Destrospean.ExpandedAlchemy
                             BotShopRegister.ParseData(table);
                         }
                     }
-                });
+                };
         }
 
         public static T GetGuid<T>(string guidKey, bool isStore, ref string name) where T : struct

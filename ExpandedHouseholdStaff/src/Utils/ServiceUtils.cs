@@ -12,7 +12,6 @@ using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.Utilities;
 using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services;
-using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.SimIFace.CustomContent;
@@ -1386,51 +1385,40 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public static bool ShowServiceProfileFlagListDialog(this IServiceProfile profile, out ServiceProfileFlags flags, ServiceProfileFlags? preSelectedFlags = null)
         {
             flags = 0;
-            bool retVal;
-            ServiceProfileFlags[] flagArray = null;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceProfileFlagListDialog");
-                    List<ServiceProfileFlags> flagList = new List<ServiceProfileFlags>(Array.FindAll((ServiceProfileFlags[])Enum.GetValues(typeof(ServiceProfileFlags)), x => preSelectedFlags.HasValue ? (preSelectedFlags & x) == x : (profile as ServiceProfile)?.HasFlags(x) ?? false));
-                    bool cancelled, confirmed;
-                    while (true)
+            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceProfileFlagListDialog");
+            List<ServiceProfileFlags> flagList = new List<ServiceProfileFlags>(Array.FindAll((ServiceProfileFlags[])Enum.GetValues(typeof(ServiceProfileFlags)), x => preSelectedFlags.HasValue ? (preSelectedFlags & x) == x : (profile as ServiceProfile)?.HasFlags(x) ?? false));
+            bool cancelled, confirmed;
+            while (true)
+            {
+                List<ServiceProfileFlags> selectedFlags = ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
                     {
-                        List<ServiceProfileFlags> selectedFlags = ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<ServiceProfileFlags>((ServiceProfileFlags[])Enum.GetValues(typeof(ServiceProfileFlags))).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<ServiceProfileFlags>>
-                            {
-                                new ServiceProfileFlagColumn(entryKey),
-                                new ServiceProfileFlagEnabledColumn(entryKey, flagList.ToArray())
-                            }, 1, out confirmed, out cancelled, true);
-                        if (cancelled)
-                        {
-                            flagArray = null;
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            flagArray = flagList.ToArray();
-                            return true;
-                        }
-                        if (flagList.Contains(selectedFlags[0]))
-                        {
-                            flagList.Remove(selectedFlags[0]);
-                        }
-                        else
-                        {
-                            flagList.Add(selectedFlags[0]);
-                        }
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<ServiceProfileFlags>((ServiceProfileFlags[])Enum.GetValues(typeof(ServiceProfileFlags))).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<ServiceProfileFlags>>
+                    {
+                        new ServiceProfileFlagColumn(entryKey),
+                        new ServiceProfileFlagEnabledColumn(entryKey, flagList.ToArray())
+                    }, 1, out confirmed, out cancelled, true);
+                if (cancelled)
+                {
+                    return false;
+                }
+                if (confirmed)
+                {
+                    foreach (ServiceProfileFlags flag in flagList)
+                    {
+                        flags |= flag;
                     }
-                }, out retVal))
-            {
-                return false;
+                    return true;
+                }
+                if (flagList.Contains(selectedFlags[0]))
+                {
+                    flagList.Remove(selectedFlags[0]);
+                }
+                else
+                {
+                    flagList.Add(selectedFlags[0]);
+                }
             }
-            foreach (ServiceProfileFlags flag in flagArray ?? new ServiceProfileFlags[0])
-            {
-                flags |= flag;
-            }
-            return retVal;
         }
 
         public static bool ShowTimeToSpendWorkingDialog(ref string timeToSpendWorkingString)
@@ -1980,152 +1968,108 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool TryUIGetSelectedActions(out ActiveTopicAction[] selectedActions, ActiveTopicAction[] allActions, string title = null, int selectableRowCount = int.MaxValue)
         {
-            bool retVal;
-            ActiveTopicAction[] tempSelectedActions = null;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ActiveTopicActionListDialog");
-                    bool cancelled, confirmed;
-                    while (true)
-                    {
-                        tempSelectedActions = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<ActiveTopicAction>(allActions).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<ActiveTopicAction>>
-                            {
-                                new ActiveTopicActionColumn(entryKey),
-                                new ActiveTopicActionGroupingColumn(entryKey),
-                                new ActiveTopicActionActivenessColumn(entryKey)
-                            }, selectableRowCount, out confirmed, out cancelled) ?? new List<ActiveTopicAction>()).ToArray();
-                        if (cancelled)
-                        {
-                            tempSelectedActions = null;
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            return true;
-                        }
-                    }
-                }, out retVal))
+            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ActiveTopicActionListDialog");
+            bool cancelled, confirmed;
+            while (true)
             {
-                selectedActions = null;
-                return false;
+                selectedActions = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<ActiveTopicAction>(allActions).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<ActiveTopicAction>>
+                    {
+                        new ActiveTopicActionColumn(entryKey),
+                        new ActiveTopicActionGroupingColumn(entryKey),
+                        new ActiveTopicActionActivenessColumn(entryKey)
+                    }, selectableRowCount, out confirmed, out cancelled) ?? new List<ActiveTopicAction>()).ToArray();
+                if (cancelled)
+                {
+                    selectedActions = null;
+                    return false;
+                }
+                if (confirmed)
+                {
+                    return true;
+                }
             }
-            selectedActions = tempSelectedActions;
-            return retVal;
         }
 
         public static bool TryUIGetSelectedInventoryObjects(out InventoryObjectCreationParameters[] selectedInventoryObjects, InventoryObjectCreationParameters[] allInventoryObjects, string title = null, int selectableRowCount = int.MaxValue)
         {
-            bool retVal;
-            InventoryObjectCreationParameters[] tempSelectedInventoryObjects = null;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "InventoryObjectListDialog");
-                    bool cancelled, confirmed;
-                    while (true)
-                    {
-                        tempSelectedInventoryObjects = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<InventoryObjectCreationParameters>(allInventoryObjects).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<InventoryObjectCreationParameters>>
-                            {
-                                new InventoryObjectInstanceNameColumn(entryKey),
-                                new InventoryObjectGroupColumn(entryKey),
-                                new InventoryObjectCountColumn(entryKey)
-                            }, selectableRowCount, out confirmed, out cancelled) ?? new List<InventoryObjectCreationParameters>()).ToArray();
-                        if (cancelled)
-                        {
-                            tempSelectedInventoryObjects = null;
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            return true;
-                        }
-                    }
-                }, out retVal))
+            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "InventoryObjectListDialog");
+            bool cancelled, confirmed;
+            while (true)
             {
-                selectedInventoryObjects = null;
-                return false;
+                selectedInventoryObjects = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<InventoryObjectCreationParameters>(allInventoryObjects).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<InventoryObjectCreationParameters>>
+                    {
+                        new InventoryObjectInstanceNameColumn(entryKey),
+                        new InventoryObjectGroupColumn(entryKey),
+                        new InventoryObjectCountColumn(entryKey)
+                    }, selectableRowCount, out confirmed, out cancelled) ?? new List<InventoryObjectCreationParameters>()).ToArray();
+                if (cancelled)
+                {
+                    selectedInventoryObjects = null;
+                    return false;
+                }
+                if (confirmed)
+                {
+                    return true;
+                }
             }
-            selectedInventoryObjects = tempSelectedInventoryObjects;
-            return retVal;
         }
 
         public static bool TryUIGetSelectedOutputs(out CommodityChange[] selectedOutputs, CommodityChange[] allOutputs, string title = null, int selectableRowCount = int.MaxValue)
         {
-            bool retVal;
-            CommodityChange[] tempSelectedOutputs = null;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "OutputListDialog");
-                    bool cancelled, confirmed;
-                    while (true)
-                    {
-                        tempSelectedOutputs = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<CommodityChange>(allOutputs).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<CommodityChange>>
-                            {
-                                new CommodityChangeInteractionDefinitionTypeColumn(entryKey),
-                                new CommodityChangeTargetTypeColumn(entryKey)
-                            }, selectableRowCount, out confirmed, out cancelled) ?? new List<CommodityChange>()).ToArray();
-                        if (cancelled)
-                        {
-                            tempSelectedOutputs = null;
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            return true;
-                        }
-                    }
-                }, out retVal))
+            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "OutputListDialog");
+            bool cancelled, confirmed;
+            while (true)
             {
-                selectedOutputs = null;
-                return false;
+                selectedOutputs = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<CommodityChange>(allOutputs).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<CommodityChange>>
+                    {
+                        new CommodityChangeInteractionDefinitionTypeColumn(entryKey),
+                        new CommodityChangeTargetTypeColumn(entryKey)
+                    }, selectableRowCount, out confirmed, out cancelled) ?? new List<CommodityChange>()).ToArray();
+                if (cancelled)
+                {
+                    selectedOutputs = null;
+                    return false;
+                }
+                if (confirmed)
+                {
+                    return true;
+                }
             }
-            selectedOutputs = tempSelectedOutputs;
-            return retVal;
         }
 
         public static bool TryUIGetSelectedServiceProfiles(out IServiceProfile[] selectedProfiles, IServiceProfile[] allProfiles, string title = null, int selectableRowCount = int.MaxValue)
         {
-            bool retVal;
-            IServiceProfile[] tempSelectedProfiles = null;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceProfileListDialog");
-                    bool cancelled, confirmed;
-                    while (true)
-                    {
-                        tempSelectedProfiles = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<IServiceProfile>(allProfiles).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<IServiceProfile>>
-                            {
-                                new ServiceProfileNameColumn(entryKey),
-                                new ServiceProfileTitleColumn(entryKey)
-                            }, selectableRowCount, out confirmed, out cancelled) ?? new List<IServiceProfile>()).ToArray();
-                        if (cancelled)
-                        {
-                            tempSelectedProfiles = null;
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            return true;
-                        }
-                    }
-                }, out retVal))
+            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceProfileListDialog");
+            bool cancelled, confirmed;
+            while (true)
             {
-                selectedProfiles = null;
-                return false;
+                selectedProfiles = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<IServiceProfile>(allProfiles).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<IServiceProfile>>
+                    {
+                        new ServiceProfileNameColumn(entryKey),
+                        new ServiceProfileTitleColumn(entryKey)
+                    }, selectableRowCount, out confirmed, out cancelled) ?? new List<IServiceProfile>()).ToArray();
+                if (cancelled)
+                {
+                    selectedProfiles = null;
+                    return false;
+                }
+                if (confirmed)
+                {
+                    return true;
+                }
             }
-            selectedProfiles = tempSelectedProfiles;
-            return retVal;
         }
 
         /// <summary>

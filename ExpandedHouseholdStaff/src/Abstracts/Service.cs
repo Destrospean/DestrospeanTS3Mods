@@ -208,7 +208,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public static void AddInteractions(Bed bed)
         {
-            DebugUtils.TryDisplayScriptError(() => bed.AddInteraction(SetUnsetServiceBed.Singleton, true));
+            bed.AddInteraction(SetUnsetServiceBed.Singleton, true);
         }
 
         /// <summary>
@@ -635,8 +635,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public override bool NeedsAssignment(Lot lot)
         {
-            bool retVal;
-            return !DebugUtils.TryDisplayScriptError(() => IsServiceRequested(lot) && !IsAnySimAssignedToLot(lot), out retVal) && retVal;
+            return IsServiceRequested(lot) && !IsAnySimAssignedToLot(lot);
         }
 
         public virtual void RemoveOutputs()

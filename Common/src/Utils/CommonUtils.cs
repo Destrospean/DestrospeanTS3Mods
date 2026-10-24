@@ -8,7 +8,6 @@ using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.Utilities;
-using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Metadata;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
@@ -265,11 +264,8 @@ namespace Destrospean.Utils
 
         public static void ApplyPreset(this IGameObject gameObject, string presetXml)
         {
-            DebugUtils.TryDisplayScriptError(() =>
-                {
-                    SortedList<string, bool> enabledStencils = new SortedList<string, bool>();
-                    Complate.SetupDesignSwap(gameObject.ObjectId, ExtractPatterns(presetXml, enabledStencils), false, enabledStencils)?.ApplyToObject();
-                });
+            SortedList<string, bool> enabledStencils = new SortedList<string, bool>();
+            Complate.SetupDesignSwap(gameObject.ObjectId, ExtractPatterns(presetXml, enabledStencils), false, enabledStencils)?.ApplyToObject();
         }
 
         public static void CopyTuning(Type baseType, Type oldType, Type newType)
@@ -416,17 +412,14 @@ namespace Destrospean.Utils
             XmlDbData data = XmlDbData.ReadData(instanceName);
             if (data != null)
             {
-                DebugUtils.TryDisplayScriptError(() =>
-                    {
-                        if (data.Tables.ContainsKey("SAA"))
-                        {
-                            SocialManager.ParseStcActionAvailability(data);
-                        }
-                        if (data.Tables.ContainsKey("TAA"))
-                        {
-                            SocialManager.ParseActiveTopic(data);
-                        }
-                    });
+                if (data.Tables.ContainsKey("SAA"))
+                {
+                    SocialManager.ParseStcActionAvailability(data);
+                }
+                if (data.Tables.ContainsKey("TAA"))
+                {
+                    SocialManager.ParseActiveTopic(data);
+                }
             }
         }
 
@@ -619,266 +612,228 @@ namespace Destrospean.Utils
         public static bool ShowCASAgeGenderFlagListDialog(out CASAgeGenderFlags flags, CASAgeGenderFlags? preSelectedFlags = null, CASAgeGenderFlags mask = CASAgeGenderFlags.AgeMask | CASAgeGenderFlags.GenderMask, string title = null, string entryKey = null, bool okayButtonAlwaysEnabled = true)
         {
             flags = CASAgeGenderFlags.None;
-            bool retVal;
-            CASAgeGenderFlags[] flagArray = null;
-            if (DebugUtils.TryDisplayScriptError(() =>
+            entryKey = entryKey ?? typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CASAgeGenderFlagListDialog");
+            List<CASAgeGenderFlags> flagList = new List<CASAgeGenderFlags>(Array.FindAll((CASAgeGenderFlags[])Enum.GetValues(typeof(CASAgeGenderFlags)), x => preSelectedFlags.HasValue ? (preSelectedFlags & mask & x) == x && x != CASAgeGenderFlags.None && x != CASAgeGenderFlags.AgeMask && x != CASAgeGenderFlags.GenderMask : false));
+            bool cancelled, confirmed;
+            while (true)
+            {
+                if (flagList.Count == 0 && okayButtonAlwaysEnabled)
                 {
-                    entryKey = entryKey ?? typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CASAgeGenderFlagListDialog");
-                    List<CASAgeGenderFlags> flagList = new List<CASAgeGenderFlags>(Array.FindAll((CASAgeGenderFlags[])Enum.GetValues(typeof(CASAgeGenderFlags)), x => preSelectedFlags.HasValue ? (preSelectedFlags & mask & x) == x && x != CASAgeGenderFlags.None && x != CASAgeGenderFlags.AgeMask && x != CASAgeGenderFlags.GenderMask : false));
-                    bool cancelled, confirmed;
-                    while (true)
+                    foreach (CASAgeGenderFlags flag in Enum.GetValues(typeof(CASAgeGenderFlags)))
                     {
-                        if (flagList.Count == 0 && okayButtonAlwaysEnabled)
+                        if ((mask & flag) == flag && flag != CASAgeGenderFlags.None && flag != CASAgeGenderFlags.AgeMask && flag != CASAgeGenderFlags.GenderMask)
                         {
-                            foreach (CASAgeGenderFlags flag in Enum.GetValues(typeof(CASAgeGenderFlags)))
-                            {
-                                if ((mask & flag) == flag && flag != CASAgeGenderFlags.None && flag != CASAgeGenderFlags.AgeMask && flag != CASAgeGenderFlags.GenderMask)
-                                {
-                                    flagList.Add(flag);
-                                }
-                            }
-                        }
-                        List<CASAgeGenderFlags> selectedFlags = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<CASAgeGenderFlags>(Array.FindAll((CASAgeGenderFlags[])Enum.GetValues(typeof(CASAgeGenderFlags)), x => (x & mask) == x && x != CASAgeGenderFlags.None && x != CASAgeGenderFlags.AgeMask && x != CASAgeGenderFlags.GenderMask)).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, okayButtonAlwaysEnabled ? new List<ObjectPickerDialog.CommonHeaderInfo<CASAgeGenderFlags>>
-                            {
-                                new CASAgeGenderFlagColumn(entryKey),
-                                new CASAgeGenderFlagEnabledColumn(entryKey, flagList.ToArray())
-                            } : new List<ObjectPickerDialog.CommonHeaderInfo<CASAgeGenderFlags>>
-                            {
-                                new CASAgeGenderFlagColumn(entryKey),
-                            }, 1, out confirmed, out cancelled, okayButtonAlwaysEnabled);
-                        if (cancelled)
-                        {
-                            flagArray = null;
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            if (!okayButtonAlwaysEnabled)
-                            {
-                                flagList.Add(selectedFlags[0]);
-                            }
-                            flagArray = flagList.ToArray();
-                            return true;
-                        }
-                        if (flagList.Contains(selectedFlags[0]))
-                        {
-                            flagList.Remove(selectedFlags[0]);
-                        }
-                        else
-                        {
-                            flagList.Add(selectedFlags[0]);
+                            flagList.Add(flag);
                         }
                     }
-                }, out retVal))
-            {
-                return false;
+                }
+                List<CASAgeGenderFlags> selectedFlags = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<CASAgeGenderFlags>(Array.FindAll((CASAgeGenderFlags[])Enum.GetValues(typeof(CASAgeGenderFlags)), x => (x & mask) == x && x != CASAgeGenderFlags.None && x != CASAgeGenderFlags.AgeMask && x != CASAgeGenderFlags.GenderMask)).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, okayButtonAlwaysEnabled ? new List<ObjectPickerDialog.CommonHeaderInfo<CASAgeGenderFlags>>
+                    {
+                        new CASAgeGenderFlagColumn(entryKey),
+                        new CASAgeGenderFlagEnabledColumn(entryKey, flagList.ToArray())
+                    } : new List<ObjectPickerDialog.CommonHeaderInfo<CASAgeGenderFlags>>
+                    {
+                        new CASAgeGenderFlagColumn(entryKey),
+                    }, 1, out confirmed, out cancelled, okayButtonAlwaysEnabled);
+                if (cancelled)
+                {
+                    return false;
+                }
+                if (confirmed)
+                {
+                    if (!okayButtonAlwaysEnabled)
+                    {
+                        flagList.Add(selectedFlags[0]);
+                    }
+                    foreach (CASAgeGenderFlags flag in flagList)
+                    {
+                        flags |= flag;
+                    }
+                    return true;
+                }
+                if (flagList.Contains(selectedFlags[0]))
+                {
+                    flagList.Remove(selectedFlags[0]);
+                }
+                else
+                {
+                    flagList.Add(selectedFlags[0]);
+                }
             }
-            foreach (CASAgeGenderFlags flag in flagArray ?? new CASAgeGenderFlags[0])
-            {
-                flags |= flag;
-            }
-            return retVal;
         }
 
         public static bool ShowCommodityKindListDialog(out CommodityKind[] selectedCommodityKinds, CommodityKind[] allCommodityKinds, CommodityKind[] preSelectedCommodityKinds = null, string title = null, string entryKey = null)
         {
-            bool retVal;
-            CommodityKind[] tempSelectedCommodityKinds = null;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    List<string> allNames = new List<string>();
-                    List<string> preSelectedNames = new List<string>();
-                    foreach (KeyValuePair<string, object> entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
-                    {
-                        foreach (CommodityKind motive in allCommodityKinds)
-                        {
-                            if ((int)entry.Value == (int)motive)
-                            {
-                                allNames.Add(entry.Key);
-                            }
-                        }
-                        foreach (CommodityKind motive in preSelectedCommodityKinds)
-                        {
-                            if ((int)entry.Value == (int)motive)
-                            {
-                                preSelectedNames.Add(entry.Key);
-                            }
-                        }
-                    }
-                    entryKey = entryKey ?? typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CommodityKindListDialog");
-                    List<string> nameList = new List<string>(preSelectedNames);
-                    bool cancelled, confirmed;
-                    while (true)
-                    {
-                        List<string> selectedNames = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), allNames.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
-                            {
-                                new TextColumn(entryKey, 400),
-                                new TextInListColumn(entryKey, nameList.ToArray(), 40)
-                            }, 1, out confirmed, out cancelled, true);
-                        if (cancelled)
-                        {
-                            tempSelectedCommodityKinds = null;
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            tempSelectedCommodityKinds = nameList.ConvertAll(x => (CommodityKind)ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup[x]).ToArray();
-                            return true;
-                        }
-                        if (nameList.Contains(selectedNames[0]))
-                        {
-                            nameList.Remove(selectedNames[0]);
-                        }
-                        else
-                        {
-                            nameList.Add(selectedNames[0]);
-                        }
-                    }
-                }, out retVal))
+            List<string> allNames = new List<string>();
+            List<string> preSelectedNames = new List<string>();
+            foreach (KeyValuePair<string, object> entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
             {
-                selectedCommodityKinds = null;
-                return false;
+                foreach (CommodityKind motive in allCommodityKinds)
+                {
+                    if ((int)entry.Value == (int)motive)
+                    {
+                        allNames.Add(entry.Key);
+                    }
+                }
+                foreach (CommodityKind motive in preSelectedCommodityKinds)
+                {
+                    if ((int)entry.Value == (int)motive)
+                    {
+                        preSelectedNames.Add(entry.Key);
+                    }
+                }
             }
-            selectedCommodityKinds = tempSelectedCommodityKinds;
-            return retVal;
+            entryKey = entryKey ?? typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CommodityKindListDialog");
+            List<string> nameList = new List<string>(preSelectedNames);
+            bool cancelled, confirmed;
+            while (true)
+            {
+                List<string> selectedNames = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), allNames.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
+                    {
+                        new TextColumn(entryKey, 400),
+                        new TextInListColumn(entryKey, nameList.ToArray(), 40)
+                    }, 1, out confirmed, out cancelled, true);
+                if (cancelled)
+                {
+                    selectedCommodityKinds = null;
+                    return false;
+                }
+                if (confirmed)
+                {
+                    selectedCommodityKinds = nameList.ConvertAll(x => (CommodityKind)ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup[x]).ToArray();
+                    return true;
+                }
+                if (nameList.Contains(selectedNames[0]))
+                {
+                    nameList.Remove(selectedNames[0]);
+                }
+                else
+                {
+                    nameList.Add(selectedNames[0]);
+                }
+            }
         }
 
         public static bool ShowSkillListDialog(CASAgeGenderFlags age, CASAgeGenderFlags species, List<SkillLevelPair> currentSkills, List<SkillLevelPair> allSkills = null, string title = null)
         {
-            bool retVal;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    CASAGSAvailabilityFlags ageSpecies = CASUtils.CASAGSAvailabilityFlagsFromCASAgeGenderFlags(age | species);
-                    if (allSkills == null)
-                    {
-                        allSkills = new List<SkillLevelPair>(currentSkills);
-                        foreach (Skill skill in SkillManager.SkillDictionary)
-                        {
-                            if ((skill.AvailableAgeSpecies & ageSpecies) != 0 && !allSkills.Exists(x => x.SkillName == skill.Guid))
-                            {
-                                allSkills.Add(new SkillLevelPair(skill.Guid, 0));
-                            }
-                        }
-                    }
-                    else
-                    {
-                        allSkills.RemoveAll(x => (SkillManager.GetStaticSkill(x.SkillName).AvailableAgeSpecies & ageSpecies) == 0);
-                    }
-                    string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "SkillListDialog");
-                    List<SkillLevelPair> skillList = new List<SkillLevelPair>(currentSkills);
-                    bool cancelled, confirmed;
-                    while (true)
-                    {
-                        List<SkillLevelPair> selectedSkills = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), allSkills.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<SkillLevelPair>>
-                            {
-                                new SkillColumn(entryKey),
-                                new SkillLevelColumn(entryKey, skillList.ToArray())
-                            }, 1, out confirmed, out cancelled, true);
-                        if (cancelled)
-                        {
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            currentSkills.Clear();
-                            currentSkills.AddRange(skillList);
-                            return true;
-                        }
-                        string skillLevel = StringInputDialog.Show(Localization.LocalizeString(entryKey + "/SubmenuTitles:SkillLevel"), Localization.LocalizeString(entryKey + "/SubmenuPrompts:SkillLevel"), selectedSkills[0].SkillLevel.ToString(), -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.Number, false, ModalDialog.PauseMode.PauseSimulator, false, true);
-                        selectedSkills[0].SkillLevel = skillLevel == null ? selectedSkills[0].SkillLevel : int.Parse(skillLevel);
-                        Skill skill = SkillManager.GetStaticSkill(selectedSkills[0].SkillName);
-                        if (selectedSkills[0].SkillLevel == -1)
-                        {
-                            selectedSkills[0].SkillLevel = skill.MaxSkillLevel;
-                        }
-                        else if (selectedSkills[0].SkillLevel > skill.MaxSkillLevel)
-                        {
-                            selectedSkills[0].SkillLevel = skill.MaxSkillLevel;
-                        }
-                        if (selectedSkills[0].SkillLevel == 0 && skillList.Contains(selectedSkills[0]))
-                        {
-                            skillList.Remove(selectedSkills[0]);
-                            continue;
-                        }
-                        if (selectedSkills[0].SkillLevel != 0 && !skillList.Contains(selectedSkills[0]))
-                        {
-                            skillList.Add(selectedSkills[0]);
-                        }
-                    }
-                }, out retVal))
+            CASAGSAvailabilityFlags ageSpecies = CASUtils.CASAGSAvailabilityFlagsFromCASAgeGenderFlags(age | species);
+            if (allSkills == null)
             {
-                return false;
+                allSkills = new List<SkillLevelPair>(currentSkills);
+                foreach (Skill skill in SkillManager.SkillDictionary)
+                {
+                    if ((skill.AvailableAgeSpecies & ageSpecies) != 0 && !allSkills.Exists(x => x.SkillName == skill.Guid))
+                    {
+                        allSkills.Add(new SkillLevelPair(skill.Guid, 0));
+                    }
+                }
             }
-            return retVal;
+            else
+            {
+                allSkills.RemoveAll(x => (SkillManager.GetStaticSkill(x.SkillName).AvailableAgeSpecies & ageSpecies) == 0);
+            }
+            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "SkillListDialog");
+            List<SkillLevelPair> skillList = new List<SkillLevelPair>(currentSkills);
+            bool cancelled, confirmed;
+            while (true)
+            {
+                List<SkillLevelPair> selectedSkills = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), allSkills.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<SkillLevelPair>>
+                    {
+                        new SkillColumn(entryKey),
+                        new SkillLevelColumn(entryKey, skillList.ToArray())
+                    }, 1, out confirmed, out cancelled, true);
+                if (cancelled)
+                {
+                    return false;
+                }
+                if (confirmed)
+                {
+                    currentSkills.Clear();
+                    currentSkills.AddRange(skillList);
+                    return true;
+                }
+                string skillLevel = StringInputDialog.Show(Localization.LocalizeString(entryKey + "/SubmenuTitles:SkillLevel"), Localization.LocalizeString(entryKey + "/SubmenuPrompts:SkillLevel"), selectedSkills[0].SkillLevel.ToString(), -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.Number, false, ModalDialog.PauseMode.PauseSimulator, false, true);
+                selectedSkills[0].SkillLevel = skillLevel == null ? selectedSkills[0].SkillLevel : int.Parse(skillLevel);
+                Skill skill = SkillManager.GetStaticSkill(selectedSkills[0].SkillName);
+                if (selectedSkills[0].SkillLevel == -1)
+                {
+                    selectedSkills[0].SkillLevel = skill.MaxSkillLevel;
+                }
+                else if (selectedSkills[0].SkillLevel > skill.MaxSkillLevel)
+                {
+                    selectedSkills[0].SkillLevel = skill.MaxSkillLevel;
+                }
+                if (selectedSkills[0].SkillLevel == 0 && skillList.Contains(selectedSkills[0]))
+                {
+                    skillList.Remove(selectedSkills[0]);
+                    continue;
+                }
+                if (selectedSkills[0].SkillLevel != 0 && !skillList.Contains(selectedSkills[0]))
+                {
+                    skillList.Add(selectedSkills[0]);
+                }
+            }
         }
 
         public static bool ShowTraitListDialog(CASAgeGenderFlags age, CASAgeGenderFlags gender, CASAgeGenderFlags species, List<Trait> currentTraits, List<Trait> allTraits = null, string title = null)
         {
-            bool retVal;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    CASAGSAvailabilityFlags ageSpecies = CASUtils.CASAGSAvailabilityFlagsFromCASAgeGenderFlags(age | species);
-                    if (allTraits == null)
-                    {
-                        allTraits = new List<Trait>();
-                        foreach (Trait trait in TraitManager.GetDictionaryTraits)
-                        {
-                            if (trait.TraitValidForAgeSpecies(ageSpecies) && !trait.IsHidden && !trait.IsReward)
-                            {
-                                allTraits.Add(trait);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        allTraits.RemoveAll(x => !x.TraitValidForAgeSpecies(ageSpecies));
-                    }
-                    string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "TraitListDialog");
-                    List<Trait> traitList = new List<Trait>(currentTraits);
-                    bool cancelled, confirmed;
-                    while (true)
-                    {
-                        List<Trait> selectedTraits = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), allTraits.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<Trait>>
-                            {
-                                new TraitColumn(entryKey, gender == CASAgeGenderFlags.Female),
-                                new TraitEnabledColumn(entryKey, traitList.ToArray())
-                            }, 1, out confirmed, out cancelled, true);
-                        if (cancelled)
-                        {
-                            return false;
-                        }
-                        if (confirmed)
-                        {
-                            currentTraits.Clear();
-                            currentTraits.AddRange(traitList);
-                            return true;
-                        }
-                        if (traitList.Contains(selectedTraits[0]))
-                        {
-                            traitList.Remove(selectedTraits[0]);
-                        }
-                        else
-                        {
-                            traitList.Add(selectedTraits[0]);
-                        }
-                    }
-                }, out retVal))
+            CASAGSAvailabilityFlags ageSpecies = CASUtils.CASAGSAvailabilityFlagsFromCASAgeGenderFlags(age | species);
+            if (allTraits == null)
             {
-                return false;
+                allTraits = new List<Trait>();
+                foreach (Trait trait in TraitManager.GetDictionaryTraits)
+                {
+                    if (trait.TraitValidForAgeSpecies(ageSpecies) && !trait.IsHidden && !trait.IsReward)
+                    {
+                        allTraits.Add(trait);
+                    }
+                }
             }
-            return retVal;
+            else
+            {
+                allTraits.RemoveAll(x => !x.TraitValidForAgeSpecies(ageSpecies));
+            }
+            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "TraitListDialog");
+            List<Trait> traitList = new List<Trait>(currentTraits);
+            bool cancelled, confirmed;
+            while (true)
+            {
+                List<Trait> selectedTraits = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), allTraits.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<Trait>>
+                    {
+                        new TraitColumn(entryKey, gender == CASAgeGenderFlags.Female),
+                        new TraitEnabledColumn(entryKey, traitList.ToArray())
+                    }, 1, out confirmed, out cancelled, true);
+                if (cancelled)
+                {
+                    return false;
+                }
+                if (confirmed)
+                {
+                    currentTraits.Clear();
+                    currentTraits.AddRange(traitList);
+                    return true;
+                }
+                if (traitList.Contains(selectedTraits[0]))
+                {
+                    traitList.Remove(selectedTraits[0]);
+                }
+                else
+                {
+                    traitList.Add(selectedTraits[0]);
+                }
+            }
         }
 
         public static bool TryGetType(string fullName, out Type type)
@@ -1037,54 +992,43 @@ namespace Destrospean.Utils
 
         public static bool TryUIGetSelectedTypes(out Type[] selectedTypes, Type[] allTypes, string namespaceListTitle = null, string typeListTitle = null, int selectableRowCount = int.MaxValue)
         {
-            bool retVal;
-            Type[] tempSelectedTypes = null;
-            if (DebugUtils.TryDisplayScriptError(() =>
-                {
-                    string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
-                    Array.Sort(allTypes, (a, b) => a.FullName.CompareTo(b.FullName));
-                    List<string> namespaces = new List<string>();
-                    foreach (Type type in allTypes)
-                    {
-                        if (!namespaces.Contains(type.Namespace))
-                        {
-                            namespaces.Add(type.Namespace);
-                        }
-                    }
-                    bool cancelled, confirmed;
-                    while (true)
-                    {
-                        List<string> selectedNamespaces = ObjectPickerDialog.Show(namespaceListTitle ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "NamespaceListDialog:Title"), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), namespaces.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
-                            {
-                                new TextColumn(entryKey + "NamespaceListDialog")
-                            }, 1, out confirmed, out cancelled);
-                        if (cancelled)
-                        {
-                            tempSelectedTypes = null;
-                            return false;
-                        }
-                        tempSelectedTypes = (ObjectPickerDialog.Show(typeListTitle ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "TypeListDialog:Title"), new List<ObjectPicker.TabInfo>
-                            {
-                                new ObjectPicker.TabInfo("shop_all_r2", selectedNamespaces[0], new List<Type>(allTypes).FindAll(x => x.Namespace == selectedNamespaces[0]).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                            }, new List<ObjectPickerDialog.CommonHeaderInfo<Type>>
-                            {
-                                new TypeColumn(entryKey + "TypeListDialog")
-                            }, selectableRowCount, out confirmed, out cancelled) ?? new List<Type>()).ToArray();
-                        if (confirmed)
-                        {
-                            return true;
-                        }
-                    }
-                }, out retVal))
+            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
+            Array.Sort(allTypes, (a, b) => a.FullName.CompareTo(b.FullName));
+            List<string> namespaces = new List<string>();
+            foreach (Type type in allTypes)
             {
-                selectedTypes = null;
-                return false;
+                if (!namespaces.Contains(type.Namespace))
+                {
+                    namespaces.Add(type.Namespace);
+                }
             }
-            selectedTypes = tempSelectedTypes;
-            return retVal;
+            bool cancelled, confirmed;
+            while (true)
+            {
+                List<string> selectedNamespaces = ObjectPickerDialog.Show(namespaceListTitle ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "NamespaceListDialog:Title"), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), namespaces.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
+                    {
+                        new TextColumn(entryKey + "NamespaceListDialog")
+                    }, 1, out confirmed, out cancelled);
+                if (cancelled)
+                {
+                    selectedTypes = null;
+                    return false;
+                }
+                selectedTypes = (ObjectPickerDialog.Show(typeListTitle ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "TypeListDialog:Title"), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", selectedNamespaces[0], new List<Type>(allTypes).FindAll(x => x.Namespace == selectedNamespaces[0]).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<Type>>
+                    {
+                        new TypeColumn(entryKey + "TypeListDialog")
+                    }, selectableRowCount, out confirmed, out cancelled) ?? new List<Type>()).ToArray();
+                if (confirmed)
+                {
+                    return true;
+                }
+            }
         }
 
         public static bool TryUIGetUpdateType(string title, out OutputUpdateType updateType)
