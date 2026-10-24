@@ -40,12 +40,19 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
 
         public override bool Run()
         {
-            IServiceProfile[] profiles;
-            if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+            while (true)
             {
-                profiles[0].TryUIAddInventoryObject();
+                IServiceProfile[] profiles;
+                if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                {
+                    if (profiles[0].TryUIAddInventoryObject())
+                    {
+                        return true;
+                    }
+                    continue;
+                }
+                return true;
             }
-            return true;
         }
     }
 }

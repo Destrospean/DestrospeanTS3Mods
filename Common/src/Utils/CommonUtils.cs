@@ -869,7 +869,7 @@ namespace Destrospean.Utils
                 }, defaultValue.ToString()) as string;
             if (text == null)
             {
-                activeTopicActionActiveness = 0;
+                activeTopicActionActiveness = defaultValue;
                 return false;
             }
             activeTopicActionActiveness = (ActiveTopicActionActiveness)Enum.Parse(typeof(ActiveTopicActionActiveness), text);
@@ -983,7 +983,7 @@ namespace Destrospean.Utils
                 }, defaultValue.ToString()) as string;
             if (text == null)
             {
-                longTermRelationshipType = 0;
+                longTermRelationshipType = defaultValue;
                 return false;
             }
             longTermRelationshipType = (LongTermRelationshipTypes)Enum.Parse(typeof(LongTermRelationshipTypes), text);
@@ -1031,7 +1031,7 @@ namespace Destrospean.Utils
             }
         }
 
-        public static bool TryUIGetUpdateType(string title, out OutputUpdateType updateType)
+        public static bool TryUIGetUpdateType(string title, out OutputUpdateType updateType, OutputUpdateType defaultValue = OutputUpdateType.ContinuousFlow)
         {
             string entryKey = typeof(ComboSelectionDialog).GetLocalizationKey().Replace("ComboSelectionDialog", "UpdateTypeDialog/Options:");
             string text = ComboSelectionDialog.Show(title, new SortedDictionary<string, object>(new DummyComparer())
@@ -1044,10 +1044,10 @@ namespace Destrospean.Utils
                         Localization.LocalizeString(entryKey + OutputUpdateType.ImmediateDelta),
                         OutputUpdateType.ImmediateDelta.ToString()
                     }
-                }, OutputUpdateType.ContinuousFlow.ToString()) as string;
+                }, defaultValue.ToString()) as string;
             if (text == null)
             {
-                updateType = 0;
+                updateType = defaultValue;
                 return false;
             }
             updateType = (OutputUpdateType)Enum.Parse(typeof(OutputUpdateType), text);

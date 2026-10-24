@@ -41,7 +41,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
 
         public override bool Run()
         {
-            DebugUtils.TryDisplayScriptError(() =>
+            return !DebugUtils.TryDisplayScriptError(() =>
                 {
                     IServiceProfile[] profiles;
                     if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
@@ -52,7 +52,6 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                         profiles[0].CarPreset = Target.GetCurrentPreset();
                     }
                 });
-            return true;
         }
     }
 }

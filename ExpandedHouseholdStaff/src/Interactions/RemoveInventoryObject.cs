@@ -42,22 +42,27 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
 
         public override bool Run()
         {
-            DebugUtils.TryDisplayScriptError(() =>
+            return !DebugUtils.TryDisplayScriptError(() =>
                 {
-                    IServiceProfile[] profiles;
-                    if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && x.Inventory.Count > 0).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                    while (true)
                     {
-                        InventoryObjectCreationParameters[] inventoryObjects;
-                        if (ServiceUtils.TryUIGetSelectedInventoryObjects(out inventoryObjects, profiles[0].Inventory.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
+                        IServiceProfile[] profiles;
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && x.Inventory.Count > 0).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                         {
-                            foreach (InventoryObjectCreationParameters inventoryObjectCreationParameters in inventoryObjects)
+                            InventoryObjectCreationParameters[] inventoryObjects;
+                            if (ServiceUtils.TryUIGetSelectedInventoryObjects(out inventoryObjects, profiles[0].Inventory.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
                             {
-                                profiles[0].Inventory.Remove(inventoryObjectCreationParameters);
+                                foreach (InventoryObjectCreationParameters inventoryObjectCreationParameters in inventoryObjects)
+                                {
+                                    profiles[0].Inventory.Remove(inventoryObjectCreationParameters);
+                                }
+                                break;
                             }
+                            continue;
                         }
+                        break;
                     }
                 });
-            return true;
         }
     }
 }

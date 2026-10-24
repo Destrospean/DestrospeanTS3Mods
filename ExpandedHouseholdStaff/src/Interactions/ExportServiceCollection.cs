@@ -42,36 +42,47 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
 
         public override bool Run()
         {
-            DebugUtils.TryDisplayScriptError(() =>
+            return !DebugUtils.TryDisplayScriptError(() =>
                 {
-                    IServiceProfile[] profiles;
-                    if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
+                    while (true)
                     {
-                        string xml = FileUtils.GetXml(profiles);
-                        FileUtils.ExportToFile(xml);
-                        if (Settings.kExportServiceCollectionsAsXMLs)
+                        IServiceProfile[] profiles;
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
                         {
-                            uint fileHandle = 0u;
-                            Simulator.CreateExportFile(ref fileHandle, "ServiceProfiles");
-                            if (fileHandle != 0u)
+                            string xml = FileUtils.GetXml(profiles);
+                            bool found;
+                            if (!FileUtils.ExportToFile(xml, out found))
                             {
-                                CustomXmlWriter customXmlWriter = new CustomXmlWriter(fileHandle);
-                                int postDeclarationIndex = xml.IndexOf("\r\n");
-                                int lineEndingLength = 2;
-                                if (postDeclarationIndex == -1)
+                                if (found)
                                 {
-                                    postDeclarationIndex = xml.IndexOf("\n");
-                                    lineEndingLength = 1;
+                                    break;
                                 }
-                                customXmlWriter.WriteToBuffer(xml.Remove(postDeclarationIndex + lineEndingLength));
-                                customXmlWriter.WriteComment(" These XMLs are only exported when `kExportServiceCollectionsAsXMLs` is enabled in the tuning. ");
-                                customXmlWriter.WriteToBuffer(xml.Substring(postDeclarationIndex + lineEndingLength));
-                                customXmlWriter.WriteEndDocument();
+                                continue;
+                            }
+                            if (Settings.kExportServiceCollectionsAsXMLs)
+                            {
+                                uint fileHandle = 0u;
+                                Simulator.CreateExportFile(ref fileHandle, "ServiceProfiles");
+                                if (fileHandle != 0u)
+                                {
+                                    CustomXmlWriter customXmlWriter = new CustomXmlWriter(fileHandle);
+                                    int postDeclarationIndex = xml.IndexOf("\r\n");
+                                    int lineEndingLength = 2;
+                                    if (postDeclarationIndex == -1)
+                                    {
+                                        postDeclarationIndex = xml.IndexOf("\n");
+                                        lineEndingLength = 1;
+                                    }
+                                    customXmlWriter.WriteToBuffer(xml.Remove(postDeclarationIndex + lineEndingLength));
+                                    customXmlWriter.WriteComment(" These XMLs are only exported when `kExportServiceCollectionsAsXMLs` is enabled in the tuning. ");
+                                    customXmlWriter.WriteToBuffer(xml.Substring(postDeclarationIndex + lineEndingLength));
+                                    customXmlWriter.WriteEndDocument();
+                                }
                             }
                         }
+                        break;
                     }
                 });
-            return true;
         }
     }
 }

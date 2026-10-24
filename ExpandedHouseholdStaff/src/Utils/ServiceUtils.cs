@@ -1578,7 +1578,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
                 if (step == 4)
                 {
-                    if (!CommonUtils.TryUIGetUpdateType(Localization.LocalizeString(entryKey + "UpdateTypeDialog:Title"), out updateType))
+                    if (!CommonUtils.TryUIGetUpdateType(Localization.LocalizeString(entryKey + "UpdateTypeDialog:Title"), out updateType, updateType))
                     {
                         step--;
                         continue;

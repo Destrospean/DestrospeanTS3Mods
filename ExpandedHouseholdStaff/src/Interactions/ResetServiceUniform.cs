@@ -45,92 +45,113 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
 
         public override bool Run()
         {
-            bool retVal;
             return !DebugUtils.TryDisplayScriptError(() =>
                 {
-                    IServiceProfile[] profiles;
-                    if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && OutfitAssignmentUtils.OutfitAssignments.Exists(y => y.ServiceName == x.Name && (y.SimDescription == null || y.SimDescription == Actor.SimDescription))).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                    while (true)
                     {
-                        string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceOutfitDemographicDialog");
-                        List<CASAgeGenderFlags[]> ageGenders = new List<CASAgeGenderFlags[]>();
-                        foreach (OutfitAssignmentUtils.OutfitAssignment outfitAssignment in OutfitAssignmentUtils.OutfitAssignments)
+                        IServiceProfile[] profiles;
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && OutfitAssignmentUtils.OutfitAssignments.Exists(y => y.ServiceName == x.Name && (y.SimDescription == null || y.SimDescription == Actor.SimDescription))).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                         {
-                            if (Array.Exists(profiles, x => x.Name == outfitAssignment.ServiceName))
+                            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceOutfitDemographicDialog");
+                            List<CASAgeGenderFlags[]> ageGenders = new List<CASAgeGenderFlags[]>();
+                            foreach (OutfitAssignmentUtils.OutfitAssignment outfitAssignment in OutfitAssignmentUtils.OutfitAssignments)
                             {
-                                string ageGenderPrefix = outfitAssignment.SpecialOutfitKey.Substring(OutfitAssignmentUtils.OutfitAssignmentGlobalPrefix.Length, 2);
-                                CASAgeGenderFlags tempAge = CASAgeGenderFlags.None;
-                                switch (ageGenderPrefix[0])
+                                if (Array.Exists(profiles, x => x.Name == outfitAssignment.ServiceName))
                                 {
-                                    case 'a':
-                                        tempAge = CASAgeGenderFlags.Adult;
-                                        break;
-                                    case 'b':
-                                        tempAge = CASAgeGenderFlags.Baby;
-                                        break;
-                                    case 'c':
-                                        tempAge = CASAgeGenderFlags.Child;
-                                        break;
-                                    case 'e':
-                                        tempAge = CASAgeGenderFlags.Elder;
-                                        break;
-                                    case 'p':
-                                        tempAge = CASAgeGenderFlags.Toddler;
-                                        break;
-                                    case 't':
-                                        tempAge = CASAgeGenderFlags.Teen;
-                                        break;
-                                    case 'y':
-                                        tempAge = CASAgeGenderFlags.YoungAdult;
-                                        break;
-                                }
-                                CASAgeGenderFlags tempGender = CASAgeGenderFlags.None;
-                                switch (ageGenderPrefix[1])
-                                {
-                                    case 'f':
-                                        tempGender = CASAgeGenderFlags.Female;
-                                        break;
-                                    case 'm':
-                                        tempGender = CASAgeGenderFlags.Male;
-                                        break;
-                                }
-                                ageGenders.Add(new[]
+                                    string ageGenderPrefix = outfitAssignment.SpecialOutfitKey.Substring(OutfitAssignmentUtils.OutfitAssignmentGlobalPrefix.Length, 2);
+                                    CASAgeGenderFlags tempAge = CASAgeGenderFlags.None;
+                                    switch (ageGenderPrefix[0])
                                     {
-                                        tempAge,
-                                        tempGender
-                                    });
+                                        case 'a':
+                                            tempAge = CASAgeGenderFlags.Adult;
+                                            break;
+                                        case 'b':
+                                            tempAge = CASAgeGenderFlags.Baby;
+                                            break;
+                                        case 'c':
+                                            tempAge = CASAgeGenderFlags.Child;
+                                            break;
+                                        case 'e':
+                                            tempAge = CASAgeGenderFlags.Elder;
+                                            break;
+                                        case 'p':
+                                            tempAge = CASAgeGenderFlags.Toddler;
+                                            break;
+                                        case 't':
+                                            tempAge = CASAgeGenderFlags.Teen;
+                                            break;
+                                        case 'y':
+                                            tempAge = CASAgeGenderFlags.YoungAdult;
+                                            break;
+                                    }
+                                    CASAgeGenderFlags tempGender = CASAgeGenderFlags.None;
+                                    switch (ageGenderPrefix[1])
+                                    {
+                                        case 'f':
+                                            tempGender = CASAgeGenderFlags.Female;
+                                            break;
+                                        case 'm':
+                                            tempGender = CASAgeGenderFlags.Male;
+                                            break;
+                                    }
+                                    ageGenders.Add(new[]
+                                        {
+                                            tempAge,
+                                            tempGender
+                                        });
+                                }
                             }
-                        }
-                        CASAgeGenderFlags age = CASAgeGenderFlags.None;
-                        foreach (CASAgeGenderFlags[] ageGender in ageGenders)
-                        {
-                            age |= ageGender[0];
-                        }
-                        if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out age, CASAgeGenderFlags.None, age, Localization.LocalizeString(entryKey + "/Titles:Age"), entryKey, false))
-                        {
-                            return true;
-                        }
-                        CASAgeGenderFlags gender = CASAgeGenderFlags.None;
-                        foreach (CASAgeGenderFlags[] ageGender in ageGenders)
-                        {
-                            if ((age & ageGender[0]) == ageGender[0])
+                            CASAgeGenderFlags age = CASAgeGenderFlags.None;
+                            foreach (CASAgeGenderFlags[] ageGender in ageGenders)
                             {
-                                gender |= ageGender[1];
+                                age |= ageGender[0];
+                            }
+                            CASAgeGenderFlags gender = CASAgeGenderFlags.None;
+                            foreach (CASAgeGenderFlags[] ageGender in ageGenders)
+                            {
+                                if ((age & ageGender[0]) == ageGender[0])
+                                {
+                                    gender |= ageGender[1];
+                                }
+                            }
+                            sbyte step = 0;
+                            while (true)
+                            {
+                                if (step == 0)
+                                {
+                                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out age, CASAgeGenderFlags.None, age, Localization.LocalizeString(entryKey + "/Titles:Age"), entryKey, false))
+                                    {
+                                        step--;
+                                        continue;
+                                    }
+                                    step++;
+                                }
+                                if (step == 1)
+                                {
+                                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out gender, CASAgeGenderFlags.None, gender, Localization.LocalizeString(entryKey + "/Titles:Gender"), entryKey, false))
+                                    {
+                                        step--;
+                                        continue;
+                                    }
+                                    step++;
+                                }
+                                break;
+                            }
+                            if (step == -1)
+                            {
+                                continue;
+                            }
+                            foreach (IServiceProfile profile in profiles)
+                            {
+                                string specialOutfitKey = OutfitAssignmentUtils.GetGlobalAssignedOutfitPrefix(age | gender) + profile.Name;
+                                OutfitAssignmentUtils.AssignedOutfits.Remove(specialOutfitKey);
+                                OutfitAssignmentUtils.OutfitAssignments.RemoveAll(x => x.SimDescription == null && x.SpecialOutfitKey == specialOutfitKey);
+                                OutfitAssignmentUtils.IndexOutfitAssignments();
                             }
                         }
-                        if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out gender, CASAgeGenderFlags.None, gender, Localization.LocalizeString(entryKey + "/Titles:Gender"), entryKey, false))
-                        {
-                            return true;
-                        }
-                        foreach (IServiceProfile profile in profiles)
-                        {
-                            string specialOutfitKey = OutfitAssignmentUtils.GetGlobalAssignedOutfitPrefix(age | gender) + profile.Name;
-                            OutfitAssignmentUtils.AssignedOutfits.Remove(specialOutfitKey);
-                            OutfitAssignmentUtils.OutfitAssignments.RemoveAll(x => x.SimDescription == null && x.SpecialOutfitKey == specialOutfitKey);
-                            OutfitAssignmentUtils.IndexOutfitAssignments();
-                        }
+                        break;
                     }
-                    return true;
-                }, out retVal) && retVal;
+                });
         }
     }
 }

@@ -58,10 +58,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
         }
 
-        public static bool ExportToFile(string text)
+        public static bool ExportToFile(string text, out bool found)
         {
             string name = null;
-            bool found = true;
+            found = true;
             while (found)
             {
                 name = StringInputDialog.Show(Localization.LocalizeString(kLocalizationKey + "/ExportServiceCollectionFilenameDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/ExportServiceCollectionFilenameDialog:Prompt"), "");
@@ -92,7 +92,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             BinModel.Singleton.AddToExportBin(dummyHousehold);
             dummyHousehold.Destroy();
             SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/ExportServiceCollectionSuccessDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/ExportServiceCollectionSuccessDialog:Message"));
-            return true;
+            return !found;
         }
 
         public static string ExtractFromFile()
