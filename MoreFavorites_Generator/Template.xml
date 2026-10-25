@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <Favorites>
   <!-- The "IsGroup" attribute specifies whether an entry is a group of other entries and therefore shouldn't be invalidated -->
+  <!-- The "Group_Display_Name" attribute should be the name of the group that's displayed in game (in the STBLs the tool generates; strings in STBLs for other languages will need to be modified afterward); only taken into account when "IsGroup" is set to "True" -->
   <!-- The "Parent" attribute should match the color name, recipe key, or station name of the parent; leave the attribute blank if an entry doesn't have a parent -->
   <!-- The "Hidden" attribute specifies whether an entry should be hidden from the favorites dialogs and removed from the randomization pools, but a Sim with a parent favorite should still receive the perks for it -->
 
@@ -12,12 +13,14 @@
   <FavoriteColor Name="" Hex="#000000" Display_Name="" Drink_Display_Name="" Opposite="" Parent="" Hidden="False" />
   <!-- DO NOT REMOVE THE ENTRY ABOVE -->
 
+  <!-- The "IsVegetarianGroup" attribute specifies whether a group is a vegetarian group; only taken into account when "IsGroup" is set to "True" -->
+
   <!-- DO NOT REMOVE THE ENTRY BELOW -->
-  <FavoriteFood Recipe_Key="" Icon_Key="" Small_Icon_Key="" IsGroup="False" Parent="" Hidden="False" />
+  <FavoriteFood Recipe_Key="" Icon_Key="" Small_Icon_Key="" IsGroup="False" IsVegetarianGroup="False" Group_Display_Name="" Parent="" Hidden="False" />
   <!-- DO NOT REMOVE THE ENTRY ABOVE -->
 
   <!-- DO NOT REMOVE THE ENTRY BELOW -->
-  <FavoriteMusic Station_Name="" Icon_Key="" Small_Icon_Key="" IsGroup="False" Parent="" Hidden="False" />
+  <FavoriteMusic Station_Name="" Icon_Key="" Small_Icon_Key="" IsGroup="False" Group_Display_Name="" Parent="" Hidden="False" />
   <!-- DO NOT REMOVE THE ENTRY ABOVE -->
 
   <!-- Below is to blacklist favorites from the dialogs and randomization pools, also disallowing any perks of it being a favorite even if it has a parent that a Sim has as their favorite -->

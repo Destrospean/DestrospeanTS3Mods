@@ -200,7 +200,15 @@ namespace Destrospean.MoreFavorites.Generator
             var s3saKeyInstance = FNV64.GetHash(assemblyName);
             var nameMapResource = new NameMapResource.NameMapResource(0, null);
             var stblResources = new StblResource.StblResource[Enum.GetValues(typeof(Locales)).Length];
-            for (var i = 0; i < stblResources.Length && favoriteColorElements.Count > 0; i++)
+            for (var i = 0; i < stblResources.Length && (favoriteColorElements.Count > 0 || favoriteFoodElements.Exists(x =>
+                {
+                    bool isGroup;
+                    return bool.TryParse(x.GetAttribute("IsGroup"), out isGroup) && isGroup;
+                }) || favoriteMusicElements.Exists(x =>
+                    {
+                        bool isGroup;
+                        return bool.TryParse(x.GetAttribute("IsGroup"), out isGroup) && isGroup;
+                    })); i++)
             {
                 var stblKeyInstance = ulong.Parse(i.ToString("X2") + s3saKeyInstance.ToString("X16").Substring(2), System.Globalization.NumberStyles.HexNumber);
                 var stblName = "Strings_" + (Locales)i + "_0x" + stblKeyInstance.ToString("X16");
@@ -211,6 +219,24 @@ namespace Destrospean.MoreFavorites.Generator
                     stblResources[i].Add(FNV64.GetHash("Gameplay/Objects/Appliances/FutureBar:" + colorName), favoriteColorElement.GetAttribute("Drink_Display_Name") ?? "Gameplay/Objects/Appliances/FutureBar:" + colorName);
                     stblResources[i].Add(FNV64.GetHash("Gameplay/Objects/Plumbing/SonicShower:" + colorName), favoriteColorElement.GetAttribute("Display_Name") ?? "Gameplay/Objects/Plumbing/SonicShower:" + colorName);
                     stblResources[i].Add(FNV64.GetHash("Ui/Caption/CAS/Favorites/Color:" + colorName), favoriteColorElement.GetAttribute("Display_Name") ?? "Ui/Caption/CAS/Favorites/Color:" + colorName);
+                }
+                foreach (var favoriteFoodElement in favoriteFoodElements)
+                {
+                    var recipeKey = favoriteFoodElement.GetAttribute("Recipe_Key");
+                    bool isGroup;
+                    if (bool.TryParse(favoriteFoodElement.GetAttribute("IsGroup"), out isGroup) && isGroup)
+                    {
+                        stblResources[i].Add(FNV64.GetHash("Gameplay/Excel/RecipeMasterList/Data:" + recipeKey), favoriteFoodElement.GetAttribute("Group_Display_Name") ?? "Gameplay/Excel/RecipeMasterList/Data:" + recipeKey);
+                    }
+                }
+                foreach (var favoriteMusicElement in favoriteMusicElements)
+                {
+                    var stationName = favoriteMusicElement.GetAttribute("Station_Name");
+                    bool isGroup;
+                    if (bool.TryParse(favoriteMusicElement.GetAttribute("IsGroup"), out isGroup) && isGroup)
+                    {
+                        stblResources[i].Add(FNV64.GetHash("Gameplay/Excel/Stereo/Stations:" + stationName), favoriteMusicElement.GetAttribute("Group_Display_Name") ?? "Gameplay/Excel/Stereo/Stations:" + stationName);
+                    }
                 }
                 package.AddResource(new ResourceKey(0x220557DA, 0, stblKeyInstance), stblResources[i].Stream, true);
                 nameMapResource.Add(stblKeyInstance, stblName);
@@ -233,8 +259,14 @@ namespace Destrospean.MoreFavorites.Generator
                 Colorize(smallColorIMAG, Color.FromArgb((int)(argb | 0xFF000000))).Save(smallIMAGStream, ImageFormat.Png);
                 package.AddResource(new ResourceKey(0x2F7D0004, 0, largeIMAGKeyInstance), largeIMAGStream, true);
                 package.AddResource(new ResourceKey(0x2F7D0004, 0, smallIMAGKeyInstance), smallIMAGStream, true);
-                nameMapResource.Add(largeIMAGKeyInstance, imageKeyInstanceBase + "_r2");
-                nameMapResource.Add(smallIMAGKeyInstance, imageKeyInstanceBase + "_s_r2");
+                if (!nameMapResource.ContainsKey(largeIMAGKeyInstance))
+                {
+                    nameMapResource.Add(largeIMAGKeyInstance, imageKeyInstanceBase + "_r2");
+                }
+                if (!nameMapResource.ContainsKey(smallIMAGKeyInstance))
+                {
+                    nameMapResource.Add(smallIMAGKeyInstance, imageKeyInstanceBase + "_s_r2");
+                }
             }
             foreach (var favoriteFoodElement in favoriteFoodElements)
             {
@@ -249,8 +281,14 @@ namespace Destrospean.MoreFavorites.Generator
                 smallFoodIMAG.Save(smallIMAGStream, ImageFormat.Png);
                 package.AddResource(new ResourceKey(0x2F7D0004, 0, largeIMAGKeyInstance), largeIMAGStream, true);
                 package.AddResource(new ResourceKey(0x2F7D0004, 0, smallIMAGKeyInstance), smallIMAGStream, true);
-                nameMapResource.Add(largeIMAGKeyInstance, largeIMAGKey);
-                nameMapResource.Add(smallIMAGKeyInstance, smallIMAGKey);
+                if (!nameMapResource.ContainsKey(largeIMAGKeyInstance))
+                {
+                    nameMapResource.Add(largeIMAGKeyInstance, largeIMAGKey);
+                }
+                if (!nameMapResource.ContainsKey(smallIMAGKeyInstance))
+                {
+                    nameMapResource.Add(smallIMAGKeyInstance, smallIMAGKey);
+                }
             }
             foreach (var favoriteMusicElement in favoriteMusicElements)
             {
@@ -265,8 +303,14 @@ namespace Destrospean.MoreFavorites.Generator
                 smallMusicIMAG.Save(smallIMAGStream, ImageFormat.Png);
                 package.AddResource(new ResourceKey(0x2F7D0004, 0, largeIMAGKeyInstance), largeIMAGStream, true);
                 package.AddResource(new ResourceKey(0x2F7D0004, 0, smallIMAGKeyInstance), smallIMAGStream, true);
-                nameMapResource.Add(largeIMAGKeyInstance, largeIMAGKey);
-                nameMapResource.Add(smallIMAGKeyInstance, smallIMAGKey);
+                if (!nameMapResource.ContainsKey(largeIMAGKeyInstance))
+                {
+                    nameMapResource.Add(largeIMAGKeyInstance, largeIMAGKey);
+                }
+                if (!nameMapResource.ContainsKey(smallIMAGKeyInstance))
+                {
+                    nameMapResource.Add(smallIMAGKeyInstance, smallIMAGKey);
+                }
             }
             nameMapResource.Add(s3saKeyInstance, assemblyName);
             package.AddResource(new ResourceKey(0x166038C, 0, 0), nameMapResource.Stream, true);

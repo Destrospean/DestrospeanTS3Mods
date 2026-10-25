@@ -409,15 +409,28 @@ namespace Destrospean.MoreFavorites
                         {
                             string recipeKey = reader.GetAttribute("Recipe_Key");
                             Recipe recipe;
-                            bool isGroup,
+                            bool isGroup = false,
                             isHidden,
                             isValid = Recipe.NameToRecipeHash.TryGetValue(recipeKey, out recipe);
-                            if (string.IsNullOrEmpty(recipeKey) || !isValid && (!bool.TryParse(reader.GetAttribute("IsGroup"), out isGroup) || isGroup))
+                            if (string.IsNullOrEmpty(recipeKey) || !isValid && !(bool.TryParse(reader.GetAttribute("IsGroup"), out isGroup) || isGroup))
                             {
                                 continue;
                             }
                             FavoriteFoodType favoriteFoodType = Array.Exists(Enum.GetNames(typeof(FavoriteFoodType)), x => x == recipeKey) && isValid && recipe != null ? (FavoriteFoodType)Enum.Parse(typeof(FavoriteFoodType), recipeKey) : (FavoriteFoodType)ResourceUtils.HashString32(recipeKey);
-                            FavoriteFoodDictionary[favoriteFoodType] = new FavoriteFood(recipeKey, isValid ? recipe : null, reader.GetAttribute("Icon_Key"), reader.GetAttribute("Small_Icon_Key"), reader.GetAttribute("Parent"));
+                            FavoriteFoodDictionary[favoriteFoodType] = new FavoriteFood(recipeKey, isValid ? recipe : isGroup ? recipe = new Recipe
+                                {
+                                    mGenericName = "Gameplay/Excel/RecipeMasterList/Data:" + recipeKey
+                                } : null, reader.GetAttribute("Icon_Key"), reader.GetAttribute("Small_Icon_Key"), reader.GetAttribute("Parent"));
+                            if (!isValid && isGroup)
+                            {
+                                bool isVegetarianGroup;
+                                recipe.mNonPersistableData = recipe.mNonPersistableData ?? new Recipe.NonPersistableData();
+                                recipe.mNonPersistableData.mIsVegetarian = bool.TryParse(reader.GetAttribute("IsVegetarianGroup"), out isVegetarianGroup) && isVegetarianGroup;
+                                if (isVegetarianGroup)
+                                {
+                                    recipe.mNonPersistableData.mGenericVegetarianName = recipe.mGenericName;
+                                }
+                            }
                             if (bool.TryParse(reader.GetAttribute("Hidden"), out isHidden) && isHidden)
                             {
                                 FavoriteFoodHiddenList.Add(favoriteFoodType);
@@ -430,7 +443,7 @@ namespace Destrospean.MoreFavorites
                             bool isGroup,
                             isHidden,
                             isValid = StereoStationData.sStereoStationDictionary.TryGetValue("Gameplay/Excel/Stereo/Stations:" + stationName, out stereoStationData);
-                            if (string.IsNullOrEmpty(stationName) || !isValid && (!bool.TryParse(reader.GetAttribute("IsGroup"), out isGroup) || isGroup))
+                            if (string.IsNullOrEmpty(stationName) || !isValid && !(bool.TryParse(reader.GetAttribute("IsGroup"), out isGroup) || isGroup))
                             {
                                 continue;
                             }
