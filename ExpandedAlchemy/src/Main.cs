@@ -308,7 +308,7 @@ namespace Destrospean.ExpandedAlchemy
                                     {
                                         if (!Settings.kReplaceAlchemyRecipes)
                                         {
-                                            ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("An alchemy recipe with the key, " + alchemyRecipe.Key +  " already exists")));
+                                            ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("An alchemy recipe with the key, \"" + alchemyRecipe.Key +  "\" already exists")));
                                             continue;
                                         }
                                         AlchemyRecipe.AlchemyRecipes.Remove(alchemyRecipe);
