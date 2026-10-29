@@ -48,7 +48,6 @@
       <Link>UI\Dialogs\ComboSelectionDialog.cs</Link>
     </Compile>
     <Compile Include="Main.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="Spawners\Gem.cs" />
     <Compile Include="Spawners\RockHuge.cs" />
     <Compile Include="Spawners\Rock.cs" />

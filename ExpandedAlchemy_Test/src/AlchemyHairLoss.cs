@@ -34,11 +34,6 @@ namespace Sims3.Gameplay.Objects.Alchemy
 
             public static ISoloInteractionDefinition Singleton = new Definition();
 
-            public static string LocalizeString(string name, params object[] parameters)
-            {
-                return Localization.LocalizeString("Gameplay/ActorSystems/TraitFunctions/FreakOut:" + name, parameters);
-            }
-
             public override void Cleanup()
             {
                 DisposeBroadcaster();
@@ -52,6 +47,11 @@ namespace Sims3.Gameplay.Objects.Alchemy
                     FreakOutBroadcast.Dispose();
                     FreakOutBroadcast = null;
                 }
+            }
+
+            public static string LocalizeString(string name, params object[] parameters)
+            {
+                return Localization.LocalizeString("Gameplay/ActorSystems/TraitFunctions/FreakOut:" + name, parameters);
             }
 
             public static void OnWitnessFreakOut(Sim sim, ReactionBroadcaster reactionBroadcaster)

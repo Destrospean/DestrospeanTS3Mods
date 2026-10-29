@@ -49,7 +49,19 @@ namespace Destrospean.ExpandedAlchemy
         [Tunable]
         protected static bool kDebug;
 
-        public static List<DebugInfo> ErrorsAndWarnings;
+        [Tunable]
+        protected static bool kReplaceAlchemyRecipeData = true;
+
+        [Tunable]
+        protected static bool kReplaceFishingData = true;
+
+        [Tunable]
+        protected static bool kReplaceGemCutData = true;
+
+        [Tunable]
+        protected static bool kReplaceRockGemMetalData = true;
+
+        public static List<DebugInfo> ErrorsAndWarnings = new List<DebugInfo>();
 
         static Main()
         {
@@ -84,6 +96,15 @@ namespace Destrospean.ExpandedAlchemy
                                     {
                                         CommonUtils.AddEnumValue<FishType>(row["Hex"], fishType = (FishType)ResourceUtils.HashString64(row["Hex"]));
                                     }
+                                    if (Fish.sFishData.ContainsKey(fishType))
+                                    {
+                                        if (!kReplaceRockGemMetalData)
+                                        {
+                                            ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("A Fish of type \"" + row["Hex"] +  "\" already exists.")));
+                                            continue;
+                                        }
+                                        Fish.sFishData.Remove(fishType);
+                                    }
                                     ProductVersion version;
                                     if (row.TryGetEnum<ProductVersion>("CodeVersion", out version, ProductVersion.BaseGame) && GameUtils.IsInstalled(version))
                                     {
@@ -115,12 +136,11 @@ namespace Destrospean.ExpandedAlchemy
                                             Fish.kCostOfNewGoldfish = fishData.MinPrice;
                                         }
                                         fishData.FishBowlMaterialState = row["FishBowlMaterialState"];
-                                        string text = row["Ingredient_Key"];
-                                        if (!string.IsNullOrEmpty(text))
+                                        if (!string.IsNullOrEmpty(row["Ingredient_Key"]))
                                         {
                                             WorldName requiredWorldName;
                                             ParserFunctions.TryParseEnum<WorldName>(row["RequiredWorld"], out requiredWorldName, WorldName.Undefined);
-                                            fishData.IngredientData = new IngredientData(text, fishData.StringKeyName, row["Model_Name"], ParserFunctions.ParseFloat(row["Fertilizer_Value"], float.MinValue), ParserFunctions.ParseInt(row["Fertilizer_Days"], -1), price, requiredWorldName, version, version);
+                                            fishData.IngredientData = new IngredientData(row["Ingredient_Key"], fishData.StringKeyName, row["Model_Name"], ParserFunctions.ParseFloat(row["Fertilizer_Value"], float.MinValue), ParserFunctions.ParseInt(row["Fertilizer_Days"], -1), price, requiredWorldName, version, version);
                                         }
                                         if (GameUtils.IsInstalled(ProductVersion.EP5))
                                         {
@@ -130,15 +150,15 @@ namespace Destrospean.ExpandedAlchemy
                                         Fish.sFishData.Add(fishType, fishData);
                                     }
                                 }
-                                Fishing.NumberOfFishTypes = (double)(Fish.sFishData.Count - 1);
+                                Fishing.NumberOfFishTypes = Fish.sFishData.Count - 1;
                             }
                             if (data.Tables.TryGetValue("SpawnerFish", out table))
                             {
-                                FishingSpot.ParseFishingSpots(table);
+                                ParseFishingSpots(table);
                             }
                             if (data.Tables.TryGetValue("GlobalSpawnerFish", out table))
                             {
-                                FishingSpot.ParseGlobalFishingSpots(table);
+                                ParseGlobalFishingSpots(table, assembly);
                             }
                             if (data.Tables.TryGetValue("BoxItemsFish", out table))
                             {
@@ -163,6 +183,16 @@ namespace Destrospean.ExpandedAlchemy
                                         if (!ParserFunctions.TryParseEnum<RockGemMetal>(row["Hex"], out metalType, RockGemMetal.Iron))
                                         {
                                             CommonUtils.AddEnumValue<RockGemMetal>(row["Hex"], metalType = (RockGemMetal)ResourceUtils.HashString64(row["Hex"]));
+                                        }
+                                        if (RockGemMetalBase.sData.ContainsKey(metalType))
+                                        {
+                                            if (!kReplaceRockGemMetalData)
+                                            {
+                                                ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("A Metal of type \"" + row["Hex"] +  "\" already exists.")));
+                                                continue;
+                                            }
+                                            RockGemMetalBase.sMetals.Remove(metalType);
+                                            RockGemMetalBase.sData.Remove(metalType);
                                         }
                                         RockGemMetalBase.sMetals.Add(metalType);
                                         MetalData metalData = new MetalData();
@@ -191,6 +221,16 @@ namespace Destrospean.ExpandedAlchemy
                                         {
                                             CommonUtils.AddEnumValue<RockGemMetal>(row["Hex"], gemType = (RockGemMetal)ResourceUtils.HashString64(row["Hex"]));
                                         }
+                                        if (RockGemMetalBase.sData.ContainsKey(gemType))
+                                        {
+                                            if (!kReplaceRockGemMetalData)
+                                            {
+                                                ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("A Gem of type \"" + row["Hex"] +  "\" already exists.")));
+                                                continue;
+                                            }
+                                            RockGemMetalBase.sGems.Remove(gemType);
+                                            RockGemMetalBase.sData.Remove(gemType);
+                                        }
                                         RockGemMetalBase.sGems.Add(gemType);
                                         GemData gemData = new GemData();
                                         gemData.ParseRow(row, "Gems", CollectedRgmType.Gem);
@@ -203,13 +243,39 @@ namespace Destrospean.ExpandedAlchemy
                             if (data.Tables.TryGetValue("GemCuts", out table))
                             {
                                 //Gem.ParseCuts(table);
+                                if (Gem.sToughestCut != null && !RockGemMetalBase.sCutData.Contains(Gem.sToughestCut))
+                                {
+                                    RockGemMetalBase.sCutData.Add(Gem.sToughestCut);
+                                }
                                 foreach (XmlDbRow row in table.Rows)
                                 {
                                     ProductVersion version;
                                     if (!ParserFunctions.TryParseEnum<ProductVersion>(row["CodeVersion"], out version, ProductVersion.Undefined) || GameUtils.IsInstalled(version))
                                     {
+                                        string name = "Gameplay/Excel/RockGemMetal/GemCuts:" + row["Name"];
+                                        int foundIndex = RockGemMetalBase.sCutData.FindIndex(x => x.Name == name);
+                                        if (foundIndex > -1)
+                                        {
+                                            if (!kReplaceGemCutData)
+                                            {
+                                                ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("A GemCut with the name, \"" + row["Name"] +  "\" already exists.")));
+                                                continue;
+                                            }
+                                            if (Gem.sToughestCut == RockGemMetalBase.sCutData[foundIndex])
+                                            {
+                                                Gem.sToughestCut = null;
+                                                foreach (RockGemMetalBase.CutData cut in RockGemMetalBase.sCutData)
+                                                {
+                                                    if (cut != RockGemMetalBase.sCutData[foundIndex] && (Gem.sToughestCut == null || Gem.sToughestCut.NumberOfCuts < cut.NumberOfCuts))
+                                                    {
+                                                        Gem.sToughestCut = cut;
+                                                    }
+                                                }
+                                            }
+                                            RockGemMetalBase.sCutData.RemoveAt(foundIndex);
+                                        }
                                         RockGemMetalBase.CutData cutData = new RockGemMetalBase.CutData();
-                                        cutData.Name = "Gameplay/Excel/RockGemMetal/GemCuts:" + row["Name"];
+                                        cutData.Name = name;
                                         cutData.CutName = row["cutString"];
                                         cutData.Multiplier = ParserFunctions.ParseFloat(row["Multiplier"], 1.5f);
                                         cutData.NumberOfCuts = ParserFunctions.ParseInt(row["Cuts"], 5);
@@ -237,6 +303,15 @@ namespace Destrospean.ExpandedAlchemy
                                     {
                                         CommonUtils.AddEnumValue<RockGemMetal>(row["Hex"], rockType = (RockGemMetal)ResourceUtils.HashString64(row["Hex"]));
                                     }
+                                    if (RockGemMetalBase.sData.ContainsKey(rockType))
+                                    {
+                                        if (!kReplaceRockGemMetalData)
+                                        {
+                                            ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("A Rock of type \"" + row["Hex"] +  "\" already exists.")));
+                                            continue;
+                                        }
+                                        RockGemMetalBase.sData.Remove(rockType);
+                                    }
                                     RockGemMetalData rockData = new RockGemMetalData();
                                     rockData.ParseRow(row, "Rocks", CollectedRgmType.Rock);
                                     RockGemMetalBase.sData.Add(rockType, rockData);
@@ -248,8 +323,19 @@ namespace Destrospean.ExpandedAlchemy
                                 Rock.RockNames = Rock.RockNames ?? new List<Rock.RockName>();
                                 foreach (XmlDbRow row in table.Rows)
                                 {
+                                    string name = "Gameplay/Excel/RockGemMetal/RockNames:" + row["Name"];
+                                    int foundIndex = Rock.RockNames.FindIndex(x => x.Name == name);
+                                    if (foundIndex > -1)
+                                    {
+                                        if (!kReplaceRockGemMetalData)
+                                        {
+                                            ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("A RockName with the name, \"" + row["Name"] +  "\" already exists.")));
+                                            continue;
+                                        }
+                                        Rock.RockNames.RemoveAt(foundIndex);
+                                    }
                                     Rock.RockName rockName = new Rock.RockName();
-                                    rockName.Name = "Gameplay/Excel/RockGemMetal/RockNames:" + row["Name"];
+                                    rockName.Name = name;
                                     rockName.Multiplier = ParserFunctions.ParseFloat(row["ValueMultiplier"], 1f);
                                     Rock.RockNames.Add(rockName);
                                 }
@@ -279,7 +365,7 @@ namespace Destrospean.ExpandedAlchemy
                                             Type spawnerClassType;
                                             if (CommonUtils.TryGetType(row["SpawnerClassName"], out spawnerClassType))
                                             {
-                                                spawnerClassType.GetField("kSpawnerData", BindingFlags.Static | BindingFlags.NonPublic).SetValue(null, new RockGemMetalSpawner.RgmSpawnerData(rockGemMetalList, probability, ParserFunctions.ParseInt(row["MaxSpawnCapacity"], 2), new[]
+                                                spawnerClassType.GetField("kSpawnerData", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).SetValue(null, new RockGemMetalSpawner.RgmSpawnerData(rockGemMetalList, probability, ParserFunctions.ParseInt(row["MaxSpawnCapacity"], 2), new[]
                                                     {
                                                         ParserFunctions.ParseFloat(row["SpawnMinTime"], 0.5f),
                                                         ParserFunctions.ParseFloat(row["SpawnMaxTime"], 2f)
@@ -306,9 +392,9 @@ namespace Destrospean.ExpandedAlchemy
                                     AlchemyRecipe alchemyRecipe = new AlchemyRecipe(row);
                                     if (AlchemyRecipe.NameToRecipeMap.ContainsKey(alchemyRecipe.Key))
                                     {
-                                        if (!Settings.kReplaceAlchemyRecipes)
+                                        if (!kReplaceAlchemyRecipeData)
                                         {
-                                            ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("An alchemy recipe with the key, \"" + alchemyRecipe.Key +  "\" already exists")));
+                                            ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("An AlchemyRecipe with the key, \"" + alchemyRecipe.Key +  "\" already exists.")));
                                             continue;
                                         }
                                         AlchemyRecipe.AlchemyRecipes.Remove(alchemyRecipe);
@@ -373,6 +459,32 @@ namespace Destrospean.ExpandedAlchemy
                     }
                     AlarmManager.Global.AddAlarm(5f, TimeUnit.Minutes, () =>
                         {
+                            if (kDebug)
+                            {
+                                List<DebugInfo> errors = ErrorsAndWarnings.FindAll(x => x.Type == DebugInfoType.Error);
+                                List<DebugInfo> warnings = ErrorsAndWarnings.FindAll(x => x.Type == DebugInfoType.Warning);
+                                string initMessage = "Expanded Alchemy -- Initialization ";
+                                if (errors.Count == 0)
+                                {
+                                    if (warnings.Count == 0)
+                                    {
+                                        initMessage += "successful";
+                                    }
+                                    else
+                                    {
+                                        initMessage += "successful with " + warnings.Count + " warnings";
+                                    }
+                                }
+                                else if (warnings.Count == 0)
+                                {
+                                    initMessage += "failed with " + errors.Count + " errors";
+                                }
+                                else
+                                {
+                                    initMessage += "failed with " + errors.Count + " error and " + warnings.Count + " warnings";
+                                }
+                                StyledNotification.Show(new StyledNotification.Format(initMessage, StyledNotification.NotificationStyle.kDebugAlert));
+                            }
                             foreach (DebugInfo debugInfo in ErrorsAndWarnings)
                             {
                                 if (!kDebug && debugInfo.Type == DebugInfoType.Warning)
@@ -479,6 +591,109 @@ namespace Destrospean.ExpandedAlchemy
             }
         }
 
+        public static void ParseFishingSpots(XmlDbTable table)
+        {
+            if (table == null)
+            {
+                return;
+            }
+            foreach (XmlDbRow row in table.Rows)
+            {
+                List<FishType> inactiveFish;
+                bool parseSuccessful = ParserFunctions.TryParseCommaSeparatedList<FishType>(row["InactiveFish"], out inactiveFish, FishType.None);
+                if (parseSuccessful)
+                {
+                    List<int> inactiveProb;
+                    parseSuccessful = ParserFunctions.ParseCommaSeperatedInt(row["InactiveProbability"], out inactiveProb);
+                    if (parseSuccessful)
+                    {
+                        int activeMaxFish = ParserFunctions.ParseInt(row["ActiveMaxFish"], -1);
+                        float maxRange = ParserFunctions.ParseFloat(row["MaxRange"], 1f);
+                        if (maxRange > FishingSpot.sMaxDistanceForSpawnerSearch)
+                        {
+                            FishingSpot.sMaxDistanceForSpawnerSearch = maxRange;
+                        }
+                        FishingSpotData fishingSpotData;
+                        if (activeMaxFish < 1)
+                        {
+                            fishingSpotData = new FishingSpotData(inactiveFish, inactiveProb, maxRange, ParserFunctions.ParseFloat(row["AvgLength"], 30f));
+                        }
+                        else
+                        {
+                            List<FishType> activeFish;
+                            parseSuccessful = ParserFunctions.TryParseCommaSeparatedList<FishType>(row["ActiveFish"], out activeFish, FishType.None);
+                            if (!parseSuccessful)
+                            {
+                                continue;
+                            }
+                            List<int> activeProb;
+                            parseSuccessful = ParserFunctions.ParseCommaSeperatedInt(row["ActiveProbability"], out activeProb);
+                            if (!parseSuccessful)
+                            {
+                                continue;
+                            }
+                            string[] activeVfx;
+                            ParserFunctions.ParseCommaSeparatedString(row["ActiveVfx"], out activeVfx);
+                            fishingSpotData = new FishingSpotData(inactiveFish, inactiveProb, activeFish, activeProb, activeMaxFish, activeVfx, maxRange, ParserFunctions.ParseFloat(row["HourActive"], -1f), ParserFunctions.ParseFloat(row["HourDepletionStarts"], -1f), ParserFunctions.ParseFloat(row["HourInactive"], -1f), ParserFunctions.ParseFloat(row["AvgLength"], 30f));
+                        }
+                        Type spawnerClassType;
+                        if (CommonUtils.TryGetType(row["SpawnerClassName"], out spawnerClassType))
+                        {
+                            spawnerClassType.GetField("sFishingSpotData", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).SetValue(null, fishingSpotData);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void ParseGlobalFishingSpots(XmlDbTable table, Assembly assembly = null)
+        {
+            if (table == null)
+            {
+                return;
+            }
+            foreach (XmlDbRow row in table.Rows)
+            {
+                List<FishType> inactiveFish;
+                bool parseSuccessful = ParserFunctions.TryParseCommaSeparatedList<FishType>(row["Fish"], out inactiveFish, FishType.None);
+                if (parseSuccessful)
+                {
+                    WorldName worldName;
+                    parseSuccessful = row.TryGetEnum<WorldName>("WorldName", out worldName, WorldName.SunsetValley);
+                    if (parseSuccessful)
+                    {
+                        List<int> inactiveProb;
+                        parseSuccessful = ParserFunctions.ParseCommaSeperatedInt(row["Probability"], out inactiveProb);
+                        if (parseSuccessful)
+                        {
+                            WaterTypes waterType = (WaterTypes)ParserFunctions.ParseInt(row["WaterAffected"], 0);
+                            FishingData fishingData = new FishingData(inactiveFish, inactiveProb, ParserFunctions.ParseFloat(row["AvgLength"], 30f));
+                            Dictionary<WaterTypes, FishingData> fishingDataByWaterType;
+                            if (FishingSpot.sGlobalFishingData.TryGetValue(worldName, out fishingDataByWaterType))
+                            {
+                                if (fishingDataByWaterType.ContainsKey(waterType))
+                                {
+                                    if (!kReplaceFishingData)
+                                    {
+                                        ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("A FishingData for WaterTypes \"" + waterType +  "\" already exists for WorldName \"" + worldName + "\"")));
+                                        continue;
+                                    }
+                                    fishingDataByWaterType.Remove(waterType);
+                                }
+                                fishingDataByWaterType.Add(waterType, fishingData);
+                            }
+                            else
+                            {
+                                fishingDataByWaterType = new Dictionary<WaterTypes, FishingData>();
+                                fishingDataByWaterType.Add(waterType, fishingData);
+                                FishingSpot.sGlobalFishingData.Add(worldName, fishingDataByWaterType);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public static void ParseInsectSpawnerData(XmlDbData data, bool isStore)
         {
             float version = 0f;
@@ -555,7 +770,7 @@ namespace Destrospean.ExpandedAlchemy
                         }
                         if (spawnerClassType != null)
                         {
-                            FieldInfo field = spawnerClassType.GetField("kSpawnerData", BindingFlags.Static | BindingFlags.NonPublic);
+                            FieldInfo field = spawnerClassType.GetField("kSpawnerData", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
                             if (field.GetValue(null) == null)
                             {
                                 field.SetValue(null, insectSpawnerData);
