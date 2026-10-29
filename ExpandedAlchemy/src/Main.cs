@@ -481,7 +481,7 @@ namespace Destrospean.ExpandedAlchemy
                                 }
                                 else
                                 {
-                                    initMessage += "failed with " + errors.Count + " error and " + warnings.Count + " warnings";
+                                    initMessage += "failed with " + errors.Count + " errors and " + warnings.Count + " warnings";
                                 }
                                 StyledNotification.Show(new StyledNotification.Format(initMessage, StyledNotification.NotificationStyle.kDebugAlert));
                             }
