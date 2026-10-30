@@ -318,10 +318,20 @@ namespace Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff
         }
 
         /// <summary>
-        /// Length of time (in hours) that the service NPC spends performing their duties before they charge for their service and leave.
+        /// The time (in hours) that the service NPC starts performing their duties.
         /// Note: this will only be used when <see cref="IsLiveInService"/> is set to <c>false</c>.
         /// </summary>
-        float TimeToSpendWorking
+        float TimeToStartWorking
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// The time (in hours) that the service NPC stops performing their duties.
+        /// Note: this will only be used when <see cref="IsLiveInService"/> is set to <c>false</c>.
+        /// </summary>
+        float TimeToStopWorking
         {
             get;
             set;

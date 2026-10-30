@@ -190,7 +190,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             Dictionary<string, string> mStrings = new Dictionary<string, string>();
 
-            float mTimeToSpendWorking = 8f;
+            float mTimeToStartWorking = 9f;
+
+            float mTimeToStopWorking = 17f;
 
             float mTimeWaitBeforePutawayLeftovers = 60f;
 
@@ -838,18 +840,34 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
 
             /// <summary>
-            /// Length of time (in hours) that the service NPC spends performing their duties before they charge for their service and leave.
+            /// The time (in hours) that the service NPC starts performing their duties.
             /// Note: this will only be used when <see cref="IsLiveInService"/> is set to <c>false</c>.
             /// </summary>
-            public float TimeToSpendWorking
+            public float TimeToStartWorking
             {
                 get
                 {
-                    return mTimeToSpendWorking;
+                    return mTimeToStartWorking;
                 }
                 set
                 {
-                    mTimeToSpendWorking = value;
+                    mTimeToStartWorking = value;
+                }
+            }
+
+            /// <summary>
+            /// The time (in hours) that the service NPC stops performing their duties.
+            /// Note: this will only be used when <see cref="IsLiveInService"/> is set to <c>false</c>.
+            /// </summary>
+            public float TimeToStopWorking
+            {
+                get
+                {
+                    return mTimeToStopWorking;
+                }
+                set
+                {
+                    mTimeToStopWorking = value;
                 }
             }
                 
@@ -1296,7 +1314,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 ServiceTuning = profile.ServiceTuning,
                 ServiceType = profile.ServiceType,
                 Skills = profile.Skills.ConvertAll(x => new SkillLevelPair(x.SkillName, x.SkillLevel)),
-                TimeToSpendWorking = profile.TimeToSpendWorking,
+                TimeToStartWorking = profile.TimeToStartWorking,
+                TimeToStopWorking = profile.TimeToStopWorking,
                 TimeWaitBeforePutawayLeftovers = profile.TimeWaitBeforePutawayLeftovers,
                 Traits = profile.Traits,
                 UseObjectInSameRoomAsSleeperMultiplier = profile.UseObjectInSameRoomAsSleeperMultiplier,
@@ -1305,6 +1324,13 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 VersionString = profile.VersionString,
                 WaitsBeforePuttingAwayLeftovers = profile.WaitsBeforePuttingAwayLeftovers
             };
+        }
+
+        public static string ConvertHoursToTime(float hours)
+        {
+            float minutes = 60 * (hours - (int)hours);
+            float seconds = 60 * (minutes - (int)minutes);
+            return ((int)hours).ToString("D2") + ":" + ((int)minutes).ToString("D2") + ":" + ((int)seconds).ToString("D2") + (seconds.ToString(CultureInfo.InvariantCulture).Contains(".") ? "." + seconds.ToString(CultureInfo.InvariantCulture).Split('.')[1] : "");
         }
 
         public static void FixUp(this IServiceProfile profile)
@@ -1421,11 +1447,48 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
         }
 
-        public static bool ShowTimeToSpendWorkingDialog(ref string timeToSpendWorkingString)
+        public static bool ShowTimeToStartStopWorkingDialog(ref float timeToStartStopWorking, string entryKey)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "TimeToSpendWorkingDialog");
-            timeToSpendWorkingString = StringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), Localization.LocalizeString(entryKey + ":Prompt"), timeToSpendWorkingString, -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.FloatNumber, false, ModalDialog.PauseMode.PauseSimulator, false, true);
-            return timeToSpendWorkingString != null;
+            while (true)
+            {
+                string timeToStartStopWorkingString = StringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), Localization.LocalizeString(entryKey + ":Prompt"), ConvertHoursToTime(timeToStartStopWorking), -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.None, false, ModalDialog.PauseMode.PauseSimulator, false, true);
+                if (timeToStartStopWorkingString == null)
+                {
+                    return false;
+                }
+                int failReason;
+                if (TryConvertTimeToHours(timeToStartStopWorkingString, out timeToStartStopWorking, out failReason))
+                {
+                    return true;
+                }
+            }
+        }
+
+        public static bool TryConvertTimeToHours(string time, out float hours, out int failReason)
+        {
+            hours = 0f;
+            int h = 0;
+            string[] hoursMinutesSeconds = time.Split(':');
+            if (!int.TryParse(hoursMinutesSeconds[0], out h) || h < 0 || h > 23)
+            {
+                failReason = 1;
+                return false;
+            }
+            int m = 0;
+            if (hoursMinutesSeconds.Length > 1 && !int.TryParse(hoursMinutesSeconds[1], out m) || m < 0 || m > 59)
+            {
+                failReason = 2;
+                return false;
+            }
+            float s = 0;
+            if (hoursMinutesSeconds.Length > 2 && !float.TryParse(hoursMinutesSeconds[2], NumberStyles.Float, CultureInfo.InvariantCulture, out s) || s < 0 || s > 59)
+            {
+                failReason = 3;
+                return false;
+            }
+            hours = (h * 3600 + m * 60 + s) / 3600;
+            failReason = 0;
+            return true;
         }
 
         /// <summary>
@@ -1725,7 +1788,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             List<Trait> potentialTraits = profile.PotentialTraits.ConvertAll(TraitManager.GetTraitFromDictionary);
             ServiceProfileFlags serviceProfileFlags = profile.GetFlags();
             List<SkillLevelPair> skills = profile.Skills.ConvertAll(x => new SkillLevelPair(x.SkillName, x.SkillLevel));
-            string timeToSpendWorkingString = profile.TimeToSpendWorking.ToString();
+            float timeToStartWorking = profile.TimeToStartWorking;
+            float timeToStopWorking = profile.TimeToStopWorking;
             string title = profile.Title;
             List<Trait> traits = profile.Traits.ConvertAll(TraitManager.GetTraitFromDictionary);
 
@@ -1831,18 +1895,31 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the time the service NPC spends working.
                 if (step == 6)
                 {
-                    string tempTimeToSpendWorkingString = timeToSpendWorkingString;
-                    if (!isLiveInService && !ShowTimeToSpendWorkingDialog(ref tempTimeToSpendWorkingString))
+                    float tempTimeToStartWorking = timeToStartWorking;
+                    if (!isLiveInService && !ShowTimeToStartStopWorkingDialog(ref tempTimeToStartWorking, entryKey + "TimeToStartWorkingDialog"))
                     {
                         step--;
                         continue;
                     }
                     step++;
-                    timeToSpendWorkingString = tempTimeToSpendWorkingString;
+                    timeToStartWorking = tempTimeToStartWorking;
+                }
+
+                // The following code sets the time the service NPC spends working.
+                if (step == 7)
+                {
+                    float tempTimeToStopWorking = timeToStopWorking;
+                    if (!isLiveInService && !ShowTimeToStartStopWorkingDialog(ref tempTimeToStopWorking, entryKey + "TimeToStopWorkingDialog"))
+                    {
+                        step--;
+                        continue;
+                    }
+                    step++;
+                    timeToStopWorking = tempTimeToStopWorking;
                 }
 
                 // The following code sets the cost of the service.
-                if (step == 7)
+                if (step == 8)
                 {
                     string tempCostString = costString;
                     if (!ShowCostDialog(ref tempCostString, isLiveInService))
@@ -1859,7 +1936,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
 
                 // The following code sets the motives the service NPC will always have.
-                if (step == 8)
+                if (step == 9)
                 {
                     CommodityKind[] tempMotives;
                     if (!CommonUtils.ShowCommodityKindListDialog(out tempMotives, new List<object>(ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup.Values).FindAll(x => CommodityTest.IsMotive((CommodityKind)x)).ConvertAll(x => (CommodityKind)x).ToArray(), motives, null, entryKey + "MotiveListDialog"))
@@ -1872,7 +1949,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
 
                 // The following code sets the traits the service NPC will always come with.
-                if (step == 9)
+                if (step == 10)
                 {
                     List<Trait> tempTraits = new List<Trait>(traits);
                     if (!CommonUtils.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, null, Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Explicit")))
@@ -1885,7 +1962,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
 
                 // The following code sets the traits the service NPC will randomly pick from.
-                if (step == 10)
+                if (step == 11)
                 {
                     List<Trait> tempTraits = new List<Trait>(potentialTraits);
                     if (!CommonUtils.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, null, Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Potential")))
@@ -1898,7 +1975,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
 
                 // The following code sets how many of the potential traits the service NPC will randomly pick.
-                if (step == 11)
+                if (step == 12)
                 {
                     if (potentialTraits.Count > 0)
                     {
@@ -1914,7 +1991,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
 
                 // The following code sets the hidden traits the service NPC will come with.
-                if (step == 12)
+                if (step == 13)
                 {
                     List<Trait> tempTraits = new List<Trait>(hiddenTraits);
                     if (!CommonUtils.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, new List<Trait>(TraitManager.GetDictionaryTraits).FindAll(x => x.IsHidden || x.IsReward), Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Hidden")))
@@ -1931,7 +2008,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
 
                 // The following code sets the skills the service NPC has.
-                if (step == 13)
+                if (step == 14)
                 {
                     List<SkillLevelPair> tempSkills = skills.ConvertAll(x => new SkillLevelPair(x.SkillName, x.SkillLevel));
                     if (!CommonUtils.ShowSkillListDialog(age, CASAgeGenderFlags.Human, tempSkills))
@@ -1953,7 +2030,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 profile.ValidAges = age;
                 profile.ValidGenders = gender;
                 profile.SetFlags(serviceProfileFlags);
-                profile.TimeToSpendWorking = ParserFunctions.ParseFloat(timeToSpendWorkingString, profile.TimeToSpendWorking);
+                profile.TimeToStartWorking = timeToStartWorking;
+                profile.TimeToStopWorking = timeToStopWorking;
                 profile.ServiceTuning = new Service.ServiceTuning(profile.ServiceTuning.kMaxNumNPCsInPool, int.Parse(costString), profile.ServiceTuning.kIsEmergencyService, profile.ServiceTuning.kIsRecurrent, profile.ServiceTuning.kAlwaysTryToSendSameSim);
                 profile.Motives = new List<CommodityKind>(motives);
                 profile.Traits = traits.ConvertAll(x => (TraitNames)x.TraitGuid);

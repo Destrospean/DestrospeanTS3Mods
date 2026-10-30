@@ -148,7 +148,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                                 if (interactionInstance != null && Parent.IsInteractionBetterThanCurrent(interactionInstance))
                                 {
                                     Parent.Worker.AddExitReason(ExitReason.CanceledByScript);
-                                    return false;
+                                    return true;
                                 }
                             }
                             if (Parent.Worker.InteractionQueue != null)
@@ -269,7 +269,8 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             {
                 CustomService service = (CustomService)parent.Service;
                 parent.Worker.GreetSimOnLot(parent.Lot);
-                mAlarmHandle = parent.Worker.AddAlarmRepeating(service.CheckTime, TimeUnit.Minutes, CheckForDuties, service.CheckTime, TimeUnit.Minutes, "Time for " + service.Profile.Name + " to check if everything is done", AlarmType.AlwaysPersisted);            }
+                mAlarmHandle = parent.Worker.AddAlarmRepeating(service.CheckTime, TimeUnit.Minutes, CheckForDuties, service.CheckTime, TimeUnit.Minutes, "Time for " + service.Profile.Name + " to check if everything is done", AlarmType.AlwaysPersisted);
+            }
 
             public void PushSwitchToServiceUniform()
             {
@@ -470,11 +471,19 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             }
         }
 
-        public override float TimeToSpendWorking
+        public override float TimeToStartWorking
         {
             get
             {
-                return (Service as CustomService)?.Profile.TimeToSpendWorking ?? 0f;
+                return (Service as CustomService)?.Profile.TimeToStartWorking ?? 0f;
+            }
+        }
+
+        public override float TimeToStopWorking
+        {
+            get
+            {
+                return (Service as CustomService)?.Profile.TimeToStopWorking ?? 0f;
             }
         }
 

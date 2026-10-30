@@ -299,6 +299,12 @@
             "/TimeToSpendWorkingDialog":
                 ":Title": "Указать часы работы"
                 ":Prompt": "Введите количество часов, которое работник тратит на оказание своей услуги."
+            "/TimeToStartWorkingDialog":
+                ":Title": "Specify Start of Shift"
+                ":Prompt": "Enter in the time the worker starts their shift (in the format of HH:mm:ss)."
+            "/TimeToStopWorkingDialog":
+                ":Title": "Specify End of Shift"
+                ":Prompt": "Enter in the time the worker ends their shift (in the format of HH:mm:ss)."
             "/PotentialTraitCountDialog":
                 ":Title": "Указать количество возможных случайных черт характера"
                 ":Prompt": "Введите количество черт характера, которые будут выбраны случайным образом из пула возможных случайных черт."

@@ -7,6 +7,7 @@ using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Destrospean.Utils;
 using Destrospean.Utils.ExpandedHouseholdStaff;
+using Sims3.Gameplay.Destrospean.Utils;
 
 namespace Destrospean.ExpandedHouseholdStaff.Interactions
 {
@@ -40,29 +41,32 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
 
         public override bool Run()
         {
-            IServiceProfile[] profiles = null;
-            byte step = 0;
-            while (true)
-            {
-                if (step == 0)
+            return !DebugUtils.TryDisplayScriptError(() =>
                 {
-                    if (!ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                    IServiceProfile[] profiles = null;
+                    byte step = 0;
+                    while (true)
                     {
-                        return true;
+                        if (step == 0)
+                        {
+                            if (!ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                            {
+                                break;
+                            }
+                            step++;
+                        }
+                        if (step == 1)
+                        {
+                            if (!profiles[0].TryUIEditServiceProfile())
+                            {
+                                step--;
+                                continue;
+                            }
+                            step++;
+                        }
+                        break;
                     }
-                    step++;
-                }
-                if (step == 1)
-                {
-                    if (!profiles[0].TryUIEditServiceProfile())
-                    {
-                        step--;
-                        continue;
-                    }
-                    step++;
-                }
-                return true;
-            }
+                });
         }
     }
 }

@@ -178,7 +178,12 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             }
         }
 
-        public abstract float TimeToSpendWorking
+        public abstract float TimeToStartWorking
+        {
+            get;
+        }
+
+        public abstract float TimeToStopWorking
         {
             get;
         }
@@ -312,7 +317,8 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             }
             else
             {
-                mTimeToFinishAlarmHandle = AlarmManager.AddAlarm(TimeToSpendWorking, TimeUnit.Hours, SetToJobDone, Service.GetType().Name + " finishing", AlarmType.DeleteOnReset, Worker);
+                float timeToStartWorking = SimClock.HoursPassedOfDay;
+                mTimeToFinishAlarmHandle = AlarmManager.AddAlarm(TimeToStopWorking - timeToStartWorking + (TimeToStopWorking > timeToStartWorking ? 0 : 24), TimeUnit.Hours, SetToJobDone, Service.GetType().Name + " finishing", AlarmType.DeleteOnReset, Worker);
             }
         }
 

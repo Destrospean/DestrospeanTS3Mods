@@ -299,6 +299,12 @@
             "/TimeToSpendWorkingDialog":
                 ":Title": "指定時數"
                 ":Prompt": "輸入工作人員執行服務所花費的時數。"
+            "/TimeToStartWorkingDialog":
+                ":Title": "Specify Start of Shift"
+                ":Prompt": "Enter in the time the worker starts their shift (in the format of HH:mm:ss)."
+            "/TimeToStopWorkingDialog":
+                ":Title": "Specify End of Shift"
+                ":Prompt": "Enter in the time the worker ends their shift (in the format of HH:mm:ss)."
             "/PotentialTraitCountDialog":
                 ":Title": "指定可能的隨機特質數量"
                 ":Prompt": "輸入將從可能的隨機特質池中隨機選取的特質數量。"

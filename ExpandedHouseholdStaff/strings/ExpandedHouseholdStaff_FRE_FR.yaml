@@ -299,6 +299,12 @@
             "/TimeToSpendWorkingDialog":
                 ":Title": "Specify Hours"
                 ":Prompt": "Enter in the number of hours the worker spends performing their service."
+            "/TimeToStartWorkingDialog":
+                ":Title": "Specify Start of Shift"
+                ":Prompt": "Enter in the time the worker starts their shift (in the format of HH:mm:ss)."
+            "/TimeToStopWorkingDialog":
+                ":Title": "Specify End of Shift"
+                ":Prompt": "Enter in the time the worker ends their shift (in the format of HH:mm:ss)."
             "/PotentialTraitCountDialog":
                 ":Title": "Specify Possible Random Trait Count"
                 ":Prompt": "Enter in number of traits that will be selected randomly from the possible random traits pool."

@@ -197,7 +197,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
                         xmlWriter.WriteElementString("ServiceProfileFlags", profile.GetFlags().ToString());
 
-                        xmlWriter.WriteElementString("TimeToSpendWorking", profile.TimeToSpendWorking.ToString());
+                        xmlWriter.WriteElementString("TimeToStartWorking", profile.TimeToStartWorking.ToString());
+
+                        xmlWriter.WriteElementString("TimeToStopWorking", profile.TimeToStopWorking.ToString());
 
                         xmlWriter.WriteElementString("Cost", profile.Cost.ToString());
 
@@ -542,9 +544,14 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                     }
                                     continue;
                                 }
-                                if (profilePropertyNode.Name == "TimeToSpendWorking")
+                                if (profilePropertyNode.Name == "TimeToStartWorking")
                                 {
-                                    profile.TimeToSpendWorking = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.TimeToSpendWorking);
+                                    profile.TimeToStartWorking = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.TimeToStartWorking);
+                                    continue;
+                                }
+                                if (profilePropertyNode.Name == "TimeToStopWorking")
+                                {
+                                    profile.TimeToStopWorking = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.TimeToStopWorking);
                                     continue;
                                 }
                                 if (profilePropertyNode.Name == "Cost")
