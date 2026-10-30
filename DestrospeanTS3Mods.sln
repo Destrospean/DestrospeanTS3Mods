@@ -59,7 +59,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filetable", "sims3-package-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrapperDealer", "sims3-package-interface\s3pi\s3pi\WrapperDealer\WrapperDealer.csproj", "{FE111523-3266-409B-BC72-F8D4A909A554}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpandedAlchemy_Test", "ExpandedAlchemy_Test\src\ExpandedAlchemy_Test.csproj", "{DBA5E460-66AD-49B9-8EEF-3A7A682DCE71}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpandedAlchemy_BaseSample_Script", "ExpandedAlchemy_BaseSample_Script\src\ExpandedAlchemy_BaseSample_Script.csproj", "{DBA5E460-66AD-49B9-8EEF-3A7A682DCE71}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreFavorites", "MoreFavorites\src\MoreFavorites.csproj", "{D5E41DB2-3F43-4EEB-9CC7-303D24C203C1}"
 EndProject

@@ -9,11 +9,11 @@ using Sims3.SimIFace;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ExpandedAlchemy_Test_Script")]
+[assembly: AssemblyTitle("ExpandedAlchemy_BaseSample_Script")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ExpandedAlchemy_Test_Script")]
+[assembly: AssemblyProduct("ExpandedAlchemy_BaseSample_Script")]
 [assembly: AssemblyCopyright("Copyright © 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

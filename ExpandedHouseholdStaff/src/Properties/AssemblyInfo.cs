@@ -9,11 +9,11 @@ using Sims3.SimIFace;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ExpandedHouseholdStaff")]
+[assembly: AssemblyTitle("Destrospean.ExpandedHouseholdStaff")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ExpandedHouseholdStaff")]
+[assembly: AssemblyProduct("Destrospean.ExpandedHouseholdStaff")]
 [assembly: AssemblyCopyright("Copyright © 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

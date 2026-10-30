@@ -79,11 +79,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExpandedAlchemy_Base\ExpandedAlchemy_Base.csproj">
-      <Project>{E6A29044-2388-4687-B3BA-06AD5C4DE6A3}</Project>
-      <Name>ExpandedAlchemy_Base</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\sims3-package-interface\s3pi\s3pi\Interfaces\Interfaces.csproj">
       <Project>{51023BD2-9139-438D-B794-95E5EC023537}</Project>
       <Name>Interfaces</Name>
@@ -111,6 +106,11 @@
     <ProjectReference Include="..\sims3-package-interface\s3pi\s3pi Wrappers\NameMapResource\NameMapResource.csproj">
       <Project>{5B43F245-AB0D-49FA-BC1E-1168103C7522}</Project>
       <Name>NameMapResource</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpandedAlchemy_Base\ExpandedAlchemy_Base.csproj">
+      <Project>{E6A29044-2388-4687-B3BA-06AD5C4DE6A3}</Project>
+      <Name>ExpandedAlchemy_Base</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

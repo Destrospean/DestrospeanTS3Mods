@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sims3.Gameplay.Destrospean.ExpandedAlchemy_Test</RootNamespace>
-    <AssemblyName>ExpandedAlchemy_Test_Script</AssemblyName>
+    <AssemblyName>ExpandedAlchemy_BaseSample_Script</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

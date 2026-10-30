@@ -14,7 +14,7 @@ using Sims3.SimIFace;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MoreFavorites_Base")]
-[assembly: AssemblyCopyright("Copyright 2026")]
+[assembly: AssemblyCopyright("Copyright © 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: PersistableStatic]
@@ -30,4 +30,4 @@ using Sims3.SimIFace;
 //
 // You can specify all the values or you can use the default the Revision and
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0")]
