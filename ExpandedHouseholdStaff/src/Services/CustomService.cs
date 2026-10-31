@@ -433,10 +433,14 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
 
         public override bool NeedsAssignment(Lot lot)
         {
+            if (Profile.IsLiveInService)
+            {
+                return IsServiceRequested(lot) && !IsAnySimAssignedToLot(lot);
+            }
             if (SimClock.ElapsedCalendarDays() - WhenLastAssignedToLot(lot) > 0)
             {
                 int hours = SimClock.Hours24;
-                if (!Profile.IsLiveInService && hours >= Profile.TimeToStartWorking && (hours <= Profile.TimeToStopWorking || Profile.TimeToStartWorking >= Profile.TimeToStopWorking) && IsServiceRequested(lot) && !IsAnySimAssignedToLot(lot))
+                if (hours >= Profile.TimeToStartWorking && (hours <= Profile.TimeToStopWorking || Profile.TimeToStartWorking >= Profile.TimeToStopWorking) && IsServiceRequested(lot) && !IsAnySimAssignedToLot(lot))
                 {
                     return true;
                 }
