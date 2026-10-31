@@ -954,10 +954,10 @@ namespace Destrospean.MoreFavorites
                     return;
                 }
                 List<FavoriteFoodType> favoriteFoodTypes = new List<FavoriteFoodType>();
-                Array installedFavoriteFoodList = CASCharacter.GetInstalledFavoriteFoodList();
-                for (int i = 1; i < installedFavoriteFoodList.Length - 1; i++)
+                Array visibleFavorites = Array.FindAll((FavoriteFoodType[])GetInstalledFavoriteFoodList(), x => !x.IsBlacklisted() && !x.IsHidden());
+                for (int i = 1; i < visibleFavorites.Length - 1; i++)
                 {
-                    FavoriteFoodType favoriteFoodType = (FavoriteFoodType)installedFavoriteFoodList.GetValue(i);
+                    FavoriteFoodType favoriteFoodType = (FavoriteFoodType)visibleFavorites.GetValue(i);
                     IRecipe recipe = self.GetRecipe(favoriteFoodType);
                     if (recipe != null && (recipe.IsVegetarian || recipe.HasVegetarianAlternative))
                     {
