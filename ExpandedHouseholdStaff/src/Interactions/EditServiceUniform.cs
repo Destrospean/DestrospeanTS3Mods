@@ -129,7 +129,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                                                     }));
                                             }
                                             simDescription.CreatedSim.RemoveFromWorld();
-                                            AlarmManager.Global.AddAlarm(1, TimeUnit.Minutes, () =>
+                                            AlarmManager.Global.AddAlarm(1f, TimeUnit.Minutes, () =>
                                                 {
                                                     ulong simDescriptionId = simDescription.SimDescriptionId;
                                                     Household.TouristHousehold.RemoveTemporary(simDescription);
