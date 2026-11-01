@@ -21,12 +21,6 @@ namespace Destrospean.ExpandedAlchemy
 {
     public class Main
     {
-        public enum DebugInfoType
-        {
-            Error,
-            Warning
-        }
-
         public class DebugInfo
         {
             public Assembly Assembly;
@@ -44,6 +38,12 @@ namespace Destrospean.ExpandedAlchemy
                 Table = table;
                 Exception = exception;
             }
+        }
+
+        public enum DebugInfoType : byte
+        {
+            Error,
+            Warning
         }
 
         [Tunable]
@@ -98,7 +98,7 @@ namespace Destrospean.ExpandedAlchemy
                                     }
                                     if (Fish.sFishData.ContainsKey(fishType))
                                     {
-                                        if (!kReplaceRockGemMetalData)
+                                        if (!kReplaceFishingData)
                                         {
                                             ErrorsAndWarnings.Add(new DebugInfo(DebugInfoType.Warning, assembly, table, new Exception("A Fish of type \"" + row["Hex"] +  "\" already exists.")));
                                             continue;
