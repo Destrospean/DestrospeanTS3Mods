@@ -29,8 +29,6 @@ namespace Sims3.Gameplay.Objects.Spawners
 
         const uint kFootprintHash = 419517206u;
 
-        const float kUraniumGrowthFadeTime = 1.5f;
-
         [Tunable]
         [TunableComment("How often the Uranium sparkle Vfx plays in Sim hours. Format: (min, max). These are float values.")]
         static float[] kVfxFrequency = new[]
