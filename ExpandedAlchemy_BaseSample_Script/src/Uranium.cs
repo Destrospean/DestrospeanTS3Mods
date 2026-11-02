@@ -27,8 +27,6 @@ namespace Sims3.Gameplay.Objects.Spawners
             }
         }
 
-        const uint kFootprintHash = 419517206u;
-
         [Tunable]
         [TunableComment("How often the Uranium sparkle Vfx plays in Sim hours. Format: (min, max). These are float values.")]
         static float[] kVfxFrequency = new[]
@@ -36,9 +34,7 @@ namespace Sims3.Gameplay.Objects.Spawners
                 0.5f,
                 1f
             };
-
-        const string kVfxNameSparkle = "ep1TiberiumCut";
-
+        
         AlarmHandle mVfxAlarm = AlarmHandle.kInvalidHandle;
 
         public override void Dispose()
