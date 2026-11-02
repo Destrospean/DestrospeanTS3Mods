@@ -1,0 +1,98 @@
+﻿using Sims3.Gameplay.Abstracts;
+using Sims3.Gameplay.Actors;
+using Sims3.Gameplay.ActorSystems;
+using Sims3.Gameplay.Core;
+using Sims3.Gameplay.Interfaces;
+using Sims3.Gameplay.Utilities;
+using Sims3.SimIFace;
+using System.Collections.Generic;
+
+namespace Sims3.Gameplay.Objects.Spawners
+{
+    public class Uranium : Gem
+    {
+        const uint kFootprintHash = 419517206u;
+
+        const float kUraniumGrowthFadeTime = 1.5f;
+
+        [Tunable]
+        [TunableComment("How often the Uranium sparkle Vfx plays in Sim hours. Format: (min, max). These are float values.")]
+        static float[] kVfxFrequency = new[]
+            {
+                0.5f,
+                1f
+            };
+
+        const string kVfxNameSparkle = "ep1TiberiumCut";
+
+        AlarmHandle mVfxAlarm = AlarmHandle.kInvalidHandle;
+
+        public override void Dispose()
+        {
+            RemoveAlarm(mVfxAlarm);
+            mVfxAlarm = AlarmHandle.kInvalidHandle;
+            base.Dispose();
+        }
+
+        public override void DoReset(ResetInformation resetInformation)
+        {
+            base.DoReset(resetInformation);
+            ScheduleNextVfx();
+        }
+
+        public void OnAddToInventory(IGameObject objAdded, Inventory inventory)
+        {
+            if (CutName == null)
+            {
+                return;
+            }
+            Sim sim = inventory.Owner as Sim;
+            if (sim != null)
+            {
+                List<Uranium> list = inventory.FindAll<Uranium>(false);
+                if (list.Count == 1)
+                {
+                    sim.BuffManager.AddElementPaused(BuffNames.Nauseous, Origin.None);
+                }
+            }
+        }
+
+        public void OnRemoveFromInventory(IGameObject objAdded, Inventory inventory)
+        {
+            if (CutName == null)
+            {
+                return;
+            }
+            Sim sim = inventory.Owner as Sim;
+            if (sim != null && !inventory.ContainsType(typeof(Uranium), 1))
+            {
+                sim.BuffManager.RemoveElement(BuffNames.Nauseous);
+            }
+        }
+
+        public override void OnStartup()
+        {
+            base.OnStartup();
+            ItemComp.OnAddToInventoryEvent += OnAddToInventory;
+            ItemComp.OnRemoveFromInventoryEvent += OnRemoveFromInventory;
+            ScheduleNextVfx();
+        }
+
+        public void PlayVfx()
+        {
+            if (InWorld && CutName != null)
+            {
+                VisualEffect visualEffect = VisualEffect.Create("ep1TiberiumCut");
+                visualEffect.SetPosAndOrient(Position, ForwardVector, UpVector);
+                visualEffect.SubmitOneShotEffect(VisualEffect.TransitionType.SoftTransition);
+            }
+            ScheduleNextVfx();
+        }
+
+        public void ScheduleNextVfx()
+        {
+            RemoveAlarm(mVfxAlarm);
+            mVfxAlarm = AddAlarm(RandomUtil.GetFloat(kVfxFrequency[0], kVfxFrequency[1]), TimeUnit.Hours, PlayVfx, "Uranium VFX alarm", AlarmType.NeverPersisted);
+        }
+    }
+}

@@ -46,6 +46,7 @@
     <Compile Include="..\..\Common\src\Utils\OutfitExtensions.cs">
       <Link>Utils\OutfitExtensions.cs</Link>
     </Compile>
+    <Compile Include="Uranium.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
