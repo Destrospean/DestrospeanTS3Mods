@@ -27,6 +27,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
                 {
                     Gem clone = gem.IsCut() ? Gem.MakeCutGem(guid, gem.CutName, gem.IsLargeSize, true) : (Gem)Gem.Make(guid, true);
                     clone.mIsLargeSize = gem.IsLargeSize;
+                    potionShopConsignmentRegisterObjectData.Destroy();
                     return clone?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
                 }
                 Metal metal = rockGemMetalBase as Metal;
@@ -34,8 +35,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
                 {
                     Metal clone = metal.IsMatchingCut("smelted") ? Metal.MakeSmeltedMetal(guid, metal.mIsLargeSize, true) : (Metal)Metal.Make(guid, true);
                     clone.mIsLargeSize = metal.mIsLargeSize;
+                    potionShopConsignmentRegisterObjectData.Destroy();
                     return clone?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
                 }
+                potionShopConsignmentRegisterObjectData.Destroy();
                 return RockGemMetalBase.Make(guid, true)?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
             }
             Terrarium terrarium = potionShopConsignmentRegisterObjectData.mObject as Terrarium;
