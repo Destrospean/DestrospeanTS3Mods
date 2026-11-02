@@ -10,4 +10,5 @@
   <resource name="MeteorLarge" type="0x02DC343F" group="0x00000000" instance="0x0000000000000BDF"/>
   <resource name="GlowBugTerrarium" type="0x02DC343F" group="0x58000000" instance="0x000000000098D219"/>
   <resource name="NaniteTerrarium" type="0x02DC343F" group="0xA0000000" instance="0x000000000098DE64"/>
+  <resource name="PotionShopConsignmentRegister" type="0x02DC343F" group="0x70000000" instance="0x000000000098D774"/>
 </resources>

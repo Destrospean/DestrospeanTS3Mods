@@ -103,6 +103,7 @@
     <Compile Include="..\..\Common\src\Enums\ActiveTopicActionActiveness.cs">
       <Link>Enums\ActiveTopicActionActiveness.cs</Link>
     </Compile>
+    <Compile Include="Register\PotionShopConsignmentRegister.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -176,5 +177,6 @@
     <Folder Include="..\..\Common\src\UI\" />
     <Folder Include="..\..\Common\src\Utils\" />
     <Folder Include="Spawners\" />
+    <Folder Include="Register\" />
   </ItemGroup>
 </Project>

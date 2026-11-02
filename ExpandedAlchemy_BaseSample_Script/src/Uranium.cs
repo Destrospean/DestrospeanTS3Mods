@@ -5,12 +5,28 @@ using Sims3.Gameplay.Core;
 using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
+using System;
 using System.Collections.Generic;
 
 namespace Sims3.Gameplay.Objects.Spawners
 {
-    public class Uranium : Gem
+    public class Uranium : Gem, IAlchemyIngredient
     {
+        string IAlchemyIngredient.IngredientTypeName
+        {
+            get
+            {
+                foreach (string name in Enum.GetNames(typeof(RockGemMetal)))
+                {
+                    if (name == mGuid.ToString())
+                    {
+                        return name;
+                    }
+                }
+                return mData.mName.Substring(mData.mName.LastIndexOf(':') + 1);
+            }
+        }
+
         const uint kFootprintHash = 419517206u;
 
         const float kUraniumGrowthFadeTime = 1.5f;
@@ -42,10 +58,6 @@ namespace Sims3.Gameplay.Objects.Spawners
 
         public void OnAddToInventory(IGameObject objAdded, Inventory inventory)
         {
-            if (CutName == null)
-            {
-                return;
-            }
             Sim sim = inventory.Owner as Sim;
             if (sim != null)
             {
@@ -59,10 +71,6 @@ namespace Sims3.Gameplay.Objects.Spawners
 
         public void OnRemoveFromInventory(IGameObject objAdded, Inventory inventory)
         {
-            if (CutName == null)
-            {
-                return;
-            }
             Sim sim = inventory.Owner as Sim;
             if (sim != null && !inventory.ContainsType(typeof(Uranium), 1))
             {
