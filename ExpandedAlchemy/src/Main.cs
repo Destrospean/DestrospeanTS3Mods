@@ -47,6 +47,8 @@ namespace Destrospean.ExpandedAlchemy
             Warning
         }
 
+        const string kPotionConsignmentShopRegisterScriptClassName = "Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register.PotionShopConsignmentRegister";
+
         [Tunable]
         protected static bool kDebug;
 
@@ -64,7 +66,6 @@ namespace Destrospean.ExpandedAlchemy
 
         public static List<DebugInfo> ErrorsAndWarnings = new List<DebugInfo>();
 
-        const string kPotionConsignmentShopRegisterScriptClassName = "Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register.PotionShopConsignmentRegister";
 
         static Main()
         {
