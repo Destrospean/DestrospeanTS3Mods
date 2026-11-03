@@ -66,7 +66,6 @@ namespace Destrospean.ExpandedAlchemy
 
         public static List<DebugInfo> ErrorsAndWarnings = new List<DebugInfo>();
 
-
         static Main()
         {
             List<EventListener> listeners = new List<EventListener>();
