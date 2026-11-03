@@ -1,5 +1,6 @@
 using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
+using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Objects.Alchemy;
 using Sims3.Gameplay.Objects.Fishing;
 using Sims3.Gameplay.Objects.FoodObjects;
@@ -63,8 +64,48 @@ namespace Destrospean.ExpandedAlchemy
 
         public static List<DebugInfo> ErrorsAndWarnings = new List<DebugInfo>();
 
+        const string kPotionConsignmentShopRegisterScriptClassName = "Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register.PotionShopConsignmentRegister";
+
         static Main()
         {
+            List<EventListener> listeners = new List<EventListener>();
+            World.OnObjectPlacedInLotEventHandler += (sender, e) =>
+                {
+                    World.OnObjectPlacedInLotEventArgs onObjectPlacedInLotEventArgs = e as World.OnObjectPlacedInLotEventArgs;
+                    if (onObjectPlacedInLotEventArgs != null)
+                    {
+                        GameObject gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
+                        if (gameObject is PotionShopConsignmentRegister)
+                        {
+                            gameObject.TryChangeScriptClass(kPotionConsignmentShopRegisterScriptClassName);
+                        }
+                    }
+                };
+            World.sOnWorldLoadFinishedEventHandler += (sender, e) =>
+                {
+                    foreach (PotionShopConsignmentRegister register in Sims3.Gameplay.Queries.GetObjects<PotionShopConsignmentRegister>())
+                    {
+                        register.TryChangeScriptClass(kPotionConsignmentShopRegisterScriptClassName);
+                    }
+                    listeners.Add(EventTracker.AddListener(EventTypeId.kExitInWorldSubState, evt =>
+                        {
+                            try
+                            {
+                                if (((InWorldSubStateEvent)evt).State is EditTownState)
+                                {
+                                    foreach (PotionShopConsignmentRegister register in Sims3.Gameplay.Queries.GetObjects<PotionShopConsignmentRegister>())
+                                    {
+                                        register.TryChangeScriptClass(kPotionConsignmentShopRegisterScriptClassName);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                ((IScriptErrorWindow)AppDomain.CurrentDomain.GetData("ScriptErrorWindow")).DisplayScriptError(null, ex);
+                            }
+                            return ListenerAction.Keep;
+                        }));
+                };
             World.sOnWorldLoadStartedEventHandler += (sender, e) =>
                 {
                     foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -503,6 +544,14 @@ namespace Destrospean.ExpandedAlchemy
                                 }
                             }
                         }, "Expanded Alchemy -- Show Debug Info Alarm", AlarmType.NeverPersisted, null);
+                };
+            World.sOnWorldQuitEventHandler += (sender, e) =>
+                {
+                    foreach (EventListener listener in listeners)
+                    {
+                        EventTracker.RemoveListener(listener);
+                    }
+                    listeners.Clear();
                 };
         }
 

@@ -1,3 +1,4 @@
+using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
@@ -834,6 +835,45 @@ namespace Destrospean.Utils
                     traitList.Add(selectedTraits[0]);
                 }
             }
+        }
+
+        public static bool TryChangeScriptClass(this GameObject gameObject, string newClassName)
+        {
+            if (string.IsNullOrEmpty(newClassName))
+            {
+                return false;
+            }
+            ResourceKey resourceKey = gameObject.GetResourceKey();
+            IGameObject clone = GlobalFunctions.CreateObject(new ResourceKey(resourceKey.InstanceId, 0x319E4F1D, resourceKey.GroupId), gameObject.Position, gameObject.Level, gameObject.ForwardVector, newClassName, null);
+            if (clone == null || clone is FailureObject)
+            {
+                return false;
+            }
+            SortedList<string, bool> enabledStencils = new SortedList<string, bool>();
+            Complate.SetupDesignSwap(clone.ObjectId, Complate.ExtractPatterns(gameObject.ObjectId, enabledStencils), false, enabledStencils)?.ApplyToObject();
+            Slot slot = Slot.None;
+            GameObject parent = gameObject.Parent as GameObject;
+            if (parent != null)
+            {
+                foreach (Slot tempSlot in parent.GetContainmentSlots())
+                {
+                    if (parent.GetContainedObject(tempSlot) == gameObject)
+                    {
+                        slot = tempSlot;
+                        break;
+                    }
+                }
+            }
+            GameObject newGameObject = clone as GameObject;
+            newGameObject.mPurchasedPrice = gameObject.mPurchasedPrice;
+            newGameObject.mValueModifier = gameObject.mValueModifier;
+            gameObject.Destroy();
+            gameObject.Dispose();
+            if (slot != Slot.None && !clone.ParentToSlot(parent, slot))
+            {
+                GlobalFunctions.PlaceWithHandTool(clone);
+            }
+            return true;
         }
 
         public static bool TryGetType(string fullName, out Type type)
