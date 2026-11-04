@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NoStdLib>true</NoStdLib>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>6</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -31,7 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
-    <LangVersion>6</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
@@ -164,8 +166,8 @@
     <Exec Command="sh &quot;$(SolutionDir)scripts\CreatePackage.sh&quot; &quot;ExpandedAlchemy&quot; &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..&quot; &quot;$(ProjectDir)..\dist\&quot;" Condition="'$(OS)' != 'Windows_NT'" />
   </Target>
   <Target Name="Generate Tunable _XMLs" AfterTargets="Create Package">
-    <Exec Command="&quot;$(SolutionDir)scripts\GenerateTunables.bat&quot;" Condition="'$(OS)' == 'Windows_NT'" />
-    <Exec Command="sh &quot;$(SolutionDir)scripts\GenerateTunables.sh&quot;" Condition="'$(OS)' != 'Windows_NT'" />
+    <Exec Command="&quot;$(SolutionDir)scripts\GenerateTunables.bat&quot; &quot;ExpandedAlchemy&quot;" Condition="'$(OS)' == 'Windows_NT'" />
+    <Exec Command="sh &quot;$(SolutionDir)scripts\GenerateTunables.sh&quot; &quot;ExpandedAlchemy&quot;" Condition="'$(OS)' != 'Windows_NT'" />
   </Target>
   <ItemGroup>
     <Folder Include="..\" />

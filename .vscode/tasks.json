@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "MSBuild: build",
+			"command": "msbuild /t:Build /p:Configuration=Release", 
+      		"args": [],
+      		"group": {
+        		"kind": "build",
+        		"isDefault": true
+      		},
+      		"presentation": {
+        		"reveal": "always",
+        		"panel": "shared"
+      		},
+		}
+	]
+}

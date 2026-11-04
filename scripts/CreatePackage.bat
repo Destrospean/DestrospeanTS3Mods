@@ -10,6 +10,6 @@ set "dllPath=%dllPath:\=/%"
 set "projectDir=%projectDir:\=/%"
 set "defaultPath=%defaultPath:\=/%"
 
-..\tools\TS3BuildTool\ts3buildtool.exe -modName=%modName% -dllPath=%dllPath% -projectDir=%projectDir% -defaultPath=%defaultPath% > ts3buildtool.log
+..\tools\TS3BuildTool\ts3buildtool.exe -modName=%modName% -dllPath=%dllPath% -projectDir=%projectDir% -defaultPath=%defaultPath% > ts3buildtool-%modName%.log
 
 popd
