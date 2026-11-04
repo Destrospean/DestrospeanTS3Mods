@@ -7,7 +7,6 @@ using Sims3.Gameplay.ChildAndTeenUpdates;
 using Sims3.Gameplay.Core;
 using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Interfaces;
-using Sims3.Gameplay.ObjectComponents;
 using Sims3.Gameplay.Seasons;
 using Sims3.Gameplay.Services;
 using Sims3.Gameplay.Situations;

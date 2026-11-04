@@ -19,7 +19,6 @@ using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
-using System;
 using System.Collections.Generic;
 using Destrospean.Utils;
 using Destrospean.Utils.ExpandedHouseholdStaff;

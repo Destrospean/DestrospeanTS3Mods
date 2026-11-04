@@ -19,7 +19,6 @@ using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Destrospean.Misc;
 using Destrospean.Utils;
 using Destrospean.Utils.ExpandedHouseholdStaff;
