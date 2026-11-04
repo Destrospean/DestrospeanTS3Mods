@@ -1,6 +1,5 @@
 ﻿using Sims3.Gameplay.Skills;
 using Sims3.SimIFace;
-using Destrospean.Utils;
 
 namespace Destrospean.Misc
 {

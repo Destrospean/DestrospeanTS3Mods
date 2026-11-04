@@ -46,11 +46,9 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     while (true)
                     {
-                        IServiceProfile[] profiles;
-                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && x.Inventory.Count > 0).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && x.Inventory.Count > 0).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                         {
-                            InventoryObjectCreationParameters[] inventoryObjects;
-                            if (ServiceUtils.TryUIGetSelectedInventoryObjects(out inventoryObjects, profiles[0].Inventory.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
+                            if (ServiceUtils.TryUIGetSelectedInventoryObjects(out InventoryObjectCreationParameters[] inventoryObjects, profiles[0].Inventory.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
                             {
                                 foreach (InventoryObjectCreationParameters inventoryObjectCreationParameters in inventoryObjects)
                                 {

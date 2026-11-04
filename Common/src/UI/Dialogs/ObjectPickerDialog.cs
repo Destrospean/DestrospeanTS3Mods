@@ -177,8 +177,7 @@ namespace Destrospean.UI.Dialogs
 
         public static List<T> Show<T>(string title, List<ObjectPicker.TabInfo> tabs, List<CommonHeaderInfo<T>> headers, int selectableRowCount, out bool confirmed, out bool cancelled, bool okayButtonAlwaysEnabled = false)
         {
-            List<ObjectPicker.RowInfo> preSelectedRows = null;
-            return Show(title, tabs, headers, selectableRowCount, preSelectedRows, out confirmed, out cancelled, okayButtonAlwaysEnabled);
+            return Show(title, tabs, headers, selectableRowCount, (List<ObjectPicker.RowInfo>)null, out confirmed, out cancelled, okayButtonAlwaysEnabled);
         }
 
         public static List<T> Show<T>(string title, List<ObjectPicker.TabInfo> tabs, List<CommonHeaderInfo<T>> headers, int selectableRowCount, List<ObjectPicker.RowInfo> preSelectedRows, out bool confirmed, out bool cancelled, bool okayButtonAlwaysEnabled = false)

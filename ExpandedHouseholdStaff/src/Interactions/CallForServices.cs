@@ -11,7 +11,6 @@ using Sims3.Gameplay.Utilities;
 using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services;
 using Sims3.SimIFace;
 using Sims3.UI;
-using System;
 using System.Collections.Generic;
 using Destrospean.Utils;
 using Destrospean.Utils.ExpandedHouseholdStaff;
@@ -67,7 +66,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
 
             bool IServicesModel.MakeServiceRequest(ServiceInfo info)
             {
-                if (info as ServiceInfoEx == null && info.mServiceType == 100)
+                if (!(info is ServiceInfoEx) && info.mServiceType == 100)
                 {
                     mLot.Household.AutoBabysitter = info.mActive;
                     return true;
@@ -94,8 +93,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
 
             public static Service GetServiceFromInfo(UI.ServicesModel servicesModel, ServiceInfo info)
             {
-                ServiceInfoEx serviceInfo = info as ServiceInfoEx;
-                return serviceInfo == null ? servicesModel.GetServiceFromInfo(info) :  serviceInfo.Service;
+                return info is ServiceInfoEx serviceInfo ? serviceInfo.Service : servicesModel.GetServiceFromInfo(info);
             }
 
             public static ServiceInfo GetServiceInfo(UI.ServicesModel servicesModel, Service service)
@@ -104,15 +102,15 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     return servicesModel.GetServiceInfo(service);
                 }
-                CustomService customService = service as CustomService;
                 string entryKey = service.GetType().GetLocalizationKey();
                 ServiceInfoEx serviceInfo = new ServiceInfoEx();
+                CustomService customService = service as CustomService;
                 serviceInfo.mName = customService?.Profile.Title ?? Localization.LocalizeString(entryKey + ":Title");
                 serviceInfo.mAlreadyActiveToolTip = Localization.LocalizeString("Gameplay/UI/ServicesUIWindow:AlreadyActive");
                 if (service.IsRecurrent())
                 {
                     serviceInfo.mAlreadyActiveToolTip = Localization.LocalizeString("Gameplay/UI/ServicesUIWindow:RecurrentAlreadyActive");
-                    bool isNonLiveInServiceActiveOnLot = service as IAmLiveInService == null && !(customService?.Profile.IsLiveInService ?? false) && service.IsAnySimAssignedToLot(servicesModel.Lot);
+                    bool isNonLiveInServiceActiveOnLot = !(service is IAmLiveInService) && !(customService?.Profile.IsLiveInService ?? false) && service.IsAnySimAssignedToLot(servicesModel.Lot);
                     serviceInfo.mCancelledTns = customService == null ? Localization.LocalizeString(entryKey + ":ServiceCancelled" + (isNonLiveInServiceActiveOnLot ? "WhileActive" : "")) : isNonLiveInServiceActiveOnLot ? customService.Profile.CancelledWhileActiveMessage : customService.Profile.CancelledMessage;
                 }
                 serviceInfo.mRequestedTns = customService == null ? Localization.LocalizeString(entryKey + ":ServiceRequested") : customService.Profile.RequestedMessage;

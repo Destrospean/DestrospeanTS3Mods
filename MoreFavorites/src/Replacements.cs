@@ -198,8 +198,7 @@ namespace Destrospean.MoreFavorites
                 SetParameter("isWerewolf", chairDining != null && Actor.BuffManager.HasElement(BuffNames.Werewolf));
                 SetActor("ServingContainer", Target);
                 SetActor("thingToEat", Target.ThingToEat);
-                Counter counter = Target.Parent as Counter;
-                if (counter != null)
+                if (Target.Parent is Counter counter)
                 {
                     SetActor("Counter", counter);
                     SetParameter("IKSuffix", counter.IkSuffix);
@@ -292,8 +291,7 @@ namespace Destrospean.MoreFavorites
                 Actor.RegisterGroupTalk();
                 OccultImaginaryFriend.GrantMilestoneBuff(Actor, BuffNames.ImaginaryFriendAteFood, Origin.FromImaginaryFriendFirstTime, false, true, false);
                 bool succeeded = DoLoop(ExitReason.Default, LoopCallback, mCurrentStateMachine);
-                HotBeverageMachine.Cup cup = Target.ThingToEat as HotBeverageMachine.Cup;
-                if (succeeded && GameUtils.IsInstalled(ProductVersion.EP9) && cup != null && cup.IsEnergyDrink)
+                if (succeeded && GameUtils.IsInstalled(ProductVersion.EP9) && Target.ThingToEat is HotBeverageMachine.Cup cup && cup.IsEnergyDrink)
                 {
                     Actor.BuffManager.AddElement(BuffNames.LiquidEnergy, Origin.FromEnergyDrink);
                 }
@@ -329,8 +327,7 @@ namespace Destrospean.MoreFavorites
                         Target.FinishedEatingCallback(Actor);
                         if (Autonomous && Actor.Posture.Container != null && Actor.Posture.Container.Parent != null)
                         {
-                            IEatingSurface eatingSurface = Actor.Posture.Container.Parent as IEatingSurface;
-                            if (eatingSurface != null && eatingSurface.AllowWaitForOthers && (eatingSurface.NumOtherSimsAtSurface(Actor) > 0 || ((GameObject)eatingSurface).ReferenceList.Count > 0))
+                            if (Actor.Posture.Container.Parent is IEatingSurface eatingSurface && eatingSurface.AllowWaitForOthers && (eatingSurface.NumOtherSimsAtSurface(Actor) > 0 || ((GameObject)eatingSurface).ReferenceList.Count > 0))
                             {
                                 Actor.LoopIdle();
                                 Actor.RegisterGroupTalk();
@@ -352,16 +349,14 @@ namespace Destrospean.MoreFavorites
                                 Actor.InteractionQueue.PushAsContinuation(CarrySystem.PutDownHeldObject.Singleton, Target, false, new InteractionPriority(InteractionPriorityLevel.UserDirected), true);
                             }
                         }
-                        ISingleServingContainer singleServingContainer = Target as ISingleServingContainer;
-                        if (singleServingContainer != null && singleServingContainer.FromResortBuffetTable && !Actor.BuffManager.HasElement(BuffNames.Stuffed) && Actor.Motives.GetMotiveValue(CommodityKind.Hunger) <= (float)ResortBuffetTable.kHungerToStopFeeding)
+                        if (Target is ISingleServingContainer singleServingContainer && singleServingContainer.FromResortBuffetTable && !Actor.BuffManager.HasElement(BuffNames.Stuffed) && Actor.Motives.GetMotiveValue(CommodityKind.Hunger) <= (float)ResortBuffetTable.kHungerToStopFeeding)
                         {
                             ResortBuffetTable.ConsumeMoreFood(Actor);
                         }
                     }
                     else
                     {
-                        ServingContainer servingContainer = Target as ServingContainer;
-                        if (Actor.HasTrait(TraitNames.Vegetarian) && servingContainer != null)
+                        if (Actor.HasTrait(TraitNames.Vegetarian) && Target is ServingContainer servingContainer)
                         {
                             TraitFunctions.VegetarianTraitEatingMeatCallback(Actor, servingContainer.CookingProcess.StartedByVegetarian, servingContainer.CookingProcess.Recipe);
                         }
@@ -460,8 +455,7 @@ namespace Destrospean.MoreFavorites
                 SetParameter("isWerewolf", chairDining != null && Actor.BuffManager.HasElement(BuffNames.Werewolf));
                 SetActor("ServingContainer", Target);
                 SetActor("thingToEat", Target.ThingToEat);
-                Counter counter = Target.Parent as Counter;
-                if (counter != null)
+                if (Target.Parent is Counter counter)
                 {
                     SetActor("Counter", counter);
                     SetParameter("IKSuffix", counter.IkSuffix);
@@ -606,8 +600,7 @@ namespace Destrospean.MoreFavorites
                             else
                             {
                                 EventTracker.SendEvent(EventTypeId.kAteMeal, Actor, Target);
-                                ServingContainerSingle servingContainerSingle = Target as ServingContainerSingle;
-                                if (servingContainerSingle != null)
+                                if (Target is ServingContainerSingle servingContainerSingle)
                                 {
                                     if (cookingProcess.ObjectClickedOn is IFutureFoodSynthesizer)
                                     {
@@ -638,8 +631,7 @@ namespace Destrospean.MoreFavorites
                         }
                         if (Autonomous && Actor.Posture.Container != null)
                         {
-                            IEatingSurface eatingSurface = Actor.Posture.Container.Parent as IEatingSurface;
-                            if (eatingSurface != null && eatingSurface.AllowWaitForOthers && (eatingSurface.NumOtherSimsAtSurface(Actor) > 0 || ((GameObject)eatingSurface).ReferenceList.Count > 0))
+                            if (Actor.Posture.Container.Parent is IEatingSurface eatingSurface && eatingSurface.AllowWaitForOthers && (eatingSurface.NumOtherSimsAtSurface(Actor) > 0 || ((GameObject)eatingSurface).ReferenceList.Count > 0))
                             {
                                 Actor.LoopIdle();
                                 Actor.RegisterGroupTalk();
@@ -997,14 +989,12 @@ namespace Destrospean.MoreFavorites
             {
                 foodType = FavoriteFoodType.Hamburger;
             }
-            FavoritesUtils.FavoriteFood favoriteFood;
-            return FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out favoriteFood) ? string.IsNullOrEmpty(favoriteFood.IconKey) ? "cas_favorites_food_i_hamburger_r2" : favoriteFood.IconKey : "cas_favorites_food_i_" + foodType + "_r2";
+            return FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out FavoritesUtils.FavoriteFood favoriteFood) ? string.IsNullOrEmpty(favoriteFood.IconKey) ? "cas_favorites_food_i_hamburger_r2" : favoriteFood.IconKey : "cas_favorites_food_i_" + foodType + "_r2";
         }
 
         public static UIImage GetFavoriteFoodSmallIcon(FavoriteFoodType foodType)
         {
-            FavoritesUtils.FavoriteFood favoriteFood;
-            return UIManager.LoadUIImage(ResourceKey.CreatePNGKey(FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out favoriteFood) ? string.IsNullOrEmpty(favoriteFood.SmallIconKey) ? "cas_favorites_food_i_hamburger_s_r2" : favoriteFood.SmallIconKey : "cas_favorites_food_i_" + foodType + "_s_r2", 0));
+            return UIManager.LoadUIImage(ResourceKey.CreatePNGKey(FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out FavoritesUtils.FavoriteFood favoriteFood) ? string.IsNullOrEmpty(favoriteFood.SmallIconKey) ? "cas_favorites_food_i_hamburger_s_r2" : favoriteFood.SmallIconKey : "cas_favorites_food_i_" + foodType + "_s_r2", 0));
         }
 
         public static string GetFavoriteMusic(FavoriteMusicType musicType)
@@ -1018,8 +1008,7 @@ namespace Destrospean.MoreFavorites
             {
                 musicType = FavoriteMusicType.Electronica;
             }
-            FavoritesUtils.FavoriteMusic favoriteMusic;
-            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out favoriteMusic))
+            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out FavoritesUtils.FavoriteMusic favoriteMusic))
             {
                 return string.IsNullOrEmpty(favoriteMusic.IconKey) ? "cas_favorites_music_i_electronica_r2" : favoriteMusic.IconKey;
             }
@@ -1045,8 +1034,7 @@ namespace Destrospean.MoreFavorites
 
         public static UIImage GetFavoriteMusicSmallIcon(FavoriteMusicType musicType)
         {
-            FavoritesUtils.FavoriteMusic favoriteMusic;
-            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out favoriteMusic))
+            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out FavoritesUtils.FavoriteMusic favoriteMusic))
             {
                 return GetMusicIcon(string.IsNullOrEmpty(favoriteMusic.SmallIconKey) ? "cas_favorites_music_i_electronica_s_r2" : favoriteMusic.SmallIconKey, musicType);
             }
@@ -1105,9 +1093,7 @@ namespace Destrospean.MoreFavorites
 
         public IRecipe GetRecipe(FavoriteFoodType foodType)
         {
-            Recipe recipe;
-            FavoritesUtils.FavoriteFood favoriteFood;
-            return FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out favoriteFood) ? favoriteFood.Recipe : Recipe.NameToRecipeHash.TryGetValue(foodType.ToString(), out recipe) ? recipe : null;
+            return FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out FavoritesUtils.FavoriteFood favoriteFood) ? favoriteFood.Recipe : Recipe.NameToRecipeHash.TryGetValue(foodType.ToString(), out Recipe recipe) ? recipe : null;
         }
 
         public static string GetStationName(FavoriteMusicType musicType)
@@ -1120,8 +1106,7 @@ namespace Destrospean.MoreFavorites
                     stereoStationNames.Add(key);
                 }
             }
-            FavoritesUtils.FavoriteMusic favoriteMusic;
-            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out favoriteMusic))
+            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out FavoritesUtils.FavoriteMusic favoriteMusic))
             {
                 stereoStationNames.Add("Gameplay/Excel/Stereo/Stations:" + favoriteMusic.Name);
             }

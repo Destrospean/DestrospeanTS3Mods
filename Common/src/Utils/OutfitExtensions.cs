@@ -1,9 +1,10 @@
 ﻿using Sims3.Gameplay;
-﻿using Sims3.Gameplay.Actors;
+using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.CAS;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI.CAS;
+using System.Collections;
 
 namespace Destrospean.Utils
 {
@@ -82,8 +83,7 @@ namespace Destrospean.Utils
             }
             foreach (OutfitCategories outfitCategory in simDescription.ListOfCategories)
             {
-                System.Collections.ArrayList outfits = simDescription.Outfits[outfitCategory] as System.Collections.ArrayList;
-                if (outfits == null)
+                if (!(simDescription.Outfits[outfitCategory] is ArrayList outfits))
                 {
                     continue;
                 }

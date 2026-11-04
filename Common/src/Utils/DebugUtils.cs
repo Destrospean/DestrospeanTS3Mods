@@ -39,8 +39,7 @@ namespace Sims3.Gameplay.Destrospean.Utils
         /// <param name="action">Function to execute and check for an error.</param>
         public static bool TryDisplayScriptError(Action action)
         {
-            Exception exception;
-            if (TryGetException(action, out exception))
+            if (TryGetException(action, out Exception exception))
             {
                 ((IScriptErrorWindow)AppDomain.CurrentDomain.GetData("ScriptErrorWindow")).DisplayScriptError(null, exception);
                 return true;

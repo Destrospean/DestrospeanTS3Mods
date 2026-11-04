@@ -377,9 +377,8 @@ namespace Destrospean.MoreFavorites
                             string hex = reader.GetAttribute("Hex"),
                             name = reader.GetAttribute("Name"),
                             opposite = reader.GetAttribute("Opposite");
-                            uint argb;
                             int index, startIndex;
-                            if (!string.IsNullOrEmpty(hex) && !string.IsNullOrEmpty(name) && uint.TryParse(("FFFFFFFF".Remove(0, hex.Length - (startIndex = hex.StartsWith("#") ? 1 : hex.StartsWith("0x") ? 2 : 0))) + hex.Substring(startIndex), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out argb))
+                            if (!string.IsNullOrEmpty(hex) && !string.IsNullOrEmpty(name) && uint.TryParse(("FFFFFFFF".Remove(0, hex.Length - (startIndex = hex.StartsWith("#") ? 1 : hex.StartsWith("0x") ? 2 : 0))) + hex.Substring(startIndex), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out uint argb))
                             {
                                 if ((index = favoriteColorList.FindIndex(x => x.mName == name)) == -1)
                                 {
@@ -399,8 +398,7 @@ namespace Destrospean.MoreFavorites
                                     favoriteAndOppositeDrinkList.Add(new FutureBar.FavesAndOpposites(name, opposite));
                                 }
                             }
-                            bool hidden;
-                            if (bool.TryParse(reader.GetAttribute("Hidden"), out hidden) && hidden)
+                            if (bool.TryParse(reader.GetAttribute("Hidden"), out bool hidden) && hidden)
                             {
                                 FavoriteColorHiddenList.Add(name);
                             }
@@ -408,10 +406,8 @@ namespace Destrospean.MoreFavorites
                         else if (reader.Name == "FavoriteFood" || reader.Name == "FavouriteFood")
                         {
                             string recipeKey = reader.GetAttribute("Recipe_Key");
-                            Recipe recipe;
                             bool isGroup = false,
-                            isHidden,
-                            isValid = Recipe.NameToRecipeHash.TryGetValue(recipeKey, out recipe);
+                            isValid = Recipe.NameToRecipeHash.TryGetValue(recipeKey, out Recipe recipe);
                             if (string.IsNullOrEmpty(recipeKey) || !isValid && !(bool.TryParse(reader.GetAttribute("IsGroup"), out isGroup) || isGroup))
                             {
                                 continue;
@@ -423,15 +419,14 @@ namespace Destrospean.MoreFavorites
                                 } : null, reader.GetAttribute("Icon_Key"), reader.GetAttribute("Small_Icon_Key"), reader.GetAttribute("Parent"));
                             if (!isValid && isGroup)
                             {
-                                bool isVegetarianGroup;
                                 recipe.mNonPersistableData = recipe.mNonPersistableData ?? new Recipe.NonPersistableData();
-                                recipe.mNonPersistableData.mIsVegetarian = bool.TryParse(reader.GetAttribute("IsVegetarianGroup"), out isVegetarianGroup) && isVegetarianGroup;
+                                recipe.mNonPersistableData.mIsVegetarian = bool.TryParse(reader.GetAttribute("IsVegetarianGroup"), out bool isVegetarianGroup) && isVegetarianGroup;
                                 if (isVegetarianGroup)
                                 {
                                     recipe.mNonPersistableData.mGenericVegetarianName = recipe.mGenericName;
                                 }
                             }
-                            if (bool.TryParse(reader.GetAttribute("Hidden"), out isHidden) && isHidden)
+                            if (bool.TryParse(reader.GetAttribute("Hidden"), out bool isHidden) && isHidden)
                             {
                                 FavoriteFoodHiddenList.Add(favoriteFoodType);
                             }
@@ -439,17 +434,14 @@ namespace Destrospean.MoreFavorites
                         else if (reader.Name == "FavoriteMusic" || reader.Name == "FavouriteMusic")
                         {
                             string stationName = reader.GetAttribute("Station_Name");
-                            StereoStationData stereoStationData;
-                            bool isGroup,
-                            isHidden,
-                            isValid = StereoStationData.sStereoStationDictionary.TryGetValue("Gameplay/Excel/Stereo/Stations:" + stationName, out stereoStationData);
-                            if (string.IsNullOrEmpty(stationName) || !isValid && !(bool.TryParse(reader.GetAttribute("IsGroup"), out isGroup) || isGroup))
+                            bool isValid = StereoStationData.sStereoStationDictionary.TryGetValue("Gameplay/Excel/Stereo/Stations:" + stationName, out StereoStationData stereoStationData);
+                            if (string.IsNullOrEmpty(stationName) || !isValid && !(bool.TryParse(reader.GetAttribute("IsGroup"), out bool isGroup) || isGroup))
                             {
                                 continue;
                             }
                             FavoriteMusicType favoriteMusicType = Array.Exists(Enum.GetNames(typeof(FavoriteMusicType)), x => x == stationName) && IsMusicTypeInstalled((FavoriteMusicType)Enum.Parse(typeof(FavoriteMusicType), stationName)) ? (FavoriteMusicType)Enum.Parse(typeof(FavoriteMusicType), stationName) : (FavoriteMusicType)ResourceUtils.HashString32("Gameplay/Excel/Stereo/Stations:" + stationName);
                             FavoriteMusicDictionary[favoriteMusicType] = new FavoriteMusic(stationName, isValid ? stereoStationData : null, reader.GetAttribute("Icon_Key"), reader.GetAttribute("Small_Icon_Key"), reader.GetAttribute("Parent"));
-                            if (bool.TryParse(reader.GetAttribute("Hidden"), out isHidden) && isHidden)
+                            if (bool.TryParse(reader.GetAttribute("Hidden"), out bool isHidden) && isHidden)
                             {
                                 FavoriteMusicHiddenList.Add(favoriteMusicType);
                             }
@@ -505,14 +497,12 @@ namespace Destrospean.MoreFavorites
 
         public static bool IsFavoriteOfSim(this Recipe recipe, ISimDescription simDescription)
         {
-            FavoriteFood favoriteFood;
-            return simDescription.FavoriteFood != 0 && recipe != null && (recipe.Favorite == simDescription.FavoriteFood || FavoriteFoodDictionary.TryGetValue(simDescription.FavoriteFood, out favoriteFood) && (favoriteFood.Name == recipe.Key || new List<FavoriteFoodType>(FavoriteFoodDictionary.Keys).Exists(x => !x.IsBlacklisted() && FavoriteFoodDictionary[x].Parent == favoriteFood.Name && FavoriteFoodDictionary[x].Name == recipe.Key)));
+            return simDescription.FavoriteFood != 0 && recipe != null && (recipe.Favorite == simDescription.FavoriteFood || FavoriteFoodDictionary.TryGetValue(simDescription.FavoriteFood, out FavoriteFood favoriteFood) && (favoriteFood.Name == recipe.Key || new List<FavoriteFoodType>(FavoriteFoodDictionary.Keys).Exists(x => !x.IsBlacklisted() && FavoriteFoodDictionary[x].Parent == favoriteFood.Name && FavoriteFoodDictionary[x].Name == recipe.Key)));
         }
 
         public static bool IsFavoriteOfSim(this StereoStationData stereoStationData, ISimDescription simDescription)
         {
-            FavoriteMusic favoriteMusic;
-            return stereoStationData != null && (stereoStationData.MusicType == simDescription.FavoriteMusic || FavoriteMusicDictionary.TryGetValue(simDescription.FavoriteMusic, out favoriteMusic) && (favoriteMusic.Name == stereoStationData.mStationName.Split(':')[1] || new List<FavoriteMusicType>(FavoriteMusicDictionary.Keys).Exists(x => !x.IsBlacklisted() && FavoriteMusicDictionary[x].Parent == favoriteMusic.Name && FavoriteMusicDictionary[x].Name == stereoStationData.mStationName.Split(':')[1])));
+            return stereoStationData != null && (stereoStationData.MusicType == simDescription.FavoriteMusic || FavoriteMusicDictionary.TryGetValue(simDescription.FavoriteMusic, out FavoriteMusic favoriteMusic) && (favoriteMusic.Name == stereoStationData.mStationName.Split(':')[1] || new List<FavoriteMusicType>(FavoriteMusicDictionary.Keys).Exists(x => !x.IsBlacklisted() && FavoriteMusicDictionary[x].Parent == favoriteMusic.Name && FavoriteMusicDictionary[x].Name == stereoStationData.mStationName.Split(':')[1])));
         }
 
         public static bool IsHidden(this FavoriteFoodType foodType)

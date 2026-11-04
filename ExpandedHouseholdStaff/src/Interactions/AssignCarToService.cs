@@ -43,8 +43,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
         {
             return !DebugUtils.TryDisplayScriptError(() =>
                 {
-                    IServiceProfile[] profiles;
-                    if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                    if (ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                     {
                         profiles[0].CarInstanceName = Target.ObjectInstanceName;
                         profiles[0].CarInstanceId = Target.Product.ProductResourceKey.InstanceId;

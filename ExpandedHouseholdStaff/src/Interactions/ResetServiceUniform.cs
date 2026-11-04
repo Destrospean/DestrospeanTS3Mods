@@ -49,8 +49,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     while (true)
                     {
-                        IServiceProfile[] profiles;
-                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && OutfitAssignmentUtils.OutfitAssignments.Exists(y => y.ServiceName == x.Name && (y.SimDescription == null || y.SimDescription == Actor.SimDescription))).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && OutfitAssignmentUtils.OutfitAssignments.Exists(y => y.ServiceName == x.Name && (y.SimDescription == null || y.SimDescription == Actor.SimDescription))).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                         {
                             string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceOutfitDemographicDialog");
                             List<CASAgeGenderFlags[]> ageGenders = new List<CASAgeGenderFlags[]>();

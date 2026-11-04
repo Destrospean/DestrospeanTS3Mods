@@ -50,23 +50,21 @@ namespace Sims3.Gameplay.Objects.Spawners
             ScheduleNextVfx();
         }
 
-        public void OnAddToInventory(IGameObject objAdded, Inventory inventory)
+        public void OnAddToInventory(IGameObject gameObject, Inventory inventory)
         {
-            Sim sim = inventory.Owner as Sim;
-            if (sim != null)
+            if (inventory.Owner is Sim sim)
             {
-                List<Uranium> list = inventory.FindAll<Uranium>(false);
-                if (list.Count == 1)
+                List<Uranium> uranium = inventory.FindAll<Uranium>(false);
+                if (uranium.Count == 1)
                 {
                     sim.BuffManager.AddElementPaused(BuffNames.Nauseous, Origin.None);
                 }
             }
         }
 
-        public void OnRemoveFromInventory(IGameObject objAdded, Inventory inventory)
+        public void OnRemoveFromInventory(IGameObject gameObject, Inventory inventory)
         {
-            Sim sim = inventory.Owner as Sim;
-            if (sim != null && !inventory.ContainsType(typeof(Uranium), 1))
+            if (inventory.Owner is Sim sim && !inventory.ContainsType(typeof(Uranium), 1))
             {
                 sim.BuffManager.RemoveElement(BuffNames.Nauseous);
             }

@@ -52,8 +52,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     while (true)
                     {
-                        IServiceProfile[] profiles;
-                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                         {
                             string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceOutfitDemographicDialog");
                             CASAgeGenderFlags age = CASAgeGenderFlags.None;
@@ -107,9 +106,8 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                                                 return;
                                             }
                                             string specialOutfitKey = simDescription.GetGlobalAssignedOutfitPrefix() + profiles[0].Name;
-                                            OutfitAssignmentUtils.OutfitAssignment outfitAssignment;
                                             BodyTypes[] preSelectedPartOverrides = null;
-                                            if (simDescription.TryGetGlobalOutfitAssignment(profiles[0], out outfitAssignment))
+                                            if (simDescription.TryGetGlobalOutfitAssignment(profiles[0], out OutfitAssignmentUtils.OutfitAssignment outfitAssignment))
                                             {
                                                 simDescription.AddAssignedOutfit(OutfitAssignmentUtils.AssignedOutfits[outfitAssignment.SpecialOutfitKey], specialOutfitKey);
                                                 preSelectedPartOverrides = OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].PartOverrides.ToArray();
@@ -120,8 +118,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                                                 OutfitAssignmentUtils.AssignOutfitToService(null, specialOutfitKey, profiles[0], simDescription);
                                                 ActionTask.Start(() => DebugUtils.TryDisplayScriptError(() =>
                                                     {
-                                                        BodyTypes[] partOverrides;
-                                                        if (OutfitAssignmentUtils.ShowPartOverrideListDialog(OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey] = new OutfitAssignmentUtils.AssignedOutfit(simDescription.GetSpecialOutfit(specialOutfitKey)), out partOverrides, preSelectedPartOverrides))
+                                                        if (OutfitAssignmentUtils.ShowPartOverrideListDialog(OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey] = new OutfitAssignmentUtils.AssignedOutfit(simDescription.GetSpecialOutfit(specialOutfitKey)), out BodyTypes[] partOverrides, preSelectedPartOverrides))
                                                         {
                                                             OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].PartOverrides = new List<BodyTypes>(partOverrides);
                                                         }

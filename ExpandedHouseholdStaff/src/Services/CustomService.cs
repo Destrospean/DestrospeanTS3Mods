@@ -77,7 +77,6 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
 
             public override bool Run()
             {
-                bool retVal;
                 return !DebugUtils.TryDisplayScriptError(() =>
                     {
                         CustomService service = ((Definition)InteractionDefinition).Service;
@@ -106,7 +105,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                             }
                         }
                         return true;
-                    }, out retVal) && retVal;
+                    }, out bool retVal) && retVal;
             }
         }
 
@@ -278,8 +277,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                 {
                     if (ServiceNPCSpecifications.ValidForCurrentWorld(profile.ServiceType))
                     {
-                        CustomService service;
-                        if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out service) && service != null)
+                        if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out CustomService service) && service != null)
                         {
                             service.PostLoadFixup();
                         }
@@ -303,8 +301,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
         {
             DebugUtils.TryDisplayScriptError(() =>
                 {
-                    CustomService service;
-                    if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out service) && service != null)
+                    if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out CustomService service) && service != null)
                     {
                         if (!worldJustGotQuit)
                         {
@@ -324,13 +321,12 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                                         service.RemoveSimFromPool(simDescription);
                                         continue;
                                     }
-                                    CustomServiceSituation situation = ServiceSituation.FindServiceSituationInvolving(simDescription.CreatedSim) as CustomServiceSituation;
-                                    if (situation == null)
+                                    if (ServiceSituation.FindServiceSituationInvolving(simDescription.CreatedSim) is CustomServiceSituation situation)
                                     {
-                                        service.RemoveSimFromPool(simDescription);
+                                        situation.SetState(new CustomServiceSituation.LeaveLotAndEndService(situation));
                                         continue;
                                     }
-                                    situation.SetState(new CustomServiceSituation.LeaveLotAndEndService(situation));
+                                    service.RemoveSimFromPool(simDescription);
                                 }
                             }
                         }
@@ -382,8 +378,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                         CommonUtils.AddActions(activeTopic, action.Grouping, action.IsActive, action.Name);
                     }
                     Create(profile);
-                    CustomService service;
-                    if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out service) && service != null)
+                    if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out CustomService service) && service != null)
                     {
                         if (profile.IsLiveInService)
                         {
@@ -394,14 +389,12 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                         }
                         World.OnObjectPlacedInLotEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                             {
-                                World.OnObjectPlacedInLotEventArgs onObjectPlacedInLotEventArgs = e as World.OnObjectPlacedInLotEventArgs;
-                                if (onObjectPlacedInLotEventArgs != null)
+                                if (e is World.OnObjectPlacedInLotEventArgs onObjectPlacedInLotEventArgs)
                                 {
                                     GameObject gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
                                     if (service.Profile.IsLiveInService)
                                     {
-                                        Bed bed = gameObject as Bed;
-                                        if (bed != null)
+                                        if (gameObject is Bed bed)
                                         {
                                             service.AddInteractions(bed);
                                         }

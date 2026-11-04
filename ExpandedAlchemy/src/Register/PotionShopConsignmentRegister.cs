@@ -18,31 +18,27 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
             sItemsWereBought = true;
             PotionShopConsignmentRegisterObjectData potionShopConsignmentRegisterObjectData = (PotionShopConsignmentRegisterObjectData)customData;
             mObjectsForSale.Remove(potionShopConsignmentRegisterObjectData);
-            RockGemMetalBase rockGemMetalBase = potionShopConsignmentRegisterObjectData.mObject as RockGemMetalBase;
-            if (rockGemMetalBase != null)
+            if (potionShopConsignmentRegisterObjectData.mObject is RockGemMetalBase rockGemMetal)
             {
-                RockGemMetal guid = rockGemMetalBase.Guid;
-                Gem gem = rockGemMetalBase as Gem;
-                if (gem != null)
+                RockGemMetal guid = rockGemMetal.Guid;
+                if (rockGemMetal is Gem gem)
                 {
-                    Gem clone = gem.IsCut() ? Gem.MakeCutGem(guid, gem.CutName, gem.IsLargeSize, true) : (Gem)Gem.Make(guid, true);
-                    clone.mIsLargeSize = gem.IsLargeSize;
+                    Gem newGem = gem.IsCut() ? Gem.MakeCutGem(guid, gem.CutName, gem.IsLargeSize, true) : (Gem)Gem.Make(guid, true);
+                    newGem.mIsLargeSize = gem.IsLargeSize;
                     potionShopConsignmentRegisterObjectData.Destroy();
-                    return clone?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
+                    return newGem?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
                 }
-                Metal metal = rockGemMetalBase as Metal;
-                if (metal != null)
+                if (rockGemMetal is Metal metal)
                 {
-                    Metal clone = metal.IsMatchingCut("smelted") ? Metal.MakeSmeltedMetal(guid, metal.mIsLargeSize, true) : (Metal)Metal.Make(guid, true);
-                    clone.mIsLargeSize = metal.mIsLargeSize;
+                    Metal newMetal = metal.IsMatchingCut("smelted") ? Metal.MakeSmeltedMetal(guid, metal.mIsLargeSize, true) : (Metal)Metal.Make(guid, true);
+                    newMetal.mIsLargeSize = metal.mIsLargeSize;
                     potionShopConsignmentRegisterObjectData.Destroy();
-                    return clone?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
+                    return newMetal?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
                 }
                 potionShopConsignmentRegisterObjectData.Destroy();
                 return RockGemMetalBase.Make(guid, true)?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
             }
-            Terrarium terrarium = potionShopConsignmentRegisterObjectData.mObject as Terrarium;
-            if (terrarium != null)
+            if (potionShopConsignmentRegisterObjectData.mObject is Terrarium terrarium)
             {
                 InsectType guid = terrarium.InsectType;
                 potionShopConsignmentRegisterObjectData.Destroy();
@@ -119,8 +115,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
                 List<ConsignedObject> consignedObjects = new List<ConsignedObject>();
                 foreach (SimDescription simDescription in Sim.ActiveActor.Household.SimDescriptions)
                 {
-                    List<ConsignedObject> value;
-                    if (sConsignedObjects.TryGetValue(simDescription.SimDescriptionId, out value))
+                    if (sConsignedObjects.TryGetValue(simDescription.SimDescriptionId, out List<ConsignedObject> value))
                     {
                         consignedObjects.AddRange(value);
                     }

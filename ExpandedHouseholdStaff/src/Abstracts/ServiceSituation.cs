@@ -279,9 +279,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public virtual string GetUniformName(SimDescription simDescription)
         {
-            ResourceKey uniform;
-            string uniformName;
-            return ServiceNPCSpecifications.TryGetUniform(simDescription.Service.ServiceType.ToString(), simDescription.Gender, out uniform, out uniformName) ? uniformName : null;
+            return ServiceNPCSpecifications.TryGetUniform(simDescription.Service.ServiceType.ToString(), simDescription.Gender, out ResourceKey uniform, out string uniformName) ? uniformName : null;
         }
 
         public float GetNewInteractionPriorityValue()
@@ -365,8 +363,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             string uniformName = GetUniformName(Worker.SimDescription);
             if (uniformName != null)
             {
-                SimOutfit resultOutfit;
-                if (OutfitUtils.TryApplyUniformToOutfit(Worker.SimDescription.GetOutfit(OutfitCategories.Everyday, 0), new SimOutfit(ResourceKey.CreateOutfitKeyFromProductVersion(uniformName, ProductVersion.BaseGame)), Worker.SimDescription, DerivedType.Name + ".SwitchWorkerToServiceOutfit", out resultOutfit))
+                if (OutfitUtils.TryApplyUniformToOutfit(Worker.SimDescription.GetOutfit(OutfitCategories.Everyday, 0), new SimOutfit(ResourceKey.CreateOutfitKeyFromProductVersion(uniformName, ProductVersion.BaseGame)), Worker.SimDescription, DerivedType.Name + ".SwitchWorkerToServiceOutfit", out SimOutfit resultOutfit))
                 {
                     Worker.SimDescription.AddOutfit(resultOutfit, OutfitCategories.Career, true);
                     for (int i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
@@ -380,8 +377,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public void UnsetServiceBed()
         {
-            IBed bed = Worker.Bed as IBed;
-            if (bed != null && bed.LotCurrent == Lot)
+            if (Worker.Bed is IBed bed && bed.LotCurrent == Lot)
             {
                 bed.RelinquishOwnership(Worker, null);
             }

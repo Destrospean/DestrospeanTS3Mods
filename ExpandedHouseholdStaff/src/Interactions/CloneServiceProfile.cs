@@ -46,19 +46,17 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
         {
             while (true)
             {
-                IServiceProfile[] profiles;
-                if (!ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                if (!ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                 {
                     return true;
                 }
                 string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CloneServiceProfileDialog");
-                IServiceProfile profile;
                 string name = StringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), Localization.LocalizeString(entryKey + ":Prompt"), profiles[0].Name + "_" + DownloadContent.GenerateGUID(), -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1, -1), StringInputDialog.Validation.None, false, ModalDialog.PauseMode.PauseSimulator, false, true);
                 if (name == null)
                 {
                     continue;
                 }
-                if (profiles[0].TryUICloneServiceProfile(name, out profile))
+                if (profiles[0].TryUICloneServiceProfile(name, out IServiceProfile profile))
                 {
                     profile.AddServiceToSaveGame();
                     foreach (OutfitAssignmentUtils.OutfitAssignment outfitAssignment in new List<OutfitAssignmentUtils.OutfitAssignment>(OutfitAssignmentUtils.OutfitAssignments))

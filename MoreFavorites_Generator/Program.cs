@@ -202,12 +202,10 @@ namespace Destrospean.MoreFavorites.Generator
             var stblResources = new StblResource.StblResource[Enum.GetValues(typeof(Locales)).Length];
             for (var i = 0; i < stblResources.Length && (favoriteColorElements.Count > 0 || favoriteFoodElements.Exists(x =>
                 {
-                    bool isGroup;
-                    return bool.TryParse(x.GetAttribute("IsGroup"), out isGroup) && isGroup;
+                    return bool.TryParse(x.GetAttribute("IsGroup"), out var isGroup) && isGroup;
                 }) || favoriteMusicElements.Exists(x =>
                     {
-                        bool isGroup;
-                        return bool.TryParse(x.GetAttribute("IsGroup"), out isGroup) && isGroup;
+                        return bool.TryParse(x.GetAttribute("IsGroup"), out var isGroup) && isGroup;
                     })); i++)
             {
                 var stblKeyInstance = ulong.Parse(i.ToString("X2") + s3saKeyInstance.ToString("X16").Substring(2), System.Globalization.NumberStyles.HexNumber);
@@ -223,8 +221,7 @@ namespace Destrospean.MoreFavorites.Generator
                 foreach (var favoriteFoodElement in favoriteFoodElements)
                 {
                     var recipeKey = favoriteFoodElement.GetAttribute("Recipe_Key");
-                    bool isGroup;
-                    if (bool.TryParse(favoriteFoodElement.GetAttribute("IsGroup"), out isGroup) && isGroup)
+                    if (bool.TryParse(favoriteFoodElement.GetAttribute("IsGroup"), out var isGroup) && isGroup)
                     {
                         stblResources[i].Add(FNV64.GetHash("Gameplay/Excel/RecipeMasterList/Data:" + recipeKey), favoriteFoodElement.GetAttribute("Group_Display_Name") ?? "Gameplay/Excel/RecipeMasterList/Data:" + recipeKey);
                     }
@@ -232,8 +229,7 @@ namespace Destrospean.MoreFavorites.Generator
                 foreach (var favoriteMusicElement in favoriteMusicElements)
                 {
                     var stationName = favoriteMusicElement.GetAttribute("Station_Name");
-                    bool isGroup;
-                    if (bool.TryParse(favoriteMusicElement.GetAttribute("IsGroup"), out isGroup) && isGroup)
+                    if (bool.TryParse(favoriteMusicElement.GetAttribute("IsGroup"), out var isGroup) && isGroup)
                     {
                         stblResources[i].Add(FNV64.GetHash("Gameplay/Excel/Stereo/Stations:" + stationName), favoriteMusicElement.GetAttribute("Group_Display_Name") ?? "Gameplay/Excel/Stereo/Stations:" + stationName);
                     }
@@ -247,9 +243,8 @@ namespace Destrospean.MoreFavorites.Generator
                 imageKeyInstanceBase = "cas_favorites_color_i_" + favoriteColorElement.GetAttribute("Name");
                 ulong largeIMAGKeyInstance = FNV64.GetHash(imageKeyInstanceBase + "_r2"),
                 smallIMAGKeyInstance = FNV64.GetHash(imageKeyInstanceBase + "_s_r2");
-                uint argb;
                 int startIndex;
-                if (hex == null || !uint.TryParse(("FFFFFFFF".Remove(0, hex.Length - (startIndex = hex.StartsWith("#") ? 1 : hex.StartsWith("0x") ? 2 : 0))) + hex.Substring(startIndex), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out argb))
+                if (hex == null || !uint.TryParse(("FFFFFFFF".Remove(0, hex.Length - (startIndex = hex.StartsWith("#") ? 1 : hex.StartsWith("0x") ? 2 : 0))) + hex.Substring(startIndex), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out var argb))
                 {
                     continue;
                 }

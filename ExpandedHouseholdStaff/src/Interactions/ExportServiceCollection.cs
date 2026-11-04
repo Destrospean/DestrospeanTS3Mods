@@ -46,12 +46,10 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     while (true)
                     {
-                        IServiceProfile[] profiles;
-                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out profiles, ServiceUtils.ServiceProfiles.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
                         {
                             string xml = FileUtils.GetXml(profiles);
-                            bool found;
-                            if (!FileUtils.ExportToFile(xml, out found))
+                            if (!FileUtils.ExportToFile(xml, out bool found))
                             {
                                 if (found)
                                 {

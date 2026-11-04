@@ -115,8 +115,7 @@ namespace Destrospean.Utils
             }
             for (int i = 0; i < variables.Count; i++)
             {
-                Complate pattern;
-                if (!patternComplates.TryGetValue(variables[i].Name, out pattern))
+                if (!patternComplates.TryGetValue(variables[i].Name, out Complate pattern))
                 {
                     swap.Dispose();
                     return false;
@@ -132,7 +131,7 @@ namespace Destrospean.Utils
             Hashtable hashtable = presetComplate.CreateTextureCompositors(0u);
             foreach (DictionaryEntry entry in hashtable)
             {
-                string key = ((string)entry.Key).ToLower();
+                string key = ((string)entry.Key).ToLowerInvariant();
                 if (key.EndsWith("diffusemap"))
                 {
                     swap.SetNewCompositor("diffusemap", ((TextureCompositor)entry.Value).ExportData(null, null, null));
@@ -159,20 +158,17 @@ namespace Destrospean.Utils
         /// <param name="actionsToAdd">Actions to add.</param>
         public static void AddActions(string activeTopic, LongTermRelationshipTypes grouping, bool isActive, params string[] actionsToAdd)
         {
-            Dictionary<LongTermRelationshipTypes, Dictionary<bool, List<string>>> groups;
-            if (!ActionAvailabilityData.sActiveTopicInteractions.TryGetValue(activeTopic, out groups))
+            if (!ActionAvailabilityData.sActiveTopicInteractions.TryGetValue(activeTopic, out Dictionary<LongTermRelationshipTypes, Dictionary<bool, List<string>>> groups))
             {
                 groups = new Dictionary<LongTermRelationshipTypes, Dictionary<bool, List<string>>>();
                 ActionAvailabilityData.sActiveTopicInteractions.Add(activeTopic, groups);
             }
-            Dictionary<bool, List<string>> group;
-            if (!groups.TryGetValue(grouping, out group))
+            if (!groups.TryGetValue(grouping, out Dictionary<bool, List<string>> group))
             {
                 group = new Dictionary<bool, List<string>>();
                 groups.Add(grouping, group);
             }
-            List<string> actions;
-            if (!group.TryGetValue(isActive, out actions))
+            if (!group.TryGetValue(isActive, out List<string> actions))
             {
                 actions = new List<string>();
                 group.Add(isActive, actions);
@@ -244,14 +240,12 @@ namespace Destrospean.Utils
         public static void AddEnumValue<T>(string key, object value) where T : struct
         {
             Type enumType = typeof(T);
-            EnumParser caseInsensitiveEnumParser;
-            if (!ParserFunctions.sCaseInsensitiveEnumParsers.TryGetValue(enumType, out caseInsensitiveEnumParser))
+            if (!ParserFunctions.sCaseInsensitiveEnumParsers.TryGetValue(enumType, out EnumParser caseInsensitiveEnumParser))
             {
                 caseInsensitiveEnumParser = new EnumParser(enumType, true);
                 ParserFunctions.sCaseInsensitiveEnumParsers.Add(enumType, caseInsensitiveEnumParser);
             }
-            EnumParser caseSensitiveEnumParser;
-            if (!ParserFunctions.sCaseSensitiveEnumParsers.TryGetValue(enumType, out caseSensitiveEnumParser))
+            if (!ParserFunctions.sCaseSensitiveEnumParsers.TryGetValue(enumType, out EnumParser caseSensitiveEnumParser))
             {
                 caseSensitiveEnumParser = new EnumParser(enumType, false);
                 ParserFunctions.sCaseSensitiveEnumParsers.Add(enumType, caseSensitiveEnumParser);
@@ -294,14 +288,13 @@ namespace Destrospean.Utils
             {
                 return new SortedList<string, Complate>();
             }
-            Complate patternComplate;
-            if (enabledStencils != null && patternComplates.TryGetValue(processedPreset, out patternComplate))
+            if (enabledStencils != null && patternComplates.TryGetValue(processedPreset, out Complate patternComplate))
             {
                 foreach (Complate.Variable variable in patternComplate.Variables)
                 {
                     if (variable.Type == Complate.Variable.Types.Bool)
                     {
-                        string variableName = variable.Name.ToLower();
+                        string variableName = variable.Name.ToLowerInvariant();
                         if (variableName.StartsWith("stencil ") && variableName.EndsWith(" enabled"))
                         {
                             enabledStencils.Add(variable.Name, bool.Parse(variable.Value));
@@ -395,14 +388,13 @@ namespace Destrospean.Utils
 
         public static void LoadSocialData(string instanceName)
         {
-            XmlDocument xmlDocument = Simulator.LoadXML(instanceName);
-            bool isEp5Installed = GameUtils.IsInstalled(ProductVersion.EP5);
-            if (instanceName != null)
+            if (!string.IsNullOrEmpty(instanceName))
             {
+                bool isEp5Installed = GameUtils.IsInstalled(ProductVersion.EP5);
+                XmlDocument xmlDocument = Simulator.LoadXML(instanceName);
                 foreach (XmlElement element in new XmlElementLookup(xmlDocument)["Action"])
                 {
-                    CommodityTypes commodityTypes;
-                    ParserFunctions.TryParseEnum<CommodityTypes>(element.GetAttribute("com"), out commodityTypes, CommodityTypes.Undefined);
+                    ParserFunctions.TryParseEnum<CommodityTypes>(element.GetAttribute("com"), out CommodityTypes commodityTypes, CommodityTypes.Undefined);
                     ActionData.Add(new ActionData(element.GetAttribute("key"), commodityTypes, ProductVersion.BaseGame, new XmlElementLookup(element), isEp5Installed));
                 }
             }
@@ -485,10 +477,7 @@ namespace Destrospean.Utils
         /// <param name="actionsToRemove">Actions to remove.</param>
         public static void RemoveActions(string activeTopic, LongTermRelationshipTypes grouping, bool isActive, params string[] actionsToRemove)
         {
-            List<string> actions;
-            Dictionary<bool, List<string>> group;
-            Dictionary<LongTermRelationshipTypes, Dictionary<bool, List<string>>> groups;
-            if (ActionAvailabilityData.sActiveTopicInteractions.TryGetValue(activeTopic, out groups) && groups.TryGetValue(grouping, out group) && group.TryGetValue(isActive, out actions))
+            if (ActionAvailabilityData.sActiveTopicInteractions.TryGetValue(activeTopic, out Dictionary<LongTermRelationshipTypes, Dictionary<bool, List<string>>> groups) && groups.TryGetValue(grouping, out Dictionary<bool, List<string>> group) && group.TryGetValue(isActive, out List<string> actions))
             {
                 actions.RemoveAll(x => Array.Exists(actionsToRemove, y => y == x));
             }
@@ -496,14 +485,11 @@ namespace Destrospean.Utils
 
         public static void RemoveEnumValue<T>(string key) where T : struct
         {
-            Type enumType = typeof(T);
-            EnumParser caseInsensitiveEnumParser;
-            if (ParserFunctions.sCaseInsensitiveEnumParsers.TryGetValue(enumType, out caseInsensitiveEnumParser) && caseInsensitiveEnumParser.mLookup.ContainsKey(key.ToLowerInvariant()))
+            if (ParserFunctions.sCaseInsensitiveEnumParsers.TryGetValue(typeof(T), out EnumParser caseInsensitiveEnumParser) && caseInsensitiveEnumParser.mLookup.ContainsKey(key.ToLowerInvariant()))
             {
                 caseInsensitiveEnumParser.mLookup.Remove(key.ToLowerInvariant());
             }
-            EnumParser caseSensitiveEnumParser;
-            if (ParserFunctions.sCaseSensitiveEnumParsers.TryGetValue(enumType, out caseSensitiveEnumParser) && caseSensitiveEnumParser.mLookup.ContainsKey(key))
+            if (ParserFunctions.sCaseSensitiveEnumParsers.TryGetValue(typeof(T), out EnumParser caseSensitiveEnumParser) && caseSensitiveEnumParser.mLookup.ContainsKey(key))
             {
                 caseSensitiveEnumParser.mLookup.Remove(key);
             }
@@ -615,7 +601,6 @@ namespace Destrospean.Utils
             flags = CASAgeGenderFlags.None;
             entryKey = entryKey ?? typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CASAgeGenderFlagListDialog");
             List<CASAgeGenderFlags> flagList = new List<CASAgeGenderFlags>(Array.FindAll((CASAgeGenderFlags[])Enum.GetValues(typeof(CASAgeGenderFlags)), x => preSelectedFlags.HasValue ? (preSelectedFlags & mask & x) == x && x != CASAgeGenderFlags.None && x != CASAgeGenderFlags.AgeMask && x != CASAgeGenderFlags.GenderMask : false));
-            bool cancelled, confirmed;
             while (true)
             {
                 if (flagList.Count == 0 && okayButtonAlwaysEnabled)
@@ -638,7 +623,7 @@ namespace Destrospean.Utils
                     } : new List<ObjectPickerDialog.CommonHeaderInfo<CASAgeGenderFlags>>
                     {
                         new CASAgeGenderFlagColumn(entryKey),
-                    }, 1, out confirmed, out cancelled, okayButtonAlwaysEnabled);
+                    }, 1, out bool confirmed, out bool cancelled, okayButtonAlwaysEnabled);
                 if (cancelled)
                 {
                     return false;
@@ -689,7 +674,6 @@ namespace Destrospean.Utils
             }
             entryKey = entryKey ?? typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CommodityKindListDialog");
             List<string> nameList = new List<string>(preSelectedNames);
-            bool cancelled, confirmed;
             while (true)
             {
                 List<string> selectedNames = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
@@ -699,7 +683,7 @@ namespace Destrospean.Utils
                     {
                         new TextColumn(entryKey, 400),
                         new TextInListColumn(entryKey, nameList.ToArray(), 40)
-                    }, 1, out confirmed, out cancelled, true);
+                    }, 1, out bool confirmed, out bool cancelled, true);
                 if (cancelled)
                 {
                     selectedCommodityKinds = null;
@@ -741,7 +725,6 @@ namespace Destrospean.Utils
             }
             string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "SkillListDialog");
             List<SkillLevelPair> skillList = new List<SkillLevelPair>(currentSkills);
-            bool cancelled, confirmed;
             while (true)
             {
                 List<SkillLevelPair> selectedSkills = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
@@ -751,7 +734,7 @@ namespace Destrospean.Utils
                     {
                         new SkillColumn(entryKey),
                         new SkillLevelColumn(entryKey, skillList.ToArray())
-                    }, 1, out confirmed, out cancelled, true);
+                    }, 1, out bool confirmed, out bool cancelled, true);
                 if (cancelled)
                 {
                     return false;
@@ -805,7 +788,6 @@ namespace Destrospean.Utils
             }
             string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "TraitListDialog");
             List<Trait> traitList = new List<Trait>(currentTraits);
-            bool cancelled, confirmed;
             while (true)
             {
                 List<Trait> selectedTraits = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
@@ -815,7 +797,7 @@ namespace Destrospean.Utils
                     {
                         new TraitColumn(entryKey, gender == CASAgeGenderFlags.Female),
                         new TraitEnabledColumn(entryKey, traitList.ToArray())
-                    }, 1, out confirmed, out cancelled, true);
+                    }, 1, out bool confirmed, out bool cancelled, true);
                 if (cancelled)
                 {
                     return false;
@@ -837,20 +819,20 @@ namespace Destrospean.Utils
             }
         }
 
-        public static bool TryChangeScriptClass(this GameObject gameObject, string newClassName)
+        public static bool TryChangeScriptClass(this GameObject gameObject, string newScriptClassName)
         {
-            if (string.IsNullOrEmpty(newClassName))
+            if (string.IsNullOrEmpty(newScriptClassName))
             {
                 return false;
             }
             ResourceKey resourceKey = gameObject.GetResourceKey();
-            IGameObject clone = GlobalFunctions.CreateObject(new ResourceKey(resourceKey.InstanceId, 0x319E4F1D, resourceKey.GroupId), gameObject.Position, gameObject.Level, gameObject.ForwardVector, newClassName, null);
-            if (clone == null || clone is FailureObject)
+            GameObject newGameObject = GlobalFunctions.CreateObject(new ResourceKey(resourceKey.InstanceId, 0x319E4F1D, resourceKey.GroupId), gameObject.Position, gameObject.Level, gameObject.ForwardVector, newScriptClassName, null) as GameObject;
+            if (newGameObject == null || newGameObject is FailureObject)
             {
                 return false;
             }
             SortedList<string, bool> enabledStencils = new SortedList<string, bool>();
-            Complate.SetupDesignSwap(clone.ObjectId, Complate.ExtractPatterns(gameObject.ObjectId, enabledStencils), false, enabledStencils)?.ApplyToObject();
+            Complate.SetupDesignSwap(newGameObject.ObjectId, Complate.ExtractPatterns(gameObject.ObjectId, enabledStencils), false, enabledStencils)?.ApplyToObject();
             Slot slot = Slot.None;
             GameObject parent = gameObject.Parent as GameObject;
             if (parent != null)
@@ -864,14 +846,13 @@ namespace Destrospean.Utils
                     }
                 }
             }
-            GameObject newGameObject = clone as GameObject;
             newGameObject.mPurchasedPrice = gameObject.mPurchasedPrice;
             newGameObject.mValueModifier = gameObject.mValueModifier;
             gameObject.Destroy();
             gameObject.Dispose();
-            if (slot != Slot.None && !clone.ParentToSlot(parent, slot))
+            if (slot != Slot.None && !newGameObject.ParentToSlot(parent, slot))
             {
-                GlobalFunctions.PlaceWithHandTool(clone);
+                GlobalFunctions.PlaceWithHandTool(newGameObject);
             }
             return true;
         }
@@ -1042,7 +1023,6 @@ namespace Destrospean.Utils
                     namespaces.Add(type.Namespace);
                 }
             }
-            bool cancelled, confirmed;
             while (true)
             {
                 List<string> selectedNamespaces = ObjectPickerDialog.Show(namespaceListTitle ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "NamespaceListDialog:Title"), new List<ObjectPicker.TabInfo>
@@ -1051,7 +1031,7 @@ namespace Destrospean.Utils
                     }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
                     {
                         new TextColumn(entryKey + "NamespaceListDialog")
-                    }, 1, out confirmed, out cancelled);
+                    }, 1, out bool confirmed, out bool cancelled);
                 if (cancelled)
                 {
                     selectedTypes = null;

@@ -29,8 +29,7 @@ namespace Destrospean.UI.Dialogs
             {
                 return;
             }
-            Text text = mModalDialogWindow.GetChildByID(5u, true) as Text;
-            if (text != null)
+            if (mModalDialogWindow.GetChildByID(5u, true) is Text text)
             {
                 text.Caption = title;
             }

@@ -140,8 +140,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static float CalculateScoreForObjectInteraction(Autonomy autonomy, InteractionObjectPair iop)
         {
-            ScoreDebugInfo tradeoffScore;
-            return CalculateScoreForObjectInteraction(autonomy, iop, out tradeoffScore);
+            return CalculateScoreForObjectInteraction(autonomy, iop, out _);
         }
 
         public static float CalculateScoreForObjectInteraction(Autonomy autonomy, InteractionObjectPair iop, out ScoreDebugInfo tradeoffScore)
@@ -159,8 +158,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
             CommodityKind mostValuedCommodity = CommodityKind.None;
             float metaOutputScore = 0f;
-            IMetaInteractionDefinition metaInteractionDefinition = iop.InteractionDefinition as IMetaInteractionDefinition;
-            if (metaInteractionDefinition != null)
+            if (iop.InteractionDefinition is IMetaInteractionDefinition metaInteractionDefinition)
             {
                 metaOutputScore = metaInteractionDefinition.MetaAdScore(autonomy.mActor, iop.Target, autonomy.mInteractionScorer, ref mostValuedCommodity);
             }
@@ -276,7 +274,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         }
                     }
                 }
-                else if (ServiceUtils.IsFromExpandedHouseholdStaff(serviceDataType) && (bool)serviceDataType.GetProperty("IsQuietAroundSleepingSims").GetValue(autonomy.mActor.Service, null) && useObjectInSameRoomAsSleeperMultiplierProperty != null && useObjectInSameRoomAsSleeperMultiplierProperty.PropertyType == typeof(float) && iop.Target as IBed == null)
+                else if (ServiceUtils.IsFromExpandedHouseholdStaff(serviceDataType) && (bool)serviceDataType.GetProperty("IsQuietAroundSleepingSims").GetValue(autonomy.mActor.Service, null) && useObjectInSameRoomAsSleeperMultiplierProperty != null && useObjectInSameRoomAsSleeperMultiplierProperty.PropertyType == typeof(float) && !(iop.Target is IBed))
                 {
                     int roomId = iop.Target.RoomId;
                     if (autonomy.mActor.LotCurrent.Household != null)
@@ -311,7 +309,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 multiplier *= Autonomy.kVampireDaylightOutdoorMultiplier;
             }
-            if (targetSim != null && targetSim.Posture is IInBoxStallPosture && iop.InteractionDefinition as IBoxStallAllowedInteractionDefinition == null && (autonomy.mActor != targetSim || autonomy.mCurrentSearchType != AutonomySearchType.BuffAutoSolve))
+            if (targetSim != null && targetSim.Posture is IInBoxStallPosture && !(iop.InteractionDefinition is IBoxStallAllowedInteractionDefinition) && (autonomy.mActor != targetSim || autonomy.mCurrentSearchType != AutonomySearchType.BuffAutoSolve))
             {
                 return 0f;
             }
@@ -354,7 +352,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
             score *= multiplier;
             float scoreBonus = 0f;
-            if (autonomy.Actor.CurrentInteraction as OccultImaginaryFriend.ImaginaryFriendCleanHouse == null)
+            if (!(autonomy.Actor.CurrentInteraction is OccultImaginaryFriend.ImaginaryFriendCleanHouse))
             {
                 scoreBonus = autonomy.ComputeCheckScore(iop.Checks, tradeoffScore, iop.Tradeoff, autonomy.mActor, iop.Target);
             }

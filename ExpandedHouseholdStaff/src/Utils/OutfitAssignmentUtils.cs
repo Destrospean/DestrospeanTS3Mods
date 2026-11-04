@@ -194,8 +194,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool AddAssignedOutfit(this Sim sim, string assignedSpecialOutfitKey, string simSpecialOutfitKey = null)
         {
-            AssignedOutfit assignedOutfit;
-            return AssignedOutfits.TryGetValue(assignedSpecialOutfitKey, out assignedOutfit) && sim.SimDescription.AddAssignedOutfit(assignedOutfit, simSpecialOutfitKey ?? assignedSpecialOutfitKey);
+            return AssignedOutfits.TryGetValue(assignedSpecialOutfitKey, out AssignedOutfit assignedOutfit) && sim.SimDescription.AddAssignedOutfit(assignedOutfit, simSpecialOutfitKey ?? assignedSpecialOutfitKey);
         }
 
         public static void AssignOutfitToService(this SimDescription simDescription, string specialOutfitKey, IServiceProfile serviceProfile, SimDescription fallbackSimDescription)
@@ -286,7 +285,6 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         {
             string entryKey = typeof(UI.Dialogs.ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "PartOverrideListDialog");
             List<BodyTypes> partOverrideList = new List<BodyTypes>(preSelectedPartOverrides ?? assignedOutfit.PartOverrides.ToArray());
-            bool cancelled, confirmed;
             while (true)
             {
                 List<BodyTypes> selectedPartOverrides = UI.Dialogs.ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
@@ -296,7 +294,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     {
                         new BodyTypeColumn(entryKey),
                         new BodyTypeEnabledColumn(entryKey, partOverrideList.ToArray())
-                    }, 1, out confirmed, out cancelled, true);
+                    }, 1, out bool confirmed, out bool cancelled, true);
                 if (cancelled)
                 {
                     partOverrides = null;
@@ -387,8 +385,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static void UnassignGlobalOutfitToService(this SimDescription simDescription, IServiceProfile serviceProfile)
         {
-            OutfitAssignment outfitAssignment;
-            if (simDescription.TryGetGlobalOutfitAssignment(serviceProfile, out outfitAssignment))
+            if (simDescription.TryGetGlobalOutfitAssignment(serviceProfile, out OutfitAssignment outfitAssignment))
             {
                 OutfitAssignments.Remove(outfitAssignment);
                 IndexOutfitAssignments();
@@ -397,8 +394,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static void UnassignOutfitToService(this SimDescription simDescription, IServiceProfile serviceProfile)
         {
-            OutfitAssignment outfitAssignment;
-            if (simDescription.TryGetOutfitAssignment(serviceProfile, out outfitAssignment))
+            if (simDescription.TryGetOutfitAssignment(serviceProfile, out OutfitAssignment outfitAssignment))
             {
                 OutfitAssignments.Remove(outfitAssignment);
                 IndexOutfitAssignments();

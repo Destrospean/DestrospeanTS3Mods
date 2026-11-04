@@ -7,7 +7,6 @@ using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Core;
 using Sims3.Gameplay.DreamsAndPromises;
-using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
@@ -21,7 +20,6 @@ using Sims3.Gameplay.Situations;
 using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.UI;
 using Sims3.Gameplay.Utilities;
-using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions;
 using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services;
 using Sims3.Gameplay.Destrospean.Utils;
@@ -76,8 +74,7 @@ namespace Destrospean.ExpandedHouseholdStaff
             LoadSaveManager.ObjectGroupsPreLoad += () => Phone.CallForServices.Singleton = new CallForServices.Definition();
             World.OnObjectPlacedInLotEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                 {
-                    World.OnObjectPlacedInLotEventArgs onObjectPlacedInLotEventArgs = e as World.OnObjectPlacedInLotEventArgs;
-                    if (onObjectPlacedInLotEventArgs != null)
+                    if (e is World.OnObjectPlacedInLotEventArgs onObjectPlacedInLotEventArgs)
                     {
                         GameObject gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
                         gameObject.AddInteraction(ListInteractions.Singleton, true);
@@ -153,13 +150,11 @@ namespace Destrospean.ExpandedHouseholdStaff
             if (sim.AssignedRole != null)
             {
                 isServiceOrRole = true;
-                ShoppingRegister shoppingRegister = sim.AssignedRole.RoleGivingObject as ShoppingRegister;
-                string localizedString;
-                if (shoppingRegister != null)
+                if (sim.AssignedRole.RoleGivingObject is ShoppingRegister shoppingRegister)
                 {
                     text += ", " + shoppingRegister.RegisterRoleName(sim.IsFemale);
                 }
-                else if (StringTable.GetLocalizedString(sim.AssignedRole.CareerTitleKey, out localizedString))
+                else if (StringTable.GetLocalizedString(sim.AssignedRole.CareerTitleKey, out string localizedString))
                 {
                     text += ", " + localizedString;
                 }
@@ -172,19 +167,16 @@ namespace Destrospean.ExpandedHouseholdStaff
             else if (SimTypes.InServicePool(sim))
             {
                 isServiceOrRole = true;
-                string localizedString;
-                CustomService customService = sim.CreatedByService as CustomService;
-                if (customService != null)
+                if (sim.CreatedByService is CustomService customService)
                 {
                     text += ", " + customService.Profile.Title;
                 }
-                else if (StringTable.GetLocalizedString("Ui/Caption/Services/Service:" + sim.CreatedByService.ServiceType, out localizedString))
+                else if (StringTable.GetLocalizedString("Ui/Caption/Services/Service:" + sim.CreatedByService.ServiceType, out string localizedString))
                 {
                     text += ", " + localizedString;
                 }
             }
-            List<string> customTitles;
-            if (Tagger.Settings.mCustomSimTitles.TryGetValue(sim.SimDescriptionId, out customTitles))
+            if (Tagger.Settings.mCustomSimTitles.TryGetValue(sim.SimDescriptionId, out List<string> customTitles))
             {
                 int perLine = isServiceOrRole ? 1 : 2;
                 isServiceOrRole = true;
@@ -325,7 +317,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                     }
                     string listString = ", ";
                     int motiveIndex = 0;
-                    foreach (CommodityKind motive in (Responder.Instance.HudModel as HudModel).GetMotives(sim.CreatedSim))
+                    foreach (CommodityKind motive in ((HudModel)Responder.Instance.HudModel).GetMotives(sim.CreatedSim))
                     {
                         if (sim.CreatedSim.Motives.HasMotive(motive))
                         {
@@ -351,7 +343,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                     text += Common.NewLine;
                     try
                     {
-                        text += createdSim.CurrentInteraction.ToString();
+                        text += createdSim.CurrentInteraction;
                     }
                     catch (Exception exception)
                     {
@@ -361,10 +353,9 @@ namespace Destrospean.ExpandedHouseholdStaff
                     Tone currentTone = createdSim.CurrentInteraction.CurrentTone;
                     if (currentTone != null)
                     {
-                        text += Common.NewLine + currentTone.ToString();
+                        text += Common.NewLine + currentTone;
                     }
-                    SocialInteractionBase socialInteractionBase = createdSim.CurrentInteraction as SocialInteractionBase;
-                    if (socialInteractionBase != null && socialInteractionBase.Target != null)
+                    if (createdSim.CurrentInteraction is SocialInteractionBase socialInteractionBase && socialInteractionBase.Target != null)
                     {
                         text += " " + Common.Localize("TagData:With", sim.IsFemale, new object[]
                             {
@@ -521,7 +512,7 @@ namespace Destrospean.ExpandedHouseholdStaff
 
         public static bool IsInServicePreventingSocialization(Sim target)
         {
-            return ((target.Service as CustomService)?.Profile.PreventSocialization ?? target.Service as IAmSociableService == null) && IsInServicePreventingSocialization_Original(target);
+            return ((target.Service as CustomService)?.Profile.PreventSocialization ?? !(target.Service is IAmSociableService)) && IsInServicePreventingSocialization_Original(target);
         }
 
         public static bool IsInServicePreventingSocialization_Original(Sim target)
@@ -549,8 +540,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                     CustomService customService = actor.Service as CustomService;
                     if (actor.IsPerformingAService && (customService?.WaitsBeforePuttingAwayLeftovers ?? false))
                     {
-                        IPreparedFood preparedFood = iop.Target as IPreparedFood;
-                        return preparedFood != null && SimClock.ElapsedTime(TimeUnit.Minutes) - preparedFood.TimeOfCreation <= customService.TimeWaitBeforePutawayLeftovers ? 0f : 1f;
+                        return iop.Target is IPreparedFood preparedFood && SimClock.ElapsedTime(TimeUnit.Minutes) - preparedFood.TimeOfCreation <= customService.TimeWaitBeforePutawayLeftovers ? 0f : 1f;
                     }
                     return CleanableComponent.PutAwayLeftOversScoringFunction(actor, iop);
                 }, out retVal);

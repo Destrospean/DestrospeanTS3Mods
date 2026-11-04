@@ -121,7 +121,6 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             {
                 get
                 {
-                    bool retVal;
                     return !DebugUtils.TryDisplayScriptError(() =>
                         {
                             Parent.MoveAllPossibleToTargetInventory();
@@ -160,7 +159,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                                 }
                             }
                             return true;
-                        }, out retVal) && retVal;
+                        }, out bool retVal) && retVal;
                 }
             }
 
@@ -187,11 +186,9 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                     {
                         currentInteractionSatisfiesHunger = true;
                     }
-                    Sim sim = Parent.Worker.CurrentInteraction.Target as Sim;
-                    if (sim == null || !sim.SimDescription.ChildOrBelow || !extendedHouseholdSims.Contains(sim))
+                    if (!(Parent.Worker.CurrentInteraction.Target is Sim sim) || !sim.SimDescription.ChildOrBelow || !extendedHouseholdSims.Contains(sim))
                     {
-                        GameObject gameObject = Parent.Worker.CurrentInteraction.Target as GameObject;
-                        if (gameObject != null)
+                        if (Parent.Worker.CurrentInteraction.Target is GameObject gameObject)
                         {
                             foreach (Sim item in gameObject.ActorsUsingMe)
                             {
@@ -275,8 +272,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             public void PushSwitchToServiceUniform()
             {
                 CustomService service = Parent.Service as CustomService;
-                OutfitAssignmentUtils.OutfitAssignment outfitAssignment;
-                if (service?.Profile != null && OutfitAssignmentUtils.TryGetGlobalOutfitAssignment(Parent.Worker.SimDescription, service.Profile, out outfitAssignment) && Parent.Worker.CurrentOutfitCategory != OutfitCategories.Career)
+                if (service?.Profile != null && OutfitAssignmentUtils.TryGetGlobalOutfitAssignment(Parent.Worker.SimDescription, service.Profile, out OutfitAssignmentUtils.OutfitAssignment outfitAssignment) && Parent.Worker.CurrentOutfitCategory != OutfitCategories.Career)
                 {
                     Parent.Worker.PushSwitchToOutfitInteraction(Sim.ClothesChangeReason.Force, OutfitCategories.Career, new InteractionPriority(InteractionPriorityLevel.Autonomous, 50f));
                 }
@@ -544,7 +540,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             CarService car = GlobalFunctions.CreateObjectOutOfWorld(new ResourceKey(service.Profile.CarInstanceId, 0x319E4F1D, service.Profile.CarGroupId), typeof(CarServiceMaidVan).FullName, null) as CarService;
             if (!string.IsNullOrEmpty(service.Profile.CarPreset))
             {
-                car.ApplyPreset(service.Profile.CarPreset);
+                car?.ApplyPreset(service.Profile.CarPreset);
             }
             return car;
         }
@@ -632,8 +628,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             DebugUtils.TryDisplayScriptError(() =>
                 {
                     CustomService service = (CustomService)Service;
-                    OutfitAssignmentUtils.OutfitAssignment outfitAssignment;
-                    if (Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out outfitAssignment) && Worker.AddAssignedOutfit(outfitAssignment.SpecialOutfitKey))
+                    if (Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out OutfitAssignmentUtils.OutfitAssignment outfitAssignment) && Worker.AddAssignedOutfit(outfitAssignment.SpecialOutfitKey))
                     {
                         Worker.SimDescription.AddOutfit(new SimOutfit(Worker.SimDescription.GetSpecialOutfit(outfitAssignment.SpecialOutfitKey).Key), OutfitCategories.Career, true);
                         for (int i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
