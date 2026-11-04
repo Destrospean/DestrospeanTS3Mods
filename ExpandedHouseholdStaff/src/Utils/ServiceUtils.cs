@@ -1440,7 +1440,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 {
                     return false;
                 }
-                if (TryConvertTimeToHours(timeToStartStopWorkingString, out timeToStartStopWorking, out int failReason))
+                if (TryConvertTimeToHours(timeToStartStopWorkingString, out timeToStartStopWorking, out _))
                 {
                     return true;
                 }

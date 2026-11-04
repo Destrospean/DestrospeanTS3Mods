@@ -48,7 +48,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                         if (interaction.Tuning != null)
                         {
                             string interactionName = null;
-                            DebugUtils.TryGetException(() => interactionName = interaction.InteractionDefinition.GetInteractionName(Actor, Target, interaction), out Exception exception);
+                            DebugUtils.TryGetException(() => interactionName = interaction.InteractionDefinition.GetInteractionName(Actor, Target, interaction), out _);
                             StyledNotification.Show(new StyledNotification.Format(Localization.LocalizeString(LocalizationKey + "/Headers:ObjectName") + Target.GetLocalizedName() + "\n" + Localization.LocalizeString(LocalizationKey + "/Headers:InteractionName") + interactionName + "\n" + Localization.LocalizeString(LocalizationKey + "/Headers:InteractionDefinitionType") + interaction.Tuning.FullInteractionName + "\n" + Localization.LocalizeString(LocalizationKey + "/Headers:TargetType") + interaction.Tuning.FullObjectName, StyledNotification.NotificationStyle.kSystemMessage));
                         }
                     }
