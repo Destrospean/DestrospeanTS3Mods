@@ -719,7 +719,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                     }
                                 }
                             }
-                            var specialOutfitKey = OutfitAssignmentUtils.GetGlobalAssignedOutfitPrefix((ParserFunctions.TryParseEnum(node.Attributes["age"].Value, out var age, CASAgeGenderFlags.None) ? age : CASAgeGenderFlags.None) | (ParserFunctions.TryParseEnum(node.Attributes["gender"].Value, out var gender, CASAgeGenderFlags.None) ? gender : CASAgeGenderFlags.None)) + serviceName;
+                            var specialOutfitKey = ((ParserFunctions.TryParseEnum(node.Attributes["age"].Value, out var age, CASAgeGenderFlags.None) ? age : CASAgeGenderFlags.None) | (ParserFunctions.TryParseEnum(node.Attributes["gender"].Value, out var gender, CASAgeGenderFlags.None) ? gender : CASAgeGenderFlags.None)).GetGlobalAssignedOutfitPrefix() + serviceName;
                             OutfitAssignmentUtils.OutfitAssignments.Add(new OutfitAssignmentUtils.OutfitAssignment(null, specialOutfitKey, ServiceUtils.ServiceProfiles[profileIndex]));
                             OutfitAssignmentUtils.IndexOutfitAssignments();
                             OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey] = assignedOutfit;

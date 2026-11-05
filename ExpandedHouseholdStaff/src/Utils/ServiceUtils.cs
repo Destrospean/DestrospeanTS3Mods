@@ -997,7 +997,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// </summary>
         public static void AddServiceToSaveGame(this IServiceProfile profile)
         {
-            if (CanAddServiceToSaveGame(profile))
+            if (profile.CanAddServiceToSaveGame())
             {
                 ServiceProfiles.Add(profile);
                 CustomService.Init(profile);
@@ -1500,7 +1500,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     {
                         new CommodityChange(typeof(SitAndWait.Definition), typeof(GameObject), 1f, true, 1f, OutputUpdateType.ImmediateDelta)
                     };
-                if (!TryUIEditServiceProfile(profile, true))
+                if (!profile.TryUIEditServiceProfile(true))
                 {
                     continue;
                 }

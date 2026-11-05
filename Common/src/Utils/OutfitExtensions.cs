@@ -51,7 +51,7 @@ namespace Destrospean.Utils
                     UseCompression = true
                 })
             {
-                ApplyToAllOutfits(simDescription, simBuilder, outfitFunc, spin);
+                simDescription.ApplyToAllOutfits(simBuilder, outfitFunc, spin);
             }
         }
 
