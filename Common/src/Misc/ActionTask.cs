@@ -5,7 +5,7 @@ namespace Destrospean.Misc
 {
     public class ActionTask : Task
     {
-        Action[] mActions = null;
+        private Action[] mActions;
 
         public ActionTask(params Action[] actions)
         {
@@ -18,14 +18,11 @@ namespace Destrospean.Misc
             {
                 if (mActions != null)
                 {
-                    foreach (Action action in mActions)
+                    foreach (var action in mActions)
                     {
                         action();
                     }
                 }
-            }
-            catch
-            {
             }
             finally 
             {

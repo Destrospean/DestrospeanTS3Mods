@@ -5,9 +5,9 @@ namespace Destrospean.UI.Columns
 {
     public class TextInListColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<string>
     {
-        readonly string mLocalizationPath;
+        private readonly string mLocalizationPath;
 
-        readonly List<string> mStringsInList;
+        private readonly List<string> mStringsInList;
 
         public TextInListColumn(string localizationPath, string[] strings, int width = 440) : base(localizationPath + "/Headers/TextInList:Text", localizationPath + "/Headers/TextInList:Tooltip", width)
         {

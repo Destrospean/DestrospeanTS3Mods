@@ -8,7 +8,7 @@ namespace Sims3.Gameplay.Destrospean.Utils
     public class DebugUtils
     {
         [Tunable]
-        static bool kShowDebugMessages;
+        private static bool kShowDebugMessages;
 
         /// <summary>
         /// Shows a debug message dialog (only when <see cref="Sims3.Gameplay.Destrospean.Utils.DebugUtils.kShowDebugMessages"/> is set to <c>true</c>).
@@ -39,7 +39,7 @@ namespace Sims3.Gameplay.Destrospean.Utils
         /// <param name="action">Function to execute and check for an error.</param>
         public static bool TryDisplayScriptError(Action action)
         {
-            if (TryGetException(action, out Exception exception))
+            if (TryGetException(action, out var exception))
             {
                 ((IScriptErrorWindow)AppDomain.CurrentDomain.GetData("ScriptErrorWindow")).DisplayScriptError(null, exception);
                 return true;
@@ -56,8 +56,8 @@ namespace Sims3.Gameplay.Destrospean.Utils
         /// <typeparam name="T">Return value type.</typeparam>
         public static bool TryDisplayScriptError<T>(Func<T> callback, out T value)
         {
-            T retVal = default(T);
-            bool errorDisplayed = TryDisplayScriptError(() => retVal = callback());
+            var retVal = default(T);
+            var errorDisplayed = TryDisplayScriptError(() => retVal = callback());
             value = retVal;
             return errorDisplayed;
         }

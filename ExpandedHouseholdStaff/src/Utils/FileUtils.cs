@@ -27,14 +27,14 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 {
     public class FileUtils
     {
-        const string kLocalizationKey = "Destrospean/UI/Dialogs";
+        private const string kLocalizationKey = "Destrospean/UI/Dialogs";
 
-        const string kSavedSettingsPrefix = "Destrospean.ExpandedHouseholdStaff.";
+        private const string kSavedSettingsPrefix = "Destrospean.ExpandedHouseholdStaff.";
 
         public static void DeleteFile()
         {
             BinModel.Singleton.PopulateExportBin();
-            Dictionary<string, ulong> savedSettings = new Dictionary<string, ulong>();
+            var savedSettings = new Dictionary<string, ulong>();
             foreach (ExportBinContents contents in BinModel.Singleton.ExportBinContents)
             {
                 if (contents.HouseholdName != null && contents.HouseholdName.Contains(kSavedSettingsPrefix))
@@ -47,9 +47,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/NoServiceCollectionsExistDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/NoServiceCollectionsExistDialog:Message"));
                 return;
             }
-            if (TryUIGetSelectedSavedSettingsNames(out string[] savedSettingsNames, new List<string>(savedSettings.Keys).ConvertAll(x => x.Replace(kSavedSettingsPrefix, "")).ToArray(), Localization.LocalizeString(DeleteServiceCollection.LocalizationKey + ":Name")))
+            if (TryUIGetSelectedSavedSettingsNames(out var savedSettingsNames, new List<string>(savedSettings.Keys).ConvertAll(x => x.Replace(kSavedSettingsPrefix, "")).ToArray(), Localization.LocalizeString(DeleteServiceCollection.LocalizationKey + ":Name")))
             {
-                foreach (string name in savedSettingsNames)
+                foreach (var name in savedSettingsNames)
                 {
                     BinModel.Singleton.DeleteFromExportBin(savedSettings[kSavedSettingsPrefix + name]);
                 }
@@ -85,7 +85,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     }
                 }
             }
-            Household dummyHousehold = Household.Create();
+            var dummyHousehold = Household.Create();
             dummyHousehold.SetName(name);
             dummyHousehold.BioText = text;
             BinModel.Singleton.AddToExportBin(dummyHousehold);
@@ -97,7 +97,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public static string ExtractFromFile()
         {
             BinModel.Singleton.PopulateExportBin();
-            Dictionary<string, string> savedSettings = new Dictionary<string, string>();
+            var savedSettings = new Dictionary<string, string>();
             foreach (ExportBinContents contents in BinModel.Singleton.ExportBinContents)
             {
                 if (contents.HouseholdName != null && contents.HouseholdName.Contains(kSavedSettingsPrefix))
@@ -110,20 +110,20 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/NoServiceCollectionsExistDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/NoServiceCollectionsExistDialog:Message"));
                 return null;
             }
-            return TryUIGetSelectedSavedSettingsNames(out string[] savedSettingsNames, new List<string>(savedSettings.Keys).ConvertAll(x => x.Replace(kSavedSettingsPrefix, "")).ToArray(), Localization.LocalizeString(ImportServiceCollection.LocalizationKey + ":Name"), 1) ? savedSettings[kSavedSettingsPrefix + savedSettingsNames[0]] : null;
+            return TryUIGetSelectedSavedSettingsNames(out var savedSettingsNames, new List<string>(savedSettings.Keys).ConvertAll(x => x.Replace(kSavedSettingsPrefix, "")).ToArray(), Localization.LocalizeString(ImportServiceCollection.LocalizationKey + ":Name"), 1) ? savedSettings[kSavedSettingsPrefix + savedSettingsNames[0]] : null;
         }
 
         public static string ExtractFromTuning(string name)
         {
-            XmlDocument xmlDocument = Simulator.LoadXML(name);
+            var xmlDocument = Simulator.LoadXML(name);
             if (xmlDocument == null)
             {
                 return null; 
             }
-            StringBuilder stringBuilder = new StringBuilder();
-            using (Utf8StringWriter stringWriter = new Utf8StringWriter(stringBuilder))
+            var stringBuilder = new StringBuilder();
+            using (var stringWriter = new Utf8StringWriter(stringBuilder))
             {
-                using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
+                using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
                     {
                         Encoding = Encoding.UTF8,
                         OmitXmlDeclaration = false
@@ -139,10 +139,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static string GetXml(IEnumerable<IServiceProfile> profiles)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            using (Utf8StringWriter stringWriter = new Utf8StringWriter(stringBuilder))
+            var stringBuilder = new StringBuilder();
+            using (var stringWriter = new Utf8StringWriter(stringBuilder))
             {
-                using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
+                using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
                     {
                         Encoding = Encoding.UTF8
                     }))
@@ -154,7 +154,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         xmlWriter.WriteStartElement("ServiceProfile");
                         xmlWriter.WriteAttributeString("version", profile.VersionString);
                         xmlWriter.WriteAttributeString("name", profile.Name);
-                        foreach (KeyValuePair<string, object> entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
+                        foreach (var entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
                         {
                             if ((CommodityKind)entry.Value == profile.ServiceMotive)
                             {
@@ -183,11 +183,11 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         xmlWriter.WriteString(profile.CancelledWhileActiveMessage);
                         xmlWriter.WriteEndElement();
 
-                        xmlWriter.WriteElementString("DelayBeforeArriving", profile.DelayBeforeArriving.ToString());
+                        xmlWriter.WriteElementString("DelayBeforeArriving", profile.DelayBeforeArriving.ToString(CultureInfo.InvariantCulture));
 
-                        xmlWriter.WriteElementString("DelayBeforeLeaving", profile.DelayBeforeLeaving.ToString());
+                        xmlWriter.WriteElementString("DelayBeforeLeaving", profile.DelayBeforeLeaving.ToString(CultureInfo.InvariantCulture));
 
-                        xmlWriter.WriteElementString("ExtraWaitTimeAfterSocializing", profile.ExtraWaitTimeAfterSocializing.ToString());
+                        xmlWriter.WriteElementString("ExtraWaitTimeAfterSocializing", profile.ExtraWaitTimeAfterSocializing.ToString(CultureInfo.InvariantCulture));
 
                         xmlWriter.WriteElementString("ValidAges", profile.ValidAges.ToString());
 
@@ -195,14 +195,14 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
                         xmlWriter.WriteElementString("ServiceProfileFlags", profile.GetFlags().ToString());
 
-                        xmlWriter.WriteElementString("TimeToStartWorking", profile.TimeToStartWorking.ToString());
+                        xmlWriter.WriteElementString("TimeToStartWorking", profile.TimeToStartWorking.ToString(CultureInfo.InvariantCulture));
 
-                        xmlWriter.WriteElementString("TimeToStopWorking", profile.TimeToStopWorking.ToString());
+                        xmlWriter.WriteElementString("TimeToStopWorking", profile.TimeToStopWorking.ToString(CultureInfo.InvariantCulture));
 
                         xmlWriter.WriteElementString("Cost", profile.Cost.ToString());
 
                         xmlWriter.WriteStartElement("Motives");
-                        foreach (KeyValuePair<string, object> entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
+                        foreach (var entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
                         {
                             if (profile.Motives.Contains((CommodityKind)entry.Value))
                             {
@@ -214,7 +214,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         xmlWriter.WriteFullEndElement();
 
                         xmlWriter.WriteStartElement("Traits");
-                        foreach (TraitNames trait in profile.Traits)
+                        foreach (var trait in profile.Traits)
                         {
                             xmlWriter.WriteStartElement("Trait");
                             xmlWriter.WriteAttributeString("name", trait.ToString());
@@ -224,7 +224,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
                         xmlWriter.WriteStartElement("PotentialTraits");
                         xmlWriter.WriteAttributeString("count", profile.PotentialTraitCount.ToString());
-                        foreach (TraitNames trait in profile.PotentialTraits)
+                        foreach (var trait in profile.PotentialTraits)
                         {
                             xmlWriter.WriteStartElement("Trait");
                             xmlWriter.WriteAttributeString("name", trait.ToString());
@@ -233,7 +233,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         xmlWriter.WriteFullEndElement();
 
                         xmlWriter.WriteStartElement("HiddenTraits");
-                        foreach (TraitNames trait in profile.HiddenTraits)
+                        foreach (var trait in profile.HiddenTraits)
                         {
                             xmlWriter.WriteStartElement("Trait");
                             xmlWriter.WriteAttributeString("name", trait.ToString());
@@ -242,7 +242,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         xmlWriter.WriteFullEndElement();
 
                         xmlWriter.WriteStartElement("Skills");
-                        foreach (SkillLevelPair skill in profile.Skills)
+                        foreach (var skill in profile.Skills)
                         {
                             xmlWriter.WriteStartElement("Skill");
                             xmlWriter.WriteAttributeString("name", skill.SkillName.ToString());
@@ -252,7 +252,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         xmlWriter.WriteFullEndElement();
 
                         xmlWriter.WriteStartElement("Actions");
-                        foreach (ServiceUtils.ActiveTopicAction action in profile.Actions)
+                        foreach (var action in profile.Actions)
                         {
                             xmlWriter.WriteStartElement(action.IsActive ? "FPA" : "SPA");
                             xmlWriter.WriteAttributeString("group", action.Grouping.ToString());
@@ -262,14 +262,14 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         xmlWriter.WriteFullEndElement();
 
                         xmlWriter.WriteStartElement("Outputs");
-                        foreach (ServiceUtils.CommodityChange output in profile.Outputs)
+                        foreach (var output in profile.Outputs)
                         {
                             xmlWriter.WriteStartElement("CommodityChange");
                             xmlWriter.WriteAttributeString("interactionDefinitionType", output.InteractionDefinitionType);
                             xmlWriter.WriteAttributeString("targetType", output.TargetType);
-                            xmlWriter.WriteAttributeString("advertised", output.ConstantChange.ToString());
+                            xmlWriter.WriteAttributeString("advertised", output.ConstantChange.ToString(CultureInfo.InvariantCulture));
                             xmlWriter.WriteAttributeString("locked", output.Locked.ToString());
-                            xmlWriter.WriteAttributeString("actual", output.ActualValue.ToString());
+                            xmlWriter.WriteAttributeString("actual", output.ActualValue.ToString(CultureInfo.InvariantCulture));
                             xmlWriter.WriteAttributeString("updateType", output.UpdateType == OutputUpdateType.ContinuousFlow ? "ContinuousFlow" : output.UpdateType.ToString());
                             xmlWriter.WriteAttributeString("timeDependsOnCommodityFilling", output.TimeDependsOnCommodityFilling.ToString());
                             xmlWriter.WriteAttributeString("updateEvenOnFailure", output.UpdateEvenOnFailure.ToString());
@@ -279,14 +279,14 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         xmlWriter.WriteFullEndElement();
 
                         xmlWriter.WriteStartElement("Inventory");
-                        foreach (InventoryObjectCreationParameters inventoryObjectCreationParameters in profile.Inventory)
+                        foreach (var inventoryObjectCreationParameters in profile.Inventory)
                         {
                             xmlWriter.WriteStartElement("InventoryObject");
                             xmlWriter.WriteAttributeString("instanceName", inventoryObjectCreationParameters.InstanceName);
                             xmlWriter.WriteAttributeString("instance", inventoryObjectCreationParameters.InstanceId.ToString("X16"));
                             xmlWriter.WriteAttributeString("group", inventoryObjectCreationParameters.GroupId.ToString("X8"));
                             xmlWriter.WriteAttributeString("count", inventoryObjectCreationParameters.Count.ToString());
-                            xmlWriter.WriteRaw(inventoryObjectCreationParameters.Preset?.Substring(inventoryObjectCreationParameters.Preset.IndexOf("\n")) ?? "");
+                            xmlWriter.WriteRaw(inventoryObjectCreationParameters.Preset?.Substring(inventoryObjectCreationParameters.Preset.IndexOf("\n", StringComparison.Ordinal)) ?? "");
                             xmlWriter.WriteEndElement();
                         }
                         xmlWriter.WriteFullEndElement();
@@ -295,31 +295,31 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         xmlWriter.WriteAttributeString("instanceName", profile.CarInstanceName ?? "");
                         xmlWriter.WriteAttributeString("instance", profile.CarInstanceId.ToString("X16"));
                         xmlWriter.WriteAttributeString("group", profile.CarGroupId.ToString("X8"));
-                        xmlWriter.WriteRaw(profile.CarPreset?.Substring(profile.CarPreset.IndexOf("\n")) ?? "");
+                        xmlWriter.WriteRaw(profile.CarPreset?.Substring(profile.CarPreset.IndexOf("\n", StringComparison.Ordinal)) ?? "");
                         xmlWriter.WriteEndElement();
 
-                        xmlWriter.WriteElementString("CheckTime", profile.CheckTime.ToString());
+                        xmlWriter.WriteElementString("CheckTime", profile.CheckTime.ToString(CultureInfo.InvariantCulture));
 
-                        xmlWriter.WriteElementString("DriveTime", profile.CheckTime.ToString());
+                        xmlWriter.WriteElementString("DriveTime", profile.CheckTime.ToString(CultureInfo.InvariantCulture));
 
                         xmlWriter.WriteElementString("MaxNumNPCsInPool", profile.MaxNumNPCsInPool.ToString());
 
-                        xmlWriter.WriteElementString("RelationshipLevelForQuit", profile.RelationshipLevelForQuit.ToString());
+                        xmlWriter.WriteElementString("RelationshipLevelForQuit", profile.RelationshipLevelForQuit.ToString(CultureInfo.InvariantCulture));
 
-                        xmlWriter.WriteElementString("TimeWaitBeforePutawayLeftovers", profile.TimeWaitBeforePutawayLeftovers.ToString());
+                        xmlWriter.WriteElementString("TimeWaitBeforePutawayLeftovers", profile.TimeWaitBeforePutawayLeftovers.ToString(CultureInfo.InvariantCulture));
 
-                        xmlWriter.WriteElementString("UseObjectInSameRoomAsSleeperMultiplier", profile.UseObjectInSameRoomAsSleeperMultiplier.ToString());
+                        xmlWriter.WriteElementString("UseObjectInSameRoomAsSleeperMultiplier", profile.UseObjectInSameRoomAsSleeperMultiplier.ToString(CultureInfo.InvariantCulture));
 
                         xmlWriter.WriteEndElement(); // Ends writing the "ServiceProfile" element.
                     }
-                    foreach (OutfitAssignmentUtils.OutfitAssignment outfitAssignment in OutfitAssignmentUtils.OutfitAssignments)
+                    foreach (var outfitAssignment in OutfitAssignmentUtils.OutfitAssignments)
                     {
-                        if (!new List<IServiceProfile>(profiles).Exists(x => x.Name == outfitAssignment.ServiceName) || outfitAssignment.SimDescription != null || !OutfitAssignmentUtils.AssignedOutfits.TryGetValue(outfitAssignment.SpecialOutfitKey, out OutfitAssignmentUtils.AssignedOutfit assignedOutfit))
+                        if (!new List<IServiceProfile>(profiles).Exists(x => x.Name == outfitAssignment.ServiceName) || outfitAssignment.SimDescription != null || !OutfitAssignmentUtils.AssignedOutfits.TryGetValue(outfitAssignment.SpecialOutfitKey, out var assignedOutfit))
                         {
                             continue;
                         }
-                        string ageGenderPrefix = outfitAssignment.SpecialOutfitKey.Substring(OutfitAssignmentUtils.OutfitAssignmentGlobalPrefix.Length, 2);
-                        CASAgeGenderFlags age = CASAgeGenderFlags.Adult;
+                        var ageGenderPrefix = outfitAssignment.SpecialOutfitKey.Substring(OutfitAssignmentUtils.OutfitAssignmentGlobalPrefix.Length, 2);
+                        var age = CASAgeGenderFlags.Adult;
                         switch (ageGenderPrefix[0])
                         {
                             case 'a':
@@ -344,7 +344,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                 age = CASAgeGenderFlags.YoungAdult;
                                 break;
                         }
-                        CASAgeGenderFlags gender = CASAgeGenderFlags.Male;
+                        var gender = CASAgeGenderFlags.Male;
                         switch (ageGenderPrefix[1])
                         {
                             case 'f':
@@ -360,17 +360,17 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         xmlWriter.WriteAttributeString("gender", gender.ToString());
 
                         xmlWriter.WriteStartElement("Parts");
-                        foreach (OutfitAssignmentUtils.AssignedOutfit.SavedPart part in assignedOutfit.Parts)
+                        foreach (var part in assignedOutfit.Parts)
                         {
                             xmlWriter.WriteStartElement("Part");
                             xmlWriter.WriteAttributeString("key", part.Part.Key.ToString().ToUpperInvariant());
-                            xmlWriter.WriteRaw(part.Preset?.Substring(part.Preset.IndexOf("\n")) ?? "");
+                            xmlWriter.WriteRaw(part.Preset?.Substring(part.Preset.IndexOf("\n", StringComparison.Ordinal)) ?? "");
                             xmlWriter.WriteEndElement();
                         }
                         xmlWriter.WriteEndElement();
 
                         xmlWriter.WriteStartElement("PartOverrides");
-                        foreach (BodyTypes partType in assignedOutfit.PartOverrides)
+                        foreach (var partType in assignedOutfit.PartOverrides)
                         {
                             xmlWriter.WriteStartElement("PartType");
                             xmlWriter.WriteAttributeString("name", partType.ToString());
@@ -386,12 +386,12 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
                 stringWriter.Flush();
             }
-            XmlDocument xmlDocument = new XmlDocument();
+            var xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(stringBuilder.ToString());
             stringBuilder.Remove(0, stringBuilder.Length);
-            using (Utf8StringWriter stringWriter = new Utf8StringWriter(stringBuilder))
+            using (var stringWriter = new Utf8StringWriter(stringBuilder))
             {
-                using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
+                using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
                     {
                         Encoding = Encoding.UTF8,
                         Indent = true,
@@ -430,27 +430,27 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static void LoadServiceProfiles(string text)
         {
-            using (StringReader stringReader = new StringReader(text))
+            using (var stringReader = new StringReader(text))
             {
-                using (XmlReader xmlReader = XmlReader.Create(stringReader, new XmlReaderSettings
+                using (var xmlReader = XmlReader.Create(stringReader, new XmlReaderSettings
                     {
                         IgnoreComments = true
                     }))
                 {
-                    XmlDocument xmlDocument = new XmlDocument();
+                    var xmlDocument = new XmlDocument();
                     xmlDocument.Load(xmlReader);
                     foreach (XmlNode node in xmlDocument.DocumentElement.ChildNodes)
                     {
                         if (node.Name == "ServiceProfile" && node is XmlElement element)
                         {
-                            string serviceName = element.GetAttribute("name");
-                            string importedServiceMotiveName = element.GetAttribute("workMotive") ?? "Be" + serviceName;
-                            ServiceUtils.ServiceProfile profile = new ServiceUtils.ServiceProfile(serviceName, null)
+                            var serviceName = element.GetAttribute("name");
+                            var importedServiceMotiveName = element.GetAttribute("workMotive") ?? "Be" + serviceName;
+                            var profile = new ServiceUtils.ServiceProfile(serviceName, null)
                                 {
                                     ServiceMotive = CommonUtils.GetCommodityKind(importedServiceMotiveName, CommodityKindType.Motive),
                                     VersionString = element.GetAttribute("version")
                                 };
-                            string serviceMotiveName = importedServiceMotiveName;
+                            var serviceMotiveName = importedServiceMotiveName;
                             while (ServiceUtils.ServiceMotiveExists(profile.ServiceMotive))
                             {
                                 serviceMotiveName = importedServiceMotiveName + "_" + DownloadContent.GenerateGUID();
@@ -554,7 +554,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                 {
                                     foreach (XmlNode motiveNode in profilePropertyNode.ChildNodes)
                                     {
-                                        if (motiveNode.Attributes["name"].Value != importedServiceMotiveName && ParserFunctions.TryParseEnum(motiveNode.Attributes["name"].Value, out CommodityKind motive, CommodityKind.None))
+                                        if (motiveNode.Attributes["name"].Value != importedServiceMotiveName && ParserFunctions.TryParseEnum(motiveNode.Attributes["name"].Value, out var motive, CommodityKind.None))
                                         {
                                             profile.AddMotives(motive);
                                         }
@@ -565,8 +565,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                 {
                                     foreach (XmlNode traitNode in profilePropertyNode.ChildNodes)
                                     {
-                                        string traitName = traitNode.Attributes["name"].Value;
-                                        profile.AddTraits(ParserFunctions.TryParseEnum(traitName, out TraitNames trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
+                                        var traitName = traitNode.Attributes["name"].Value;
+                                        profile.AddTraits(ParserFunctions.TryParseEnum(traitName, out var trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
                                     }
                                     profile.RemoveTraits(x => x == TraitNames.Unknown);
                                     continue;
@@ -576,8 +576,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                     profile.PotentialTraitCount = ParserFunctions.ParseInt(profilePropertyElement.GetAttribute("count"), profile.PotentialTraitCount);
                                     foreach (XmlNode traitNode in profilePropertyNode.ChildNodes)
                                     {
-                                        string traitName = traitNode.Attributes["name"].Value;
-                                        profile.AddPotentialTraits(ParserFunctions.TryParseEnum(traitName, out TraitNames trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
+                                        var traitName = traitNode.Attributes["name"].Value;
+                                        profile.AddPotentialTraits(ParserFunctions.TryParseEnum(traitName, out var trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
                                     }
                                     profile.RemovePotentialTraits(x => x == TraitNames.Unknown);
                                     continue;
@@ -586,8 +586,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                 {
                                     foreach (XmlNode traitNode in profilePropertyNode.ChildNodes)
                                     {
-                                        string traitName = traitNode.Attributes["name"].Value;
-                                        profile.AddHiddenTraits(ParserFunctions.TryParseEnum(traitName, out TraitNames trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
+                                        var traitName = traitNode.Attributes["name"].Value;
+                                        profile.AddHiddenTraits(ParserFunctions.TryParseEnum(traitName, out var trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
                                     }
                                     profile.RemoveHiddenTraits(x => x == TraitNames.Unknown);
                                     continue;
@@ -596,8 +596,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                 {
                                     foreach (XmlNode skillNode in profilePropertyNode.ChildNodes)
                                     {
-                                        string skillName = skillNode.Attributes["name"].Value;
-                                        profile.AddSkills(new SkillLevelPair(ParserFunctions.TryParseEnum(skillName, out SkillNames skill, SkillNames.None) ? skill : (SkillNames)ParserFunctions.ParseUlong(skillName, 0uL), ParserFunctions.ParseInt((skillNode as XmlElement)?.GetAttribute("level"), -1)));
+                                        var skillName = skillNode.Attributes["name"].Value;
+                                        profile.AddSkills(new SkillLevelPair(ParserFunctions.TryParseEnum(skillName, out var skill, SkillNames.None) ? skill : (SkillNames)ParserFunctions.ParseUlong(skillName, 0uL), ParserFunctions.ParseInt((skillNode as XmlElement)?.GetAttribute("level"), -1)));
                                     }
                                     profile.RemoveSkills(x => x.SkillName == SkillNames.None);
                                     continue;
@@ -618,7 +618,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                             default:
                                                 continue;
                                         }
-                                        profile.AddActions(new ServiceUtils.ActiveTopicAction(actionNode.Attributes["name"].Value, ParserFunctions.TryParseEnum((actionNode as XmlElement)?.GetAttribute("group"), out LongTermRelationshipTypes grouping, LongTermRelationshipTypes.Undefined) ? grouping : LongTermRelationshipTypes.Default, isActive));
+                                        profile.AddActions(new ServiceUtils.ActiveTopicAction(actionNode.Attributes["name"].Value, ParserFunctions.TryParseEnum((actionNode as XmlElement)?.GetAttribute("group"), out var grouping, LongTermRelationshipTypes.Undefined) ? grouping : LongTermRelationshipTypes.Default, isActive));
                                     }
                                     continue;
                                 }
@@ -628,7 +628,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                     {
                                         if (outputNode is XmlElement outputElement)
                                         {
-                                            profile.AddOutputs(new ServiceUtils.CommodityChange(outputElement.GetAttribute("interactionDefinitionType"), outputElement.GetAttribute("targetType"), ParserFunctions.ParseFloat(outputElement.GetAttribute("advertised"), 200f), ParserFunctions.ParseBool("locked"), ParserFunctions.ParseFloat(outputElement.GetAttribute("actual"), 200f), ParserFunctions.TryParseEnum(outputElement.GetAttribute("updateType"), out OutputUpdateType updateType, OutputUpdateType.ContinuousFlow) ? updateType : OutputUpdateType.ContinuousFlow, ParserFunctions.ParseBool(outputElement.GetAttribute("timeDependsOnCommodityFilling")), ParserFunctions.ParseBool(outputElement.GetAttribute("updateEvenOnFailure")), ParserFunctions.TryParseEnum(outputElement.GetAttribute("updateAboveAndBelowZero"), out UpdateAboveAndBelowZeroType updateAboveAndBelowZero, UpdateAboveAndBelowZeroType.Either) ? updateAboveAndBelowZero : UpdateAboveAndBelowZeroType.Either));
+                                            profile.AddOutputs(new ServiceUtils.CommodityChange(outputElement.GetAttribute("interactionDefinitionType"), outputElement.GetAttribute("targetType"), ParserFunctions.ParseFloat(outputElement.GetAttribute("advertised"), 200f), ParserFunctions.ParseBool("locked"), ParserFunctions.ParseFloat(outputElement.GetAttribute("actual"), 200f), ParserFunctions.TryParseEnum(outputElement.GetAttribute("updateType"), out var updateType, OutputUpdateType.ContinuousFlow) ? updateType : OutputUpdateType.ContinuousFlow, ParserFunctions.ParseBool(outputElement.GetAttribute("timeDependsOnCommodityFilling")), ParserFunctions.ParseBool(outputElement.GetAttribute("updateEvenOnFailure")), ParserFunctions.TryParseEnum(outputElement.GetAttribute("updateAboveAndBelowZero"), out var updateAboveAndBelowZero, UpdateAboveAndBelowZeroType.Either) ? updateAboveAndBelowZero : UpdateAboveAndBelowZeroType.Either));
                                         }
                                     }
                                     continue;
@@ -637,7 +637,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                 {
                                     foreach (XmlNode inventoryObjectNode in profilePropertyNode.ChildNodes)
                                     {
-                                        string instanceName = inventoryObjectNode.Attributes["instanceName"].Value;
+                                        var instanceName = inventoryObjectNode.Attributes["instanceName"].Value;
                                         profile.Inventory.Add(new InventoryObjectCreationParameters(instanceName, ulong.Parse((inventoryObjectNode as XmlElement)?.GetAttribute("instance") ?? NameGuidMap.GetGuidByName(instanceName).ToString("X16"), NumberStyles.HexNumber), uint.Parse(inventoryObjectNode.Attributes["group"].Value, NumberStyles.HexNumber), int.Parse(inventoryObjectNode.Attributes["count"].Value), WrapInnerXmlAsDocument(profilePropertyNode)));
                                     }
                                     continue;
@@ -689,12 +689,12 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     }
                     foreach (XmlNode node in xmlDocument.DocumentElement.ChildNodes)
                     {
-                        if (node.Name == "ServiceUniform" && node is XmlElement element)
+                        if (node.Name == "ServiceUniform" && node is XmlElement)
                         {
-                            OutfitAssignmentUtils.AssignedOutfit assignedOutfit = new OutfitAssignmentUtils.AssignedOutfit();
+                            var assignedOutfit = new OutfitAssignmentUtils.AssignedOutfit();
                             assignedOutfit.PartOverrides.Clear();
-                            string serviceName = node.Attributes["profile"].Value;
-                            int profileIndex = ServiceUtils.ServiceProfiles.FindIndex(x => x.Name == serviceName);
+                            var serviceName = node.Attributes["profile"].Value;
+                            var profileIndex = ServiceUtils.ServiceProfiles.FindIndex(x => x.Name == serviceName);
                             if (profileIndex == -1)
                             {
                                 continue;
@@ -706,21 +706,20 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                                     foreach (XmlNode partNode in serviceUniformPropertyNode.ChildNodes)
                                     {
                                         assignedOutfit.Parts.Add(new OutfitAssignmentUtils.AssignedOutfit.SavedPart(new CASPart(ResourceKey.FromString(partNode.Attributes["key"].Value)), WrapInnerXmlAsDocument(partNode)));
-                                        continue;
                                     }
                                 }
                                 if (serviceUniformPropertyNode.Name == "PartOverrides")
                                 {
                                     foreach (XmlNode partOverrideNode in serviceUniformPropertyNode.ChildNodes)
                                     {
-                                        if (ParserFunctions.TryParseEnum(partOverrideNode.Attributes["name"].Value, out BodyTypes partType, BodyTypes.None))
+                                        if (ParserFunctions.TryParseEnum(partOverrideNode.Attributes["name"].Value, out var partType, BodyTypes.None))
                                         {
                                             assignedOutfit.PartOverrides.Add(partType);
                                         }
                                     }
                                 }
                             }
-                            string specialOutfitKey = OutfitAssignmentUtils.GetGlobalAssignedOutfitPrefix((ParserFunctions.TryParseEnum(node.Attributes["age"].Value, out CASAgeGenderFlags age, CASAgeGenderFlags.None) ? age : CASAgeGenderFlags.None) | (ParserFunctions.TryParseEnum(node.Attributes["gender"].Value, out CASAgeGenderFlags gender, CASAgeGenderFlags.None) ? gender : CASAgeGenderFlags.None)) + serviceName;
+                            var specialOutfitKey = OutfitAssignmentUtils.GetGlobalAssignedOutfitPrefix((ParserFunctions.TryParseEnum(node.Attributes["age"].Value, out var age, CASAgeGenderFlags.None) ? age : CASAgeGenderFlags.None) | (ParserFunctions.TryParseEnum(node.Attributes["gender"].Value, out var gender, CASAgeGenderFlags.None) ? gender : CASAgeGenderFlags.None)) + serviceName;
                             OutfitAssignmentUtils.OutfitAssignments.Add(new OutfitAssignmentUtils.OutfitAssignment(null, specialOutfitKey, ServiceUtils.ServiceProfiles[profileIndex]));
                             OutfitAssignmentUtils.IndexOutfitAssignments();
                             OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey] = assignedOutfit;
@@ -741,7 +740,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
                     {
                         new TextColumn(kLocalizationKey + "/ServiceCollectionListDialog")
-                    }, selectableRowCount, out bool confirmed, out bool cancelled) ?? new List<string>()).ToArray();
+                    }, selectableRowCount, out var confirmed, out var cancelled) ?? new List<string>()).ToArray();
                 if (cancelled)
                 {
                     selectedNames = null;
@@ -760,14 +759,14 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 return null;
             }
-            XmlDocument xmlDocument = new XmlDocument();
+            var xmlDocument = new XmlDocument();
             xmlDocument.LoadXml(node.InnerXml);
-            XmlDeclaration xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
+            var xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
             xmlDocument.InsertBefore(xmlDeclaration, xmlDocument.DocumentElement);
-            StringBuilder stringBuilder = new StringBuilder();
-            using (Utf8StringWriter stringWriter = new Utf8StringWriter(stringBuilder))
+            var stringBuilder = new StringBuilder();
+            using (var stringWriter = new Utf8StringWriter(stringBuilder))
             {
-                using (XmlWriter xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
+                using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
                     {
                         Encoding = Encoding.UTF8,
                         Indent = true,

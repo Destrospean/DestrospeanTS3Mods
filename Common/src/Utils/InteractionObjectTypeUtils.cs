@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Interfaces;
 
@@ -8,9 +7,9 @@ namespace Destrospean.Utils
 {
     public class InteractionObjectTypeUtils
     {
-        static IDictionary<string, Type> sGameObjectTypes;
+        private static IDictionary<string, Type> sGameObjectTypes;
 
-        static IDictionary<string, Type> sInteractionDefinitionTypes;
+        private static IDictionary<string, Type> sInteractionDefinitionTypes;
 
         public static IDictionary<string, Type> GameObjectTypes
         {
@@ -40,9 +39,9 @@ namespace Destrospean.Utils
         {
             IDictionary<string, Type> gameObjectTypes = new Dictionary<string, Type>();
             IDictionary<string, Type> interactionDefinitionTypes = new Dictionary<string, Type>();
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                foreach (Type type in assembly.GetTypes())
+                foreach (var type in assembly.GetTypes())
                 {
                     if (typeof(IGameObject).IsAssignableFrom(type))
                     {

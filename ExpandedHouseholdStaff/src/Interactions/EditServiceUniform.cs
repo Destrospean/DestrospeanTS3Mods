@@ -9,11 +9,10 @@ using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Interactions;
-using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
-using Gameflow = Sims3.Gameplay.Gameflow;
+using static Sims3.Gameplay.Gameflow;
 using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.ExpandedHouseholdStaff.Interactions
@@ -52,11 +51,11 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     while (true)
                     {
-                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out var profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                         {
-                            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceOutfitDemographicDialog");
-                            CASAgeGenderFlags age = CASAgeGenderFlags.None;
-                            CASAgeGenderFlags gender = CASAgeGenderFlags.None;
+                            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceOutfitDemographicDialog");
+                            var age = CASAgeGenderFlags.None;
+                            var gender = CASAgeGenderFlags.None;
                             sbyte step = 0;
                             while (true)
                             {
@@ -95,44 +94,44 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                                 simDescription = Genetics.MakeSim(simBuilder, age, gender, new ResourceKey(0x4AC87CCEBDD2B1A2, 0x0354796A, 0x00000000), 0.28f, Genetics.GetGeneticHairColor(homeWorld), homeWorld, uint.MaxValue, false);
                             }
                             */
-                            SimDescription simDescription = Genetics.MakeSim(age, gender, GameUtils.GetCurrentWorld(), uint.MaxValue);
+                            var simDescription = Genetics.MakeSim(age, gender, GameUtils.GetCurrentWorld(), uint.MaxValue);
                             EventTracker.AddListener(EventTypeId.kSimInstantiated, evt =>
                                 {
-                                    ListenerAction listenerAction = ListenerAction.Keep;
+                                    var listenerAction = ListenerAction.Keep;
                                     DebugUtils.TryDisplayScriptError(() =>
                                         {
                                             if (evt.TargetObject as Sim != simDescription.CreatedSim)
                                             {
                                                 return;
                                             }
-                                            string specialOutfitKey = simDescription.GetGlobalAssignedOutfitPrefix() + profiles[0].Name;
+                                            var specialOutfitKey = simDescription.GetGlobalAssignedOutfitPrefix() + profiles[0].Name;
                                             BodyTypes[] preSelectedPartOverrides = null;
-                                            if (simDescription.TryGetGlobalOutfitAssignment(profiles[0], out OutfitAssignmentUtils.OutfitAssignment outfitAssignment))
+                                            if (simDescription.TryGetGlobalOutfitAssignment(profiles[0], out var outfitAssignment))
                                             {
                                                 simDescription.AddAssignedOutfit(OutfitAssignmentUtils.AssignedOutfits[outfitAssignment.SpecialOutfitKey], specialOutfitKey);
                                                 preSelectedPartOverrides = OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].PartOverrides.ToArray();
                                             }
-                                            Gameflow.GameSpeed previousGameSpeed = Gameflow.CurrentGameSpeed;
+                                            var previousGameSpeed = CurrentGameSpeed;
                                             if (OutfitExtensions.EditSpecialOutfit(simDescription.CreatedSim, specialOutfitKey))
                                             {
                                                 OutfitAssignmentUtils.AssignOutfitToService(null, specialOutfitKey, profiles[0], simDescription);
                                                 ActionTask.Start(() => DebugUtils.TryDisplayScriptError(() =>
                                                     {
-                                                        if (OutfitAssignmentUtils.ShowPartOverrideListDialog(OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey] = new OutfitAssignmentUtils.AssignedOutfit(simDescription.GetSpecialOutfit(specialOutfitKey)), out BodyTypes[] partOverrides, preSelectedPartOverrides))
+                                                        if (OutfitAssignmentUtils.ShowPartOverrideListDialog(OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey] = new OutfitAssignmentUtils.AssignedOutfit(simDescription.GetSpecialOutfit(specialOutfitKey)), out var partOverrides, preSelectedPartOverrides))
                                                         {
                                                             OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].PartOverrides = new List<BodyTypes>(partOverrides);
                                                         }
-                                                        Gameflow.SetGameSpeed(previousGameSpeed, Gameflow.SetGameSpeedContext.GameStates);
+                                                        SetGameSpeed(previousGameSpeed, SetGameSpeedContext.GameStates);
                                                     }));
                                             }
-                                            simDescription.CreatedSim.RemoveFromWorld();
+                                            simDescription.CreatedSim?.RemoveFromWorld();
                                             AlarmManager.Global.AddAlarm(1f, TimeUnit.Minutes, () =>
                                                 {
-                                                    ulong simDescriptionId = simDescription.SimDescriptionId;
+                                                    var simDescriptionId = simDescription.SimDescriptionId;
                                                     Household.TouristHousehold.RemoveTemporary(simDescription);
                                                     simDescription.Dispose();
                                                 }, "Remove SimDescription: " + simDescription.SimDescriptionId, AlarmType.AlwaysPersisted, simDescription);
-                                            Gameflow.SetGameSpeed(Gameflow.GameSpeed.Pause, Gameflow.SetGameSpeedContext.GameStates);
+                                            SetGameSpeed(Gameflow.GameSpeed.Pause, SetGameSpeedContext.GameStates);
                                             listenerAction = ListenerAction.Remove;
                                         });
                                     return listenerAction;

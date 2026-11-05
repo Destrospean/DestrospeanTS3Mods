@@ -6,9 +6,9 @@ namespace Destrospean.UI.Columns
 {
     public class TraitEnabledColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<Trait>
     {
-        readonly string mLocalizationPath;
+        private readonly string mLocalizationPath;
 
-        readonly List<Trait> mTraitsEnabled;
+        private readonly List<Trait> mTraitsEnabled;
 
         public TraitEnabledColumn(string localizationPath, Trait[] traitsEnabled) : base(localizationPath + "/Headers/Enabled:Text", localizationPath + "/Headers/Enabled:Tooltip", 40)
         {

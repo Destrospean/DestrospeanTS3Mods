@@ -42,7 +42,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
         {
             DebugUtils.TryDisplayScriptError(() =>
                 {
-                    foreach (InteractionObjectPair interaction in Target.Interactions)
+                    foreach (var interaction in Target.Interactions)
                     {
                         if (interaction.Tuning != null)
                         {

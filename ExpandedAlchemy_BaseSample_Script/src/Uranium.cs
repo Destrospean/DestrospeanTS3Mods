@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
@@ -16,7 +15,7 @@ namespace Sims3.Gameplay.Objects.Spawners
         {
             get
             {
-                foreach (string name in Enum.GetNames(typeof(RockGemMetal)))
+                foreach (var name in Enum.GetNames(typeof(RockGemMetal)))
                 {
                     if (name == mGuid.ToString())
                     {
@@ -29,13 +28,13 @@ namespace Sims3.Gameplay.Objects.Spawners
 
         [Tunable]
         [TunableComment("How often the Uranium sparkle Vfx plays in Sim hours. Format: (min, max). These are float values.")]
-        static float[] kVfxFrequency = new[]
+        private static float[] kVfxFrequency = new[]
             {
                 0.5f,
                 1f
             };
-        
-        AlarmHandle mVfxAlarm = AlarmHandle.kInvalidHandle;
+
+        private AlarmHandle mVfxAlarm = AlarmHandle.kInvalidHandle;
 
         public override void Dispose()
         {
@@ -54,7 +53,7 @@ namespace Sims3.Gameplay.Objects.Spawners
         {
             if (inventory.Owner is Sim sim)
             {
-                List<Uranium> uranium = inventory.FindAll<Uranium>(false);
+                var uranium = inventory.FindAll<Uranium>(false);
                 if (uranium.Count == 1)
                 {
                     sim.BuffManager.AddElementPaused(BuffNames.Nauseous, Origin.None);
@@ -82,7 +81,7 @@ namespace Sims3.Gameplay.Objects.Spawners
         {
             if (InWorld && CutName != null)
             {
-                VisualEffect visualEffect = VisualEffect.Create("ep1TiberiumCut");
+                var visualEffect = VisualEffect.Create("ep1TiberiumCut");
                 visualEffect.SetPosAndOrient(Position, ForwardVector, UpVector);
                 visualEffect.SubmitOneShotEffect(VisualEffect.TransitionType.SoftTransition);
             }

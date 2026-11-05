@@ -14,7 +14,7 @@ namespace Destrospean.UI.Columns.ExpandedHouseholdStaff
 
         public override ObjectPicker.ColumnInfo GetValue(ServiceUtils.ActiveTopicAction action)
         {
-            return new ObjectPicker.TextColumn(action.Grouping == LongTermRelationshipTypes.BestFriendsForever ? Localization.LocalizeString(0xC86B0C71108DA632) : Localization.LocalizeString(((action.Grouping == LongTermRelationshipTypes.All || action.Grouping == LongTermRelationshipTypes.Default || action.Grouping == LongTermRelationshipTypes.Ex || action.Grouping == LongTermRelationshipTypes.ExSpouse) ? typeof(Dialogs.ComboSelectionDialog).GetLocalizationKey().Replace("ComboSelectionDialog", "LongTermRelationshipTypeDialog/Options:") : "Gameplay/Excel/Socializing/LTR:") + action.Grouping));
+            return new ObjectPicker.TextColumn(action.Grouping == LongTermRelationshipTypes.BestFriendsForever ? Localization.LocalizeString(0xC86B0C71108DA632) : Localization.LocalizeString((action.Grouping == LongTermRelationshipTypes.All || action.Grouping == LongTermRelationshipTypes.Default || action.Grouping == LongTermRelationshipTypes.Ex || action.Grouping == LongTermRelationshipTypes.ExSpouse ? typeof(Dialogs.ComboSelectionDialog).GetLocalizationKey().Replace("ComboSelectionDialog", "LongTermRelationshipTypeDialog/Options:") : "Gameplay/Excel/Socializing/LTR:") + action.Grouping));
         }
     }
 }

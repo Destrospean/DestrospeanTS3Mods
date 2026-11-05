@@ -2,7 +2,7 @@
 {
     public class MoreFavorites
     {
-        [Sims3.SimIFace.Tunable]
+        [SimIFace.Tunable]
         public static bool kAllowBlacklistedFavoritesInMasterControllerDialogs, kAllowHiddenFavoritesInMasterControllerDialogs;
     }
 }

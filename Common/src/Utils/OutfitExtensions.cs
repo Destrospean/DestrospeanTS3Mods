@@ -16,17 +16,17 @@ namespace Destrospean.Utils
 
         public static EditSpecialOutfitFunc EditSpecialOutfit = (sim, specialOutfitKey) =>
             {
-                SimDescription simDescription = sim.SimDescription;
+                var simDescription = sim.SimDescription;
                 if (!simDescription.HasSpecialOutfit(specialOutfitKey))
                 {
                     simDescription.AddSpecialOutfit(simDescription.GetOutfit(OutfitCategories.Everyday, 0), specialOutfitKey);
                 }
-                OutfitCategories previousOutfitCategory = sim.CurrentOutfitCategory;
-                int previousOutfitIndex = sim.CurrentOutfitIndex;
+                var previousOutfitCategory = sim.CurrentOutfitCategory;
+                var previousOutfitIndex = sim.CurrentOutfitIndex;
                 simDescription.AddOutfit(simDescription.GetSpecialOutfit(specialOutfitKey), OutfitCategories.Everyday, 0);
                 simDescription.RemoveSpecialOutfit(specialOutfitKey);
                 sim.SwitchToOutfitWithoutSpin(OutfitCategories.Everyday, 0);
-                CASLogic casLogic = CASLogic.GetSingleton();
+                var casLogic = CASLogic.GetSingleton();
                 casLogic.ShowUI += OnShowUI;
                 casLogic.UseTempSimDesc = true;
                 casLogic.LoadSim(simDescription, sim.CurrentOutfitCategory, sim.CurrentOutfitIndex);
@@ -46,7 +46,7 @@ namespace Destrospean.Utils
 
         public static void ApplyToAllOutfits(this SimDescription simDescription, OutfitFunc outfitFunc, bool spin = false)
         {
-            using (SimBuilder simBuilder = new SimBuilder
+            using (var simBuilder = new SimBuilder
                 {
                     UseCompression = true
                 })
@@ -69,11 +69,11 @@ namespace Destrospean.Utils
                 {
                     simDescription.AddOutfit(new SimOutfit(simDescription.CreatedSim.CurrentOutfit.Key), tempOutfitCategory);
                     simDescription.CreatedSim.SwitchToOutfitWithoutSpin(tempOutfitCategory, tempOutfitIndex);
-                    SimOutfit outfit = outfitFunc(simBuilder, lastOutfitCategory, lastOutfitIndex);
+                    var outfit = outfitFunc(simBuilder, lastOutfitCategory, lastOutfitIndex);
                     if (outfit.IsValid)
                     {
                         simDescription.ReplaceOutfit(lastOutfitCategory, lastOutfitIndex, outfit);
-                        using (Sim.SwitchOutfitHelper switchOutfitHelper = new Sim.SwitchOutfitHelper(simDescription.CreatedSim, Sim.ClothesChangeReason.Force, lastOutfitCategory, lastOutfitIndex, false))
+                        using (var switchOutfitHelper = new Sim.SwitchOutfitHelper(simDescription.CreatedSim, Sim.ClothesChangeReason.Force, lastOutfitCategory, lastOutfitIndex, false))
                         {
                             simDescription.CreatedSim.SwitchToOutfitWithSpin(switchOutfitHelper);
                         }
@@ -81,13 +81,13 @@ namespace Destrospean.Utils
                     }
                 }
             }
-            foreach (OutfitCategories outfitCategory in simDescription.ListOfCategories)
+            foreach (var outfitCategory in simDescription.ListOfCategories)
             {
                 if (!(simDescription.Outfits[outfitCategory] is ArrayList outfits))
                 {
                     continue;
                 }
-                for (int i = outfits.Count - 1; i > -1; i--)
+                for (var i = outfits.Count - 1; i > -1; i--)
                 {
                     if (simDescription.CreatedSim == null || outfitCategory != lastOutfitCategory || i != lastOutfitIndex || !spin)
                     {
@@ -108,12 +108,12 @@ namespace Destrospean.Utils
             {
                 return;
             }
-            CASDresserSheet casDresserSheet = CASDresserSheet.gSingleton;
+            var casDresserSheet = CASDresserSheet.gSingleton;
             if (casDresserSheet == null || casDresserSheet.mButtons == null)
             {
                 return;
             }
-            for (int i = 1; i < casDresserSheet.mButtons.Length; i++)
+            for (var i = 1; i < casDresserSheet.mButtons.Length; i++)
             {
                 if (casDresserSheet.mButtons[i] != null)
                 {
@@ -124,12 +124,12 @@ namespace Destrospean.Utils
                     casDresserSheet.mButtonText[i].Visible = false;
                 }
             }
-            CASDresserClothing casDresserClothing = CASDresserClothing.gSingleton;
+            var casDresserClothing = CASDresserClothing.gSingleton;
             if (casDresserClothing == null || casDresserClothing.mOutfitButtons == null || casDresserClothing.mDeleteOutfitButtons == null)
             {
                 return;
             }
-            for (int i = 1; i < casDresserClothing.mOutfitButtons.Length; i++)
+            for (var i = 1; i < casDresserClothing.mOutfitButtons.Length; i++)
             {
                 casDresserClothing.mOutfitButtons[i].Visible = false;
                 casDresserClothing.mDeleteOutfitButtons[i].Visible = false;

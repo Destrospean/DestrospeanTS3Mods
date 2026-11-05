@@ -1,4 +1,5 @@
-﻿using Destrospean.Utils;
+﻿using System;
+using Destrospean.Utils;
 using Destrospean.Utils.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
@@ -6,7 +7,6 @@ using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.Interactions;
-using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
@@ -46,10 +46,10 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     while (true)
                     {
-                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out var profiles, ServiceUtils.ServiceProfiles.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
                         {
-                            string xml = FileUtils.GetXml(profiles);
-                            if (!FileUtils.ExportToFile(xml, out bool found))
+                            var xml = FileUtils.GetXml(profiles);
+                            if (!FileUtils.ExportToFile(xml, out var found))
                             {
                                 if (found)
                                 {
@@ -59,16 +59,16 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                             }
                             if (Settings.kExportServiceCollectionsAsXMLs)
                             {
-                                uint fileHandle = 0u;
+                                var fileHandle = 0u;
                                 Simulator.CreateExportFile(ref fileHandle, "ServiceProfiles");
                                 if (fileHandle != 0u)
                                 {
-                                    CustomXmlWriter customXmlWriter = new CustomXmlWriter(fileHandle);
-                                    int postDeclarationIndex = xml.IndexOf("\r\n");
-                                    int lineEndingLength = 2;
+                                    var customXmlWriter = new CustomXmlWriter(fileHandle);
+                                    var postDeclarationIndex = xml.IndexOf("\r\n", StringComparison.Ordinal);
+                                    var lineEndingLength = 2;
                                     if (postDeclarationIndex == -1)
                                     {
-                                        postDeclarationIndex = xml.IndexOf("\n");
+                                        postDeclarationIndex = xml.IndexOf("\n", StringComparison.Ordinal);
                                         lineEndingLength = 1;
                                     }
                                     customXmlWriter.WriteToBuffer(xml.Remove(postDeclarationIndex + lineEndingLength));

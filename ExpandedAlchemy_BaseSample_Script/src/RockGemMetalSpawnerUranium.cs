@@ -2,14 +2,8 @@
 {
     public class RockGemMetalSpawnerUranium : RockGemMetalSpawner
     {
-        protected static RockGemMetalSpawner.RgmSpawnerData kSpawnerData;
+        protected static RgmSpawnerData kSpawnerData;
 
-        public override RockGemMetalSpawner.RgmSpawnerData SpawnerData
-        {
-            get
-            {
-                return kSpawnerData;
-            }
-        }
+        public override RgmSpawnerData SpawnerData => kSpawnerData;
     }
 }

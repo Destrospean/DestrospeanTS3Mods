@@ -7,7 +7,6 @@ using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.Interactions;
-using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
@@ -49,16 +48,16 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     while (true)
                     {
-                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && OutfitAssignmentUtils.OutfitAssignments.Exists(y => y.ServiceName == x.Name && (y.SimDescription == null || y.SimDescription == Actor.SimDescription))).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out var profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && OutfitAssignmentUtils.OutfitAssignments.Exists(y => y.ServiceName == x.Name && (y.SimDescription == null || y.SimDescription == Actor.SimDescription))).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                         {
-                            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceOutfitDemographicDialog");
-                            List<CASAgeGenderFlags[]> ageGenders = new List<CASAgeGenderFlags[]>();
-                            foreach (OutfitAssignmentUtils.OutfitAssignment outfitAssignment in OutfitAssignmentUtils.OutfitAssignments)
+                            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceOutfitDemographicDialog");
+                            var ageGenders = new List<CASAgeGenderFlags[]>();
+                            foreach (var outfitAssignment in OutfitAssignmentUtils.OutfitAssignments)
                             {
                                 if (Array.Exists(profiles, x => x.Name == outfitAssignment.ServiceName))
                                 {
-                                    string ageGenderPrefix = outfitAssignment.SpecialOutfitKey.Substring(OutfitAssignmentUtils.OutfitAssignmentGlobalPrefix.Length, 2);
-                                    CASAgeGenderFlags tempAge = CASAgeGenderFlags.None;
+                                    var ageGenderPrefix = outfitAssignment.SpecialOutfitKey.Substring(OutfitAssignmentUtils.OutfitAssignmentGlobalPrefix.Length, 2);
+                                    var tempAge = CASAgeGenderFlags.None;
                                     switch (ageGenderPrefix[0])
                                     {
                                         case 'a':
@@ -83,7 +82,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                                             tempAge = CASAgeGenderFlags.YoungAdult;
                                             break;
                                     }
-                                    CASAgeGenderFlags tempGender = CASAgeGenderFlags.None;
+                                    var tempGender = CASAgeGenderFlags.None;
                                     switch (ageGenderPrefix[1])
                                     {
                                         case 'f':
@@ -100,13 +99,13 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                                         });
                                 }
                             }
-                            CASAgeGenderFlags age = CASAgeGenderFlags.None;
-                            foreach (CASAgeGenderFlags[] ageGender in ageGenders)
+                            var age = CASAgeGenderFlags.None;
+                            foreach (var ageGender in ageGenders)
                             {
                                 age |= ageGender[0];
                             }
-                            CASAgeGenderFlags gender = CASAgeGenderFlags.None;
-                            foreach (CASAgeGenderFlags[] ageGender in ageGenders)
+                            var gender = CASAgeGenderFlags.None;
+                            foreach (var ageGender in ageGenders)
                             {
                                 if ((age & ageGender[0]) == ageGender[0])
                                 {
@@ -140,9 +139,9 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                             {
                                 continue;
                             }
-                            foreach (IServiceProfile profile in profiles)
+                            foreach (var profile in profiles)
                             {
-                                string specialOutfitKey = OutfitAssignmentUtils.GetGlobalAssignedOutfitPrefix(age | gender) + profile.Name;
+                                var specialOutfitKey = (age | gender).GetGlobalAssignedOutfitPrefix() + profile.Name;
                                 OutfitAssignmentUtils.AssignedOutfits.Remove(specialOutfitKey);
                                 OutfitAssignmentUtils.OutfitAssignments.RemoveAll(x => x.SimDescription == null && x.SpecialOutfitKey == specialOutfitKey);
                                 OutfitAssignmentUtils.IndexOutfitAssignments();

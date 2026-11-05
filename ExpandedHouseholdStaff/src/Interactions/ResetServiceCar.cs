@@ -4,7 +4,6 @@ using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.Interactions;
-using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
@@ -40,13 +39,13 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
 
         public override bool Run()
         {
-            if (ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && !string.IsNullOrEmpty(x.CarInstanceName)).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
+            if (ServiceUtils.TryUIGetSelectedServiceProfiles(out var profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && !string.IsNullOrEmpty(x.CarInstanceName)).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
             {
-                foreach (IServiceProfile profile in profiles)
+                foreach (var profile in profiles)
                 {
                     profile.CarInstanceName = null;
-                    profile.CarInstanceId = 0x0000000000000000;
-                    profile.CarGroupId = 0x00000000;
+                    profile.CarInstanceId = 0uL;
+                    profile.CarGroupId = 0u;
                     profile.CarPreset = null;
                 }
             }

@@ -32,7 +32,6 @@ using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI.CAS;
-using Sims3.UI.Hud;
 using Aging = NRaasTagger::NRaas.CommonSpace.Helpers.Aging;
 using Common = NRaasTagger::NRaas.Common;
 using OccultTypeHelper = NRaasTagger::NRaas.CommonSpace.Helpers.OccultTypeHelper;
@@ -57,7 +56,7 @@ namespace Destrospean.ExpandedHouseholdStaff
             CommonUtils.ReplaceMethod<SocialComponent, Main>("IsInServicePreventingSocialization");
             CommonUtils.ReplaceMethod<Main, SimDescription>("IsPerformingAnyServiceOfType_Original", "IsPerformingAnyServiceOfType");
             CommonUtils.ReplaceMethod<SimDescription, Main>("IsPerformingAnyServiceOfType");
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 switch (assembly.GetName().Name)
                 {
@@ -76,7 +75,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                 {
                     if (e is World.OnObjectPlacedInLotEventArgs onObjectPlacedInLotEventArgs)
                     {
-                        GameObject gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
+                        var gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
                         gameObject.AddInteraction(ListInteractions.Singleton, true);
                         gameObject.AddInteraction(AddInventoryObjectToService.Singleton, true);
                         (gameObject as Car)?.AddInteraction(AssignCarToService.Singleton, true);
@@ -85,14 +84,14 @@ namespace Destrospean.ExpandedHouseholdStaff
                 });
             World.sOnWorldLoadFinishedEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                 {
-                    foreach (GameObject gameObject in Sims3.Gameplay.Queries.GetObjects<GameObject>())
+                    foreach (var gameObject in Sims3.Gameplay.Queries.GetObjects<GameObject>())
                     {
                         gameObject.AddInteraction(ListInteractions.Singleton, true);
                         gameObject.AddInteraction(AddInventoryObjectToService.Singleton, true);
                         (gameObject as Car)?.AddInteraction(AssignCarToService.Singleton, true);
                         (gameObject as Mailbox).AddServiceProfileInteractions();
                     }
-                    foreach (IServiceProfile profile in new List<IServiceProfile>(ServiceUtils.ServiceProfiles))
+                    foreach (var profile in new List<IServiceProfile>(ServiceUtils.ServiceProfiles))
                     {
                         if (profile.IsImmutable)
                         {
@@ -112,7 +111,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                     }
                     listeners.Clear();
                     */
-                    foreach (CustomService service in new List<CustomService>(ServiceUtils.CustomInstances.Values))
+                    foreach (var service in new List<CustomService>(ServiceUtils.CustomInstances.Values))
                     {
                         CustomService.Deinit(service.Profile, true);
                     }
@@ -145,8 +144,8 @@ namespace Destrospean.ExpandedHouseholdStaff
 
         public static string GetStatus(SimDescription sim)
         {
-            string text = sim.FullName;
-            bool isServiceOrRole = false;
+            var text = sim.FullName;
+            var isServiceOrRole = false;
             if (sim.AssignedRole != null)
             {
                 isServiceOrRole = true;
@@ -154,11 +153,11 @@ namespace Destrospean.ExpandedHouseholdStaff
                 {
                     text += ", " + shoppingRegister.RegisterRoleName(sim.IsFemale);
                 }
-                else if (StringTable.GetLocalizedString(sim.AssignedRole.CareerTitleKey, out string localizedString))
+                else if (StringTable.GetLocalizedString(sim.AssignedRole.CareerTitleKey, out var localizedString))
                 {
                     text += ", " + localizedString;
                 }
-                string roleHours = TagDataHelper.GetRoleHours(sim);
+                var roleHours = TagDataHelper.GetRoleHours(sim);
                 if (!string.IsNullOrEmpty(roleHours))
                 {
                     text += Common.NewLine + roleHours;
@@ -171,16 +170,16 @@ namespace Destrospean.ExpandedHouseholdStaff
                 {
                     text += ", " + customService.Profile.Title;
                 }
-                else if (StringTable.GetLocalizedString("Ui/Caption/Services/Service:" + sim.CreatedByService.ServiceType, out string localizedString))
+                else if (StringTable.GetLocalizedString("Ui/Caption/Services/Service:" + sim.CreatedByService.ServiceType, out var localizedString))
                 {
                     text += ", " + localizedString;
                 }
             }
-            if (Tagger.Settings.mCustomSimTitles.TryGetValue(sim.SimDescriptionId, out List<string> customTitles))
+            if (Tagger.Settings.mCustomSimTitles.TryGetValue(sim.SimDescriptionId, out var customTitles))
             {
-                int perLine = isServiceOrRole ? 1 : 2;
+                var perLine = isServiceOrRole ? 1 : 2;
                 isServiceOrRole = true;
-                foreach (string title in customTitles)
+                foreach (var title in customTitles)
                 {
                     if (perLine == 0)
                     {
@@ -250,12 +249,12 @@ namespace Destrospean.ExpandedHouseholdStaff
             }
             if (Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.Occult] && sim.OccultManager != null)
             {
-                List<OccultTypes> occultTypes = OccultTypeHelper.CreateList(sim, false);
+                var occultTypes = OccultTypeHelper.CreateList(sim, false);
                 if (occultTypes.Count > 0)
                 {
                     text += Common.NewLine;
-                    string listString = "";
-                    foreach (OccultTypes occultType in occultTypes)
+                    var listString = "";
+                    foreach (var occultType in occultTypes)
                     {
                         listString += ", " + OccultTypeHelper.GetLocalizedName(occultType);
                     }
@@ -265,7 +264,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                         });
                 }
             }
-            Sim createdSim = sim.CreatedSim;
+            var createdSim = sim.CreatedSim;
             if (Tagger.Settings.Debugging && createdSim != null)
             {
                 text += Common.NewLine + "Autonomy: ";
@@ -303,7 +302,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                 if (Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.Mood])
                 {
                     text += Common.NewLine;
-                    int moodFlavor = (int)createdSim.MoodManager.MoodFlavor;
+                    var moodFlavor = (int)createdSim.MoodManager.MoodFlavor;
                     text += Common.Localize("TagData:MoodTag", sim.IsFemale, new object[]
                         {
                             Common.LocalizeEAString(false, "Ui/Tooltip/HUD/SimDisplay:MoodFlavor" + moodFlavor)
@@ -315,9 +314,9 @@ namespace Destrospean.ExpandedHouseholdStaff
                     {
                         text += Common.NewLine;
                     }
-                    string listString = ", ";
-                    int motiveIndex = 0;
-                    foreach (CommodityKind motive in ((HudModel)Responder.Instance.HudModel).GetMotives(sim.CreatedSim))
+                    var listString = ", ";
+                    var motiveIndex = 0;
+                    foreach (var motive in ((HudModel)Responder.Instance.HudModel).GetMotives(sim.CreatedSim))
                     {
                         if (sim.CreatedSim.Motives.HasMotive(motive))
                         {
@@ -350,7 +349,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                         Common.DebugException(createdSim, exception);
                         text += createdSim.CurrentInteraction.GetType();
                     }
-                    Tone currentTone = createdSim.CurrentInteraction.CurrentTone;
+                    var currentTone = createdSim.CurrentInteraction.CurrentTone;
                     if (currentTone != null)
                     {
                         text += Common.NewLine + currentTone;
@@ -364,7 +363,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                     }
                     if (createdSim.CurrentInteraction is Terrain.GoHereWith)
                     {
-                        InviteToLotSituation inviteToLotSituation = InviteToLotSituation.FindInviteToLotSituationInvolving(createdSim);
+                        var inviteToLotSituation = InviteToLotSituation.FindInviteToLotSituationInvolving(createdSim);
                         if (inviteToLotSituation != null)
                         {
                             if (inviteToLotSituation.SimA != createdSim)
@@ -379,7 +378,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                     }
                 }
             }
-            Common.MethodStore getDebtAndNetWorth = (Common.MethodStore)typeof(TagDataHelper).GetField("sGetDebtAndNetworth", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+            var getDebtAndNetWorth = (Common.MethodStore)typeof(TagDataHelper).GetField("sGetDebtAndNetworth", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
             if (!SimTypes.IsSpecial(sim))
             {
                 text += Common.NewLine + Common.Localize("TagData:CashTag", sim.IsFemale, new object[]
@@ -388,7 +387,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                     });
                 if ((Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.Debt] || Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.NetWorth]) && getDebtAndNetWorth.Valid)
                 {
-                    int netWorth = 0;
+                    var netWorth = 0;
                     if (Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.Debt])
                     {
                         netWorth++;
@@ -405,11 +404,11 @@ namespace Destrospean.ExpandedHouseholdStaff
                 }
                 if (Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.LifetimeWant] && sim.HasLifetimeWish)
                 {
-                    IInitialMajorWish majorDream = DreamsAndPromisesManager.GetMajorDream(sim.LifetimeWish);
-                    string completed = "";
+                    var majorDream = DreamsAndPromisesManager.GetMajorDream(sim.LifetimeWish);
+                    var completed = "";
                     if (sim.CreatedSim != null && sim.CreatedSim.DreamsAndPromisesManager != null)
                     {
-                        ActiveDreamNode lifetimeWishNode = sim.CreatedSim.DreamsAndPromisesManager.LifetimeWishNode;
+                        var lifetimeWishNode = sim.CreatedSim.DreamsAndPromisesManager.LifetimeWishNode;
                         completed = " " + lifetimeWishNode.AmountCompleted;
                     }
                     if (majorDream != null)
@@ -443,8 +442,8 @@ namespace Destrospean.ExpandedHouseholdStaff
                 }
                 if (Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.PartnerInfo] && sim.Partner != null)
                 {
-                    Relationship relationship = sim.GetRelationship(sim.Partner, false);
-                    string happilyOrUnhappily = "Happily";
+                    var relationship = sim.GetRelationship(sim.Partner, false);
+                    var happilyOrUnhappily = "Happily";
                     if (relationship != null && relationship.CurrentLTRLiking < -15f)
                     {
                         happilyOrUnhappily = "Unhappily";
@@ -462,7 +461,7 @@ namespace Destrospean.ExpandedHouseholdStaff
             }
             if (sim.IsPregnant && Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.PregnancyInfo])
             {
-                IMiniSimDescription miniSimDescription = SimDescription.Find(sim.Pregnancy.DadDescriptionId) ?? (IMiniSimDescription)MiniSimDescription.Find(sim.Pregnancy.DadDescriptionId);
+                var miniSimDescription = SimDescription.Find(sim.Pregnancy.DadDescriptionId) ?? (IMiniSimDescription)MiniSimDescription.Find(sim.Pregnancy.DadDescriptionId);
                 text += Common.NewLine;
                 if (miniSimDescription != null)
                 {
@@ -487,10 +486,10 @@ namespace Destrospean.ExpandedHouseholdStaff
                     text += Common.Localize("TagData:PregnancyUnknown", sim.IsFemale);
                 }
             }
-            Common.MethodStore getClanInfo = (Common.MethodStore)typeof(TagDataHelper).GetField("sGetClanInfo", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+            var getClanInfo = (Common.MethodStore)typeof(TagDataHelper).GetField("sGetClanInfo", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
             if (Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.PersonalityInfo] && getClanInfo.Valid)
             {
-                foreach (string info in getClanInfo.Invoke<List<string>>(new object[]
+                foreach (var info in getClanInfo.Invoke<List<string>>(new object[]
                     {
                         sim
                     }))
@@ -518,7 +517,7 @@ namespace Destrospean.ExpandedHouseholdStaff
 
         public bool IsPerformingAnyServiceOfType(ServiceType serviceType)
         {
-            CustomService customService = ((SimDescription)(object)this).Service as CustomService;
+            var customService = ((SimDescription)(object)this).Service as CustomService;
             return serviceType == ServiceType.Butler && (customService?.Profile.IsLiveInService ?? false) || serviceType == ServiceType.ChildCareServices && (customService?.Profile.IsBabysittingService ?? false) || IsPerformingAnyServiceOfType_Original(serviceType);
         }
 
@@ -532,13 +531,13 @@ namespace Destrospean.ExpandedHouseholdStaff
         {
             return DebugUtils.TryDisplayScriptError(() =>
                 {
-                    CustomService customService = actor.Service as CustomService;
+                    var customService = actor.Service as CustomService;
                     if (actor.IsPerformingAService && (customService?.WaitsBeforePuttingAwayLeftovers ?? false))
                     {
                         return iop.Target is IPreparedFood preparedFood && SimClock.ElapsedTime(TimeUnit.Minutes) - preparedFood.TimeOfCreation <= customService.TimeWaitBeforePutawayLeftovers ? 0f : 1f;
                     }
                     return CleanableComponent.PutAwayLeftOversScoringFunction(actor, iop);
-                }, out float retVal) ? 1f : retVal;
+                }, out var retVal) ? 1f : retVal;
         }
     }
 }

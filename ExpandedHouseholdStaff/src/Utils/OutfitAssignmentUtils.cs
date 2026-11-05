@@ -55,16 +55,6 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         }
 
         [Persistable]
-        public class Outfit
-        {
-            public OutfitCategories Category;
-
-            public int Index;
-
-            public SimDescription SimDescription;
-        }
-
-        [Persistable]
         public class OutfitAssignment
         {
             public string ServiceName;
@@ -85,7 +75,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
         }
 
-        static Dictionary<string, OutfitAssignment> sIndexedOutfitAssignments;
+        private static Dictionary<string, OutfitAssignment> sIndexedOutfitAssignments;
 
         [PersistableStatic(true)]
         public static Dictionary<string, AssignedOutfit> AssignedOutfits = new Dictionary<string, AssignedOutfit>();
@@ -111,12 +101,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static readonly BodyTypes[] OverridableBodyTypes;
 
-        [PersistableStatic(true)]
-        public static List<Outfit> PreviousOutfits = new List<Outfit>();
-
         static OutfitAssignmentUtils()
         {
-            List<BodyTypes> overridableBodyTypes = new List<BodyTypes>();
+            var overridableBodyTypes = new List<BodyTypes>();
             foreach (BodyTypes bodyType in Enum.GetValues(typeof(BodyTypes)))
             {
                 if (bodyType < BodyTypes.PetBody && !overridableBodyTypes.Contains(bodyType))
@@ -148,25 +135,25 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 simDescription.RemoveSpecialOutfit(specialOutfitKey);
             }
-            using (SimBuilder simBuilder = new SimBuilder
+            using (var simBuilder = new SimBuilder
                 {
                     UseCompression = true
                 })
             {
                 simBuilder.PrepareForOutfit(simDescription.CreatedSim == null ? simDescription.GetOutfit(OutfitCategories.Everyday, 0) : simDescription.CreatedSim.CurrentOutfit);
-                foreach (BodyTypes bodyType in OverridableBodyTypes)
+                foreach (var bodyType in OverridableBodyTypes)
                 {
                     if (!assignedOutfit.PartOverrides.Contains(bodyType))
                     {
                         continue;
                     }
-                    int savedPartIndex = assignedOutfit.Parts.FindIndex(x => x.Part.BodyType == bodyType);
+                    var savedPartIndex = assignedOutfit.Parts.FindIndex(x => x.Part.BodyType == bodyType);
                     if (savedPartIndex == -1)
                     {
                         simBuilder.RemoveParts(bodyType);
                         continue;
                     }
-                    AssignedOutfit.SavedPart savedPart = assignedOutfit.Parts[savedPartIndex];
+                    var savedPart = assignedOutfit.Parts[savedPartIndex];
                     switch (bodyType)
                     {
                         case BodyTypes.FullBody:
@@ -194,7 +181,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool AddAssignedOutfit(this Sim sim, string assignedSpecialOutfitKey, string simSpecialOutfitKey = null)
         {
-            return AssignedOutfits.TryGetValue(assignedSpecialOutfitKey, out AssignedOutfit assignedOutfit) && sim.SimDescription.AddAssignedOutfit(assignedOutfit, simSpecialOutfitKey ?? assignedSpecialOutfitKey);
+            return AssignedOutfits.TryGetValue(assignedSpecialOutfitKey, out var assignedOutfit) && sim.SimDescription.AddAssignedOutfit(assignedOutfit, simSpecialOutfitKey ?? assignedSpecialOutfitKey);
         }
 
         public static void AssignOutfitToService(this SimDescription simDescription, string specialOutfitKey, IServiceProfile serviceProfile, SimDescription fallbackSimDescription)
@@ -255,15 +242,15 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public static void IndexOutfitAssignments()
         {
             sIndexedOutfitAssignments = new Dictionary<string, OutfitAssignment>();
-            foreach (OutfitAssignment outfitAssignment in OutfitAssignments)
+            foreach (var outfitAssignment in OutfitAssignments)
             {
-                sIndexedOutfitAssignments[(outfitAssignment.SimDescription == null ? outfitAssignment.SpecialOutfitKey.Substring(OutfitAssignmentGlobalPrefix.Length, 2) + "_" : "") + outfitAssignment.ServiceName + (outfitAssignment.SimDescription == null ? "" : ("_" + outfitAssignment.SimDescription.SimDescriptionId))] = outfitAssignment;
+                sIndexedOutfitAssignments[(outfitAssignment.SimDescription == null ? outfitAssignment.SpecialOutfitKey.Substring(OutfitAssignmentGlobalPrefix.Length, 2) + "_" : "") + outfitAssignment.ServiceName + (outfitAssignment.SimDescription == null ? "" : "_" + outfitAssignment.SimDescription.SimDescriptionId)] = outfitAssignment;
             }
         }
 
         public static void RemoveAllOutfitAssignments(this SimDescription simDescription, bool removeSpecialOutfits = false)
         {
-            foreach (OutfitAssignment outfitAssignment in new List<OutfitAssignment>(OutfitAssignments))
+            foreach (var outfitAssignment in new List<OutfitAssignment>(OutfitAssignments))
             {
                 if (outfitAssignment.SimDescription == simDescription)
                 {
@@ -283,18 +270,18 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool ShowPartOverrideListDialog(AssignedOutfit assignedOutfit, out BodyTypes[] partOverrides, BodyTypes[] preSelectedPartOverrides = null)
         {
-            string entryKey = typeof(UI.Dialogs.ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "PartOverrideListDialog");
-            List<BodyTypes> partOverrideList = new List<BodyTypes>(preSelectedPartOverrides ?? assignedOutfit.PartOverrides.ToArray());
+            var entryKey = typeof(UI.Dialogs.ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "PartOverrideListDialog");
+            var partOverrideList = new List<BodyTypes>(preSelectedPartOverrides ?? assignedOutfit.PartOverrides.ToArray());
             while (true)
             {
-                List<BodyTypes> selectedPartOverrides = UI.Dialogs.ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                var selectedPartOverrides = UI.Dialogs.ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
                     {
                         new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<BodyTypes>(OverridableBodyTypes).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
                     }, new List<UI.Dialogs.ObjectPickerDialog.CommonHeaderInfo<BodyTypes>>
                     {
                         new BodyTypeColumn(entryKey),
                         new BodyTypeEnabledColumn(entryKey, partOverrideList.ToArray())
-                    }, 1, out bool confirmed, out bool cancelled, true);
+                    }, 1, out var confirmed, out var cancelled, true);
                 if (cancelled)
                 {
                     partOverrides = null;
@@ -353,26 +340,6 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
         }
 
-        public static void SwitchToPreviousOutfit(this Sim sim, bool spin = true)
-        {
-            int previousOutfitIndex = PreviousOutfits.FindIndex(x => x.SimDescription == sim.SimDescription);
-            if (previousOutfitIndex > -1)
-            {
-                if (!sim.BuffManager.HasElement(BuffNames.Singed) && !sim.BuffManager.HasElement(BuffNames.SingedElectricity) && !sim.BuffManager.HasElement(BuffNames.EmbarrassedClothesHidden) && !sim.BuffManager.DisallowClothesChange() && !sim.OccultManager.DisallowClothesChange())
-                {
-                    if (spin && !(sim.Posture is SittingPosture))
-                    {
-                        sim.SwitchToOutfitWithSpin(PreviousOutfits[previousOutfitIndex].Category, PreviousOutfits[previousOutfitIndex].Index);
-                    }
-                    else
-                    {
-                        sim.SwitchToOutfitWithoutSpin(PreviousOutfits[previousOutfitIndex].Category, PreviousOutfits[previousOutfitIndex].Index);
-                    }
-                }
-                PreviousOutfits.RemoveAt(previousOutfitIndex);
-            }
-        }
-
         public static bool TryGetGlobalOutfitAssignment(this SimDescription simDescription, IServiceProfile serviceProfile, out OutfitAssignment outfitAssignment)
         {
             return IndexedOutfitAssignments.TryGetValue(OutfitUtils.GetAgePrefix(simDescription.Age, true) + OutfitUtils.GetGenderPrefix(simDescription.Gender) + "_" + serviceProfile.Name, out outfitAssignment);
@@ -385,7 +352,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static void UnassignGlobalOutfitToService(this SimDescription simDescription, IServiceProfile serviceProfile)
         {
-            if (simDescription.TryGetGlobalOutfitAssignment(serviceProfile, out OutfitAssignment outfitAssignment))
+            if (simDescription.TryGetGlobalOutfitAssignment(serviceProfile, out var outfitAssignment))
             {
                 OutfitAssignments.Remove(outfitAssignment);
                 IndexOutfitAssignments();
@@ -394,7 +361,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static void UnassignOutfitToService(this SimDescription simDescription, IServiceProfile serviceProfile)
         {
-            if (simDescription.TryGetOutfitAssignment(serviceProfile, out OutfitAssignment outfitAssignment))
+            if (simDescription.TryGetOutfitAssignment(serviceProfile, out var outfitAssignment))
             {
                 OutfitAssignments.Remove(outfitAssignment);
                 IndexOutfitAssignments();

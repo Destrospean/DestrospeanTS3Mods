@@ -11,8 +11,8 @@ namespace Destrospean.MoreFavorites
 
         static Main()
         {
-            BindingFlags nonPublicInstance = BindingFlags.NonPublic | BindingFlags.Instance,
-            nonPublicStatic = BindingFlags.NonPublic | BindingFlags.Static;
+            const BindingFlags nonPublicInstance = BindingFlags.NonPublic | BindingFlags.Instance;
+            const BindingFlags nonPublicStatic = BindingFlags.NonPublic | BindingFlags.Static;
             ReplaceMethod(typeof(CASCharacter).GetMethod("GetFavoriteFood"), typeof(Replacements).GetMethod("GetFavoriteFood"));
             ReplaceMethod(typeof(CASCharacter).GetMethod("GetFavoriteFoodName", nonPublicStatic), typeof(Replacements).GetMethod("GetFavoriteFood"));
             ReplaceMethod(typeof(CASCharacter).GetMethod("GetFavoriteFoodPngName"), typeof(Replacements).GetMethod("GetFavoriteFoodPngName"));
@@ -40,7 +40,7 @@ namespace Destrospean.MoreFavorites
             ReplaceMethod(typeof(Sims3.Gameplay.CAS.SimDescription).GetMethod("RandomizePreferences"), typeof(Replacements).GetMethod("RandomizePreferences"));
             ReplaceMethod(typeof(Sims3.Gameplay.Objects.Electronics.Stereo).GetMethod("AddEnjoyingMusicCallback", nonPublicInstance), typeof(Replacements.StereoPatch).GetMethod("AddEnjoyingMusicCallback"));
             ReplaceMethod(typeof(Sims3.Gameplay.Objects.Electronics.StereoStationData).GetMethod("GetStationName"), typeof(Replacements).GetMethod("GetStationName"));
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 switch (assembly.GetName().Name)
                 {
@@ -58,7 +58,7 @@ namespace Destrospean.MoreFavorites
         /// <summary>This method was borrowed from Lazy Duchess' Mono Patcher</summary>
         public static void ReplaceMethod(MethodInfo oldMethod, MethodInfo newMethod)
         {
-            byte[] replacementByteArray = new byte[40];
+            var replacementByteArray = new byte[40];
             System.Runtime.InteropServices.Marshal.Copy(newMethod.MethodHandle.Value, replacementByteArray, 0, 40);
             System.Runtime.InteropServices.Marshal.Copy(replacementByteArray, 0, oldMethod.MethodHandle.Value, 24);
             System.Runtime.InteropServices.Marshal.Copy(replacementByteArray, 28, new IntPtr(oldMethod.MethodHandle.Value.ToInt32() + 28), 12);

@@ -32,18 +32,12 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         [Persistable]
         public class ActiveTopicAction
         {
-            short mGrouping;
+            private short mGrouping;
 
             public LongTermRelationshipTypes Grouping
             {
-                get
-                {
-                    return (LongTermRelationshipTypes)mGrouping;
-                }
-                set
-                {
-                    mGrouping = (short)value;
-                }
+                get => (LongTermRelationshipTypes)mGrouping;
+                private set => mGrouping = (short)value;
             }
 
             /// <summary>
@@ -59,7 +53,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             /// <summary>
             /// Initializes a new instance of the
-            /// <see cref="Destrospean.Utils.ExpandedHouseholdStaff.ServiceUtils+ActiveTopicAction"/> class.
+            /// <see cref="ActiveTopicAction"/> class.
             /// </summary>
             /// <param name="name">Name.</param>
             /// <param name="grouping">Grouping.</param>
@@ -75,9 +69,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         [Persistable]
         public class CommodityChange
         {
-            int mUpdateAboveAndBelowZero;
+            private int mUpdateAboveAndBelowZero;
 
-            int mUpdateType;
+            private int mUpdateType;
 
             public float ActualValue;
 
@@ -93,28 +87,16 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public UpdateAboveAndBelowZeroType UpdateAboveAndBelowZero
             {
-                get
-                {
-                    return (UpdateAboveAndBelowZeroType)mUpdateAboveAndBelowZero;
-                }
-                set
-                {
-                    mUpdateAboveAndBelowZero = (int)value;
-                }
+                get => (UpdateAboveAndBelowZeroType)mUpdateAboveAndBelowZero;
+                private set => mUpdateAboveAndBelowZero = (int)value;
             }
 
             public bool UpdateEvenOnFailure;
 
             public OutputUpdateType UpdateType
             {
-                get
-                {
-                    return (OutputUpdateType)mUpdateType;
-                }
-                set
-                {
-                    mUpdateType = (int)value;
-                }
+                get => (OutputUpdateType)mUpdateType;
+                private set => mUpdateType = (int)value;
             }
 
             public CommodityChange()
@@ -142,75 +124,69 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         [Persistable]
         public class ServiceProfile : IServiceProfile
         {
-            List<ActiveTopicAction> mActions = new List<ActiveTopicAction>();
+            private List<ActiveTopicAction> mActions = new List<ActiveTopicAction>();
 
-            uint mCarGroupId = 0x00000000;
+            private uint mCarGroupId;
 
-            ulong mCarInstanceId = 0x0000000000000000;
+            private ulong mCarInstanceId;
 
-            float mCheckTime = 5f;
+            private float mCheckTime = 5f;
 
-            float mDelayBeforeArriving = 1f;
+            private float mDelayBeforeArriving = 1f;
 
-            float mDelayBeforeLeaving = 20f;
+            private float mDelayBeforeLeaving = 20f;
 
-            float mDriveTime = 5f;
+            private float mDriveTime = 5f;
 
-            float mExtraWaitTimeAfterSocializing = 30f;
+            private float mExtraWaitTimeAfterSocializing = 30f;
 
-            ulong mFlags = 0uL;
+            private ulong mFlags;
 
-            List<ulong> mHiddenTraits = new List<ulong>();
+            private List<ulong> mHiddenTraits = new List<ulong>();
 
-            List<InventoryObjectCreationParameters> mInventory = new List<InventoryObjectCreationParameters>();
+            private List<InventoryObjectCreationParameters> mInventory = new List<InventoryObjectCreationParameters>();
 
-            bool mIsImmutable = false;
+            private bool mIsImmutable;
 
-            List<int> mMotives = new List<int>();
+            private List<int> mMotives = new List<int>();
 
-            List<CommodityChange> mOutputs = new List<CommodityChange>();
+            private List<CommodityChange> mOutputs = new List<CommodityChange>();
 
-            int mPotentialTraitCount = 0;
+            private int mPotentialTraitCount;
 
-            List<ulong> mPotentialTraits = new List<ulong>();
+            private List<ulong> mPotentialTraits = new List<ulong>();
 
-            float mRelationshipLevelForQuit = -50f;
+            private float mRelationshipLevelForQuit = -50f;
 
-            int mServiceMotive = 0;
+            private int mServiceMotive;
 
-            ulong mServiceType = 1uL;
+            private ulong mServiceType = 1uL;
 
-            List<SkillLevelPair> mSkills = new List<SkillLevelPair>();
+            private List<SkillLevelPair> mSkills = new List<SkillLevelPair>();
 
-            Dictionary<string, string> mStrings = new Dictionary<string, string>();
+            private Dictionary<string, string> mStrings = new Dictionary<string, string>();
 
-            float mTimeToStartWorking = 9f;
+            private float mTimeToStartWorking = 9f;
 
-            float mTimeToStopWorking = 17f;
+            private float mTimeToStopWorking = 17f;
 
-            float mTimeWaitBeforePutawayLeftovers = 60f;
+            private float mTimeWaitBeforePutawayLeftovers = 60f;
 
-            List<ulong> mTraits = new List<ulong>();
+            private List<ulong> mTraits = new List<ulong>();
 
-            float mUseObjectInSameRoomAsSleeperMultiplier = 0.1f;
+            private float mUseObjectInSameRoomAsSleeperMultiplier = 0.1f;
 
-            uint mValidAges = 48u;
+            private uint mValidAges = 48u;
 
-            uint mValidGenders = 0u;
+            private uint mValidGenders;
 
             /// <summary>
             /// The list of actions for the service topic.
             /// </summary>
             public List<ActiveTopicAction> Actions
             {
-                get
-                {
-                    return mActions;
-                }
-                set
-                {
-                    mActions = value; 
-                }
+                get => mActions;
+                set => mActions = value;
             }
 
             /// <summary>
@@ -218,10 +194,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool AlwaysTryToSendTheSameSim
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.AlwaysTryToSendTheSameSim) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.AlwaysTryToSendTheSameSim) != 0uL;
                 set
                 {
                     if (value)
@@ -240,14 +213,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public string CancelledMessage
             {
-                get
-                {
-                    return mStrings.TryGetValue("CancelledMessage", out string value) ? value : null;
-                }
-                set
-                {
-                    mStrings["CancelledMessage"] = value;
-                }
+                get => mStrings.TryGetValue("CancelledMessage", out var value) ? value : null;
+                set => mStrings["CancelledMessage"] = value;
             }
 
             /// <summary>
@@ -257,14 +224,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public string CancelledWhileActiveMessage
             {
-                get
-                {
-                    return mStrings.TryGetValue("CancelledWhileActiveMessage", out string value) ? value : null;
-                }
-                set
-                {
-                    mStrings["CancelledWhileActiveMessage"] = value;
-                }
+                get => mStrings.TryGetValue("CancelledWhileActiveMessage", out var value) ? value : null;
+                set => mStrings["CancelledWhileActiveMessage"] = value;
             }
 
             /// <summary>
@@ -272,14 +233,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public uint CarGroupId
             {
-                get
-                {
-                    return mCarGroupId;
-                }
-                set
-                {
-                    mCarGroupId = value;
-                }
+                get => mCarGroupId;
+                set => mCarGroupId = value;
             }
 
             /// <summary>
@@ -289,13 +244,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 get
                 {
-                    ulong nameGuid = NameGuidMap.GetGuidByName(string.IsNullOrEmpty(CarInstanceName) ? "CarServiceSedan" : CarInstanceName);
+                    var nameGuid = NameGuidMap.GetGuidByName(string.IsNullOrEmpty(CarInstanceName) ? "CarServiceSedan" : CarInstanceName);
                     return nameGuid == NameGuidMap.kInvalidNameGuid ? mCarInstanceId : nameGuid;
                 }
-                set
-                {
-                    mCarInstanceId = value;
-                }
+                set => mCarInstanceId = value;
             }
 
             /// <summary>
@@ -303,14 +255,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public string CarInstanceName
             {
-                get
-                {
-                    return mStrings.TryGetValue("CarInstanceName", out string value) ? value : null;
-                }
-                set
-                {
-                    mStrings["CarInstanceName"] = value;
-                }
+                get => mStrings.TryGetValue("CarInstanceName", out var value) ? value : null;
+                set => mStrings["CarInstanceName"] = value;
             }
 
             /// <summary>
@@ -318,14 +264,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public string CarPreset
             {
-                get
-                {
-                    return mStrings.TryGetValue("CarPreset", out string value) ? value : null;
-                }
-                set
-                {
-                    mStrings["CarPreset"] = value;
-                }
+                get => mStrings.TryGetValue("CarPreset", out var value) ? value : null;
+                set => mStrings["CarPreset"] = value;
             }
 
             /// <summary>
@@ -333,14 +273,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public float CheckTime
             {
-                get
-                {
-                    return mCheckTime;
-                }
-                set
-                {
-                    mCheckTime = value;
-                }
+                get => mCheckTime;
+                set => mCheckTime = value;
             }
 
             public int Cost = 50;
@@ -350,14 +284,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public float DelayBeforeArriving
             {
-                get
-                {
-                    return mDelayBeforeArriving;
-                }
-                set
-                {
-                    mDelayBeforeArriving = value;
-                }
+                get => mDelayBeforeArriving;
+                set => mDelayBeforeArriving = value;
             }
 
             /// <summary>
@@ -365,14 +293,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public float DelayBeforeLeaving
             {
-                get
-                {
-                    return mDelayBeforeLeaving;
-                }
-                set
-                {
-                    mDelayBeforeLeaving = value;
-                }
+                get => mDelayBeforeLeaving;
+                set => mDelayBeforeLeaving = value;
             }
 
             /// <summary>
@@ -380,14 +302,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public float DriveTime
             {
-                get
-                {
-                    return mDriveTime;
-                }
-                set
-                {
-                    mDriveTime = value;
-                }
+                get => mDriveTime;
+                set => mDriveTime = value;
             }
 
             /// <summary>
@@ -395,23 +311,17 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public float ExtraWaitTimeAfterSocializing
             {
-                get
-                {
-                    return mExtraWaitTimeAfterSocializing;
-                }
-                set
-                {
-                    mExtraWaitTimeAfterSocializing = value;
-                }
+                get => mExtraWaitTimeAfterSocializing;
+                set => mExtraWaitTimeAfterSocializing = value;
             }
                 
-            public bool GetUniformFromName = false;
+            public bool GetUniformFromName;
 
-            public GetUniformNameDelegate GetUniformNameCallback = null;
+            public GetUniformNameDelegate GetUniformNameCallback;
 
             /// <summary>
             /// The list of hidden traits for the service NPC.
-            /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddHiddenTraits"/> and <see cref="RemoveHiddenTraits"/> methods instead.
+            /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddHiddenTraits"/> and <see cref="RemoveHiddenTraits(TraitNames[])"/> methods instead.
             /// </summary>
             public List<TraitNames> HiddenTraits
             {
@@ -430,14 +340,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public List<InventoryObjectCreationParameters> Inventory
             {
-                get
-                {
-                    return mInventory;
-                }
-                set
-                {
-                    mInventory = value;
-                }
+                get => mInventory;
+                set => mInventory = value;
             }
 
             /// <summary>
@@ -445,10 +349,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool IsBabysittingService
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.BabysittingService) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.BabysittingService) != 0uL;
                 set
                 {
                     if (value)
@@ -467,10 +368,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool IsEmergencyService
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.EmergencyService) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.EmergencyService) != 0uL;
                 set
                 {
                     if (value)
@@ -489,14 +387,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool IsImmutable
             {
-                get
-                {
-                    return mIsImmutable;
-                }
-                set
-                {
-                    mIsImmutable = value;
-                }
+                get => mIsImmutable;
+                set => mIsImmutable = value;
             }
 
             /// <summary>
@@ -505,10 +397,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool IsLiveInService
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.LiveInService) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.LiveInService) != 0uL;
                 set
                 {
                     if (value)
@@ -527,10 +416,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool IsQuietAroundSleepingSims
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.QuietAroundSleepingSims) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.QuietAroundSleepingSims) != 0uL;
                 set
                 {
                     if (value)
@@ -549,10 +435,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool IsRecurrent
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.Recurrent) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.Recurrent) != 0uL;
                 set
                 {
                     if (value)
@@ -571,10 +454,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool IsScaredOfBonehilda
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.ScaredOfBonehilda) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.ScaredOfBonehilda) != 0uL;
                 set
                 {
                     if (value)
@@ -592,7 +472,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             /// <summary>
             /// The service motives. If assigning manually (rather than as a parameter in the constructor) be sure include the <see cref="ServiceMotive"/> property.
-            /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddMotives"/> and <see cref="RemoveMotives"/> methods instead.
+            /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddMotives"/> and <see cref="RemoveMotives(CommodityKind[])"/> methods instead.
             /// </summary>
             public List<CommodityKind> Motives
             {
@@ -611,14 +491,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public string Name
             {
-                get
-                {
-                    return mStrings.TryGetValue("Name", out string value) ? value : null;
-                }
-                set
-                {
-                    mStrings["Name"] = value.Replace(' ', '_');
-                }
+                get => mStrings.TryGetValue("Name", out var value) ? value : null;
+                set => mStrings["Name"] = value.Replace(' ', '_');
             }
 
             /// <summary>
@@ -626,14 +500,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public List<CommodityChange> Outputs
             {
-                get
-                {
-                    return mOutputs;
-                }
-                set
-                {
-                    mOutputs = value;
-                }
+                get => mOutputs;
+                set => mOutputs = value;
             }
 
             /// <summary>
@@ -641,19 +509,13 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public int PotentialTraitCount
             {
-                get
-                {
-                    return mPotentialTraitCount;
-                }
-                set
-                {
-                    mPotentialTraitCount = value;
-                }
+                get => mPotentialTraitCount;
+                set => mPotentialTraitCount = value;
             }
 
             /// <summary>
             /// The list of potential traits for the service NPC; will be randomly picked from, the number of which is specified by <see cref="PotentialTraitCount"/>.
-            /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddPotentialTraits"/> and <see cref="RemovePotentialTraits"/> methods instead.
+            /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddPotentialTraits"/> and <see cref="RemovePotentialTraits(TraitNames[])"/> methods instead.
             /// </summary>
             public List<TraitNames> PotentialTraits
             {
@@ -672,10 +534,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool PreventSocialization
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.PreventSocialization) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.PreventSocialization) != 0uL;
                 set
                 {
                     if (value)
@@ -689,19 +548,13 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
             }
 
-            // <summary>
+            /// <summary>
             /// If the service NPC's relationship with any YAE falls below this level, they will quit.
             /// </summary>
             public float RelationshipLevelForQuit
             {
-                get
-                {
-                    return mRelationshipLevelForQuit;
-                }
-                set
-                {
-                    mRelationshipLevelForQuit = value;
-                }
+                get => mRelationshipLevelForQuit;
+                set => mRelationshipLevelForQuit = value;
             }
 
             /// <summary>
@@ -709,10 +562,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool ReportsFires
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.ReportsFires) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.ReportsFires) != 0uL;
                 set
                 {
                     if (value)
@@ -731,14 +581,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public string RequestedMessage
             {
-                get
-                {
-                    return mStrings.TryGetValue("RequestedMessage", out string value) ? value : null;
-                }
-                set
-                {
-                    mStrings["RequestedMessage"] = value;
-                }
+                get => mStrings.TryGetValue("RequestedMessage", out var value) ? value : null;
+                set => mStrings["RequestedMessage"] = value;
             }
 
             /// <summary>
@@ -746,10 +590,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool RequireBeInSameRoom
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.RequireBeInSameRoom) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.RequireBeInSameRoom) != 0uL;
                 set
                 {
                     if (value)
@@ -768,14 +609,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public CommodityKind ServiceMotive
             {
-                get
-                {
-                    return (CommodityKind)mServiceMotive;
-                }
-                set
-                {
-                    mServiceMotive = (int)value;
-                }
+                get => (CommodityKind)mServiceMotive;
+                set => mServiceMotive = (int)value;
             }
 
             /// <summary>
@@ -783,10 +618,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public Service.ServiceTuning ServiceTuning
             {
-                get
-                {
-                    return new Service.ServiceTuning(MaxNumNPCsInPool, Cost, IsEmergencyService, IsRecurrent, AlwaysTryToSendTheSameSim);
-                }
+                get => new Service.ServiceTuning(MaxNumNPCsInPool, Cost, IsEmergencyService, IsRecurrent, AlwaysTryToSendTheSameSim);
                 set
                 {
                     AlwaysTryToSendTheSameSim = value.kAlwaysTryToSendSameSim;
@@ -802,14 +634,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public ServiceType ServiceType
             {
-                get
-                {
-                    return (ServiceType)mServiceType;
-                }
-                set
-                {
-                    mServiceType = (ulong)value;
-                }
+                get => (ServiceType)mServiceType;
+                set => mServiceType = (ulong)value;
             }
                 
             /// <summary>
@@ -817,14 +643,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public List<SkillLevelPair> Skills
             {
-                get
-                {
-                    return mSkills;
-                }
-                set
-                {
-                    mSkills = value;
-                }
+                get => mSkills;
+                set => mSkills = value;
             }
 
             /// <summary>
@@ -833,14 +653,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public float TimeToStartWorking
             {
-                get
-                {
-                    return mTimeToStartWorking;
-                }
-                set
-                {
-                    mTimeToStartWorking = value;
-                }
+                get => mTimeToStartWorking;
+                set => mTimeToStartWorking = value;
             }
 
             /// <summary>
@@ -849,14 +663,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public float TimeToStopWorking
             {
-                get
-                {
-                    return mTimeToStopWorking;
-                }
-                set
-                {
-                    mTimeToStopWorking = value;
-                }
+                get => mTimeToStopWorking;
+                set => mTimeToStopWorking = value;
             }
                 
             /// <summary>
@@ -865,14 +673,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public float TimeWaitBeforePutawayLeftovers
             {
-                get
-                {
-                    return mTimeWaitBeforePutawayLeftovers;
-                }
-                set
-                {
-                    mTimeWaitBeforePutawayLeftovers = value;
-                }
+                get => mTimeWaitBeforePutawayLeftovers;
+                set => mTimeWaitBeforePutawayLeftovers = value;
             }
 
             /// <summary>
@@ -880,19 +682,13 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public string Title
             {
-                get
-                {
-                    return mStrings.TryGetValue("Title", out string value) ? value : null;
-                }
-                set
-                {
-                    mStrings["Title"] = value;
-                }
+                get => mStrings.TryGetValue("Title", out var value) ? value : null;
+                set => mStrings["Title"] = value;
             }
                 
             /// <summary>
             /// The list of explicit traits for the service NPC.
-            /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddTraits"/> and <see cref="RemoveTraits"/> methods instead.
+            /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddTraits"/> and <see cref="RemoveTraits(TraitNames[])"/> methods instead.
             /// </summary>
             public List<TraitNames> Traits
             {
@@ -912,14 +708,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public float UseObjectInSameRoomAsSleeperMultiplier
             {
-                get
-                {
-                    return mUseObjectInSameRoomAsSleeperMultiplier;
-                }
-                set
-                {
-                    mUseObjectInSameRoomAsSleeperMultiplier = value;
-                }
+                get => mUseObjectInSameRoomAsSleeperMultiplier;
+                set => mUseObjectInSameRoomAsSleeperMultiplier = value;
             }
 
             /// <summary>
@@ -927,14 +717,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public CASAgeGenderFlags ValidAges
             {
-                get
-                {
-                    return (CASAgeGenderFlags)mValidAges;
-                }
-                set
-                {
-                    mValidAges = (uint)(value & CASAgeGenderFlags.AgeMask);
-                }
+                get => (CASAgeGenderFlags)mValidAges;
+                set => mValidAges = (uint)(value & CASAgeGenderFlags.AgeMask);
             }
 
             /// <summary>
@@ -942,13 +726,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public CASAgeGenderFlags ValidGenders
             {
-                get
-                {
-                    return (CASAgeGenderFlags)mValidGenders;
-                }
+                get => (CASAgeGenderFlags)mValidGenders;
                 set
                 {
-                    CASAgeGenderFlags gender = value & CASAgeGenderFlags.GenderMask;
+                    var gender = value & CASAgeGenderFlags.GenderMask;
                     mValidGenders = gender == CASAgeGenderFlags.GenderMask ? 0u : (uint)gender;
                 }
             }
@@ -958,14 +739,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public string VersionString
             {
-                get
-                {
-                    return mStrings.TryGetValue("VersionString", out string value) ? value : "-1";
-                }
-                set
-                {
-                    mStrings["VersionString"] = value;
-                }
+                get => mStrings.TryGetValue("VersionString", out var value) ? value : "-1";
+                set => mStrings["VersionString"] = value;
             }
 
             /// <summary>
@@ -973,10 +748,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             /// </summary>
             public bool WaitsBeforePuttingAwayLeftovers
             {
-                get
-                {
-                    return (mFlags & (ulong)ServiceProfileFlags.WaitsBeforePuttingAwayLeftovers) != 0uL;
-                }
+                get => (mFlags & (ulong)ServiceProfileFlags.WaitsBeforePuttingAwayLeftovers) != 0uL;
                 set
                 {
                     if (value)
@@ -1011,7 +783,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 VersionString = CurrentVersion.ToString();
                 Name = name;
                 Title = title;
-                string entryKey = typeof(CustomService).GetLocalizationKey();
+                var entryKey = typeof(CustomService).GetLocalizationKey();
                 RequestedMessage = requestedMessage ?? Localization.LocalizeString(entryKey + ":ServiceRequested", title);
                 CancelledMessage = cancelledMessage ?? Localization.LocalizeString(entryKey + ":ServiceCancelled", title);
                 CancelledWhileActiveMessage = cancelledWhileActiveMessage ?? Localization.LocalizeString(entryKey + ":ServiceCancelledWhileActive", title);
@@ -1036,7 +808,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void AddHiddenTraits(params TraitNames[] traits)
             {
-                foreach (TraitNames trait in traits)
+                foreach (var trait in traits)
                 {
                     mHiddenTraits.Add((ulong)trait);
                 }
@@ -1044,7 +816,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void AddMotives(params CommodityKind[] motives)
             {
-                foreach (CommodityKind motive in motives)
+                foreach (var motive in motives)
                 {
                     mMotives.Add((int)motive);
                 }
@@ -1057,7 +829,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void AddPotentialTraits(params TraitNames[] traits)
             {
-                foreach (TraitNames trait in traits)
+                foreach (var trait in traits)
                 {
                     mPotentialTraits.Add((ulong)trait);
                 }
@@ -1070,7 +842,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void AddTraits(params TraitNames[] traits)
             {
-                foreach (TraitNames trait in traits)
+                foreach (var trait in traits)
                 {
                     mTraits.Add((ulong)trait);
                 }
@@ -1088,7 +860,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void RemoveActions(params ActiveTopicAction[] actions)
             {
-                foreach (ActiveTopicAction action in actions)
+                foreach (var action in actions)
                 {
                     mActions.Remove(action);
                 }
@@ -1106,7 +878,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void RemoveHiddenTraits(params TraitNames[] traits)
             {
-                foreach (TraitNames trait in traits)
+                foreach (var trait in traits)
                 {
                     mHiddenTraits.Remove((ulong)trait);
                 }
@@ -1114,7 +886,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void RemoveMotives(params CommodityKind[] motives)
             {
-                foreach (CommodityKind motive in motives)
+                foreach (var motive in motives)
                 {
                     mMotives.Remove((int)motive);
                 }
@@ -1127,7 +899,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void RemoveOutputs(params CommodityChange[] outputs)
             {
-                foreach (CommodityChange output in outputs)
+                foreach (var output in outputs)
                 {
                     mOutputs.Remove(output);
                 }
@@ -1145,7 +917,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void RemovePotentialTraits(params TraitNames[] traits)
             {
-                foreach (TraitNames trait in traits)
+                foreach (var trait in traits)
                 {
                     mPotentialTraits.Remove((ulong)trait);
                 }
@@ -1158,7 +930,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void RemoveSkills(params SkillLevelPair[] skills)
             {
-                foreach (SkillLevelPair skill in skills)
+                foreach (var skill in skills)
                 {
                     Skills.Remove(skill);
                 }
@@ -1171,7 +943,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
             public void RemoveTraits(params TraitNames[] traits)
             {
-                foreach (TraitNames trait in traits)
+                foreach (var trait in traits)
                 {
                     mTraits.Remove((ulong)trait);
                 }
@@ -1221,7 +993,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         }
 
         /// <summary>
-        /// Adds a custom service with the specified profile to the savegame, requestable via the <see cref="Destrospean.ExpandedHouseholdStaff.Interactions.CallForServices"/> interaction.
+        /// Adds a custom service with the specified profile to the savegame, requestable via the <see cref="Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions.CallForServices"/> interaction.
         /// </summary>
         public static void AddServiceToSaveGame(this IServiceProfile profile)
         {
@@ -1253,7 +1025,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// </summary>
         public static bool CanRemoveServiceFromSaveGame(string name)
         {
-            return CustomInstances.TryGetValue(name, out CustomService service) && ServiceProfiles.Contains(service.Profile);
+            return CustomInstances.TryGetValue(name, out var service) && ServiceProfiles.Contains(service.Profile);
         }
 
         /// <summary>
@@ -1313,8 +1085,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static string ConvertHoursToTime(float hours)
         {
-            float minutes = 60 * (hours - (int)hours);
-            float seconds = 60 * (minutes - (int)minutes);
+            var minutes = 60 * (hours - (int)hours);
+            var seconds = 60 * (minutes - (int)minutes);
             return ((int)hours).ToString("D2") + ":" + ((int)minutes).ToString("D2") + ":" + ((int)seconds).ToString("D2") + (seconds.ToString(CultureInfo.InvariantCulture).Contains(".") ? "." + seconds.ToString(CultureInfo.InvariantCulture).Split('.')[1] : "");
         }
 
@@ -1342,7 +1114,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool IsFromExpandedHouseholdStaff(Type type)
         {
-            return typeof(Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff.IService).IsAssignableFrom(type);
+            return typeof(IService).IsAssignableFrom(type);
         }
 
         /// <summary>
@@ -1352,7 +1124,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         {
             if (CanRemoveServiceFromSaveGame(name))
             {
-                IServiceProfile profile = CustomInstances[name].Profile;
+                var profile = CustomInstances[name].Profile;
                 CustomService.Deinit(profile);
                 CustomInstances.Remove(name);
                 ServiceProfiles.Remove(profile);
@@ -1376,7 +1148,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     return true;
                 }
             }
-            foreach (IServiceProfile profile in ServiceProfiles)
+            foreach (var profile in ServiceProfiles)
             {
                 if (serviceMotive == profile.ServiceMotive)
                 {
@@ -1388,7 +1160,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool ShowCostDialog(ref string costString, bool isLiveInService)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CostDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CostDialog");
             costString = StringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), Localization.LocalizeString(entryKey + "/Prompts:" + (isLiveInService ? "Weekly" : "Daily")), costString, -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.Number, false, ModalDialog.PauseMode.PauseSimulator, false, true);
             return costString != null;
         }
@@ -1396,25 +1168,25 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public static bool ShowServiceProfileFlagListDialog(this IServiceProfile profile, out ServiceProfileFlags flags, ServiceProfileFlags? preSelectedFlags = null)
         {
             flags = 0;
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceProfileFlagListDialog");
-            List<ServiceProfileFlags> flagList = new List<ServiceProfileFlags>(Array.FindAll((ServiceProfileFlags[])Enum.GetValues(typeof(ServiceProfileFlags)), x => preSelectedFlags.HasValue ? (preSelectedFlags & x) == x : (profile as ServiceProfile)?.HasFlags(x) ?? false));
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceProfileFlagListDialog");
+            var flagList = new List<ServiceProfileFlags>(Array.FindAll((ServiceProfileFlags[])Enum.GetValues(typeof(ServiceProfileFlags)), x => preSelectedFlags.HasValue ? (preSelectedFlags & x) == x : (profile as ServiceProfile)?.HasFlags(x) ?? false));
             while (true)
             {
-                List<ServiceProfileFlags> selectedFlags = ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                var selectedFlags = ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
                     {
                         new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<ServiceProfileFlags>((ServiceProfileFlags[])Enum.GetValues(typeof(ServiceProfileFlags))).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
                     }, new List<ObjectPickerDialog.CommonHeaderInfo<ServiceProfileFlags>>
                     {
                         new ServiceProfileFlagColumn(entryKey),
                         new ServiceProfileFlagEnabledColumn(entryKey, flagList.ToArray())
-                    }, 1, out bool confirmed, out bool cancelled, true);
+                    }, 1, out var confirmed, out var cancelled, true);
                 if (cancelled)
                 {
                     return false;
                 }
                 if (confirmed)
                 {
-                    foreach (ServiceProfileFlags flag in flagList)
+                    foreach (var flag in flagList)
                     {
                         flags |= flag;
                     }
@@ -1435,7 +1207,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         {
             while (true)
             {
-                string timeToStartStopWorkingString = StringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), Localization.LocalizeString(entryKey + ":Prompt"), ConvertHoursToTime(timeToStartStopWorking), -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.None, false, ModalDialog.PauseMode.PauseSimulator, false, true);
+                var timeToStartStopWorkingString = StringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), Localization.LocalizeString(entryKey + ":Prompt"), ConvertHoursToTime(timeToStartStopWorking), -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.None, false, ModalDialog.PauseMode.PauseSimulator, false, true);
                 if (timeToStartStopWorkingString == null)
                 {
                     return false;
@@ -1450,14 +1222,13 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public static bool TryConvertTimeToHours(string time, out float hours, out int failReason)
         {
             hours = 0f;
-            int h = 0;
-            string[] hoursMinutesSeconds = time.Split(':');
-            if (!int.TryParse(hoursMinutesSeconds[0], out h) || h < 0 || h > 23)
+            var hoursMinutesSeconds = time.Split(':');
+            if (!int.TryParse(hoursMinutesSeconds[0], out var h) || h < 0 || h > 23)
             {
                 failReason = 1;
                 return false;
             }
-            int m = 0;
+            var m = 0;
             if (hoursMinutesSeconds.Length > 1 && !int.TryParse(hoursMinutesSeconds[1], out m) || m < 0 || m > 59)
             {
                 failReason = 2;
@@ -1480,7 +1251,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if the an action was added, <c>false</c> otherwise.</returns>
         public static bool TryUIAddAction(this IServiceProfile profile, string title)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
             string name = null;
             LongTermRelationshipTypes grouping = 0;
             ActiveTopicActionActiveness activeTopicActionActiveness = 0;
@@ -1489,14 +1260,14 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 if (step == 0)
                 {
-                    List<ActiveTopicAction> allActions = new List<ActiveTopicAction>();
+                    var allActions = new List<ActiveTopicAction>();
                     foreach (var activeTopic in ActionAvailabilityData.sActiveTopicInteractions)
                     {
-                        foreach (KeyValuePair<LongTermRelationshipTypes, Dictionary<bool, List<string>>> groups in activeTopic.Value)
+                        foreach (var groups in activeTopic.Value)
                         {
-                            foreach (KeyValuePair<bool, List<string>> group in groups.Value)
+                            foreach (var group in groups.Value)
                             {
-                                foreach (string action in group.Value)
+                                foreach (var action in group.Value)
                                 {
                                     if (!allActions.Exists(x => x.Name == action))
                                     {
@@ -1506,7 +1277,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                             }
                         }
                     }
-                    if (!TryUIGetSelectedActions(out ActiveTopicAction[] actions, allActions.ToArray(), title, 1))
+                    if (!TryUIGetSelectedActions(out var actions, allActions.ToArray(), title, 1))
                     {
                         return false;
                     }
@@ -1533,7 +1304,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     }
                     step++;
                 }
-                bool isActive = activeTopicActionActiveness == ActiveTopicActionActiveness.FPA;
+                var isActive = activeTopicActionActiveness == ActiveTopicActionActiveness.FPA;
                 profile.AddActions(new ActiveTopicAction(name, grouping, isActive));
                 CommonUtils.AddActions(profile.Name + " Service", grouping, isActive, name);
                 return true;
@@ -1546,20 +1317,20 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if an item was added, <c>false</c> otherwise.</returns>
         public static bool TryUIAddInventoryObject(this IServiceProfile profile)
         {
-            string[] results = new[]
+            var results = new[]
                 {
                     "",
                     "0x00000000",
                     "1"
                 };
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "AddInventoryObjectDialog");
-            results = ThreeStringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), new string[]
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "AddInventoryObjectDialog");
+            results = ThreeStringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), new[]
                 {
                     Localization.LocalizeString(entryKey + "/Prompts:SetInstanceName"),
                     Localization.LocalizeString(entryKey + "/Prompts:SetGroup"),
                     Localization.LocalizeString(entryKey + "/Prompts:SetCount")
                 }, results, int.MaxValue, new Vector2(-1, -1), ThreeStringInputDialog.Validation.None, ModalDialog.PauseMode.PauseSimulator, false);
-            if (results == null || Array.Exists(results, string.IsNullOrEmpty) || !uint.TryParse(results[1].Replace("0x", ""), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint groupId) || !int.TryParse(results[2], out int count))
+            if (results == null || Array.Exists(results, string.IsNullOrEmpty) || !uint.TryParse(results[1].Replace("0x", ""), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var groupId) || !int.TryParse(results[2], out var count))
             {
                 return false;
             }
@@ -1573,12 +1344,12 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if the an output was added, <c>false</c> otherwise.</returns>
         public static bool TryUIAddOutput(this IServiceProfile profile)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
             Type[] interactionDefinitionTypes = null;
             Type[] targetTypes = null;
             string advertisedString = null;
             string actualString = null;
-            OutputUpdateType updateType = OutputUpdateType.ImmediateDelta;
+            var updateType = OutputUpdateType.ImmediateDelta;
             byte step = 0;
             while (true)
             {
@@ -1592,7 +1363,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
                 if (step == 1)
                 {
-                    if (!CommonUtils.TryUIGetSelectedTypes(out targetTypes, new List<InteractionTuning>(InteractionTuning.sAllTunings.Values).FindAll(x => x.FullInteractionName == interactionDefinitionTypes[0].FullName).ConvertAll(x => InteractionObjectTypeUtils.GameObjectTypes[x.FullObjectName]).ToArray(), Localization.LocalizeString(entryKey + "NamespaceListDialog/Titles:Target"), Localization.LocalizeString(entryKey + "TypeListDialog/Titles:Target"), 1))
+                    if (!CommonUtils.TryUIGetSelectedTypes(out targetTypes, new List<InteractionTuning>(InteractionTuning.sAllTunings.Values).FindAll(x => x.FullInteractionName == interactionDefinitionTypes?[0].FullName).ConvertAll(x => InteractionObjectTypeUtils.GameObjectTypes[x.FullObjectName]).ToArray(), Localization.LocalizeString(entryKey + "NamespaceListDialog/Titles:Target"), Localization.LocalizeString(entryKey + "TypeListDialog/Titles:Target"), 1))
                     {
                         step--;
                         continue;
@@ -1626,18 +1397,17 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         step--;
                         continue;
                     }
-                    step++;
                 }
-                bool serviceInSaveGame = CustomInstances.TryGetValue(profile.Name, out CustomService service);
+                var serviceInSaveGame = CustomInstances.TryGetValue(profile.Name, out var service);
                 if (serviceInSaveGame)
                 {
                     service.RemoveOutputs();
                 }
-                float advertised = ParserFunctions.ParseFloat(advertisedString, 200f);
-                float actual = ParserFunctions.ParseFloat(actualString, advertised);
-                bool locked = actual == advertised;
-                profile.RemoveOutputs(x => x.InteractionDefinitionType == interactionDefinitionTypes[0].FullName && x.TargetType == targetTypes[0].FullName && x.ConstantChange == advertised && x.Locked == locked && x.ActualValue == actual && x.UpdateType == updateType);
-                profile.AddOutputs(new CommodityChange(interactionDefinitionTypes[0], targetTypes[0], advertised, locked, actual, updateType));
+                var advertised = ParserFunctions.ParseFloat(advertisedString, 200f);
+                var actual = ParserFunctions.ParseFloat(actualString, advertised);
+                var locked = actual == advertised;
+                profile.RemoveOutputs(x => x.InteractionDefinitionType == interactionDefinitionTypes?[0].FullName && x.TargetType == targetTypes?[0].FullName && x.ConstantChange == advertised && x.Locked == locked && x.ActualValue == actual && x.UpdateType == updateType);
+                profile.AddOutputs(new CommodityChange(interactionDefinitionTypes?[0], targetTypes?[0], advertised, locked, actual, updateType));
                 if (serviceInSaveGame)
                 {
                     service.AddOutputs();
@@ -1653,7 +1423,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public static bool TryUICloneServiceProfile(this IServiceProfile profile, string newName, out IServiceProfile newProfile)
         {
             newProfile = null;
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CreateServiceProfileDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CreateServiceProfileDialog");
             if (string.IsNullOrEmpty(newName))
             {
                 SimpleMessageDialog.Show(Localization.LocalizeString(entryKey + ":ServiceCreationFailed"), Localization.LocalizeString(entryKey + ":NameEmpty"));
@@ -1665,7 +1435,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 return false;
             }
             newProfile = profile.ClonePartially(newName);
-            string serviceMotiveName = "Be" + newProfile.Name;
+            var serviceMotiveName = "Be" + newProfile.Name;
             while (ServiceMotiveExists(newProfile.ServiceMotive))
             {
                 newProfile.ServiceMotive = CommonUtils.GetCommodityKind(serviceMotiveName, CommodityKindType.Motive);
@@ -1685,10 +1455,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if a service profile was created, <c>false</c> otherwise.</returns>
         public static bool TryUICreateServiceProfile(out IServiceProfile profile)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CreateServiceProfileDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CreateServiceProfileDialog");
             profile = null;
             string serviceMotiveName = null;
-            string name = "";
+            var name = "";
             while (true)
             {
                 if (!string.IsNullOrEmpty(serviceMotiveName))
@@ -1744,33 +1514,33 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if the changes to the service profile were confirmed, <c>false</c> otherwise.</returns>
         public static bool TryUIEditServiceProfile(this IServiceProfile profile, bool saveWhenCancelled = false)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
 
-            CASAgeGenderFlags age = profile.ValidAges;
-            string costString = profile.ServiceTuning.kCost.ToString();
-            string[] delaysAsStrings = new[]
+            var age = profile.ValidAges;
+            var costString = profile.ServiceTuning.kCost.ToString();
+            var delaysAsStrings = new[]
                 {
-                    profile.DelayBeforeArriving.ToString(),
-                    profile.DelayBeforeLeaving.ToString(),
-                    profile.ExtraWaitTimeAfterSocializing.ToString()
+                    profile.DelayBeforeArriving.ToString(CultureInfo.InvariantCulture),
+                    profile.DelayBeforeLeaving.ToString(CultureInfo.InvariantCulture),
+                    profile.ExtraWaitTimeAfterSocializing.ToString(CultureInfo.InvariantCulture)
                 };
-            CASAgeGenderFlags gender = profile.ValidGenders;
-            List<Trait> hiddenTraits = profile.HiddenTraits.ConvertAll(TraitManager.GetTraitFromDictionary);
-            string[] messages = new[]
+            var gender = profile.ValidGenders;
+            var hiddenTraits = profile.HiddenTraits.ConvertAll(TraitManager.GetTraitFromDictionary);
+            var messages = new[]
                 {
                     profile.RequestedMessage,
                     profile.CancelledMessage,
                     profile.CancelledWhileActiveMessage
                 };
-            CommodityKind[] motives = profile.Motives.ToArray();
-            string potentialTraitCountString = profile.PotentialTraitCount.ToString();
-            List<Trait> potentialTraits = profile.PotentialTraits.ConvertAll(TraitManager.GetTraitFromDictionary);
-            ServiceProfileFlags serviceProfileFlags = profile.GetFlags();
-            List<SkillLevelPair> skills = profile.Skills.ConvertAll(x => new SkillLevelPair(x.SkillName, x.SkillLevel));
-            float timeToStartWorking = profile.TimeToStartWorking;
-            float timeToStopWorking = profile.TimeToStopWorking;
-            string title = profile.Title;
-            List<Trait> traits = profile.Traits.ConvertAll(TraitManager.GetTraitFromDictionary);
+            var motives = profile.Motives.ToArray();
+            var potentialTraitCountString = profile.PotentialTraitCount.ToString();
+            var potentialTraits = profile.PotentialTraits.ConvertAll(TraitManager.GetTraitFromDictionary);
+            var serviceProfileFlags = profile.GetFlags();
+            var skills = profile.Skills.ConvertAll(x => new SkillLevelPair(x.SkillName, x.SkillLevel));
+            var timeToStartWorking = profile.TimeToStartWorking;
+            var timeToStopWorking = profile.TimeToStopWorking;
+            var title = profile.Title;
+            var traits = profile.Traits.ConvertAll(TraitManager.GetTraitFromDictionary);
 
             sbyte step = 0;
             while (true)
@@ -1783,7 +1553,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the display name of the service.
                 if (step == 0)
                 {
-                    string tempTitle = StringInputDialog.Show(Localization.LocalizeString(entryKey + "EditServiceProfileDialog:Title"), Localization.LocalizeString(entryKey + "EditServiceProfileDialog:Prompt"), title, -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1, -1), StringInputDialog.Validation.None, false, ModalDialog.PauseMode.PauseSimulator, false, true);
+                    var tempTitle = StringInputDialog.Show(Localization.LocalizeString(entryKey + "EditServiceProfileDialog:Title"), Localization.LocalizeString(entryKey + "EditServiceProfileDialog:Prompt"), title, -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1, -1), StringInputDialog.Validation.None, false, ModalDialog.PauseMode.PauseSimulator, false, true);
                     if (tempTitle == "")
                     {
                         SimpleMessageDialog.Show(Localization.LocalizeString(entryKey + "EditServiceProfileDialog:TitleChangeFailed"), Localization.LocalizeString(entryKey + "CreateServiceProfileDialog:TitleEmpty"));
@@ -1796,7 +1566,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     step++;
                     if (title == null)
                     {
-                        string customServiceEntryKey = typeof(CustomService).GetLocalizationKey();
+                        var customServiceEntryKey = typeof(CustomService).GetLocalizationKey();
                         messages[0] = Localization.LocalizeString(customServiceEntryKey + ":ServiceRequested", tempTitle);
                         messages[1] = Localization.LocalizeString(customServiceEntryKey + ":ServiceCancelled", tempTitle);
                         messages[2] = Localization.LocalizeString(customServiceEntryKey + ":ServiceCancelledWhileActive", tempTitle);
@@ -1807,7 +1577,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets phone call feedback messages when requesting and cancelling services.
                 if (step == 1)
                 {
-                    string[] tempMessages = (string[])messages.Clone();
+                    var tempMessages = (string[])messages.Clone();
                     if (!TryUISetPhoneCallFeedback(ref tempMessages))
                     {
                         step--;
@@ -1820,7 +1590,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the delays of the arrival and departure of the service NPC.
                 if (step == 2)
                 {
-                    string[] tempDelaysAsStrings = (string[])delaysAsStrings.Clone();
+                    var tempDelaysAsStrings = (string[])delaysAsStrings.Clone();
                     if (!TryUISetDelays(ref tempDelaysAsStrings))
                     {
                         step--;
@@ -1833,7 +1603,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the valid range of ages the service NPC can be.
                 if (step == 3)
                 {
-                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out CASAgeGenderFlags tempAge, age, CASAgeGenderFlags.AgeMask ^ CASAgeGenderFlags.Baby ^ CASAgeGenderFlags.Toddler, Localization.LocalizeString(entryKey + "CASAgeGenderFlagListDialog/Titles:Age")))
+                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out var tempAge, age, CASAgeGenderFlags.AgeMask ^ CASAgeGenderFlags.Baby ^ CASAgeGenderFlags.Toddler, Localization.LocalizeString(entryKey + "CASAgeGenderFlagListDialog/Titles:Age")))
                     {
                         step--;
                         continue;
@@ -1845,7 +1615,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the valid range of genders the service NPC can be.
                 if (step == 4)
                 {
-                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out CASAgeGenderFlags tempGender, gender, CASAgeGenderFlags.GenderMask, Localization.LocalizeString(entryKey + "CASAgeGenderFlagListDialog/Titles:Gender")))
+                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out var tempGender, gender, CASAgeGenderFlags.GenderMask, Localization.LocalizeString(entryKey + "CASAgeGenderFlagListDialog/Titles:Gender")))
                     {
                         step--;
                         continue;
@@ -1857,7 +1627,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the service profile flags.
                 if (step == 5)
                 {
-                    if (!profile.ShowServiceProfileFlagListDialog(out ServiceProfileFlags tempServiceProfileFlags))
+                    if (!profile.ShowServiceProfileFlagListDialog(out var tempServiceProfileFlags))
                     {
                         step--;
                         continue;
@@ -1866,12 +1636,12 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     serviceProfileFlags = tempServiceProfileFlags;
                 }
 
-                bool isLiveInService = (serviceProfileFlags & ServiceProfileFlags.LiveInService) == ServiceProfileFlags.LiveInService;
+                var isLiveInService = (serviceProfileFlags & ServiceProfileFlags.LiveInService) == ServiceProfileFlags.LiveInService;
 
                 // The following code sets the time the service NPC spends working.
                 if (step == 6)
                 {
-                    float tempTimeToStartWorking = timeToStartWorking;
+                    var tempTimeToStartWorking = timeToStartWorking;
                     if (!isLiveInService && !ShowTimeToStartStopWorkingDialog(ref tempTimeToStartWorking, entryKey + "TimeToStartWorkingDialog"))
                     {
                         step--;
@@ -1884,7 +1654,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the time the service NPC spends working.
                 if (step == 7)
                 {
-                    float tempTimeToStopWorking = timeToStopWorking;
+                    var tempTimeToStopWorking = timeToStopWorking;
                     if (!isLiveInService && !ShowTimeToStartStopWorkingDialog(ref tempTimeToStopWorking, entryKey + "TimeToStopWorkingDialog"))
                     {
                         step--;
@@ -1897,7 +1667,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the cost of the service.
                 if (step == 8)
                 {
-                    string tempCostString = costString;
+                    var tempCostString = costString;
                     if (!ShowCostDialog(ref tempCostString, isLiveInService))
                     {
                         step--;
@@ -1914,7 +1684,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the motives the service NPC will always have.
                 if (step == 9)
                 {
-                    if (!CommonUtils.ShowCommodityKindListDialog(out CommodityKind[] tempMotives, new List<object>(ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup.Values).FindAll(x => CommodityTest.IsMotive((CommodityKind)x)).ConvertAll(x => (CommodityKind)x).ToArray(), motives, null, entryKey + "MotiveListDialog"))
+                    if (!CommonUtils.ShowCommodityKindListDialog(out var tempMotives, new List<object>(ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup.Values).FindAll(x => CommodityTest.IsMotive((CommodityKind)x)).ConvertAll(x => (CommodityKind)x).ToArray(), motives, null, entryKey + "MotiveListDialog"))
                     {
                         step--;
                         continue;
@@ -1926,7 +1696,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the traits the service NPC will always come with.
                 if (step == 10)
                 {
-                    List<Trait> tempTraits = new List<Trait>(traits);
+                    var tempTraits = new List<Trait>(traits);
                     if (!CommonUtils.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, null, Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Explicit")))
                     {
                         step--;
@@ -1939,7 +1709,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the traits the service NPC will randomly pick from.
                 if (step == 11)
                 {
-                    List<Trait> tempTraits = new List<Trait>(potentialTraits);
+                    var tempTraits = new List<Trait>(potentialTraits);
                     if (!CommonUtils.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, null, Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Potential")))
                     {
                         step--;
@@ -1954,7 +1724,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 {
                     if (potentialTraits.Count > 0)
                     {
-                        string tempPotentialTraitCountString = StringInputDialog.Show(Localization.LocalizeString(entryKey + "PotentialTraitCountDialog:Title"), Localization.LocalizeString(entryKey + "PotentialTraitCountDialog:Prompt"), potentialTraitCountString, -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.Number, false, ModalDialog.PauseMode.PauseSimulator, false, true);
+                        var tempPotentialTraitCountString = StringInputDialog.Show(Localization.LocalizeString(entryKey + "PotentialTraitCountDialog:Title"), Localization.LocalizeString(entryKey + "PotentialTraitCountDialog:Prompt"), potentialTraitCountString, -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.Number, false, ModalDialog.PauseMode.PauseSimulator, false, true);
                         if (tempPotentialTraitCountString == null)
                         {
                             step--;
@@ -1968,7 +1738,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the hidden traits the service NPC will come with.
                 if (step == 13)
                 {
-                    List<Trait> tempTraits = new List<Trait>(hiddenTraits);
+                    var tempTraits = new List<Trait>(hiddenTraits);
                     if (!CommonUtils.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, new List<Trait>(TraitManager.GetDictionaryTraits).FindAll(x => x.IsHidden || x.IsReward), Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Hidden")))
                     {
                         step--;
@@ -1985,7 +1755,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the skills the service NPC has.
                 if (step == 14)
                 {
-                    List<SkillLevelPair> tempSkills = skills.ConvertAll(x => new SkillLevelPair(x.SkillName, x.SkillLevel));
+                    var tempSkills = skills.ConvertAll(x => new SkillLevelPair(x.SkillName, x.SkillLevel));
                     if (!CommonUtils.ShowSkillListDialog(age, CASAgeGenderFlags.Human, tempSkills))
                     {
                         step--;
@@ -2021,7 +1791,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool TryUIGetSelectedActions(out ActiveTopicAction[] selectedActions, ActiveTopicAction[] allActions, string title = null, int selectableRowCount = int.MaxValue)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ActiveTopicActionListDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ActiveTopicActionListDialog");
             while (true)
             {
                 selectedActions = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
@@ -2032,7 +1802,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         new ActiveTopicActionColumn(entryKey),
                         new ActiveTopicActionGroupingColumn(entryKey),
                         new ActiveTopicActionActivenessColumn(entryKey)
-                    }, selectableRowCount, out bool confirmed, out bool cancelled) ?? new List<ActiveTopicAction>()).ToArray();
+                    }, selectableRowCount, out var confirmed, out var cancelled) ?? new List<ActiveTopicAction>()).ToArray();
                 if (cancelled)
                 {
                     selectedActions = null;
@@ -2047,7 +1817,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool TryUIGetSelectedInventoryObjects(out InventoryObjectCreationParameters[] selectedInventoryObjects, InventoryObjectCreationParameters[] allInventoryObjects, string title = null, int selectableRowCount = int.MaxValue)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "InventoryObjectListDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "InventoryObjectListDialog");
             while (true)
             {
                 selectedInventoryObjects = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
@@ -2058,7 +1828,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                         new InventoryObjectInstanceNameColumn(entryKey),
                         new InventoryObjectGroupColumn(entryKey),
                         new InventoryObjectCountColumn(entryKey)
-                    }, selectableRowCount, out bool confirmed, out bool cancelled) ?? new List<InventoryObjectCreationParameters>()).ToArray();
+                    }, selectableRowCount, out var confirmed, out var cancelled) ?? new List<InventoryObjectCreationParameters>()).ToArray();
                 if (cancelled)
                 {
                     selectedInventoryObjects = null;
@@ -2073,7 +1843,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool TryUIGetSelectedOutputs(out CommodityChange[] selectedOutputs, CommodityChange[] allOutputs, string title = null, int selectableRowCount = int.MaxValue)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "OutputListDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "OutputListDialog");
             while (true)
             {
                 selectedOutputs = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
@@ -2083,7 +1853,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     {
                         new CommodityChangeInteractionDefinitionTypeColumn(entryKey),
                         new CommodityChangeTargetTypeColumn(entryKey)
-                    }, selectableRowCount, out bool confirmed, out bool cancelled) ?? new List<CommodityChange>()).ToArray();
+                    }, selectableRowCount, out var confirmed, out var cancelled) ?? new List<CommodityChange>()).ToArray();
                 if (cancelled)
                 {
                     selectedOutputs = null;
@@ -2098,7 +1868,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool TryUIGetSelectedServiceProfiles(out IServiceProfile[] selectedProfiles, IServiceProfile[] allProfiles, string title = null, int selectableRowCount = int.MaxValue)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceProfileListDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceProfileListDialog");
             while (true)
             {
                 selectedProfiles = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
@@ -2108,7 +1878,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     {
                         new ServiceProfileNameColumn(entryKey),
                         new ServiceProfileTitleColumn(entryKey)
-                    }, selectableRowCount, out bool confirmed, out bool cancelled) ?? new List<IServiceProfile>()).ToArray();
+                    }, selectableRowCount, out var confirmed, out var cancelled) ?? new List<IServiceProfile>()).ToArray();
                 if (cancelled)
                 {
                     selectedProfiles = null;
@@ -2127,9 +1897,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if the an action was removed, <c>false</c> otherwise.</returns>
         public static bool TryUIRemoveAction(this IServiceProfile profile, string title)
         {
-            if (TryUIGetSelectedActions(out ActiveTopicAction[] actions, profile.Actions.ToArray(), title))
+            if (TryUIGetSelectedActions(out var actions, profile.Actions.ToArray(), title))
             {
-                foreach (ActiveTopicAction action in actions)
+                foreach (var action in actions)
                 {
                     profile.RemoveActions(x => x.Name == action.Name && x.Grouping == action.Grouping && x.IsActive == action.IsActive);
                     CommonUtils.RemoveActions(profile.Name + " Service", action.Grouping, action.IsActive, action.Name);
@@ -2145,9 +1915,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if the an output was removed, <c>false</c> otherwise.</returns>
         public static bool TryUIRemoveOutput(this IServiceProfile profile, string title)
         {
-            if (TryUIGetSelectedOutputs(out CommodityChange[] outputs, profile.Outputs.ToArray(), title))
+            if (TryUIGetSelectedOutputs(out var outputs, profile.Outputs.ToArray(), title))
             {
-                bool serviceInSaveGame = CustomInstances.TryGetValue(profile.Name, out CustomService service);
+                var serviceInSaveGame = CustomInstances.TryGetValue(profile.Name, out var service);
                 if (serviceInSaveGame)
                 {
                     service.RemoveOutputs();
@@ -2168,12 +1938,12 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if any custom services were removed from the savegame, <c>false</c> otherwise.</returns>
         public static bool TryUIRemoveServicesFromSaveGame(string title)
         {
-            if (TryUIGetSelectedServiceProfiles(out IServiceProfile[] selectedProfiles, ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), title))
+            if (TryUIGetSelectedServiceProfiles(out var selectedProfiles, ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), title))
             {
-                foreach (IServiceProfile profile in new List<IServiceProfile>(selectedProfiles))
+                foreach (var profile in new List<IServiceProfile>(selectedProfiles))
                 {
                     profile.RemoveServiceFromSaveGame();
-                    foreach (OutfitAssignmentUtils.OutfitAssignment outfitAssignment in new List<OutfitAssignmentUtils.OutfitAssignment>(OutfitAssignmentUtils.OutfitAssignments))
+                    foreach (var outfitAssignment in new List<OutfitAssignmentUtils.OutfitAssignment>(OutfitAssignmentUtils.OutfitAssignments))
                     {
                         if (outfitAssignment.ServiceName == profile.Name)
                         {
@@ -2194,8 +1964,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if the delays were set, <c>false</c> otherwise.</returns>
         public static bool TryUISetDelays(ref string[] delaysAsStrings)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "DelaysDialog");
-            delaysAsStrings = ThreeStringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), new string[]
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "DelaysDialog");
+            delaysAsStrings = ThreeStringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), new[]
                 {
                     Localization.LocalizeString(entryKey + "/Prompts:SetDelayBeforeArriving"),
                     Localization.LocalizeString(entryKey + "/Prompts:SetDelayBeforeLeaving"),
@@ -2210,8 +1980,8 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if feedback messages were set, <c>false</c> otherwise.</returns>
         public static bool TryUISetPhoneCallFeedback(ref string[] messages)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "PhoneCallFeedbackDialog");
-            messages = ThreeStringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), new string[]
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "PhoneCallFeedbackDialog");
+            messages = ThreeStringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), new[]
                 {
                     Localization.LocalizeString(entryKey + "/Prompts:SetRequestedMessage"),
                     Localization.LocalizeString(entryKey + "/Prompts:SetCancelledMessage"),

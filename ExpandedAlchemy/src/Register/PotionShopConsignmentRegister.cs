@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
-using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Core;
 using Sims3.Gameplay.Objects;
 using Sims3.Gameplay.Objects.Insect;
-using Sims3.Gameplay.Objects.Register;
 using Sims3.Gameplay.Objects.Spawners;
 using Sims3.SimIFace;
 
@@ -16,31 +14,31 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
         public new ObjectGuid CreateObjectCallBack(object customData, ref Simulator.ObjectInitParameters initData, Quality quality)
         {
             sItemsWereBought = true;
-            PotionShopConsignmentRegisterObjectData potionShopConsignmentRegisterObjectData = (PotionShopConsignmentRegisterObjectData)customData;
+            var potionShopConsignmentRegisterObjectData = (PotionShopConsignmentRegisterObjectData)customData;
             mObjectsForSale.Remove(potionShopConsignmentRegisterObjectData);
             if (potionShopConsignmentRegisterObjectData.mObject is RockGemMetalBase rockGemMetal)
             {
-                RockGemMetal guid = rockGemMetal.Guid;
+                var guid = rockGemMetal.Guid;
                 if (rockGemMetal is Gem gem)
                 {
-                    Gem newGem = gem.IsCut() ? Gem.MakeCutGem(guid, gem.CutName, gem.IsLargeSize, true) : (Gem)Gem.Make(guid, true);
+                    var newGem = gem.IsCut() ? Gem.MakeCutGem(guid, gem.CutName, gem.IsLargeSize, true) : (Gem)RockGemMetalBase.Make(guid, true);
                     newGem.mIsLargeSize = gem.IsLargeSize;
                     potionShopConsignmentRegisterObjectData.Destroy();
-                    return newGem?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
+                    return newGem.ObjectId;
                 }
                 if (rockGemMetal is Metal metal)
                 {
-                    Metal newMetal = metal.IsMatchingCut("smelted") ? Metal.MakeSmeltedMetal(guid, metal.mIsLargeSize, true) : (Metal)Metal.Make(guid, true);
+                    var newMetal = metal.IsMatchingCut("smelted") ? Metal.MakeSmeltedMetal(guid, metal.mIsLargeSize, true) : (Metal)RockGemMetalBase.Make(guid, true);
                     newMetal.mIsLargeSize = metal.mIsLargeSize;
                     potionShopConsignmentRegisterObjectData.Destroy();
-                    return newMetal?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
+                    return newMetal.ObjectId;
                 }
                 potionShopConsignmentRegisterObjectData.Destroy();
                 return RockGemMetalBase.Make(guid, true)?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
             }
             if (potionShopConsignmentRegisterObjectData.mObject is Terrarium terrarium)
             {
-                InsectType guid = terrarium.InsectType;
+                var guid = terrarium.InsectType;
                 potionShopConsignmentRegisterObjectData.Destroy();
                 return Insect.Create(guid)?.ObjectId ?? ObjectGuid.InvalidObjectGuid;
             }
@@ -53,7 +51,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
             {
                 mObjectsForSale = new List<PotionShopConsignmentRegisterObjectData>();
             }
-            int num = 0;
+            var num = 0;
             while (num < mObjectsForSale.Count)
             {
                 if (mObjectsForSale[num].IsExpired)
@@ -67,10 +65,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
             }
             if (mObjectsForSale.Count < kNumberOfObjectsForSale)
             {
-                List<PotionShopConsignmentRegisterData> list = new List<PotionShopConsignmentRegisterData>(sData);
-                foreach (PotionShopConsignmentRegisterObjectData item in mObjectsForSale)
+                var list = new List<PotionShopConsignmentRegisterData>(sData);
+                foreach (var item in mObjectsForSale)
                 {
-                    for (int i = 0; i < list.Count; i++)
+                    for (var i = 0; i < list.Count; i++)
                     {
                         if (item.DataGuid == list[i].Guid)
                         {
@@ -81,8 +79,8 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
                 }
                 while (mObjectsForSale.Count < kNumberOfObjectsForSale && list.Count > 0)
                 {
-                    PotionShopConsignmentRegisterData weightedRandomObjectFromList = RandomUtil.GetWeightedRandomObjectFromList(list);
-                    PotionShopConsignmentRegisterObjectData potionShopConsignmentRegisterObjectData = PotionShopConsignmentRegisterObjectData.Create(weightedRandomObjectFromList);
+                    var weightedRandomObjectFromList = RandomUtil.GetWeightedRandomObjectFromList(list);
+                    var potionShopConsignmentRegisterObjectData = PotionShopConsignmentRegisterObjectData.Create(weightedRandomObjectFromList);
                     if (potionShopConsignmentRegisterObjectData != null)
                     {
                         mObjectsForSale.Add(potionShopConsignmentRegisterObjectData);
@@ -91,31 +89,33 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
                 }
                 if (mObjectsForSale.Count < kNumberOfObjectsForSale + kNumRotatingPotions)
                 {
-                    for (int i = 0; i < kNumRotatingPotions; i++)
+                    for (var i = 0; i < kNumRotatingPotions; i++)
                     {
-                        PotionShopConsignmentRegisterData potionShopConsignmentRegisterData = new PotionShopConsignmentRegisterData();
+                        var potionShopConsignmentRegisterData = new PotionShopConsignmentRegisterData();
                         potionShopConsignmentRegisterData.CreatePotion();
-                        PotionShopConsignmentRegisterObjectData potionShopConsignmentRegisterObjectData = PotionShopConsignmentRegisterObjectData.Create(potionShopConsignmentRegisterData);
+                        var potionShopConsignmentRegisterObjectData = PotionShopConsignmentRegisterObjectData.Create(potionShopConsignmentRegisterData);
                         potionShopConsignmentRegisterObjectData.ShowTooltip = true;
                         mObjectsForSale.Add(potionShopConsignmentRegisterObjectData);
                     }
                 }
             }
-            Dictionary<string, List<StoreItem>> dictionary = new Dictionary<string, List<StoreItem>>();
-            List<StoreItem> storeItems = new List<StoreItem>();
-            foreach (PotionShopConsignmentRegisterObjectData objectForSale in mObjectsForSale)
+            var dictionary = new Dictionary<string, List<StoreItem>>();
+            var storeItems = new List<StoreItem>();
+            foreach (var objectForSale in mObjectsForSale)
             {
-                LimitedQuantityStoreItemWithTooltip limitedQuantityStoreItemWithTooltip = new LimitedQuantityStoreItemWithTooltip(objectForSale.GetLocalizedName(), objectForSale.GetValue(), objectForSale, objectForSale.GetThumbnailKey(), objectForSale.GetStoreUiItemId(), CreateObjectCallBack, null, null, 1, objectForSale.CreateTooltip);
-                limitedQuantityStoreItemWithTooltip.SetPurchasedPrice = false;
-                limitedQuantityStoreItemWithTooltip.HideQuantity = true;
+                var limitedQuantityStoreItemWithTooltip = new LimitedQuantityStoreItemWithTooltip(objectForSale.GetLocalizedName(), objectForSale.GetValue(), objectForSale, objectForSale.GetThumbnailKey(), objectForSale.GetStoreUiItemId(), CreateObjectCallBack, null, null, 1, objectForSale.CreateTooltip)
+                {
+                    SetPurchasedPrice = false,
+                    HideQuantity = true
+                };
                 storeItems.Add(limitedQuantityStoreItemWithTooltip);
             }
             if (Sim.ActiveActor != null)
             {
-                List<ConsignedObject> consignedObjects = new List<ConsignedObject>();
-                foreach (SimDescription simDescription in Sim.ActiveActor.Household.SimDescriptions)
+                var consignedObjects = new List<ConsignedObject>();
+                foreach (var simDescription in Sim.ActiveActor.Household.SimDescriptions)
                 {
-                    if (sConsignedObjects.TryGetValue(simDescription.SimDescriptionId, out List<ConsignedObject> value))
+                    if (sConsignedObjects.TryGetValue(simDescription.SimDescriptionId, out var value))
                     {
                         consignedObjects.AddRange(value);
                     }
@@ -123,13 +123,15 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
                 if (consignedObjects.Count > 0)
                 {
                     RandomUtil.RandomizeListOfObjects(consignedObjects);
-                    for (int i = 0; i < kMaximumNumberOfPlayerItemsDisplayed && i < consignedObjects.Count; i++)
+                    for (var i = 0; i < kMaximumNumberOfPlayerItemsDisplayed && i < consignedObjects.Count; i++)
                     {
-                        string name = ShoppingRegister.LocalizeString("UserConsignedItem", consignedObjects[i].DisplayName, Sim.ActiveActor.Household.Name);
+                        var name = LocalizeString("UserConsignedItem", consignedObjects[i].DisplayName, Sim.ActiveActor.Household.Name);
                         float price = PotionShopConsignmentRegisterData.GetRoundedValue(GetValueOfSale(consignedObjects[i], null));
-                        LimitedQuantityStoreItemWithTooltip limitedQuantityStoreItemWithTooltip = new LimitedQuantityStoreItemWithTooltip(name, price, consignedObjects[i].Object, consignedObjects[i].Thumbnail, consignedObjects[i].StoreUIItemID, null, null, null, 0, consignedObjects[i].CreateTooltip);
-                        limitedQuantityStoreItemWithTooltip.SetPurchasedPrice = false;
-                        limitedQuantityStoreItemWithTooltip.HideQuantity = true;
+                        var limitedQuantityStoreItemWithTooltip = new LimitedQuantityStoreItemWithTooltip(name, price, consignedObjects[i].Object, consignedObjects[i].Thumbnail, consignedObjects[i].StoreUIItemID, null, null, null, 0, consignedObjects[i].CreateTooltip)
+                        {
+                            SetPurchasedPrice = false,
+                            HideQuantity = true
+                        };
                         storeItems.Add(limitedQuantityStoreItemWithTooltip);
                     }
                 }

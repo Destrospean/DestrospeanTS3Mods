@@ -41,7 +41,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public class NPCIsFired : ChildSituation<ServiceSituation<T>>
         {
-            Sim mFirer;
+            private Sim mFirer;
 
             public NPCIsFired()
             {
@@ -54,7 +54,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
             public override void Init(ServiceSituation<T> parent)
             {
-                Relationship relationship = Relationship.Get(parent.Worker, mFirer, true);
+                var relationship = Relationship.Get(parent.Worker, mFirer, true);
                 if (relationship.LTR.Liking <= 20)
                 {
                     ForceSituationSpecificInteraction(mFirer, parent.Worker, new SituationSocial.Definition("Insult", new string[0], null, false), null, OnFinished, OnFinished);
@@ -78,7 +78,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public class WaitToRoute : ChildSituation<ServiceSituation<T>>
         {
-            AlarmHandle mAlarmHandle;
+            private AlarmHandle mAlarmHandle;
 
             public WaitToRoute()
             {
@@ -95,7 +95,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
             public void TimeToRoute()
             {
-                RouteToLot<ServiceSituation<T>, DummySituation> routeToLot = new RouteToLot<ServiceSituation<T>, DummySituation>(Parent);
+                var routeToLot = new RouteToLot<ServiceSituation<T>, DummySituation>(Parent);
                 routeToLot.SetRouteTime(Babysitter.DriveTime);
                 Parent.SetState(routeToLot);
             }
@@ -107,39 +107,21 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             }
         }
 
-        AlarmHandle mCheckForFireAlarmHandle = AlarmHandle.kInvalidHandle;
+        private AlarmHandle mCheckForFireAlarmHandle = AlarmHandle.kInvalidHandle;
 
-        int mDateLastPaid;
+        private int mDateLastPaid;
 
-        bool mInformedFireDepartment;
+        private bool mInformedFireDepartment;
 
-        AlarmHandle mPayLiveInServiceAlarmHandle = AlarmHandle.kInvalidHandle;
+        private AlarmHandle mPayLiveInServiceAlarmHandle = AlarmHandle.kInvalidHandle;
 
-        AlarmHandle mTimeToFinishAlarmHandle = AlarmHandle.kInvalidHandle;
+        private AlarmHandle mTimeToFinishAlarmHandle = AlarmHandle.kInvalidHandle;
 
-        public virtual float DelayBeforeArriving
-        {
-            get
-            {
-                return (float)(Service.GetType().GetProperty("DelayBeforeArriving")?.GetValue(null, null) ?? Babysitter.DelayBeforeArriving);
-            }
-        }
+        public virtual float DelayBeforeArriving => (float)(Service.GetType().GetProperty("DelayBeforeArriving")?.GetValue(null, null) ?? Babysitter.DelayBeforeArriving);
 
-        public static Type DerivedType
-        {
-            get
-            {
-                return typeof(T);
-            }
-        }
+        public static Type DerivedType => typeof(T);
 
-        public virtual bool IsLiveInService
-        {
-            get
-            {
-                return Service is IAmLiveInService;
-            }
-        }
+        public virtual bool IsLiveInService => Service is IAmLiveInService;
 
         public ulong LastInteractionId;
 
@@ -147,18 +129,12 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
         {
             get
             {
-                int numDaysSinceLastPayment = SimClock.ElapsedCalendarDays() - mDateLastPaid;
+                var numDaysSinceLastPayment = SimClock.ElapsedCalendarDays() - mDateLastPaid;
                 return numDaysSinceLastPayment > 0 ? numDaysSinceLastPayment : 1;
             }
         }
 
-        public virtual bool ReportsFires
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public virtual bool ReportsFires => false;
 
         public virtual bool ServiceTerminated
         {
@@ -196,7 +172,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             worker.AssignRole(this);
             worker.Autonomy.AllowedToRunMetaAutonomy = false;
             FreezeMotives();
-            Type waitToRouteType = DerivedType.GetNestedType("WaitToRoute");
+            var waitToRouteType = DerivedType.GetNestedType("WaitToRoute");
             SetState(waitToRouteType == null ? new WaitToRoute(this) : (Situation)Activator.CreateInstance(waitToRouteType, this));
             ScheduleSwitchWorkerToServiceOutfit();
             AddCheckForFireAlarm();
@@ -213,7 +189,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public virtual bool ChargeForServiceWhileActive()
         {
-            int totalCost = CostTotal();
+            var totalCost = CostTotal();
             if (totalCost > 0)
             {
                 if (Lot.Household.FamilyFunds < totalCost)
@@ -233,11 +209,11 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             {
                 return;
             }
-            bool isFireOnLot = Lot.IsFireOnLot();
+            var isFireOnLot = Lot.IsFireOnLot();
             if (isFireOnLot && !mInformedFireDepartment)
             {
                 mInformedFireDepartment = true;
-                Firefighter firefighter = Firefighter.Instance;
+                var firefighter = Firefighter.Instance;
                 if (firefighter != null)
                 {
                     firefighter.MakeServiceRequest(Lot, true, Worker.ObjectId);
@@ -274,12 +250,12 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public virtual string GetUniformName(SimDescription simDescription)
         {
-            return ServiceNPCSpecifications.TryGetUniform(simDescription.Service.ServiceType.ToString(), simDescription.Gender, out ResourceKey uniform, out string uniformName) ? uniformName : null;
+            return ServiceNPCSpecifications.TryGetUniform(simDescription.Service.ServiceType.ToString(), simDescription.Gender, out var uniform, out var uniformName) ? uniformName : null;
         }
 
         public float GetNewInteractionPriorityValue()
         {
-            InteractionPriority interactionPriority = new InteractionPriority(InteractionPriorityLevel.Zero, 0);
+            var interactionPriority = new InteractionPriority(InteractionPriorityLevel.Zero, 0);
             if (Worker.CurrentInteraction != null)
             {
                 interactionPriority = Worker.CurrentInteraction.GetPriority();
@@ -310,7 +286,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             }
             else
             {
-                float timeToStartWorking = SimClock.HoursPassedOfDay;
+                var timeToStartWorking = SimClock.HoursPassedOfDay;
                 mTimeToFinishAlarmHandle = AlarmManager.AddAlarm(TimeToStopWorking - timeToStartWorking + (TimeToStopWorking > timeToStartWorking ? 0 : 24), TimeUnit.Hours, SetToJobDone, Service.GetType().Name + " finishing", AlarmType.DeleteOnReset, Worker);
             }
         }
@@ -335,7 +311,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             base.SetToFire(serviceSim, firer);
             NPCLeavingMessage(LeavingReason.NPCFired);
             UnsetServiceBed();
-            Type npcIsFiredType = DerivedType.GetNestedType("NPCIsFired");
+            var npcIsFiredType = DerivedType.GetNestedType("NPCIsFired");
             SetState(npcIsFiredType == null ? new NPCIsFired(firer, this) : (Situation)Activator.CreateInstance(npcIsFiredType, firer, this));
         }
 
@@ -355,13 +331,13 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public override void SwitchWorkerToServiceOutfit()
         {
-            string uniformName = GetUniformName(Worker.SimDescription);
+            var uniformName = GetUniformName(Worker.SimDescription);
             if (uniformName != null)
             {
-                if (OutfitUtils.TryApplyUniformToOutfit(Worker.SimDescription.GetOutfit(OutfitCategories.Everyday, 0), new SimOutfit(ResourceKey.CreateOutfitKeyFromProductVersion(uniformName, ProductVersion.BaseGame)), Worker.SimDescription, DerivedType.Name + ".SwitchWorkerToServiceOutfit", out SimOutfit resultOutfit))
+                if (OutfitUtils.TryApplyUniformToOutfit(Worker.SimDescription.GetOutfit(OutfitCategories.Everyday, 0), new SimOutfit(ResourceKey.CreateOutfitKeyFromProductVersion(uniformName, ProductVersion.BaseGame)), Worker.SimDescription, DerivedType.Name + ".SwitchWorkerToServiceOutfit", out var resultOutfit))
                 {
                     Worker.SimDescription.AddOutfit(resultOutfit, OutfitCategories.Career, true);
-                    for (int i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
+                    for (var i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
                     {
                         Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
                     }

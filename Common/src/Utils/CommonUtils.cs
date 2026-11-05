@@ -14,7 +14,6 @@ using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.Core;
-using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.Socializing;
@@ -31,29 +30,24 @@ namespace Destrospean.Utils
 {
     public static class CommonUtils
     {
-        const string kAuthorName = "Destrospean";
+        private const string kAuthorName = "Destrospean";
 
-        static bool ChangePreset(DesignModeSwap swap, SortedList<string, Complate> patterns, ref string presetXml, bool undoable, SortedList<string, bool> enabledStencils)
+        private static bool ChangePreset(DesignModeSwap swap, SortedList<string, Complate> patterns, ref string presetXml, bool undoable, SortedList<string, bool> enabledStencils)
         {
             if (string.IsNullOrEmpty(presetXml))
             {
                 return false;
             }
-            Dictionary<string, Complate> patternComplates = new Dictionary<string, Complate>();
-            string processedPreset = Complate.ProcessPreset(presetXml, patternComplates);
-            if (string.IsNullOrEmpty(processedPreset))
+            var patternComplates = new Dictionary<string, Complate>();
+            var processedPreset = Complate.ProcessPreset(presetXml, patternComplates);
+            if (string.IsNullOrEmpty(processedPreset) || !patternComplates.TryGetValue(processedPreset, out var presetComplate))
             {
                 return false;
             }
-            Complate presetComplate = null;
-            if (!patternComplates.TryGetValue(processedPreset, out presetComplate))
+            var variables = new List<Complate.Variable>();
+            foreach (var variable in presetComplate.Variables)
             {
-                return false;
-            }
-            List<Complate.Variable> variables = new List<Complate.Variable>();
-            bool result = false;
-            foreach (Complate.Variable variable in presetComplate.Variables)
-            {
+                bool result;
                 if (enabledStencils != null && variable.Type == Complate.Variable.Types.Bool)
                 {
                     if (enabledStencils.TryGetValue(variable.Name, out result))
@@ -67,11 +61,10 @@ namespace Destrospean.Utils
                     {
                         continue;
                     }
-                    string enabled = variable[Complate.kEnabledAttribute];
+                    var enabled = variable[Complate.kEnabledAttribute];
                     if (enabled != "")
                     {
                         enabled = presetComplate[enabled];
-                        result = false;
                         if (!bool.TryParse(enabled, out result) || !result)
                         {
                             continue;
@@ -88,15 +81,15 @@ namespace Destrospean.Utils
             {
                 return false;
             }
-            foreach (Complate.TexturePart texturePart in presetComplate.Parts)
+            foreach (var texturePart in presetComplate.Parts)
             {
-                foreach (Complate.TextureDestination textureDestination in texturePart.Destinations)
+                foreach (var textureDestination in texturePart.Destinations)
                 {
-                    foreach (Complate.TextureStep textureStep in textureDestination.Steps)
+                    foreach (var textureStep in textureDestination.Steps)
                     {
                         if (textureStep[Complate.kTypeAttribute] == "DrawFabric")
                         {
-                            string variableName = textureStep["pattern"];
+                            var variableName = textureStep["pattern"];
                             if (variableName.StartsWith("($daeFileName)"))
                             {
                                 variableName = variableName.Remove(0, 14);
@@ -106,32 +99,32 @@ namespace Destrospean.Utils
                     }
                 }
             }
-            foreach (KeyValuePair<string, Complate> pattern in patterns)
+            foreach (var pattern in patterns)
             {
                 if (patternComplates.ContainsKey(pattern.Key))
                 {
                     patternComplates[pattern.Key] = pattern.Value;
                 }
             }
-            for (int i = 0; i < variables.Count; i++)
+            for (var i = 0; i < variables.Count; i++)
             {
-                if (!patternComplates.TryGetValue(variables[i].Name, out Complate pattern))
+                if (!patternComplates.TryGetValue(variables[i].Name, out var pattern))
                 {
                     swap.Dispose();
                     return false;
                 }
                 pattern.Process();
-                TextureCompositor textureCompositor = pattern.CreateTextureCompositor(null, null, 0u);
+                var textureCompositor = pattern.CreateTextureCompositor(null, null, 0u);
                 if (textureCompositor != null)
                 {
                     swap.SetNewPattern(variables[i].Name, textureCompositor.ExportData(null, null, null));
                 }
             }
             presetComplate.Process();
-            Hashtable hashtable = presetComplate.CreateTextureCompositors(0u);
+            var hashtable = presetComplate.CreateTextureCompositors(0u);
             foreach (DictionaryEntry entry in hashtable)
             {
-                string key = ((string)entry.Key).ToLowerInvariant();
+                var key = ((string)entry.Key).ToLowerInvariant();
                 if (key.EndsWith("diffusemap"))
                 {
                     swap.SetNewCompositor("diffusemap", ((TextureCompositor)entry.Value).ExportData(null, null, null));
@@ -141,7 +134,7 @@ namespace Destrospean.Utils
                     swap.SetNewCompositor("specularmap", ((TextureCompositor)entry.Value).ExportData(null, null, null));
                 }
             }
-            XmlDocument xmlDocument = new XmlDocument();
+            var xmlDocument = new XmlDocument();
             xmlDocument.LoadXml("<preset />");
             presetComplate.AddToPreset(xmlDocument, patternComplates);
             Complate.ConvertPresetToResourceKeys(xmlDocument, null);
@@ -158,17 +151,17 @@ namespace Destrospean.Utils
         /// <param name="actionsToAdd">Actions to add.</param>
         public static void AddActions(string activeTopic, LongTermRelationshipTypes grouping, bool isActive, params string[] actionsToAdd)
         {
-            if (!ActionAvailabilityData.sActiveTopicInteractions.TryGetValue(activeTopic, out Dictionary<LongTermRelationshipTypes, Dictionary<bool, List<string>>> groups))
+            if (!ActionAvailabilityData.sActiveTopicInteractions.TryGetValue(activeTopic, out var groups))
             {
                 groups = new Dictionary<LongTermRelationshipTypes, Dictionary<bool, List<string>>>();
                 ActionAvailabilityData.sActiveTopicInteractions.Add(activeTopic, groups);
             }
-            if (!groups.TryGetValue(grouping, out Dictionary<bool, List<string>> group))
+            if (!groups.TryGetValue(grouping, out var group))
             {
                 group = new Dictionary<bool, List<string>>();
                 groups.Add(grouping, group);
             }
-            if (!group.TryGetValue(isActive, out List<string> actions))
+            if (!group.TryGetValue(isActive, out var actions))
             {
                 actions = new List<string>();
                 group.Add(isActive, actions);
@@ -209,7 +202,7 @@ namespace Destrospean.Utils
         /// <param name="updateAboveAndBelowZero">Update above and below zero.</param>
         public static void AddAsOutput(this CommodityKind commodityKind, Type interactionDefinitionType, Type targetType, float constantChange, bool locked, float actualValue, OutputUpdateType updateType, bool timeDependsOnCommodityFilling = false, bool updateEvenOnFailure = false, UpdateAboveAndBelowZeroType updateAboveAndBelowZero = UpdateAboveAndBelowZeroType.Either)
         {
-            List<CommodityChange> outputs = AutonomyTuning.GetTuning(interactionDefinitionType.FullName, targetType)?.mTradeoff?.mOutputs;
+            var outputs = AutonomyTuning.GetTuning(interactionDefinitionType.FullName, targetType)?.mTradeoff?.mOutputs;
             if (outputs == null)
             {
                 return;
@@ -239,13 +232,13 @@ namespace Destrospean.Utils
 
         public static void AddEnumValue<T>(string key, object value) where T : struct
         {
-            Type enumType = typeof(T);
-            if (!ParserFunctions.sCaseInsensitiveEnumParsers.TryGetValue(enumType, out EnumParser caseInsensitiveEnumParser))
+            var enumType = typeof(T);
+            if (!ParserFunctions.sCaseInsensitiveEnumParsers.TryGetValue(enumType, out var caseInsensitiveEnumParser))
             {
                 caseInsensitiveEnumParser = new EnumParser(enumType, true);
                 ParserFunctions.sCaseInsensitiveEnumParsers.Add(enumType, caseInsensitiveEnumParser);
             }
-            if (!ParserFunctions.sCaseSensitiveEnumParsers.TryGetValue(enumType, out EnumParser caseSensitiveEnumParser))
+            if (!ParserFunctions.sCaseSensitiveEnumParsers.TryGetValue(enumType, out var caseSensitiveEnumParser))
             {
                 caseSensitiveEnumParser = new EnumParser(enumType, false);
                 ParserFunctions.sCaseSensitiveEnumParsers.Add(enumType, caseSensitiveEnumParser);
@@ -259,7 +252,7 @@ namespace Destrospean.Utils
 
         public static void ApplyPreset(this IGameObject gameObject, string presetXml)
         {
-            SortedList<string, bool> enabledStencils = new SortedList<string, bool>();
+            var enabledStencils = new SortedList<string, bool>();
             Complate.SetupDesignSwap(gameObject.ObjectId, ExtractPatterns(presetXml, enabledStencils), false, enabledStencils)?.ApplyToObject();
         }
 
@@ -267,7 +260,7 @@ namespace Destrospean.Utils
         {
             if (AutonomyTuning.GetTuning(newType.FullName, baseType.FullName) == null)
             {
-                InteractionTuning tuning = AutonomyTuning.GetTuning(oldType, oldType.FullName, baseType);
+                var tuning = AutonomyTuning.GetTuning(oldType, oldType.FullName, baseType);
                 if (tuning != null)
                 {
                     AutonomyTuning.AddTuning(newType.FullName, baseType.FullName, tuning);
@@ -282,19 +275,19 @@ namespace Destrospean.Utils
             {
                 return new SortedList<string, Complate>();
             }
-            Dictionary<string, Complate> patternComplates = new Dictionary<string, Complate>();
-            string processedPreset = Complate.ProcessPreset(presetXml, patternComplates);
+            var patternComplates = new Dictionary<string, Complate>();
+            var processedPreset = Complate.ProcessPreset(presetXml, patternComplates);
             if (string.IsNullOrEmpty(processedPreset))
             {
                 return new SortedList<string, Complate>();
             }
-            if (enabledStencils != null && patternComplates.TryGetValue(processedPreset, out Complate patternComplate))
+            if (enabledStencils != null && patternComplates.TryGetValue(processedPreset, out var patternComplate))
             {
-                foreach (Complate.Variable variable in patternComplate.Variables)
+                foreach (var variable in patternComplate.Variables)
                 {
                     if (variable.Type == Complate.Variable.Types.Bool)
                     {
-                        string variableName = variable.Name.ToLowerInvariant();
+                        var variableName = variable.Name.ToLowerInvariant();
                         if (variableName.StartsWith("stencil ") && variableName.EndsWith(" enabled"))
                         {
                             enabledStencils.Add(variable.Name, bool.Parse(variable.Value));
@@ -314,7 +307,7 @@ namespace Destrospean.Utils
         /// <param name="type">The type of commodity.</param>
         public static CommodityKind GetCommodityKind(string name, CommodityKindType type)
         {
-            uint retVal = ResourceUtils.HashString32(name);
+            var retVal = ResourceUtils.HashString32(name);
             switch (type)
             {
                 case CommodityKindType.Motive:
@@ -338,23 +331,23 @@ namespace Destrospean.Utils
 
         public static string GetCurrentPreset(this IGameObject gameObject)
         {
-            string preset = ObjectDesigner.GetObjectDesignPreset(gameObject.ObjectId);
+            var preset = ObjectDesigner.GetObjectDesignPreset(gameObject.ObjectId);
             if (string.IsNullOrEmpty(preset))
             {
                 return null;
             }
-            DesignModeSwap designModeSwap = new DesignModeSwap();
+            var designModeSwap = new DesignModeSwap();
             designModeSwap.SetSourceObject(gameObject.ObjectId);
-            SortedList<string, bool> enabledStencils = new SortedList<string, bool>();
+            var enabledStencils = new SortedList<string, bool>();
             if (ChangePreset(designModeSwap, Complate.ExtractPatterns(gameObject.ObjectId, enabledStencils), ref preset, false, enabledStencils))
             {
-                XmlDocument xmlDocument = new XmlDocument();
+                var xmlDocument = new XmlDocument();
                 xmlDocument.LoadXml(preset);
-                XmlDeclaration xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
+                var xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
                 xmlDocument.InsertBefore(xmlDeclaration, xmlDocument.DocumentElement);
-                StringBuilder stringBuilder = new StringBuilder();
-                Utf8StringWriter stringWriter = new Utf8StringWriter(stringBuilder);
-                XmlWriter xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
+                var stringBuilder = new StringBuilder();
+                var stringWriter = new Utf8StringWriter(stringBuilder);
+                var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
                     {
                         Encoding = Encoding.UTF8,
                         Indent = true,
@@ -378,7 +371,7 @@ namespace Destrospean.Utils
         /// <param name="type">Type.</param>
         public static string GetLocalizationKey(this Type type)
         {
-            return type.Namespace.Substring(type.Namespace.IndexOf(kAuthorName)).Replace('.', '/') + "/" + type.Name;
+            return type.Namespace?.Substring(type.Namespace.IndexOf(kAuthorName, StringComparison.Ordinal)).Replace('.', '/') + "/" + type.Name;
         }
 
         public static void LoadMotive(string instanceName)
@@ -390,11 +383,11 @@ namespace Destrospean.Utils
         {
             if (!string.IsNullOrEmpty(instanceName))
             {
-                bool isEp5Installed = GameUtils.IsInstalled(ProductVersion.EP5);
-                XmlDocument xmlDocument = Simulator.LoadXML(instanceName);
-                foreach (XmlElement element in new XmlElementLookup(xmlDocument)["Action"])
+                var isEp5Installed = GameUtils.IsInstalled(ProductVersion.EP5);
+                var xmlDocument = Simulator.LoadXML(instanceName);
+                foreach (var element in new XmlElementLookup(xmlDocument)["Action"])
                 {
-                    ParserFunctions.TryParseEnum<CommodityTypes>(element.GetAttribute("com"), out CommodityTypes commodityTypes, CommodityTypes.Undefined);
+                    ParserFunctions.TryParseEnum(element.GetAttribute("com"), out var commodityTypes, CommodityTypes.Undefined);
                     ActionData.Add(new ActionData(element.GetAttribute("key"), commodityTypes, ProductVersion.BaseGame, new XmlElementLookup(element), isEp5Installed));
                 }
             }
@@ -402,7 +395,7 @@ namespace Destrospean.Utils
 
         public static void LoadSocializingActionAvailability(string instanceName)
         {
-            XmlDbData data = XmlDbData.ReadData(instanceName);
+            var data = XmlDbData.ReadData(instanceName);
             if (data != null)
             {
                 if (data.Tables.ContainsKey("SAA"))
@@ -433,11 +426,11 @@ namespace Destrospean.Utils
         /// <param name="targetType">Target type.</param>
         public static void RefreshInteractionObjectPairs(Type interactionDefinitionType, Type targetType)
         {
-            foreach (GameObject gameObject in Sims3.Gameplay.Queries.GetObjects<GameObject>())
+            foreach (var gameObject in Sims3.Gameplay.Queries.GetObjects<GameObject>())
             {
                 if (targetType.IsAssignableFrom(gameObject.GetType()))
                 {
-                    foreach (InteractionObjectPair interaction in new List<InteractionObjectPair>(gameObject.Interactions))
+                    foreach (var interaction in new List<InteractionObjectPair>(gameObject.Interactions))
                     {
                         if (interactionDefinitionType.IsAssignableFrom(interaction.mInteraction.GetType()) && targetType.IsAssignableFrom(interaction.mTargetType))
                         {
@@ -452,7 +445,7 @@ namespace Destrospean.Utils
                     }
                 }
             }
-            foreach (Sim sim in Sims3.Gameplay.Queries.GetObjects<Sim>())
+            foreach (var sim in Sims3.Gameplay.Queries.GetObjects<Sim>())
             {
                 sim.UpdateCommodityInteractionMap();
             }
@@ -477,7 +470,7 @@ namespace Destrospean.Utils
         /// <param name="actionsToRemove">Actions to remove.</param>
         public static void RemoveActions(string activeTopic, LongTermRelationshipTypes grouping, bool isActive, params string[] actionsToRemove)
         {
-            if (ActionAvailabilityData.sActiveTopicInteractions.TryGetValue(activeTopic, out Dictionary<LongTermRelationshipTypes, Dictionary<bool, List<string>>> groups) && groups.TryGetValue(grouping, out Dictionary<bool, List<string>> group) && group.TryGetValue(isActive, out List<string> actions))
+            if (ActionAvailabilityData.sActiveTopicInteractions.TryGetValue(activeTopic, out var groups) && groups.TryGetValue(grouping, out var group) && group.TryGetValue(isActive, out var actions))
             {
                 actions.RemoveAll(x => Array.Exists(actionsToRemove, y => y == x));
             }
@@ -485,11 +478,11 @@ namespace Destrospean.Utils
 
         public static void RemoveEnumValue<T>(string key) where T : struct
         {
-            if (ParserFunctions.sCaseInsensitiveEnumParsers.TryGetValue(typeof(T), out EnumParser caseInsensitiveEnumParser) && caseInsensitiveEnumParser.mLookup.ContainsKey(key.ToLowerInvariant()))
+            if (ParserFunctions.sCaseInsensitiveEnumParsers.TryGetValue(typeof(T), out var caseInsensitiveEnumParser) && caseInsensitiveEnumParser.mLookup.ContainsKey(key.ToLowerInvariant()))
             {
                 caseInsensitiveEnumParser.mLookup.Remove(key.ToLowerInvariant());
             }
-            if (ParserFunctions.sCaseSensitiveEnumParsers.TryGetValue(typeof(T), out EnumParser caseSensitiveEnumParser) && caseSensitiveEnumParser.mLookup.ContainsKey(key))
+            if (ParserFunctions.sCaseSensitiveEnumParsers.TryGetValue(typeof(T), out var caseSensitiveEnumParser) && caseSensitiveEnumParser.mLookup.ContainsKey(key))
             {
                 caseSensitiveEnumParser.mLookup.Remove(key);
             }
@@ -528,7 +521,7 @@ namespace Destrospean.Utils
         /// <param name="updateAboveAndBelowZero">Update above and below zero.</param>
         public static void RemoveAsOutput(this CommodityKind commodityKind, Type interactionDefinitionType, Type targetType, float constantChange, bool locked, float actualValue, OutputUpdateType updateType, bool timeDependsOnCommodityFilling = false, bool updateEvenOnFailure = false, UpdateAboveAndBelowZeroType updateAboveAndBelowZero = UpdateAboveAndBelowZeroType.Either)
         {
-            List<CommodityChange> outputs = AutonomyTuning.GetTuning(interactionDefinitionType.FullName, targetType)?.mTradeoff?.mOutputs ?? new List<CommodityChange>();
+            var outputs = AutonomyTuning.GetTuning(interactionDefinitionType.FullName, targetType)?.mTradeoff?.mOutputs ?? new List<CommodityChange>();
             outputs.RemoveAll(x => x.Commodity == commodityKind && x.ConstantChange == constantChange && x.mLocked == locked && x.mActualValue == actualValue && x.mTimeDependsOnCommodityFilling == timeDependsOnCommodityFilling && x.mUpdateEvenOnFailure == updateEvenOnFailure && x.mUpdateAboveAndBelowZero == updateAboveAndBelowZero);
             RefreshInteractionObjectPairs(interactionDefinitionType, targetType);
         }
@@ -567,7 +560,7 @@ namespace Destrospean.Utils
         /// </summary>
         public static void ReplaceMethod(MethodInfo oldMethod, MethodInfo newMethod)
         {
-            byte[] replacementByteArray = new byte[40];
+            var replacementByteArray = new byte[40];
             Marshal.Copy(newMethod.MethodHandle.Value, replacementByteArray, 0, 40);
             Marshal.Copy(replacementByteArray, 0, oldMethod.MethodHandle.Value, 24);
             Marshal.Copy(replacementByteArray, 28, new IntPtr(oldMethod.MethodHandle.Value.ToInt32() + 28), 12);
@@ -583,11 +576,11 @@ namespace Destrospean.Utils
         /// <typeparam name="NewType">The class that holds the new method. Note: only the overloads defined in the new type will replace the corresponding overloads of the old type.</typeparam>
         public static void ReplaceMethod<OldType, NewType>(string oldMethodName, string newMethodName)
         {
-            foreach (MethodInfo method in typeof(NewType).GetMethods((BindingFlags)0x3C))
+            foreach (var method in typeof(NewType).GetMethods((BindingFlags)0x3C))
             {
                 if (method.Name == newMethodName)
                 {
-                    MethodInfo oldMethod = typeof(OldType).GetMethod(oldMethodName, (BindingFlags)0x3C, null, Array.ConvertAll(method.GetParameters(), x => x.ParameterType), null);
+                    var oldMethod = typeof(OldType).GetMethod(oldMethodName, (BindingFlags)0x3C, null, Array.ConvertAll(method.GetParameters(), x => x.ParameterType), null);
                     if (oldMethod != null)
                     {
                         ReplaceMethod(oldMethod, method);
@@ -600,7 +593,7 @@ namespace Destrospean.Utils
         {
             flags = CASAgeGenderFlags.None;
             entryKey = entryKey ?? typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CASAgeGenderFlagListDialog");
-            List<CASAgeGenderFlags> flagList = new List<CASAgeGenderFlags>(Array.FindAll((CASAgeGenderFlags[])Enum.GetValues(typeof(CASAgeGenderFlags)), x => preSelectedFlags.HasValue ? (preSelectedFlags & mask & x) == x && x != CASAgeGenderFlags.None && x != CASAgeGenderFlags.AgeMask && x != CASAgeGenderFlags.GenderMask : false));
+            var flagList = new List<CASAgeGenderFlags>(Array.FindAll((CASAgeGenderFlags[])Enum.GetValues(typeof(CASAgeGenderFlags)), x => preSelectedFlags.HasValue ? (preSelectedFlags & mask & x) == x && x != CASAgeGenderFlags.None && x != CASAgeGenderFlags.AgeMask && x != CASAgeGenderFlags.GenderMask : false));
             while (true)
             {
                 if (flagList.Count == 0 && okayButtonAlwaysEnabled)
@@ -613,7 +606,7 @@ namespace Destrospean.Utils
                         }
                     }
                 }
-                List<CASAgeGenderFlags> selectedFlags = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                var selectedFlags = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
                     {
                         new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<CASAgeGenderFlags>(Array.FindAll((CASAgeGenderFlags[])Enum.GetValues(typeof(CASAgeGenderFlags)), x => (x & mask) == x && x != CASAgeGenderFlags.None && x != CASAgeGenderFlags.AgeMask && x != CASAgeGenderFlags.GenderMask)).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
                     }, okayButtonAlwaysEnabled ? new List<ObjectPickerDialog.CommonHeaderInfo<CASAgeGenderFlags>>
@@ -623,7 +616,7 @@ namespace Destrospean.Utils
                     } : new List<ObjectPickerDialog.CommonHeaderInfo<CASAgeGenderFlags>>
                     {
                         new CASAgeGenderFlagColumn(entryKey),
-                    }, 1, out bool confirmed, out bool cancelled, okayButtonAlwaysEnabled);
+                    }, 1, out var confirmed, out var cancelled, okayButtonAlwaysEnabled);
                 if (cancelled)
                 {
                     return false;
@@ -634,7 +627,7 @@ namespace Destrospean.Utils
                     {
                         flagList.Add(selectedFlags[0]);
                     }
-                    foreach (CASAgeGenderFlags flag in flagList)
+                    foreach (var flag in flagList)
                     {
                         flags |= flag;
                     }
@@ -653,18 +646,18 @@ namespace Destrospean.Utils
 
         public static bool ShowCommodityKindListDialog(out CommodityKind[] selectedCommodityKinds, CommodityKind[] allCommodityKinds, CommodityKind[] preSelectedCommodityKinds = null, string title = null, string entryKey = null)
         {
-            List<string> allNames = new List<string>();
-            List<string> preSelectedNames = new List<string>();
-            foreach (KeyValuePair<string, object> entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
+            var allNames = new List<string>();
+            var preSelectedNames = new List<string>();
+            foreach (var entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
             {
-                foreach (CommodityKind motive in allCommodityKinds)
+                foreach (var motive in allCommodityKinds)
                 {
                     if ((int)entry.Value == (int)motive)
                     {
                         allNames.Add(entry.Key);
                     }
                 }
-                foreach (CommodityKind motive in preSelectedCommodityKinds)
+                foreach (var motive in preSelectedCommodityKinds ?? new CommodityKind[0])
                 {
                     if ((int)entry.Value == (int)motive)
                     {
@@ -673,17 +666,17 @@ namespace Destrospean.Utils
                 }
             }
             entryKey = entryKey ?? typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CommodityKindListDialog");
-            List<string> nameList = new List<string>(preSelectedNames);
+            var nameList = new List<string>(preSelectedNames);
             while (true)
             {
-                List<string> selectedNames = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                var selectedNames = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
                     {
                         new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), allNames.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
                     }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
                     {
                         new TextColumn(entryKey, 400),
                         new TextInListColumn(entryKey, nameList.ToArray(), 40)
-                    }, 1, out bool confirmed, out bool cancelled, true);
+                    }, 1, out var confirmed, out var cancelled, true);
                 if (cancelled)
                 {
                     selectedCommodityKinds = null;
@@ -707,11 +700,11 @@ namespace Destrospean.Utils
 
         public static bool ShowSkillListDialog(CASAgeGenderFlags age, CASAgeGenderFlags species, List<SkillLevelPair> currentSkills, List<SkillLevelPair> allSkills = null, string title = null)
         {
-            CASAGSAvailabilityFlags ageSpecies = CASUtils.CASAGSAvailabilityFlagsFromCASAgeGenderFlags(age | species);
+            var ageSpecies = CASUtils.CASAGSAvailabilityFlagsFromCASAgeGenderFlags(age | species);
             if (allSkills == null)
             {
                 allSkills = new List<SkillLevelPair>(currentSkills);
-                foreach (Skill skill in SkillManager.SkillDictionary)
+                foreach (var skill in SkillManager.SkillDictionary)
                 {
                     if ((skill.AvailableAgeSpecies & ageSpecies) != 0 && !allSkills.Exists(x => x.SkillName == skill.Guid))
                     {
@@ -723,18 +716,18 @@ namespace Destrospean.Utils
             {
                 allSkills.RemoveAll(x => (SkillManager.GetStaticSkill(x.SkillName).AvailableAgeSpecies & ageSpecies) == 0);
             }
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "SkillListDialog");
-            List<SkillLevelPair> skillList = new List<SkillLevelPair>(currentSkills);
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "SkillListDialog");
+            var skillList = new List<SkillLevelPair>(currentSkills);
             while (true)
             {
-                List<SkillLevelPair> selectedSkills = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                var selectedSkills = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
                     {
                         new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), allSkills.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
                     }, new List<ObjectPickerDialog.CommonHeaderInfo<SkillLevelPair>>
                     {
                         new SkillColumn(entryKey),
                         new SkillLevelColumn(entryKey, skillList.ToArray())
-                    }, 1, out bool confirmed, out bool cancelled, true);
+                    }, 1, out var confirmed, out var cancelled, true);
                 if (cancelled)
                 {
                     return false;
@@ -745,9 +738,9 @@ namespace Destrospean.Utils
                     currentSkills.AddRange(skillList);
                     return true;
                 }
-                string skillLevel = StringInputDialog.Show(Localization.LocalizeString(entryKey + "/SubmenuTitles:SkillLevel"), Localization.LocalizeString(entryKey + "/SubmenuPrompts:SkillLevel"), selectedSkills[0].SkillLevel.ToString(), -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.Number, false, ModalDialog.PauseMode.PauseSimulator, false, true);
+                var skillLevel = StringInputDialog.Show(Localization.LocalizeString(entryKey + "/SubmenuTitles:SkillLevel"), Localization.LocalizeString(entryKey + "/SubmenuPrompts:SkillLevel"), selectedSkills[0].SkillLevel.ToString(), -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.Number, false, ModalDialog.PauseMode.PauseSimulator, false, true);
                 selectedSkills[0].SkillLevel = skillLevel == null ? selectedSkills[0].SkillLevel : int.Parse(skillLevel);
-                Skill skill = SkillManager.GetStaticSkill(selectedSkills[0].SkillName);
+                var skill = SkillManager.GetStaticSkill(selectedSkills[0].SkillName);
                 if (selectedSkills[0].SkillLevel == -1)
                 {
                     selectedSkills[0].SkillLevel = skill.MaxSkillLevel;
@@ -770,11 +763,11 @@ namespace Destrospean.Utils
 
         public static bool ShowTraitListDialog(CASAgeGenderFlags age, CASAgeGenderFlags gender, CASAgeGenderFlags species, List<Trait> currentTraits, List<Trait> allTraits = null, string title = null)
         {
-            CASAGSAvailabilityFlags ageSpecies = CASUtils.CASAGSAvailabilityFlagsFromCASAgeGenderFlags(age | species);
+            var ageSpecies = CASUtils.CASAGSAvailabilityFlagsFromCASAgeGenderFlags(age | species);
             if (allTraits == null)
             {
                 allTraits = new List<Trait>();
-                foreach (Trait trait in TraitManager.GetDictionaryTraits)
+                foreach (var trait in TraitManager.GetDictionaryTraits)
                 {
                     if (trait.TraitValidForAgeSpecies(ageSpecies) && !trait.IsHidden && !trait.IsReward)
                     {
@@ -786,18 +779,18 @@ namespace Destrospean.Utils
             {
                 allTraits.RemoveAll(x => !x.TraitValidForAgeSpecies(ageSpecies));
             }
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "TraitListDialog");
-            List<Trait> traitList = new List<Trait>(currentTraits);
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "TraitListDialog");
+            var traitList = new List<Trait>(currentTraits);
             while (true)
             {
-                List<Trait> selectedTraits = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                var selectedTraits = ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
                     {
                         new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), allTraits.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
                     }, new List<ObjectPickerDialog.CommonHeaderInfo<Trait>>
                     {
                         new TraitColumn(entryKey, gender == CASAgeGenderFlags.Female),
                         new TraitEnabledColumn(entryKey, traitList.ToArray())
-                    }, 1, out bool confirmed, out bool cancelled, true);
+                    }, 1, out var confirmed, out var cancelled, true);
                 if (cancelled)
                 {
                     return false;
@@ -825,19 +818,19 @@ namespace Destrospean.Utils
             {
                 return false;
             }
-            ResourceKey resourceKey = gameObject.GetResourceKey();
-            GameObject newGameObject = GlobalFunctions.CreateObject(new ResourceKey(resourceKey.InstanceId, 0x319E4F1D, resourceKey.GroupId), gameObject.Position, gameObject.Level, gameObject.ForwardVector, newScriptClassName, null) as GameObject;
+            var resourceKey = gameObject.GetResourceKey();
+            var newGameObject = GlobalFunctions.CreateObject(new ResourceKey(resourceKey.InstanceId, 0x319E4F1D, resourceKey.GroupId), gameObject.Position, gameObject.Level, gameObject.ForwardVector, newScriptClassName, null) as GameObject;
             if (newGameObject == null || newGameObject is FailureObject)
             {
                 return false;
             }
-            SortedList<string, bool> enabledStencils = new SortedList<string, bool>();
+            var enabledStencils = new SortedList<string, bool>();
             Complate.SetupDesignSwap(newGameObject.ObjectId, Complate.ExtractPatterns(gameObject.ObjectId, enabledStencils), false, enabledStencils)?.ApplyToObject();
-            Slot slot = Slot.None;
-            GameObject parent = gameObject.Parent as GameObject;
+            var slot = Slot.None;
+            var parent = gameObject.Parent as GameObject;
             if (parent != null)
             {
-                foreach (Slot tempSlot in parent.GetContainmentSlots())
+                foreach (var tempSlot in parent.GetContainmentSlots())
                 {
                     if (parent.GetContainedObject(tempSlot) == gameObject)
                     {
@@ -860,9 +853,9 @@ namespace Destrospean.Utils
         public static bool TryGetType(string fullName, out Type type)
         {
             type = null;
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                foreach (Type tempType in assembly.GetTypes())
+                foreach (var tempType in assembly.GetTypes())
                 {
                     if (tempType.FullName == fullName)
                     {
@@ -876,30 +869,29 @@ namespace Destrospean.Utils
 
         public static bool TryUIGetActiveTopicActionActiveness(string title, out ActiveTopicActionActiveness activeTopicActionActiveness, ActiveTopicActionActiveness defaultValue = ActiveTopicActionActiveness.SPA)
         {
-            string entryKey = typeof(ComboSelectionDialog).GetLocalizationKey().Replace("ComboSelectionDialog", "ActiveTopicActionActivenessDialog/Options:");
-            string text = ComboSelectionDialog.Show(title, new SortedDictionary<string, object>(new DummyComparer())
+            var entryKey = typeof(ComboSelectionDialog).GetLocalizationKey().Replace("ComboSelectionDialog", "ActiveTopicActionActivenessDialog/Options:");
+            if (ComboSelectionDialog.Show(title, new SortedDictionary<string, object>(new DummyComparer())
                 {
                     {
                         Localization.LocalizeString(entryKey + ActiveTopicActionActiveness.FPA),
-                        ActiveTopicActionActiveness.FPA.ToString()
+                        nameof(ActiveTopicActionActiveness.FPA)
                     },
                     {
                         Localization.LocalizeString(entryKey + ActiveTopicActionActiveness.SPA),
-                        ActiveTopicActionActiveness.SPA.ToString()
+                        nameof(ActiveTopicActionActiveness.SPA)
                     }
-                }, defaultValue.ToString()) as string;
-            if (text == null)
+                }, defaultValue.ToString()) is string text)
             {
-                activeTopicActionActiveness = defaultValue;
-                return false;
+                activeTopicActionActiveness = (ActiveTopicActionActiveness)Enum.Parse(typeof(ActiveTopicActionActiveness), text);
+                return true;
             }
-            activeTopicActionActiveness = (ActiveTopicActionActiveness)Enum.Parse(typeof(ActiveTopicActionActiveness), text);
-            return true;
+            activeTopicActionActiveness = defaultValue;
+            return false;
         }
 
         public static bool TryUIGetBooleanValue(string title, out bool boolean, bool defaultValue = false)
         {
-            string text = ComboSelectionDialog.Show(title, new SortedDictionary<string, object>(new DummyComparer())
+            if (ComboSelectionDialog.Show(title, new SortedDictionary<string, object>(new DummyComparer())
                 {
                     {
                         Localization.LocalizeString(0xC83C121BA92C23BF),
@@ -909,114 +901,113 @@ namespace Destrospean.Utils
                         Localization.LocalizeString(0x918EEA8E85AB6760),
                         false.ToString()
                     }
-                }, defaultValue.ToString()) as string;
-            if (text == null)
+                }, defaultValue.ToString()) is string text)
             {
-                boolean = false;
-                return false;
+                boolean = bool.Parse(text);
+                return true;
             }
-            boolean = bool.Parse(text);
-            return true;
+            boolean = false;
+            return false;
         }
 
         public static bool TryUIGetLongTermRelationshipType(string title, CASAgeGenderFlags gender, out LongTermRelationshipTypes longTermRelationshipType, LongTermRelationshipTypes defaultValue = LongTermRelationshipTypes.Default)
         {
-            string entryKey = typeof(ComboSelectionDialog).GetLocalizationKey().Replace("ComboSelectionDialog", "LongTermRelationshipTypeDialog/Options:");
-            string longTermRelationshipEntryKey = "Gameplay/Excel/Socializing/LTR:";
-            string text = ComboSelectionDialog.Show(title, new SortedDictionary<string, object>(new DummyComparer())
+            var entryKey = typeof(ComboSelectionDialog).GetLocalizationKey().Replace("ComboSelectionDialog", "LongTermRelationshipTypeDialog/Options:");
+            const string longTermRelationshipEntryKey = "Gameplay/Excel/Socializing/LTR:";
+            if (ComboSelectionDialog.Show(title, new SortedDictionary<string, object>(new DummyComparer())
                 {
                     {
                         Localization.LocalizeString(entryKey + LongTermRelationshipTypes.All),
-                        LongTermRelationshipTypes.All.ToString()
+                        nameof(LongTermRelationshipTypes.All)
                     },
                     {
                         Localization.LocalizeString(entryKey + LongTermRelationshipTypes.Default),
-                        LongTermRelationshipTypes.Default.ToString()
+                        nameof(LongTermRelationshipTypes.Default)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.Stranger),
-                        LongTermRelationshipTypes.Stranger.ToString()
+                        nameof(LongTermRelationshipTypes.Stranger)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.Acquaintance),
-                        LongTermRelationshipTypes.Acquaintance.ToString()
+                        nameof(LongTermRelationshipTypes.Acquaintance)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.DistantFriend),
-                        LongTermRelationshipTypes.DistantFriend.ToString()
+                        nameof(LongTermRelationshipTypes.DistantFriend)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.Friend),
-                        LongTermRelationshipTypes.Friend.ToString()
+                        nameof(LongTermRelationshipTypes.Friend)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.GoodFriend),
-                        LongTermRelationshipTypes.GoodFriend.ToString()
+                        nameof(LongTermRelationshipTypes.GoodFriend)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.BestFriend),
-                        LongTermRelationshipTypes.BestFriend.ToString()
+                        nameof(LongTermRelationshipTypes.BestFriend)
                     },
                     {
                         Localization.LocalizeString(0xC86B0C71108DA632),
-                        LongTermRelationshipTypes.BestFriendsForever.ToString()
+                        nameof(LongTermRelationshipTypes.BestFriendsForever)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.OldFriend),
-                        LongTermRelationshipTypes.OldFriend.ToString()
+                        nameof(LongTermRelationshipTypes.OldFriend)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.RomanticInterest),
-                        LongTermRelationshipTypes.RomanticInterest.ToString()
+                        nameof(LongTermRelationshipTypes.RomanticInterest)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.Partner),
-                        LongTermRelationshipTypes.Partner.ToString()
+                        nameof(LongTermRelationshipTypes.Partner)
                     },
                     {
                         Localization.LocalizeString((gender & CASAgeGenderFlags.Male) == 0 ? 0x560E2FCA95B005B2 : 0xA85D4CDDDC0663AE),
-                        LongTermRelationshipTypes.Fiancee.ToString()
+                        nameof(LongTermRelationshipTypes.Fiancee)
                     },
                     {
                         Localization.LocalizeString(entryKey + LongTermRelationshipTypes.Spouse),
-                        LongTermRelationshipTypes.Spouse.ToString()
+                        nameof(LongTermRelationshipTypes.Spouse)
                     },
                     {
                         Localization.LocalizeString(entryKey + LongTermRelationshipTypes.Ex),
-                        LongTermRelationshipTypes.Ex.ToString()
+                        nameof(LongTermRelationshipTypes.Ex)
                     },
                     {
                         Localization.LocalizeString(entryKey + LongTermRelationshipTypes.ExSpouse),
-                        LongTermRelationshipTypes.ExSpouse.ToString()
+                        nameof(LongTermRelationshipTypes.ExSpouse)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.Disliked),
-                        LongTermRelationshipTypes.Disliked.ToString()
+                        nameof(LongTermRelationshipTypes.Disliked)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.Enemy),
-                        LongTermRelationshipTypes.Enemy.ToString()
+                        nameof(LongTermRelationshipTypes.Enemy)
                     },
                     {
                         Localization.LocalizeString(longTermRelationshipEntryKey + LongTermRelationshipTypes.OldEnemies),
-                        LongTermRelationshipTypes.OldEnemies.ToString()
+                        nameof(LongTermRelationshipTypes.OldEnemies)
                     }
-                }, defaultValue.ToString()) as string;
-            if (text == null)
+                }, defaultValue.ToString()) is string text)
             {
-                longTermRelationshipType = defaultValue;
-                return false;
+                
+                longTermRelationshipType = (LongTermRelationshipTypes)Enum.Parse(typeof(LongTermRelationshipTypes), text);
+                return true;
             }
-            longTermRelationshipType = (LongTermRelationshipTypes)Enum.Parse(typeof(LongTermRelationshipTypes), text);
-            return true;
+            longTermRelationshipType = defaultValue;
+            return false;
         }
 
         public static bool TryUIGetSelectedTypes(out Type[] selectedTypes, Type[] allTypes, string namespaceListTitle = null, string typeListTitle = null, int selectableRowCount = int.MaxValue)
         {
-            string entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
-            Array.Sort(allTypes, (a, b) => a.FullName.CompareTo(b.FullName));
-            List<string> namespaces = new List<string>();
-            foreach (Type type in allTypes)
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
+            Array.Sort(allTypes, (a, b) => string.Compare(a.FullName, b.FullName, StringComparison.Ordinal));
+            var namespaces = new List<string>();
+            foreach (var type in allTypes)
             {
                 if (!namespaces.Contains(type.Namespace))
                 {
@@ -1025,13 +1016,13 @@ namespace Destrospean.Utils
             }
             while (true)
             {
-                List<string> selectedNamespaces = ObjectPickerDialog.Show(namespaceListTitle ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "NamespaceListDialog:Title"), new List<ObjectPicker.TabInfo>
+                var selectedNamespaces = ObjectPickerDialog.Show(namespaceListTitle ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "NamespaceListDialog:Title"), new List<ObjectPicker.TabInfo>
                     {
                         new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), namespaces.ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
                     }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
                     {
                         new TextColumn(entryKey + "NamespaceListDialog")
-                    }, 1, out bool confirmed, out bool cancelled);
+                    }, 1, out var confirmed, out var cancelled);
                 if (cancelled)
                 {
                     selectedTypes = null;
@@ -1053,8 +1044,8 @@ namespace Destrospean.Utils
 
         public static bool TryUIGetUpdateType(string title, out OutputUpdateType updateType, OutputUpdateType defaultValue = OutputUpdateType.ContinuousFlow)
         {
-            string entryKey = typeof(ComboSelectionDialog).GetLocalizationKey().Replace("ComboSelectionDialog", "UpdateTypeDialog/Options:");
-            string text = ComboSelectionDialog.Show(title, new SortedDictionary<string, object>(new DummyComparer())
+            var entryKey = typeof(ComboSelectionDialog).GetLocalizationKey().Replace("ComboSelectionDialog", "UpdateTypeDialog/Options:");
+            if (ComboSelectionDialog.Show(title, new SortedDictionary<string, object>(new DummyComparer())
                 {
                     {
                         Localization.LocalizeString(entryKey + OutputUpdateType.ContinuousFlow),
@@ -1062,30 +1053,29 @@ namespace Destrospean.Utils
                     },
                     {
                         Localization.LocalizeString(entryKey + OutputUpdateType.ImmediateDelta),
-                        OutputUpdateType.ImmediateDelta.ToString()
+                        nameof(OutputUpdateType.ImmediateDelta)
                     }
-                }, defaultValue.ToString()) as string;
-            if (text == null)
+                }, defaultValue.ToString()) is string text)
             {
-                updateType = defaultValue;
-                return false;
+                updateType = (OutputUpdateType)Enum.Parse(typeof(OutputUpdateType), text);
+                return true;
             }
-            updateType = (OutputUpdateType)Enum.Parse(typeof(OutputUpdateType), text);
-            return true;
+            updateType = defaultValue;
+            return false;
         }
 
         public static void UpdateMotiveTunings(Sim sim, CommodityKind commodityKind)
         {
-            IEnumerable<MotiveTuning> allTunings = MotiveTuning.GetAllTunings(commodityKind);
+            var allTunings = MotiveTuning.GetAllTunings(commodityKind);
             if (allTunings == null)
             {
                 return;
             }
             MotiveTuning motiveTuning = null;
-            float score = float.MinValue;
-            foreach (MotiveTuning tuning in allTunings)
+            var score = float.MinValue;
+            foreach (var tuning in allTunings)
             {
-                float tempScore = sim.ScoreMotiveTuning(tuning);
+                var tempScore = sim.ScoreMotiveTuning(tuning);
                 if (tempScore > score)
                 {
                     score = tempScore;

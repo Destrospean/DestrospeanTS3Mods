@@ -24,15 +24,15 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
     {
         public class ServicesModel : UI.ServicesModel, IServicesModel
         {
-            class ServiceInfoEx : ServiceInfo
+            private class ServiceInfoEx : ServiceInfo
             {
                 public Service Service;
             }
 
             List<ServiceInfo> IServicesModel.GetServices()
             {
-                List<ServiceInfo> serviceInfoList = new List<ServiceInfo>();
-                List<Service> services = new List<Service>
+                var serviceInfoList = new List<ServiceInfo>();
+                var services = new List<Service>
                     {
                         Babysitter.Instance,
                         Maid.Instance,
@@ -50,11 +50,11 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
                         PerformanceArtist.Instance
                     };
                 services.AddRange(ServiceUtils.PredefinedInstances.Values);
-                foreach (Service service in ServiceUtils.CustomInstances.Values)
+                foreach (var service in ServiceUtils.CustomInstances.Values)
                 {
                     services.Add(service);
                 }
-                foreach (Service service in services)
+                foreach (var service in services)
                 {
                     if (service != null && (service.CanRequestServiceFromPhone(Lot) || Settings.kAllowAllServicesOnCommunityLots))
                     {
@@ -71,12 +71,12 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
                     mLot.Household.AutoBabysitter = info.mActive;
                     return true;
                 }
-                Service service = GetServiceFromInfo(this, info);
+                var service = GetServiceFromInfo(this, info);
 
                 // The following code dismisses all workers of a service from a lot if said service is cancelled by phone from said lot.
                 if (service != null && (service.IsServiceRequested(mLot) || service.IsAnySimAssignedToLot(mLot)))
                 {
-                    foreach (Sim sim in service.GetSimsAssignedToLot(mLot))
+                    foreach (var sim in service.GetSimsAssignedToLot(mLot))
                     {
                         ServiceSituation.FindServiceSituationInvolving(sim)?.SetToLeave();
                     }
@@ -102,15 +102,15 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     return servicesModel.GetServiceInfo(service);
                 }
-                string entryKey = service.GetType().GetLocalizationKey();
-                ServiceInfoEx serviceInfo = new ServiceInfoEx();
-                CustomService customService = service as CustomService;
+                var entryKey = service.GetType().GetLocalizationKey();
+                var serviceInfo = new ServiceInfoEx();
+                var customService = service as CustomService;
                 serviceInfo.mName = customService?.Profile.Title ?? Localization.LocalizeString(entryKey + ":Title");
                 serviceInfo.mAlreadyActiveToolTip = Localization.LocalizeString("Gameplay/UI/ServicesUIWindow:AlreadyActive");
                 if (service.IsRecurrent())
                 {
                     serviceInfo.mAlreadyActiveToolTip = Localization.LocalizeString("Gameplay/UI/ServicesUIWindow:RecurrentAlreadyActive");
-                    bool isNonLiveInServiceActiveOnLot = !(service is IAmLiveInService) && !(customService?.Profile.IsLiveInService ?? false) && service.IsAnySimAssignedToLot(servicesModel.Lot);
+                    var isNonLiveInServiceActiveOnLot = !(service is IAmLiveInService) && !(customService?.Profile.IsLiveInService ?? false) && service.IsAnySimAssignedToLot(servicesModel.Lot);
                     serviceInfo.mCancelledTns = customService == null ? Localization.LocalizeString(entryKey + ":ServiceCancelled" + (isNonLiveInServiceActiveOnLot ? "WhileActive" : "")) : isNonLiveInServiceActiveOnLot ? customService.Profile.CancelledWhileActiveMessage : customService.Profile.CancelledMessage;
                 }
                 serviceInfo.mRequestedTns = customService == null ? Localization.LocalizeString(entryKey + ":ServiceRequested") : customService.Profile.RequestedMessage;
@@ -124,10 +124,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
                 return serviceInfo;
             }
 
-            public static new bool Show(Lot lot, ObjectGuid simGuid)
+            public new static bool Show(Lot lot, ObjectGuid simGuid)
             {
                 UI.Responder.Instance.mServicesModel = new ServicesModel();
-                ServicesModel servicesModel = (ServicesModel)UI.Responder.Instance.ServicesModel;
+                var servicesModel = (ServicesModel)UI.Responder.Instance.ServicesModel;
                 servicesModel.Lot = lot;
                 servicesModel.SimGuid = simGuid;
                 return ServicesController.Show(simGuid);
@@ -144,7 +144,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
 
             public override string[] GetPath(bool isFemale)
             {
-                return new string[]
+                return new[]
                 {
                     Phone.LocalizeString("Services") + Localization.Ellipsis
                 };

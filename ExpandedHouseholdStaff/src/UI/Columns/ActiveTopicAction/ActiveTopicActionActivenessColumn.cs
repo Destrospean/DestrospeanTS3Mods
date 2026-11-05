@@ -7,7 +7,7 @@ namespace Destrospean.UI.Columns.ExpandedHouseholdStaff
 {
     public class ActiveTopicActionActivenessColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<ServiceUtils.ActiveTopicAction>
     {
-        readonly string mLocalizationPath;
+        private readonly string mLocalizationPath;
 
         public ActiveTopicActionActivenessColumn(string localizationPath) : base(localizationPath + "/Headers/Activeness:Text", localizationPath + "/Headers/Activeness:Tooltip", 220)
         {

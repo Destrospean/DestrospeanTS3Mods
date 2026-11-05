@@ -1,6 +1,5 @@
 ﻿extern alias NRaasMasterController;
 using Destrospean.Utils;
-using Sims3.Gameplay;
 using Sims3.Gameplay.CAS;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
@@ -13,26 +12,26 @@ namespace Sims3.Gameplay.Destrospean.Utils
     public class NRaasMasterControllerIntegration
     {
         [Tunable]
-        static bool kIntegrateNRaasMasterController = true;
+        private static bool kIntegrateNRaasMasterController = true;
 
         public static void Init()
         {
-            OutfitExtensions.EditSpecialOutfitFunc editSpecialOutfit = OutfitExtensions.EditSpecialOutfit;
+            var editSpecialOutfit = OutfitExtensions.EditSpecialOutfit;
             OutfitExtensions.EditSpecialOutfit = (sim, specialOutfitKey) =>
                 {
                     if (kIntegrateNRaasMasterController)
                     {
-                        SimDescription simDescription = sim.SimDescription;
+                        var simDescription = sim.SimDescription;
                         if (!simDescription.HasSpecialOutfit(specialOutfitKey))
                         {
                             simDescription.AddSpecialOutfit(simDescription.GetOutfit(OutfitCategories.Everyday, 0), specialOutfitKey);
                         }
-                        OutfitCategories previousOutfitCategory = sim.CurrentOutfitCategory;
-                        int previousOutfitIndex = sim.CurrentOutfitIndex;
+                        var previousOutfitCategory = sim.CurrentOutfitCategory;
+                        var previousOutfitIndex = sim.CurrentOutfitIndex;
                         simDescription.AddOutfit(simDescription.GetSpecialOutfit(specialOutfitKey), OutfitCategories.Everyday, 0);
                         simDescription.RemoveSpecialOutfit(specialOutfitKey);
                         sim.SwitchToOutfitWithoutSpin(OutfitCategories.Everyday, 0);
-                        CASLogic casLogic = CASLogic.GetSingleton();
+                        var casLogic = CASLogic.GetSingleton();
                         new Stylist().Perform(new GameHitParameters(sim, sim, GameObjectHit.NoHit));
                         casLogic.ShowUI += OutfitExtensions.OnShowUI;
                         while (GameStates.NextInWorldStateId != 0)

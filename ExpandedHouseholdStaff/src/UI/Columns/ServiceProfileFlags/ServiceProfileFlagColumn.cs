@@ -5,7 +5,7 @@ namespace Destrospean.UI.Columns.ExpandedHouseholdStaff
 {
     public class ServiceProfileFlagColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<ServiceProfileFlags>
     {
-        readonly string mLocalizationPath;
+        private readonly string mLocalizationPath;
 
         public ServiceProfileFlagColumn(string localizationPath) : base(localizationPath + "/Headers/ServiceProfileFlag:Text", localizationPath + "/Headers/ServiceProfileFlag:Tooltip", 400)
         {

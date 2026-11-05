@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.ChildAndTeenUpdates;
-using Sims3.Gameplay.Core;
 using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Seasons;
@@ -27,21 +25,21 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
     /// </summary>
     public class AutonomyUtils
     {
-        static InteractionInstance FindBestAction(Autonomy autonomy, CommodityKind commodityKind, bool metaAutonomy)
+        private static InteractionInstance FindBestAction(Autonomy autonomy, CommodityKind commodityKind, bool metaAutonomy)
         {
             autonomy.ClearScoring();
             autonomy.mHasBeenScored = Autonomy.InteractionCheckTable.Allocate();
             autonomy.AddDecisionSnapshot();
             ScoreInteractionsOnObjects(autonomy, commodityKind, metaAutonomy);
-            InteractionInstance result = autonomy.AssignProbabilitiesAndChooseInteraction();
+            var result = autonomy.AssignProbabilitiesAndChooseInteraction();
             autonomy.ClearScoring();
             LiveDragHelperModel.ClearCachedTopDraggedObject();
             return result;
         }
 
-        static void ScoreInteractionsForLocalAutonomy(Autonomy autonomy, CommodityKind commodityKind)
+        private static void ScoreInteractionsForLocalAutonomy(Autonomy autonomy, CommodityKind commodityKind)
         {
-            Lot lot = autonomy.mActor.LotCurrent;
+            var lot = autonomy.mActor.LotCurrent;
             if (autonomy.mOverriddenLocalAutonomyLot != null)
             {
                 lot = autonomy.mOverriddenLocalAutonomyLot;
@@ -56,7 +54,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 autonomy.ScoreInteractions(autonomy.mActor.SimCommodityInteractionMap, commodityKind);
                 if (!lot.IsWorldLot || autonomy.mOverriddenLocalAutonomyLot != null)
                 {
-                    foreach (Sim sim in lot.GetObjects<Sim>())
+                    foreach (var sim in lot.GetObjects<Sim>())
                     {
                         if (sim != autonomy.mActor)
                         {
@@ -79,15 +77,15 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
         }
 
-        static void ScoreInteractionsForSituations(Autonomy autonomy)
+        private static void ScoreInteractionsForSituations(Autonomy autonomy)
         {
-            foreach (Situation situation in autonomy.mSituationComponent.Situations)
+            foreach (var situation in autonomy.mSituationComponent.Situations)
             {
-                foreach (Sim sim in situation.SimsWithInteractions)
+                foreach (var sim in situation.SimsWithInteractions)
                 {
                     if (!sim.HasBeenDestroyed)
                     {
-                        foreach (InteractionObjectPair interaction in sim.GetSituationSpecificInteractionsForActor(autonomy.mActor) ?? new List<InteractionObjectPair>())
+                        foreach (var interaction in sim.GetSituationSpecificInteractionsForActor(autonomy.mActor) ?? new List<InteractionObjectPair>())
                         {
                             CalculateScoreAndAddToCandidates(autonomy, interaction);
                         }
@@ -96,9 +94,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
         }
 
-        static Autonomy.YieldResult ScoreInteractionsOnObjects(Autonomy autonomy, CommodityKind commodityKind, bool metaAutonomy)
+        private static Autonomy.YieldResult ScoreInteractionsOnObjects(Autonomy autonomy, CommodityKind commodityKind, bool metaAutonomy)
         {
-            Autonomy.YieldResult result = Autonomy.YieldResult.Continue;
+            var result = Autonomy.YieldResult.Continue;
             autonomy.mUseCachedValues = true;
             try
             {
@@ -132,7 +130,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
             if (autonomy.mHasBeenScored.TryAdd(iop))
             {
-                float score = CalculateScore(autonomy, iop);
+                var score = CalculateScore(autonomy, iop);
                 autonomy.mBestScores.Add(iop, score);
             }
         }
@@ -150,13 +148,13 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 autonomy.AddSnapshotScore(iop, "[No tradeoff] " + iop.InteractionDefinition.ToString(), iop.Target.ToString());
                 return 0f;
             }
-            float initialMultiplier = 1f;
+            var initialMultiplier = 1f;
             if (iop.Tuning.ScoringFunction != null)
             {
                 initialMultiplier = iop.Tuning.ScoringFunction(autonomy.mActor, iop);
             }
-            CommodityKind mostValuedCommodity = CommodityKind.None;
-            float metaOutputScore = 0f;
+            var mostValuedCommodity = CommodityKind.None;
+            var metaOutputScore = 0f;
             if (iop.InteractionDefinition is IMetaInteractionDefinition metaInteractionDefinition)
             {
                 metaOutputScore = metaInteractionDefinition.MetaAdScore(autonomy.mActor, iop.Target, autonomy.mInteractionScorer, ref mostValuedCommodity);
@@ -170,11 +168,11 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 actor = autonomy.mActor;
             }
-            float score = iop.Tradeoff.GetScore(actor, autonomy.mInteractionScorer, iop.Target, iop, metaOutputScore, out tradeoffScore, initialMultiplier, iop.Tuning.ScoringFunctionOnlyAppliesToSpecificCommodity);
-            float multiplier = 1f;
-            GameObject target = iop.Target as GameObject;
-            Sim targetSim = iop.Target as Sim;
-            bool isOutside = iop.Target.IsOutside;
+            var score = iop.Tradeoff.GetScore(actor, autonomy.mInteractionScorer, iop.Target, iop, metaOutputScore, out tradeoffScore, initialMultiplier, iop.Tuning.ScoringFunctionOnlyAppliesToSpecificCommodity);
+            var multiplier = 1f;
+            var target = iop.Target as GameObject;
+            var targetSim = iop.Target as Sim;
+            var isOutside = iop.Target.IsOutside;
             if (isOutside)
             {
                 if (autonomy.mActor.TraitManager.HasElement(TraitNames.HatesOutdoors))
@@ -188,7 +186,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
             if (autonomy.mActor.IsADogSpecies && autonomy.mActor.TraitManager.HasElement(TraitNames.LoyalPet) && autonomy.Actor != targetSim)
             {
-                Sim bffOrSimWithHighestLikingForPet = Relationship.GetBFFOrSimWithHighestLikingForPet(autonomy.mActor);
+                var bffOrSimWithHighestLikingForPet = Relationship.GetBFFOrSimWithHighestLikingForPet(autonomy.mActor);
                 if (bffOrSimWithHighestLikingForPet != null)
                 {
                     if (targetSim == bffOrSimWithHighestLikingForPet)
@@ -207,10 +205,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 {
                     multiplier += TraitTuning.LonerTraitAdvertisingMultiplier;
                 }
-                int simsInSameRoomCount = 0;
+                var simsInSameRoomCount = 0;
                 if (iop.Target.LotCurrent != null)
                 {
-                    foreach (Sim sim in iop.Target.LotCurrent.GetAllActors())
+                    foreach (var sim in iop.Target.LotCurrent.GetAllActors())
                     {
                         if (sim != autonomy.mActor && sim.RoomId == autonomy.mActor.RoomId)
                         {
@@ -223,7 +221,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
             if (autonomy.IsGuestAtAParty)
             {
-                Party partyIAmGuestAt = Party.GetPartyIAmGuestAt(autonomy.mActor);
+                var partyIAmGuestAt = Party.GetPartyIAmGuestAt(autonomy.mActor);
                 if (partyIAmGuestAt != null && autonomy.mActor.LotCurrent == partyIAmGuestAt.Host.LotCurrent && iop.Target.RoomId == partyIAmGuestAt.Host.RoomId)
                 {
                     multiplier += Party.ScoringMultiplierForNearHostAtParty;
@@ -235,9 +233,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
             if (autonomy.mActor.SimDescription.Teen && target.ActorsUsingMe.Count > 0)
             {
-                foreach (Sim sim in target.ActorsUsingMe)
+                foreach (var sim in target.ActorsUsingMe)
                 {
-                    Relationship relationship = Relationship.Get(sim, autonomy.mActor, false);
+                    var relationship = Relationship.Get(sim, autonomy.mActor, false);
                     if (relationship != null && (relationship.LTR.LTRInteractionBits & LongTermRelationship.InteractionBits.BFF) != 0)
                     {
                         multiplier += SocialComponent.BFFAutonomyMultiplier;
@@ -247,13 +245,13 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
             if (autonomy.mActor.Service != null)
             {
-                Type serviceDataType = autonomy.mActor.Service.GetType();
-                PropertyInfo useObjectInSameRoomAsSleeperMultiplierProperty = serviceDataType.GetProperty("UseObjectInSameRoomAsSleeperMultiplier");
+                var serviceDataType = autonomy.mActor.Service.GetType();
+                var useObjectInSameRoomAsSleeperMultiplierProperty = serviceDataType.GetProperty("UseObjectInSameRoomAsSleeperMultiplier");
                 if (autonomy.mActor.Service.ServiceType == ServiceType.Babysitter)
                 {
                     if (target.ActorsUsingMe.Count > 0)
                     {
-                        foreach (Sim sim in target.ActorsUsingMe)
+                        foreach (var sim in target.ActorsUsingMe)
                         {
                             if (sim.Service == null && sim.SimDescription.ChildOrBelow && score != 0f)
                             {
@@ -261,10 +259,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                             }
                         }
                     }
-                    Household household = autonomy.mActor.LotCurrent.Household;
+                    var household = autonomy.mActor.LotCurrent.Household;
                     if (household != null && !iop.Tradeoff.SatisfiesCommodity(CommodityKind.LookAfterBabyOrToddler))
                     {
-                        foreach (Sim sim in household.Sims)
+                        foreach (var sim in household.Sims)
                         {
                             if (autonomy.mActor.RoomId != sim.RoomId && sim.SimDescription.ChildOrBelow && sim.RoomId == iop.Target.RoomId && score != 0f)
                             {
@@ -275,10 +273,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
                 else if (ServiceUtils.IsFromExpandedHouseholdStaff(serviceDataType) && (bool)serviceDataType.GetProperty("IsQuietAroundSleepingSims").GetValue(autonomy.mActor.Service, null) && useObjectInSameRoomAsSleeperMultiplierProperty != null && useObjectInSameRoomAsSleeperMultiplierProperty.PropertyType == typeof(float) && !(iop.Target is IBed))
                 {
-                    int roomId = iop.Target.RoomId;
+                    var roomId = iop.Target.RoomId;
                     if (autonomy.mActor.LotCurrent.Household != null)
                     {
-                        foreach (Sim sim in autonomy.mActor.LotCurrent.Household.Sims)
+                        foreach (var sim in autonomy.mActor.LotCurrent.Household.Sims)
                         {
                             if (sim.IsSleeping && sim.RoomId == roomId)
                             {
@@ -300,7 +298,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 multiplier *= Autonomy.AutonomyPublicAreaPenaltyMultiplier;
             }
-            for (Posture posture = autonomy.mActor.Posture; posture != null; posture = posture.PreviousPosture)
+            for (var posture = autonomy.mActor.Posture; posture != null; posture = posture.PreviousPosture)
             {
                 multiplier *= posture.GetAutonomyScoreMultiplierForInteraction(autonomy.mActor, iop.Target, iop.Tuning.PosturePreconditions);
             }
@@ -314,17 +312,17 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             }
             if (autonomy.mActor.mSnubManager != null && autonomy.mActor.mSnubManager.ListOfSnubTargets != null)
             {
-                foreach (ulong simDescriptionId in autonomy.mActor.mSnubManager.ListOfSnubTargets)
+                foreach (var simDescriptionId in autonomy.mActor.mSnubManager.ListOfSnubTargets)
                 {
-                    SimDescription simDescription = SimDescription.Find(simDescriptionId);
+                    var simDescription = SimDescription.Find(simDescriptionId);
                     if (simDescription == null)
                     {
                         continue;
                     }
-                    Sim createdSim = simDescription.CreatedSim;
+                    var createdSim = simDescription.CreatedSim;
                     if (createdSim != null)
                     {
-                        if ((iop.Target.Position - createdSim.Position).LengthSqr() <= (float)SnubManager.kAutonomousInteractionLimiterDistanceSqr)
+                        if ((iop.Target.Position - createdSim.Position).LengthSqr() <= SnubManager.kAutonomousInteractionLimiterDistanceSqr)
                         {
                             multiplier *= SnubManager.kAutonomousInteractionLimiterMultiplier;
                         }
@@ -350,17 +348,17 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
             }
             score *= multiplier;
-            float scoreBonus = 0f;
+            var scoreBonus = 0f;
             if (!(autonomy.Actor.CurrentInteraction is OccultImaginaryFriend.ImaginaryFriendCleanHouse))
             {
                 scoreBonus = autonomy.ComputeCheckScore(iop.Checks, tradeoffScore, iop.Tradeoff, autonomy.mActor, iop.Target);
             }
-            float finalScore = score + scoreBonus;
+            var finalScore = score + scoreBonus;
             if (autonomy.mInteractionScorer.InteractionModifier != null)
             {
                 finalScore *= autonomy.mInteractionScorer.InteractionModifier(iop);
             }
-            float inUseAutonomyMultiplier = iop.Target.GetInUseAutonomyMultiplier(autonomy.mActor);
+            var inUseAutonomyMultiplier = iop.Target.GetInUseAutonomyMultiplier(autonomy.mActor);
             finalScore *= inUseAutonomyMultiplier;
             multiplier *= inUseAutonomyMultiplier;
             return finalScore;
@@ -372,7 +370,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public static InteractionInstance FindBestAction(Autonomy autonomy)
         {
             autonomy.SetSearchType(AutonomySearchType.Generic);
-            InteractionInstance result = FindBestAction(autonomy, CommodityKind.None, false);
+            var result = FindBestAction(autonomy, CommodityKind.None, false);
             autonomy.ClearSearchType(AutonomySearchType.Generic);
             return result;
         }
@@ -383,7 +381,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 flags |= autonomy.OverrideInteractionParameters.Value.Flags;
             }
-            InteractionInstanceParameters parameters = new InteractionInstanceParameters(iop, autonomy.Actor, new InteractionPriority(InteractionPriorityLevel.Autonomous), autonomySearchType, flags);
+            var parameters = new InteractionInstanceParameters(iop, autonomy.Actor, new InteractionPriority(InteractionPriorityLevel.Autonomous), autonomySearchType, flags);
             GreyedOutTooltipCallback greyedOutTooltipCallback = null;
             return iop.InteractionDefinition.Test(ref parameters, ref greyedOutTooltipCallback) == 0 ? (iop.mInteraction as IOverridesCalculateScore)?.CalculateScore(iop, autonomy) ?? CalculateScoreForObjectInteraction(autonomy, iop) : 0f;
         }

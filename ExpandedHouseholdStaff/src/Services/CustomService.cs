@@ -13,11 +13,9 @@ using Sims3.Gameplay.Core;
 using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.Interactions;
-using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Objects.Beds;
 using Sims3.Gameplay.Services;
-using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
@@ -47,8 +45,8 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
 
                 public override string GetInteractionName(Sim actor, Bed target, InteractionObjectPair iop)
                 {
-                    List<Sim> simsAssignedToLot = Service.GetSimsAssignedToLot(actor.LotHome);
-                    return Localization.LocalizeString(actor.IsFemale, DerivedType.GetLocalizationKey() + "/" + typeof(SetUnsetServiceBed).Name + (target.FindOwnedBed(simsAssignedToLot[0]) == target ? ":Unset" : ":Set") + "InteractionName", simsAssignedToLot[0].SimDescription, Service.Profile.Title);
+                    var simsAssignedToLot = Service.GetSimsAssignedToLot(actor.LotHome);
+                    return Localization.LocalizeString(actor.IsFemale, DerivedType.GetLocalizationKey() + "/" + nameof(SetUnsetServiceBed) + (target.FindOwnedBed(simsAssignedToLot[0]) == target ? ":Unset" : ":Set") + "InteractionName", simsAssignedToLot[0].SimDescription, Service.Profile.Title);
                 }
 
                 public override bool Test(Sim actor, Bed target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
@@ -59,11 +57,11 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                         {
                             return false;
                         }
-                        List<Sim> simsAssignedToLot = Service.GetSimsAssignedToLot(actor.LotHome);
+                        var simsAssignedToLot = Service.GetSimsAssignedToLot(actor.LotHome);
                         if (simsAssignedToLot.Count > 0)
                         {
-                            Sim owner = simsAssignedToLot[0];
-                            Bed bed = target.FindOwnedBed(owner);
+                            var owner = simsAssignedToLot[0];
+                            var bed = target.FindOwnedBed(owner);
                             if (bed == null || bed == target)
                             {
                                 return target.CanBeUsedAsBed;
@@ -78,11 +76,11 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
             {
                 return !DebugUtils.TryDisplayScriptError(() =>
                     {
-                        CustomService service = ((Definition)InteractionDefinition).Service;
-                        Sim simActiveOnLot = service.GetSimActiveOnLot(Actor.LotHome);
+                        var service = ((Definition)InteractionDefinition).Service;
+                        var simActiveOnLot = service.GetSimActiveOnLot(Actor.LotHome);
                         if (simActiveOnLot != null)
                         {
-                            Bed bed = Target.FindOwnedBed(simActiveOnLot);
+                            var bed = Target.FindOwnedBed(simActiveOnLot);
                             if (bed == Target)
                             {
                                 Target.RelinquishOwnership(simActiveOnLot);
@@ -94,7 +92,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                                 {
                                     if (value != null)
                                     {
-                                        ServiceType currentServiceType = service.ServiceType;
+                                        var currentServiceType = service.ServiceType;
                                         service.Profile.ServiceType = ServiceType.Butler;
                                         Target.ClaimOwnership(simActiveOnLot, value);
                                         service.Profile.ServiceType = currentServiceType;
@@ -104,147 +102,51 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                             }
                         }
                         return true;
-                    }, out bool retVal) && retVal;
+                    }, out var retVal) && retVal;
             }
         }
 
-        public float CheckTime
-        {
-            get
-            {
-                return Profile.CheckTime;
-            }
-        }
+        public float CheckTime => Profile.CheckTime;
 
-        public float DelayBeforeArriving
-        {
-            get
-            {
-                return Profile.DelayBeforeArriving;
-            }
-        }
+        public float DelayBeforeArriving => Profile.DelayBeforeArriving;
 
-        public float DelayBeforeLeaving
-        {
-            get
-            {
-                return Profile.DelayBeforeLeaving;
-            }
-        }
+        public float DelayBeforeLeaving => Profile.DelayBeforeLeaving;
 
-        public float DriveTime
-        {
-            get
-            {
-                return Profile.DriveTime;
-            }
-        }
+        public float DriveTime => Profile.DriveTime;
 
-        public float ExtraWaitTimeAfterSocializing
-        {
-            get
-            {
-                return Profile.ExtraWaitTimeAfterSocializing;
-            }
-        }
+        public float ExtraWaitTimeAfterSocializing => Profile.ExtraWaitTimeAfterSocializing;
 
-        public override bool IsPaidWeekly
-        {
-            get
-            {
-                return Profile.IsLiveInService;
-            }
-        }
+        public override bool IsPaidWeekly => Profile.IsLiveInService;
 
-        public override bool IsQuietAroundSleepingSims
-        {
-            get
-            {
-                return Profile.IsQuietAroundSleepingSims;
-            }
-        }
+        public override bool IsQuietAroundSleepingSims => Profile.IsQuietAroundSleepingSims;
 
         /// <summary>
         /// Outputs for interactions and their target types that the service motive of the service is inserted into.
         /// </summary>
-        public override List<ServiceUtils.CommodityChange> Outputs
-        {
-            get
-            {
-                return Profile.Outputs;
-            }
-        }
+        public override List<ServiceUtils.CommodityChange> Outputs => Profile.Outputs;
 
         public IServiceProfile Profile;
 
-        public float RelationshipLevelForQuit
-        {
-            get
-            {
-                return Profile.RelationshipLevelForQuit;
-            }
-        }
+        public float RelationshipLevelForQuit => Profile.RelationshipLevelForQuit;
 
         /// <summary>
         /// Gets the motive commodity kind for the service.
         /// </summary>
-        public new CommodityKind ServiceMotive
-        {
-            get
-            {
-                return Profile.ServiceMotive;
-            }
-        }
+        public new CommodityKind ServiceMotive => Profile.ServiceMotive;
 
-        public override List<CommodityKind> ServiceMotives
-        {
-            get
-            {
-                return Profile.Motives;
-            }
-        }
+        public override List<CommodityKind> ServiceMotives => Profile.Motives;
 
-        public override ServiceType ServiceType
-        {
-            get
-            {
-                return Profile?.ServiceType ?? ServiceType.Maid;
-            }
-        }
+        public override ServiceType ServiceType => Profile?.ServiceType ?? ServiceType.Maid;
 
         public SetUnsetServiceBed.Definition SetUnsetServiceBedInstance;
 
-        public float TimeWaitBeforePutawayLeftovers
-        {
-            get
-            {
-                return Profile.TimeWaitBeforePutawayLeftovers;
-            }
-        }
+        public float TimeWaitBeforePutawayLeftovers => Profile.TimeWaitBeforePutawayLeftovers;
 
-        public override ServiceTuning Tuning
-        {
-            get
-            {
-                return Profile.ServiceTuning;
-            }
-        }
+        public override ServiceTuning Tuning => Profile.ServiceTuning;
 
-        public float UseObjectInSameRoomAsSleeperMultiplier
-        {
-            get
-            {
-                return Profile.UseObjectInSameRoomAsSleeperMultiplier;
-            }
-        }
+        public float UseObjectInSameRoomAsSleeperMultiplier => Profile.UseObjectInSameRoomAsSleeperMultiplier;
 
-        public override bool WaitsBeforePuttingAwayLeftovers
-        {
-            get
-            {
-                return Profile.WaitsBeforePuttingAwayLeftovers;
-            }
-        }
+        public override bool WaitsBeforePuttingAwayLeftovers => Profile.WaitsBeforePuttingAwayLeftovers;
 
         public CustomService()
         {
@@ -264,7 +166,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
 
         public override void AddOutputs()
         {
-            foreach (ServiceUtils.CommodityChange output in Outputs)
+            foreach (var output in Outputs)
             {
                 ServiceMotive.AddAsOutput(output.InteractionDefinitionType, output.TargetType, output.ConstantChange, output.Locked, output.ActualValue, output.UpdateType, output.TimeDependsOnCommodityFilling, output.UpdateEvenOnFailure, output.UpdateAboveAndBelowZero);
             }
@@ -276,13 +178,13 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                 {
                     if (ServiceNPCSpecifications.ValidForCurrentWorld(profile.ServiceType))
                     {
-                        if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out CustomService service) && service != null)
+                        if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out var service) && service != null)
                         {
                             service.PostLoadFixup();
                         }
                         else
                         {
-                            new CustomService(profile);
+                            _ = new CustomService(profile);
                         }
                     }
                     else if (ServiceUtils.CustomInstances.ContainsKey(profile.Name))
@@ -300,18 +202,18 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
         {
             DebugUtils.TryDisplayScriptError(() =>
                 {
-                    if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out CustomService service) && service != null)
+                    if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out var service) && service != null)
                     {
                         if (!worldJustGotQuit)
                         {
                             if (profile.IsLiveInService)
                             {
-                                foreach (Bed bed in Sims3.Gameplay.Queries.GetObjects<Bed>())
+                                foreach (var bed in Queries.GetObjects<Bed>())
                                 {
                                     service.RemoveInteractions(bed);
                                 }
                             }
-                            foreach (SimDescription simDescription in new List<SimDescription>(service.Pool))
+                            foreach (var simDescription in new List<SimDescription>(service.Pool))
                             {
                                 if (simDescription != null && simDescription.CreatedSim != null)
                                 {
@@ -335,8 +237,8 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                             MotiveTuning.sTuning.Remove((int)profile.ServiceMotive);
                         }
                         CommonUtils.RemoveEnumValue<CommodityKind>("Be" + profile.Name);
-                        string activeTopic = profile.Name + " Service";
-                        foreach (ServiceUtils.ActiveTopicAction action in profile.Actions)
+                        var activeTopic = profile.Name + " Service";
+                        foreach (var action in profile.Actions)
                         {
                             CommonUtils.RemoveActions(activeTopic, action.Grouping, action.IsActive, action.Name);
                         }
@@ -367,21 +269,21 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                 {
                     CommonUtils.AddEnumValue<CommodityKind>("Be" + profile.Name, profile.ServiceMotive);
                     LoadServiceMotive(profile.ServiceMotive);
-                    string activeTopic = profile.Name + " Service";
+                    var activeTopic = profile.Name + " Service";
                     if (!ActiveTopicData.Exists(activeTopic))
                     {
                         ActiveTopicData.Add(new ActiveTopicData(activeTopic, false, 1000, "", true, true, false, true, null, 0f, "", false));
                     }
-                    foreach (ServiceUtils.ActiveTopicAction action in profile.Actions)
+                    foreach (var action in profile.Actions)
                     {
                         CommonUtils.AddActions(activeTopic, action.Grouping, action.IsActive, action.Name);
                     }
                     Create(profile);
-                    if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out CustomService service) && service != null)
+                    if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out var service) && service != null)
                     {
                         if (profile.IsLiveInService)
                         {
-                            foreach (Bed bed in Sims3.Gameplay.Queries.GetObjects<Bed>())
+                            foreach (var bed in Queries.GetObjects<Bed>())
                             {
                                 service.AddInteractions(bed);
                             }
@@ -390,7 +292,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                             {
                                 if (e is World.OnObjectPlacedInLotEventArgs onObjectPlacedInLotEventArgs)
                                 {
-                                    GameObject gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
+                                    var gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
                                     if (service.Profile.IsLiveInService)
                                     {
                                         if (gameObject is Bed bed)
@@ -401,13 +303,17 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                                 }
                             });
                         service.AddOutputs();
-                        IEnumerator<SimDescription> enumerator = service.Pool.GetEnumerator();
-                        while (enumerator.MoveNext())
+                        using (var enumerator = service.Pool.GetEnumerator())
                         {
-                            if (enumerator.Current != null && enumerator.Current.CreatedSim != null)
+                            while (enumerator.MoveNext())
                             {
-                                CommonUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim, service.ServiceMotive);
-                                (ServiceSituation.FindServiceSituationInvolving(enumerator.Current.CreatedSim) as CustomServiceSituation)?.SetMotivesAndCommodities();
+                                if (enumerator.Current != null && enumerator.Current.CreatedSim != null)
+                                {
+                                    CommonUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim,
+                                        service.ServiceMotive);
+                                    (ServiceSituation.FindServiceSituationInvolving(enumerator.Current.CreatedSim) as
+                                        CustomServiceSituation)?.SetMotivesAndCommodities();
+                                }
                             }
                         }
                     }
@@ -416,11 +322,9 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
 
         public override ServiceSituation InternalCreateSituation(Lot assignedLot, Sim createdSim, int cost, ObjectGuid requestingSim)
         {
-            ServiceSituation retVal = null;
             createdSim.SimDescription.ShowSocialsOnSim = true;
             createdSim.CanBeFired = true;
-            retVal = new CustomServiceSituation(this, assignedLot, createdSim, cost);
-            return retVal;
+            return new CustomServiceSituation(this, assignedLot, createdSim, cost);
         }
 
         public override bool NeedsAssignment(Lot lot)
@@ -431,7 +335,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
             }
             if (SimClock.ElapsedCalendarDays() - WhenLastAssignedToLot(lot) > 0)
             {
-                int hours = SimClock.Hours24;
+                var hours = SimClock.Hours24;
                 if (hours >= Profile.TimeToStartWorking && (hours <= Profile.TimeToStopWorking || Profile.TimeToStartWorking >= Profile.TimeToStopWorking) && IsServiceRequested(lot) && !IsAnySimAssignedToLot(lot))
                 {
                     return true;
@@ -442,7 +346,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
 
         public void RemoveInteractions(Bed bed)
         {
-            foreach (InteractionObjectPair interaction in new List<InteractionObjectPair>(bed.Interactions))
+            foreach (var interaction in new List<InteractionObjectPair>(bed.Interactions))
             {
                 if ((interaction.InteractionDefinition as SetUnsetServiceBed.Definition)?.Service == this)
                 {
@@ -453,7 +357,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
 
         public override void RemoveOutputs()
         {
-            foreach (ServiceUtils.CommodityChange output in Outputs)
+            foreach (var output in Outputs)
             {
                 ServiceMotive.RemoveAsOutput(output.InteractionDefinitionType, output.TargetType, output.ConstantChange, output.Locked, output.ActualValue, output.UpdateType, output.TimeDependsOnCommodityFilling, output.UpdateEvenOnFailure, output.UpdateAboveAndBelowZero);
             }
@@ -469,11 +373,11 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
 
         public override void SetTraits(SimDescription simDescription)
         {
-            foreach (TraitNames traitName in Profile.Traits)
+            foreach (var traitName in Profile.Traits)
             {
                 simDescription.TraitManager.AddElement(traitName);
             }
-            foreach (TraitNames traitName in Profile.HiddenTraits)
+            foreach (var traitName in Profile.HiddenTraits)
             {
                 if (TraitManager.GetTraitFromDictionary(traitName).IsReward)
                 {
@@ -482,10 +386,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                 }
                 simDescription.TraitManager.AddHiddenElement(traitName);
             }
-            List<TraitNames> potentialTraits = new List<TraitNames>(Profile.PotentialTraits);
-            for (int i = 0; i < Math.Min(Profile.PotentialTraitCount, Profile.PotentialTraits.Count); i++)
+            var potentialTraits = new List<TraitNames>(Profile.PotentialTraits);
+            for (var i = 0; i < Math.Min(Profile.PotentialTraitCount, Profile.PotentialTraits.Count); i++)
             {
-                TraitNames traitName = RandomUtil.GetRandomObjectFromList(potentialTraits);
+                var traitName = RandomUtil.GetRandomObjectFromList(potentialTraits);
                 simDescription.TraitManager.AddElement(traitName);
                 potentialTraits.Remove(traitName);
             }
@@ -516,11 +420,11 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
         {
             DebugUtils.TryDisplayScriptError(() =>
                 {
-                    foreach (SkillLevelPair skillLevelPair in Profile.Skills)
+                    foreach (var skillLevelPair in Profile.Skills)
                     {
-                        Skill skill = sim.SkillManager.AddElement(skillLevelPair.SkillName);
-                        int level = skillLevelPair.SkillLevel < 0 ? skill.MaxSkillLevel : skillLevelPair.SkillLevel;
-                        for (int i = 0; i < level && skill.SkillLevel < level; i++)
+                        var skill = sim.SkillManager.AddElement(skillLevelPair.SkillName);
+                        var level = skillLevelPair.SkillLevel < 0 ? skill.MaxSkillLevel : skillLevelPair.SkillLevel;
+                        for (var i = 0; i < level && skill.SkillLevel < level; i++)
                         {
                             skill.ForceSkillLevelUp(level);
                         }
@@ -528,10 +432,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                     if (sim.Inventory != null)
                     {
                         // The following code corrects items with the wrong presets.
-                        List<InventoryObjectCreationParameters> tempInventory = Profile.Inventory.ConvertAll(x => new InventoryObjectCreationParameters(x.InstanceName, x.InstanceId, x.GroupId, x.Count, x.Preset));
-                        foreach (GameObject inventoryObject in sim.Inventory.FindAll<GameObject>(false))
+                        var tempInventory = Profile.Inventory.ConvertAll(x => new InventoryObjectCreationParameters(x.InstanceName, x.InstanceId, x.GroupId, x.Count, x.Preset));
+                        foreach (var inventoryObject in sim.Inventory.FindAll<GameObject>(false))
                         {
-                            for (int i = 0; i < tempInventory.Count; i++)
+                            for (var i = 0; i < tempInventory.Count; i++)
                             {
                                 if (!string.IsNullOrEmpty(tempInventory[i].Preset) && tempInventory[i].Count > 0 && tempInventory[i].InstanceId == inventoryObject.Product?.ProductResourceKey.InstanceId && tempInventory[i].GroupId == inventoryObject.Product?.ProductResourceKey.GroupId && sim.Inventory.FindAll<GameObject>(false).FindAll(x => x.GetCurrentPreset() == tempInventory[i].Preset).Count < Profile.Inventory[i].Count)
                                 {
@@ -543,10 +447,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                         }
 
                         // The following code adds items in the inventory when they do not exist.
-                        foreach (InventoryObjectCreationParameters inventoryObjectCreationParameters in Profile.Inventory)
+                        foreach (var inventoryObjectCreationParameters in Profile.Inventory)
                         {
-                            IGameObject dummyItem = inventoryObjectCreationParameters.Instantiate();
-                            foreach (IGameObject inventoryObject in inventoryObjectCreationParameters.InstantiateMany(inventoryObjectCreationParameters.Count - (sim.Inventory.mInventoryItems?.FindAll(x => (x.Object as GameObject)?.ObjectInstanceName == inventoryObjectCreationParameters.InstanceName).Count ?? 0)))
+                            var dummyItem = inventoryObjectCreationParameters.Instantiate();
+                            foreach (var inventoryObject in inventoryObjectCreationParameters.InstantiateMany(inventoryObjectCreationParameters.Count - (sim.Inventory.mInventoryItems?.FindAll(x => (x.Object as GameObject)?.ObjectInstanceName == inventoryObjectCreationParameters.InstanceName).Count ?? 0)))
                             {
                                 if (sim.Inventory.TryToAdd(inventoryObject))
                                 {

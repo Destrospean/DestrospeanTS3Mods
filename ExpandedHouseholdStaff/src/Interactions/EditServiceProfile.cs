@@ -57,12 +57,11 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                         }
                         if (step == 1)
                         {
-                            if (!profiles[0].TryUIEditServiceProfile())
+                            if (profiles != null && !profiles[0].TryUIEditServiceProfile())
                             {
                                 step--;
                                 continue;
                             }
-                            step++;
                         }
                         break;
                     }

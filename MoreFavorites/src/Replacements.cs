@@ -72,18 +72,17 @@ namespace Destrospean.MoreFavorites
             {
                 grid.Clear();
                 grid.ForceCellTooltips = true;
-                Color favoriteColor = mResult.mFavoriteColor;
-                for (int i = startIndex; i < endIndex; i++)
+                var favoriteColor = mResult.mFavoriteColor;
+                for (var i = startIndex; i < endIndex; i++)
                 {
-                    object favorite = favoritesList.GetValue(i);
-                    Layout layout = UIManager.LoadLayout(ResourceKey.CreateUILayoutKey("FavoritesGridItem", 0));
-                    Window window = (Window)layout.GetWindowByExportID(1);
-                    ImageDrawable imageDrawable = (ImageDrawable)((Window)window.GetChildByID(32, false)).Drawable;
-                    bool isCurrentFavorite = false;
-                    if (favorite is FavoriteFoodType)
+                    var favorite = favoritesList.GetValue(i);
+                    var layout = UIManager.LoadLayout(ResourceKey.CreateUILayoutKey("FavoritesGridItem", 0));
+                    var window = (Window)layout.GetWindowByExportID(1);
+                    var imageDrawable = (ImageDrawable)((Window)window.GetChildByID(32, false)).Drawable;
+                    var isCurrentFavorite = false;
+                    if (favorite is FavoriteFoodType favoriteFoodType)
                     {
-                        FavoriteFoodType favoriteFoodType = (FavoriteFoodType)favorite;
-                        IRecipe recipe = Responder.Instance.CASModel.GetRecipe(favoriteFoodType) ?? (FavoritesUtils.FavoriteFoodDictionary.ContainsKey(favoriteFoodType) ? FavoritesUtils.FavoriteFoodDictionary[favoriteFoodType].Recipe : null);
+                        var recipe = Responder.Instance.CASModel.GetRecipe(favoriteFoodType) ?? (FavoritesUtils.FavoriteFoodDictionary.TryGetValue(favoriteFoodType, out var favoriteFood) ? favoriteFood.Recipe : null);
                         if (recipe != null)
                         {
                             if (mSim.IsVegetarian)
@@ -102,16 +101,14 @@ namespace Destrospean.MoreFavorites
                             isCurrentFavorite = favoriteFoodType == mResult.mFavoriteFood;
                         }
                     }
-                    else if (favorite is FavoriteMusicType)
+                    else if (favorite is FavoriteMusicType favoriteMusicType)
                     {
-                        FavoriteMusicType favoriteMusicType = (FavoriteMusicType)favorite;
                         window.TooltipText = CASCharacter.GetFavoriteMusicName(favoriteMusicType);
                         imageDrawable.Image = CASCharacter.GetFavoriteMusicIcon(favoriteMusicType);
                         isCurrentFavorite = favoriteMusicType == mResult.mFavoriteMusic;
                     }
-                    else if (favorite is CASCharacter.NameColorPair)
+                    else if (favorite is CASCharacter.NameColorPair nameColorPair)
                     {
-                        CASCharacter.NameColorPair nameColorPair = (CASCharacter.NameColorPair)favorite;
                         window.TooltipText = CASCharacter.GetLocalizedColorName(nameColorPair.mName);
                         imageDrawable.Image = CASCharacter.GetFavoriteColorIcon(nameColorPair.mColor);
                         isCurrentFavorite = nameColorPair.mColor.ARGB == favoriteColor.ARGB;
@@ -126,15 +123,15 @@ namespace Destrospean.MoreFavorites
 
             public new void RandomizeAllFavorites(bool missingFavoritesOnly)
             {
-                Random random = new Random();
-                FavoriteFoodType favoriteFood = mResult.mFavoriteFood;
+                var random = new Random();
+                var favoriteFood = mResult.mFavoriteFood;
                 if (!missingFavoritesOnly || favoriteFood == FavoriteFoodType.None)
                 {
                     Array visibleFavoriteFoodList = Array.FindAll((FavoriteFoodType[])GetInstalledFavoriteFoodList(), x => !x.IsBlacklisted() && !x.IsHidden());
                     favoriteFood = (FavoriteFoodType)visibleFavoriteFoodList.GetValue(random.Next(1, visibleFavoriteFoodList.Length));
                     if (mSim.IsVegetarian)
                     {
-                        IRecipe recipe = Responder.Instance.CASModel.GetRecipe(favoriteFood);
+                        var recipe = Responder.Instance.CASModel.GetRecipe(favoriteFood);
                         while (!recipe.IsVegetarian && !recipe.HasVegetarianAlternative)
                         {
                             favoriteFood = (FavoriteFoodType)visibleFavoriteFoodList.GetValue(random.Next(1, visibleFavoriteFoodList.Length));
@@ -142,12 +139,12 @@ namespace Destrospean.MoreFavorites
                         }
                     }
                 }
-                FavoriteMusicType favoriteMusic = mResult.mFavoriteMusic;
+                FavoriteMusicType favoriteMusic;
                 Array visibleFavoriteMusicList = Array.FindAll((FavoriteMusicType[])GetInstalledFavoriteMusicList(), x => !x.IsBlacklisted() && !x.IsHidden());
                 for (favoriteMusic = FavoriteMusicType.Custom; favoriteMusic == FavoriteMusicType.Custom; favoriteMusic = (FavoriteMusicType)visibleFavoriteMusicList.GetValue(random.Next(1, visibleFavoriteMusicList.Length)))
                 {
                 }
-                Color favoriteColor = mResult.mFavoriteColor;
+                var favoriteColor = mResult.mFavoriteColor;
                 if (!missingFavoritesOnly || favoriteColor.ARGB == 0)
                 {
                     Array visibleFavoriteColorList = Array.FindAll(CASCharacter.kColors, x => !x.IsBlacklisted() && !x.IsHidden());
@@ -177,17 +174,13 @@ namespace Destrospean.MoreFavorites
                     }
                     return false;
                 }
-                bool addToUseList = true;
-                if (Target.Parent == Actor)
-                {
-                    addToUseList = false;
-                }
+                var addToUseList = Target.Parent != Actor;
                 if (Autonomous)
                 {
                     mPriority = new InteractionPriority(InteractionPriorityLevel.UserDirected);
                 }
                 StandardEntry(addToUseList);
-                ChairDining chairDining = Actor.Posture.Container as ChairDining;
+                var chairDining = Actor.Posture?.Container as ChairDining;
                 if (chairDining != null && chairDining.Parent != null && chairDining.ChairState == ChairDining.State.Angled && Target.Parent != Actor)
                 {
                     SitTransitionAngledToStraight.Singleton.CreateInstance(Actor.Posture.Container, Actor, GetPriority(), false, false).RunInteraction();
@@ -209,13 +202,13 @@ namespace Destrospean.MoreFavorites
                     SetActor("sitTemplate", Actor.Posture.Container);
                     SetParameter("sitTemplateSuffix", ((SittingPosture)Actor.Posture).Part.Target.IKSuffix);
                 }
-                EatingPosture eatingPosture = GetPostureParam();
+                var eatingPosture = GetPostureParam();
                 SetParameter("eatPosture", eatingPosture);
                 SetParameter("isFavorite", Target.Recipe.IsFavoriteOfSim(Actor.SimDescription));
                 SetParameter("isSloppy", Actor.HasTrait(TraitNames.Slob));
                 SetParameter("isSpoiled", Target.Spoiled);
                 SetParameter("isIceCream", Target is SnackIceCream);
-                NectarBottle.NectarGlass nectarGlass = Target as NectarBottle.NectarGlass;
+                var nectarGlass = Target as NectarBottle.NectarGlass;
                 if (nectarGlass != null)
                 {
                     nectarGlass.SetParameters(Actor, this);
@@ -224,7 +217,7 @@ namespace Destrospean.MoreFavorites
                 {
                     SetParameter("isServoJuice", true);
                 }
-                UtensilType utensilType = Target.UtensilType;
+                var utensilType = Target.UtensilType;
                 if (Target.UtensilName == "fork" && (Actor.HasTrait(TraitNames.CultureChina) || GameUtils.GetCurrentWorld() == WorldName.China))
                 {
                     utensilType = UtensilType.chopsticks;
@@ -253,14 +246,7 @@ namespace Destrospean.MoreFavorites
                 mPropHandle = ObjectGuid.InvalidObjectGuid;
                 if (utensilType != UtensilType.hand)
                 {
-                    if (utensilType == UtensilType.chopsticks)
-                    {
-                        mPropHandle = GlobalFunctions.CreateProp("UtensilChopsticks", Vector3.OutOfWorld, 0, Vector3.UnitZ);
-                    }
-                    else
-                    {
-                        mPropHandle = GlobalFunctions.CreateProp(GetUtensilMedatorName(Target.UtensilName), Vector3.OutOfWorld, 0, Vector3.UnitZ);
-                    }
+                    mPropHandle = GlobalFunctions.CreateProp(utensilType == UtensilType.chopsticks ? "UtensilChopsticks" : GetUtensilMedatorName(Target.UtensilName), Vector3.OutOfWorld, 0, Vector3.UnitZ);
                     if (mPropHandle != ObjectGuid.InvalidObjectGuid)
                     {
                         mCurrentStateMachine.SetPropActor("utensil", mPropHandle);
@@ -290,7 +276,7 @@ namespace Destrospean.MoreFavorites
                 }
                 Actor.RegisterGroupTalk();
                 OccultImaginaryFriend.GrantMilestoneBuff(Actor, BuffNames.ImaginaryFriendAteFood, Origin.FromImaginaryFriendFirstTime, false, true, false);
-                bool succeeded = DoLoop(ExitReason.Default, LoopCallback, mCurrentStateMachine);
+                var succeeded = DoLoop(ExitReason.Default, LoopCallback, mCurrentStateMachine);
                 if (succeeded && GameUtils.IsInstalled(ProductVersion.EP9) && Target.ThingToEat is HotBeverageMachine.Cup cup && cup.IsEnergyDrink)
                 {
                     Actor.BuffManager.AddElement(BuffNames.LiquidEnergy, Origin.FromEnergyDrink);
@@ -299,7 +285,7 @@ namespace Destrospean.MoreFavorites
                 EndCommodityUpdates(succeeded);
                 RemoveMotiveDelta(CommodityKind.VampireThirst);
                 RemoveMotiveDelta(CommodityKind.BeAZombie);
-                Herb.HerbData herbData = default(Herb.HerbData);
+                var herbData = default(Herb.HerbData);
                 if (Target.GetAddedHerb(ref herbData))
                 {
                     Herb.ApplyHerbEffects(Actor, Herb.IngestionType.EatWithFood, herbData);
@@ -308,7 +294,6 @@ namespace Destrospean.MoreFavorites
                 {
                     reactionBroadcaster.EndBroadcast();
                     reactionBroadcaster.Dispose();
-                    reactionBroadcaster = null;
                 }
                 SetParameter("wasInterrupted", !Actor.HasExitReason(ExitReason.Finished));
                 mCurrentStateMachine.RemoveEventHandler(StartSloppyVFX);
@@ -349,7 +334,7 @@ namespace Destrospean.MoreFavorites
                                 Actor.InteractionQueue.PushAsContinuation(CarrySystem.PutDownHeldObject.Singleton, Target, false, new InteractionPriority(InteractionPriorityLevel.UserDirected), true);
                             }
                         }
-                        if (Target is ISingleServingContainer singleServingContainer && singleServingContainer.FromResortBuffetTable && !Actor.BuffManager.HasElement(BuffNames.Stuffed) && Actor.Motives.GetMotiveValue(CommodityKind.Hunger) <= (float)ResortBuffetTable.kHungerToStopFeeding)
+                        if (Target is ISingleServingContainer singleServingContainer && singleServingContainer.FromResortBuffetTable && !Actor.BuffManager.HasElement(BuffNames.Stuffed) && Actor.Motives.GetMotiveValue(CommodityKind.Hunger) <= ResortBuffetTable.kHungerToStopFeeding)
                         {
                             ResortBuffetTable.ConsumeMoreFood(Actor);
                         }
@@ -371,8 +356,8 @@ namespace Destrospean.MoreFavorites
                 {
                     Target.Recipe.LearnFromEating(Actor);
                 }
-                bool isSpoiledGlass = false;
-                Bar.Glass glass = Target as Bar.Glass;
+                var isSpoiledGlass = false;
+                var glass = Target as Bar.Glass;
                 if (glass != null)
                 {
                     isSpoiledGlass = glass.Spoiled;
@@ -422,9 +407,9 @@ namespace Destrospean.MoreFavorites
                 {
                     Actor.Wander(ServingContainerGroup.kMinDistanceToMoveAwayAfterGrabbingPlate, ServingContainerGroup.kMaxDistanceToMoveAwayAfterGrabbingPlate, true, RouteDistancePreference.NoPreference, true);
                 }
-                PreparedFood preparedFood = (PreparedFood)Target;
-                CookingProcess cookingProcess = preparedFood.CookingProcess;
-                List<CookedIngredient> chosenIngredients = cookingProcess.ChosenIngredients;
+                var preparedFood = (PreparedFood)Target;
+                var cookingProcess = preparedFood.CookingProcess;
+                var chosenIngredients = cookingProcess.ChosenIngredients;
                 if (Actor.HasTrait(TraitNames.Vegetarian) && !cookingProcess.Recipe.IsVegetarian && (!cookingProcess.Recipe.HasVegetarianAlternative || !cookingProcess.StartedByVegetarian))
                 {
                     Actor.PlayReaction(ReactionTypes.Retch, preparedFood, ReactionSpeed.ImmediateWithoutOverlay);
@@ -437,16 +422,16 @@ namespace Destrospean.MoreFavorites
                     }
                     return false;
                 }
-                bool addToUseList = Target.Parent != Actor;
+                var addToUseList = Target.Parent != Actor;
                 if (Autonomous)
                 {
                     mPriority = new InteractionPriority(InteractionPriorityLevel.UserDirected);
                 }
                 StandardEntry(addToUseList);
-                ChairDining chairDining = Actor.Posture.Container as ChairDining;
+                var chairDining = Actor.Posture?.Container as ChairDining;
                 if (chairDining != null && chairDining.Parent != null && chairDining.ChairState == ChairDining.State.Angled && addToUseList)
                 {
-                    InteractionInstance interactionInstance = SitTransitionAngledToStraight.Singleton.CreateInstance(chairDining, Actor, GetPriority(), false, false);
+                    var interactionInstance = SitTransitionAngledToStraight.Singleton.CreateInstance(chairDining, Actor, GetPriority(), false, false);
                     interactionInstance.RunInteraction();
                 }
                 Food.PreEat(Actor, preparedFood, ref mIsSufficientlyFullForStuffed, ref mHasFatDelta);
@@ -466,14 +451,14 @@ namespace Destrospean.MoreFavorites
                     SetActor("sitTemplate", Actor.Posture.Container);
                     SetParameter("sitTemplateSuffix", ((SittingPosture)Actor.Posture).Part.Target.IKSuffix);
                 }
-                bool isSloppy = Actor.HasTrait(TraitNames.Slob);
-                EatingPosture eatingPosture = GetPostureParam();
+                var isSloppy = Actor.HasTrait(TraitNames.Slob);
+                var eatingPosture = GetPostureParam();
                 SetParameter("eatPosture", eatingPosture);
                 SetParameter("isFavorite", cookingProcess.Recipe.IsFavoriteOfSim(Actor.SimDescription));
                 SetParameter("isSloppy", isSloppy);
                 SetParameter("isSpoiled", cookingProcess.IsSpoiled);
                 SetParameter("isIceCream", Target is SnackIceCream);
-                UtensilType utensilType = cookingProcess.Recipe.Utensil == "chopsticks" || Target.UtensilName == "fork" && !cookingProcess.Recipe.IsDessert && (Actor.TraitManager.HasAnyElement(TraitNames.CultureChina, (TraitNames)15572421960754265911uL) || GameUtils.GetCurrentWorld() == WorldName.China) ? UtensilType.chopsticks : Target.UtensilType;
+                var utensilType = cookingProcess.Recipe.Utensil == "chopsticks" || Target.UtensilName == "fork" && !cookingProcess.Recipe.IsDessert && (Actor.TraitManager.HasAnyElement(TraitNames.CultureChina, (TraitNames)15572421960754265911uL) || GameUtils.GetCurrentWorld() == WorldName.China) ? UtensilType.chopsticks : Target.UtensilType;
                 SetParameter("UtensilType", utensilType);
                 if (!Target.IsDrinkable)
                 {
@@ -498,7 +483,7 @@ namespace Destrospean.MoreFavorites
                 mPropHandle = ObjectGuid.InvalidObjectGuid;
                 if (utensilType != UtensilType.hand)
                 {
-                    mPropHandle = GlobalFunctions.CreateProp((utensilType == UtensilType.chopsticks) ? "UtensilChopsticks" : GetUtensilMedatorName(Target.UtensilName), Vector3.OutOfWorld, 0, Vector3.UnitZ);
+                    mPropHandle = GlobalFunctions.CreateProp(utensilType == UtensilType.chopsticks ? "UtensilChopsticks" : GetUtensilMedatorName(Target.UtensilName), Vector3.OutOfWorld, 0, Vector3.UnitZ);
                     if (mPropHandle != ObjectGuid.InvalidObjectGuid)
                     {
                         mCurrentStateMachine.SetPropActor("utensil", mPropHandle);
@@ -553,7 +538,7 @@ namespace Destrospean.MoreFavorites
                         {
                             chosenIngredients,
                             cookingProcess.Recipe
-                        }) * ((bool)GetType().GetField("kHungerGivenIsPerFish", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null) ? ((float)GetType().GetField("kHungerPerFish", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null) / MathUtils.Clamp(Food.FoodUnitsFullServing * kHungerValuePerBiteForMeal, 1, kHungerValueForMeal)) : 1), OccultMermaid.kHungerValueMultiplier, 1);
+                        }) * ((bool)GetType().GetField("kHungerGivenIsPerFish", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null) ? (float)GetType().GetField("kHungerPerFish", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null) / MathUtils.Clamp(Food.FoodUnitsFullServing * kHungerValuePerBiteForMeal, 1, kHungerValueForMeal) : 1), OccultMermaid.kHungerValueMultiplier, 1);
                 }
                 if (Actor.SimDescription.IsFrankenstein)
                 {
@@ -561,13 +546,13 @@ namespace Destrospean.MoreFavorites
                 }
                 hungerPerBiteOrSipField.SetValue(this, (float)hungerPerBiteOrSipField.GetValue(this) * hungerMultiplier);
                 hungerValueThresholdField.SetValue(this, (float)hungerValueThresholdField.GetValue(this) * hungerMultiplier);
-                bool isFlaming = (bool)GetType().GetMethod("IsFlaming").Invoke(null, new object[]
+                var isFlaming = (bool)GetType().GetMethod("IsFlaming").Invoke(null, new object[]
                     {
                         preparedFood,
                         false
                     });
                 GetType().GetField("mGivePyroBenefits").SetValue(this, isFlaming && !cookingProcess.IsSpoiled && Actor.HasTrait(TraitNames.Pyromaniac));
-                bool succeeded = DoLoop(ExitReason.Default, LoopCallback, mCurrentStateMachine);
+                var succeeded = DoLoop(ExitReason.Default, LoopCallback, mCurrentStateMachine);
                 Actor.UnregisterGroupTalk();
                 EndCommodityUpdates(succeeded);
                 RemoveMotiveDelta(CommodityKind.BeAZombie);
@@ -585,7 +570,7 @@ namespace Destrospean.MoreFavorites
                 {
                     Simulator.DestroyObject(mPropHandle);
                 }
-                bool pushAsContinuation = false;
+                var pushAsContinuation = false;
                 if (Actor.HasExitReason())
                 {
                     Actor.RemoveExitReason(ExitReason.MoodFailure);
@@ -615,7 +600,7 @@ namespace Destrospean.MoreFavorites
                                 }
                                 if (!cookingProcess.Recipe.IsVegetarian)
                                 {
-                                    foreach (Sim sim in Actor.LotCurrent.GetSims())
+                                    foreach (var sim in Actor.LotCurrent.GetSims())
                                     {
                                         if (sim.RoomId == Actor.RoomId && sim.TraitManager.HasElement(TraitNames.Vegetarian))
                                         {
@@ -653,7 +638,7 @@ namespace Destrospean.MoreFavorites
                                 pushAsContinuation = Target.Parent == Actor;
                             }
                         }
-                        if (preparedFood is ISingleServingContainer && ((ISingleServingContainer)preparedFood).FromResortBuffetTable && !Actor.BuffManager.HasElement(BuffNames.Stuffed) && Actor.Motives.GetMotiveValue((CommodityKind)commodityToChangeField.GetValue(this)) <= (float)ResortBuffetTable.kHungerToStopFeeding)
+                        if (preparedFood is ISingleServingContainer container && container.FromResortBuffetTable && !Actor.BuffManager.HasElement(BuffNames.Stuffed) && Actor.Motives.GetMotiveValue((CommodityKind)commodityToChangeField.GetValue(this)) <= ResortBuffetTable.kHungerToStopFeeding)
                         {
                             ResortBuffetTable.ConsumeMoreFood(Actor);
                         }
@@ -719,10 +704,10 @@ namespace Destrospean.MoreFavorites
         {
             public override bool Run()
             {
-                Definition definition = (Definition)InteractionDefinition;
+                var definition = (Definition)InteractionDefinition;
                 if (definition.IsPushedRound)
                 {
-                    FutureBar.FutureBarGlass glass = definition.GlassObjectId.ObjectFromId<FutureBar.FutureBarGlass>();
+                    var glass = definition.GlassObjectId.ObjectFromId<FutureBar.FutureBarGlass>();
                     if (glass != null)
                     {
                         glass.SetPosition(glass.GetSlotPosition(Slot.ContainmentSlot_0));
@@ -738,17 +723,17 @@ namespace Destrospean.MoreFavorites
                 {
                     return false;
                 }
-                bool isSeated = Actor.Posture is SittingPosture;
+                var isSeated = Actor.Posture is SittingPosture;
                 StandardEntry();
                 BeginCommodityUpdates();
-                GameObject gameObject = GameObject.GetObject(FutureBar.ContainmentSlotInUse(Target));
+                var gameObject = GameObject.GetObject(FutureBar.ContainmentSlotInUse(Target));
                 if (gameObject != null)
                 {
                     gameObject.FadeOut();
                     gameObject.Destroy();
                 }
-                string materialStateName = definition.GetMaterialStateName();
-                FutureBar.FutureBarGlass futureBarGlass = (FutureBar.FutureBarGlass)GlobalFunctions.CreateObjectOutOfWorld("accessoryGlassEP11", ProductVersion.EP11);
+                var materialStateName = definition.GetMaterialStateName();
+                var futureBarGlass = (FutureBar.FutureBarGlass)GlobalFunctions.CreateObjectOutOfWorld("accessoryGlassEP11", ProductVersion.EP11);
                 futureBarGlass.SetOpacity(0, 0);
                 if (definition.DrinkName == "ServoJuice")
                 {
@@ -781,9 +766,9 @@ namespace Destrospean.MoreFavorites
                 {
                     if (definition.IsMultipleServing)
                     {
-                        Lot lotCurrent = Actor.LotCurrent;
+                        var lotCurrent = Actor.LotCurrent;
                         EventTracker.SendEvent(EventTypeId.kOrderedARound, Actor, Target);
-                        foreach (FutureBar futureBar in lotCurrent.GetObjects<FutureBar>())
+                        foreach (var futureBar in lotCurrent.GetObjects<FutureBar>())
                         {
                             if (futureBar != Target)
                             {
@@ -793,7 +778,7 @@ namespace Destrospean.MoreFavorites
                                     gameObject.FadeOut();
                                     gameObject.Destroy();
                                 }
-                                FutureBar.FutureBarGlass glass = (FutureBar.FutureBarGlass)GlobalFunctions.CreateObjectOutOfWorld("accessoryGlassEP11", ProductVersion.EP11);
+                                var glass = (FutureBar.FutureBarGlass)GlobalFunctions.CreateObjectOutOfWorld("accessoryGlassEP11", ProductVersion.EP11);
                                 if (definition.DrinkName == "ServoJuice")
                                 {
                                     glass.SetGeometryState("servojuice");
@@ -810,7 +795,7 @@ namespace Destrospean.MoreFavorites
                                 glass.AddToWorld();
                                 glass.Contents.mDrinkName = definition.DrinkName;
                                 glass.Contents.mObjectCreatorId = futureBar.ObjectId;
-                                FutureBar.OrderDrinks orderDrinks = (FutureBar.OrderDrinks)SingletonRoundPush.CreateInstance(futureBar, null, new InteractionPriority(InteractionPriorityLevel.NonCriticalNPCBehavior), true, true);
+                                var orderDrinks = (FutureBar.OrderDrinks)SingletonRoundPush.CreateInstance(futureBar, null, new InteractionPriority(InteractionPriorityLevel.NonCriticalNPCBehavior), true, true);
                                 orderDrinks.SetDrinkNameAndColor(definition.ServingType, definition.DrinkName, definition.DrinkColor, glass.ObjectId);
                                 orderDrinks.Run();
                             }
@@ -840,9 +825,9 @@ namespace Destrospean.MoreFavorites
                 if (!sim.IsPet)
                 {
                     ulong id = 0;
-                    bool isPeripheralStereoSpeaker = false;
-                    Stereo stereo = reactionBroadcaster.BroadcastingObject as Stereo;
-                    IPeripheralStereoSpeaker peripheralStereoSpeaker = reactionBroadcaster.BroadcastingObject as IPeripheralStereoSpeaker;
+                    var isPeripheralStereoSpeaker = false;
+                    var stereo = reactionBroadcaster.BroadcastingObject as Stereo;
+                    var peripheralStereoSpeaker = reactionBroadcaster.BroadcastingObject as IPeripheralStereoSpeaker;
                     if (peripheralStereoSpeaker != null && stereo == null)
                     {
                         isPeripheralStereoSpeaker = true;
@@ -855,10 +840,10 @@ namespace Destrospean.MoreFavorites
                     }
                     if (sim.IsSleeping)
                     {
-                        bool isDisturbed = true;
+                        var isDisturbed = true;
                         if (mCurrentLotStereoRanking == 0 && sim.RoomId != RoomId)
                         {
-                            foreach (IPeripheralStereoSpeaker additionalSpeaker in mAdditionalSpeakers)
+                            foreach (var additionalSpeaker in mAdditionalSpeakers)
                             {
                                 if (sim.RoomId == additionalSpeaker.RoomId && !additionalSpeaker.IsOn)
                                 {
@@ -874,8 +859,8 @@ namespace Destrospean.MoreFavorites
                     }
                     else if (sim.LotCurrent == mLotCurrent)
                     {
-                        int moodScore = 0;
-                        if (!isPeripheralStereoSpeaker || isPeripheralStereoSpeaker && peripheralStereoSpeaker.RoomId == stereo.RoomId)
+                        var moodScore = 0;
+                        if (stereo != null && (!isPeripheralStereoSpeaker || peripheralStereoSpeaker.RoomId == stereo.RoomId))
                         {
                             moodScore += TuningStereo.MoodScoreForEnjoyMusicBuff + WallMountedSpeaker.SpeakerBoostForStereo(this);
                         }
@@ -939,18 +924,18 @@ namespace Destrospean.MoreFavorites
         {
             try
             {
-                CASLogic self = (CASLogic)(object)this;
-                IRecipe favoriteRecipe = self.GetRecipe(self.FavoriteFoodType);
+                var self = (CASLogic)(object)this;
+                var favoriteRecipe = self.GetRecipe(self.FavoriteFoodType);
                 if (favoriteRecipe != null && (favoriteRecipe.IsVegetarian || favoriteRecipe.HasVegetarianAlternative))
                 {
                     return;
                 }
-                List<FavoriteFoodType> favoriteFoodTypes = new List<FavoriteFoodType>();
+                var favoriteFoodTypes = new List<FavoriteFoodType>();
                 Array visibleFavorites = Array.FindAll((FavoriteFoodType[])GetInstalledFavoriteFoodList(), x => !x.IsBlacklisted() && !x.IsHidden());
-                for (int i = 1; i < visibleFavorites.Length - 1; i++)
+                for (var i = 1; i < visibleFavorites.Length - 1; i++)
                 {
-                    FavoriteFoodType favoriteFoodType = (FavoriteFoodType)visibleFavorites.GetValue(i);
-                    IRecipe recipe = self.GetRecipe(favoriteFoodType);
+                    var favoriteFoodType = (FavoriteFoodType)visibleFavorites.GetValue(i);
+                    var recipe = self.GetRecipe(favoriteFoodType);
                     if (recipe != null && (recipe.IsVegetarian || recipe.HasVegetarianAlternative))
                     {
                         favoriteFoodTypes.Add(favoriteFoodType);
@@ -966,11 +951,11 @@ namespace Destrospean.MoreFavorites
 
         public void CreateDrinkList()
         {
-            foreach (CASCharacter.NameColorPair nameColorPair in CASCharacter.kColors)
+            foreach (var nameColorPair in CASCharacter.kColors)
             {
                 if (!nameColorPair.IsBlacklisted() && !nameColorPair.IsHidden())
                 {
-                    FutureBar.DrinkData drinkDatum = default(FutureBar.DrinkData);
+                    var drinkDatum = default(FutureBar.DrinkData);
                     drinkDatum.mDrinkName = nameColorPair.mName;
                     drinkDatum.mDrinkColor = nameColorPair.mColor;
                     ((FutureBar)(object)this).mDrinkData.Add(drinkDatum);
@@ -989,17 +974,17 @@ namespace Destrospean.MoreFavorites
             {
                 foodType = FavoriteFoodType.Hamburger;
             }
-            return FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out FavoritesUtils.FavoriteFood favoriteFood) ? string.IsNullOrEmpty(favoriteFood.IconKey) ? "cas_favorites_food_i_hamburger_r2" : favoriteFood.IconKey : "cas_favorites_food_i_" + foodType + "_r2";
+            return FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out var favoriteFood) ? string.IsNullOrEmpty(favoriteFood.IconKey) ? "cas_favorites_food_i_hamburger_r2" : favoriteFood.IconKey : "cas_favorites_food_i_" + foodType + "_r2";
         }
 
         public static UIImage GetFavoriteFoodSmallIcon(FavoriteFoodType foodType)
         {
-            return UIManager.LoadUIImage(ResourceKey.CreatePNGKey(FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out FavoritesUtils.FavoriteFood favoriteFood) ? string.IsNullOrEmpty(favoriteFood.SmallIconKey) ? "cas_favorites_food_i_hamburger_s_r2" : favoriteFood.SmallIconKey : "cas_favorites_food_i_" + foodType + "_s_r2", 0));
+            return UIManager.LoadUIImage(ResourceKey.CreatePNGKey(FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out var favoriteFood) ? string.IsNullOrEmpty(favoriteFood.SmallIconKey) ? "cas_favorites_food_i_hamburger_s_r2" : favoriteFood.SmallIconKey : "cas_favorites_food_i_" + foodType + "_s_r2", 0));
         }
 
         public static string GetFavoriteMusic(FavoriteMusicType musicType)
         {
-            return musicType == FavoriteMusicType.None ? Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/CAS/Favorites:None") : Responder.Instance.LocalizationModel.LocalizeString("Gameplay/Excel/Stereo/Stations:" + (FavoritesUtils.FavoriteMusicDictionary.ContainsKey(musicType) ? FavoritesUtils.FavoriteMusicDictionary[musicType].Name : musicType.ToString()));
+            return musicType == FavoriteMusicType.None ? Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/CAS/Favorites:None") : Responder.Instance.LocalizationModel.LocalizeString("Gameplay/Excel/Stereo/Stations:" + (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out var favoriteMusic) ? favoriteMusic.Name : musicType.ToString()));
         }
 
         public static string GetFavoriteMusicPngName(FavoriteMusicType musicType)
@@ -1008,7 +993,7 @@ namespace Destrospean.MoreFavorites
             {
                 musicType = FavoriteMusicType.Electronica;
             }
-            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out FavoritesUtils.FavoriteMusic favoriteMusic))
+            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out var favoriteMusic))
             {
                 return string.IsNullOrEmpty(favoriteMusic.IconKey) ? "cas_favorites_music_i_electronica_r2" : favoriteMusic.IconKey;
             }
@@ -1034,7 +1019,7 @@ namespace Destrospean.MoreFavorites
 
         public static UIImage GetFavoriteMusicSmallIcon(FavoriteMusicType musicType)
         {
-            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out FavoritesUtils.FavoriteMusic favoriteMusic))
+            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out var favoriteMusic))
             {
                 return GetMusicIcon(string.IsNullOrEmpty(favoriteMusic.SmallIconKey) ? "cas_favorites_music_i_electronica_s_r2" : favoriteMusic.SmallIconKey, musicType);
             }
@@ -1060,7 +1045,7 @@ namespace Destrospean.MoreFavorites
 
         public static Array GetInstalledFavoriteFoodList()
         {
-            List<FavoriteFoodType> favoriteFoodTypes = new List<FavoriteFoodType>();
+            var favoriteFoodTypes = new List<FavoriteFoodType>();
             foreach (FavoriteFoodType foodType in Enum.GetValues(typeof(FavoriteFoodType)))
             {
                 if (foodType != FavoriteFoodType.VampireFood && foodType != FavoriteFoodType.Kelp && Responder.Instance.CASModel.GetRecipe(foodType) != null)
@@ -1074,7 +1059,7 @@ namespace Destrospean.MoreFavorites
 
         public static Array GetInstalledFavoriteMusicList()
         {
-            List<FavoriteMusicType> favoriteMusicTypes = new List<FavoriteMusicType>();
+            var favoriteMusicTypes = new List<FavoriteMusicType>();
             foreach (FavoriteMusicType musicType in Enum.GetValues(typeof(FavoriteMusicType)))
             {
                 if (Responder.Instance.CASModel.IsMusicTypeInstalled(musicType))
@@ -1093,20 +1078,20 @@ namespace Destrospean.MoreFavorites
 
         public IRecipe GetRecipe(FavoriteFoodType foodType)
         {
-            return FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out FavoritesUtils.FavoriteFood favoriteFood) ? favoriteFood.Recipe : Recipe.NameToRecipeHash.TryGetValue(foodType.ToString(), out Recipe recipe) ? recipe : null;
+            return FavoritesUtils.FavoriteFoodDictionary.TryGetValue(foodType, out var favoriteFood) ? favoriteFood.Recipe : Recipe.NameToRecipeHash.TryGetValue(foodType.ToString(), out var recipe) ? recipe : null;
         }
 
         public static string GetStationName(FavoriteMusicType musicType)
         {
-            List<string> stereoStationNames = new List<string>();
-            foreach (string key in StereoStationData.sStereoStationDictionary.Keys)
+            var stereoStationNames = new List<string>();
+            foreach (var key in StereoStationData.sStereoStationDictionary.Keys)
             {
                 if (StereoStationData.sStereoStationDictionary[key].mFavouriteMusicType == musicType)
                 {
                     stereoStationNames.Add(key);
                 }
             }
-            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out FavoritesUtils.FavoriteMusic favoriteMusic))
+            if (FavoritesUtils.FavoriteMusicDictionary.TryGetValue(musicType, out var favoriteMusic))
             {
                 stereoStationNames.Add("Gameplay/Excel/Stereo/Stations:" + favoriteMusic.Name);
             }
@@ -1115,7 +1100,7 @@ namespace Destrospean.MoreFavorites
 
         public void OnFavoritesVisibilityChange(WindowBase sender, UIVisibilityChangeEventArgs args)
         {
-            CASCharacter self = (CASCharacter)(object)this;
+            var self = (CASCharacter)(object)this;
             if (args.Visible)
             {
                 sender.Tick += self.OnFavoritesVisibilityTick;
@@ -1166,17 +1151,16 @@ namespace Destrospean.MoreFavorites
                 grid.Parent.Area = area;
             }
             */
-            for (int i = startIndex; i < endIndex; i++)
+            for (var i = startIndex; i < endIndex; i++)
             {
-                object favorite = favoritesList.GetValue(i);
-                Layout layout = UIManager.LoadLayout(ResourceKey.CreateUILayoutKey("FavoritesGridItem", 0));
-                Window window = (Window)layout.GetWindowByExportID(1);
-                ImageDrawable imageDrawable = (ImageDrawable)((Window)window.GetChildByID(32, false)).Drawable;
-                bool isCurrentFavorite = false;
-                if (favorite is FavoriteFoodType)
+                var favorite = favoritesList.GetValue(i);
+                var layout = UIManager.LoadLayout(ResourceKey.CreateUILayoutKey("FavoritesGridItem", 0));
+                var window = (Window)layout.GetWindowByExportID(1);
+                var imageDrawable = (ImageDrawable)((Window)window.GetChildByID(32, false)).Drawable;
+                var isCurrentFavorite = false;
+                if (favorite is FavoriteFoodType favoriteFoodType)
                 {
-                    FavoriteFoodType favoriteFoodType = (FavoriteFoodType)favorite;
-                    IRecipe recipe = Responder.Instance.CASModel.GetRecipe(favoriteFoodType) ?? (FavoritesUtils.FavoriteFoodDictionary.ContainsKey(favoriteFoodType) ? FavoritesUtils.FavoriteFoodDictionary[favoriteFoodType].Recipe : null);
+                    var recipe = Responder.Instance.CASModel.GetRecipe(favoriteFoodType) ?? (FavoritesUtils.FavoriteFoodDictionary.TryGetValue(favoriteFoodType, out var food) ? food.Recipe : null);
                     if (recipe != null)
                     {
                         if (isVegetarian)
@@ -1195,16 +1179,14 @@ namespace Destrospean.MoreFavorites
                         isCurrentFavorite = favoriteFoodType == favoriteFood;
                     }
                 }
-                else if (favorite is FavoriteMusicType)
+                else if (favorite is FavoriteMusicType favoriteMusicType)
                 {
-                    FavoriteMusicType favoriteMusicType = (FavoriteMusicType)favorite;
                     window.TooltipText = CASCharacter.GetFavoriteMusicName(favoriteMusicType);
                     imageDrawable.Image = CASCharacter.GetFavoriteMusicIcon(favoriteMusicType);
                     isCurrentFavorite = favoriteMusicType == favoriteMusic;
                 }
-                else if (favorite is CASCharacter.NameColorPair)
+                else if (favorite is CASCharacter.NameColorPair nameColorPair)
                 {
-                    CASCharacter.NameColorPair nameColorPair = (CASCharacter.NameColorPair)favorite;
                     window.TooltipText = CASCharacter.GetLocalizedColorName(nameColorPair.mName);
                     imageDrawable.Image = CASCharacter.GetFavoriteColorIcon(nameColorPair.mColor);
                     isCurrentFavorite = nameColorPair.mColor.ARGB == favoriteColor.ARGB;
@@ -1219,16 +1201,16 @@ namespace Destrospean.MoreFavorites
 
         public static void RandomizeAllFavorites(bool missingFavoritesOnly)
         {
-            ICASModel casModel = Responder.Instance.CASModel;
-            Random random = new Random();
-            FavoriteFoodType favoriteFood = casModel.FavoriteFoodType;
+            var casModel = Responder.Instance.CASModel;
+            var random = new Random();
+            var favoriteFood = casModel.FavoriteFoodType;
             if (!missingFavoritesOnly || favoriteFood == FavoriteFoodType.None)
             {
                 Array visibleFavorites = Array.FindAll((FavoriteFoodType[])GetInstalledFavoriteFoodList(), x => !x.IsBlacklisted() && !x.IsHidden());
                 favoriteFood = (FavoriteFoodType)visibleFavorites.GetValue(random.Next(1, visibleFavorites.Length));
                 if (casModel.IsVegetarian())
                 {
-                    IRecipe recipe = casModel.GetRecipe(favoriteFood);
+                    var recipe = casModel.GetRecipe(favoriteFood);
                     while (!recipe.IsVegetarian && !recipe.HasVegetarianAlternative)
                     {
                         favoriteFood = (FavoriteFoodType)visibleFavorites.GetValue(random.Next(1, visibleFavorites.Length));
@@ -1236,7 +1218,7 @@ namespace Destrospean.MoreFavorites
                     }
                 }
             }
-            FavoriteMusicType favoriteMusic = casModel.FavoriteMusicType;
+            var favoriteMusic = casModel.FavoriteMusicType;
             if (!missingFavoritesOnly || favoriteMusic == FavoriteMusicType.None)
             {
                 Array visibleFavorites = Array.FindAll((FavoriteMusicType[])GetInstalledFavoriteMusicList(), x => !x.IsBlacklisted() && !x.IsHidden());
@@ -1244,7 +1226,7 @@ namespace Destrospean.MoreFavorites
                 {
                 }
             }
-            Color favoriteColor = casModel.FavoriteColor;
+            var favoriteColor = casModel.FavoriteColor;
             if (!missingFavoritesOnly || favoriteColor.ARGB == 0)
             {
                 Array visibleFavorites = Array.FindAll(CASCharacter.kColors, x => !x.IsBlacklisted() && !x.IsHidden());
@@ -1255,7 +1237,7 @@ namespace Destrospean.MoreFavorites
 
         public void RandomizeFavoriteMusic()
         {
-            SimDescription self = (SimDescription)(object)this;
+            var self = (SimDescription)(object)this;
             Array visibleFavoriteMusicList = Array.FindAll((FavoriteMusicType[])GetInstalledFavoriteMusicList(), x => !x.IsBlacklisted() && !x.IsHidden());
             self.mFavouriteMusicType = FavoriteMusicType.None;
             while (self.mFavouriteMusicType == FavoriteMusicType.Custom || self.mFavouriteMusicType == FavoriteMusicType.None)
@@ -1266,7 +1248,7 @@ namespace Destrospean.MoreFavorites
 
         public void RandomizePreferences()
         {
-            SimDescription self = (SimDescription)(object)this;
+            var self = (SimDescription)(object)this;
             Array visibleFavoriteColorList = Array.FindAll(CASCharacter.kColors, x => !x.IsBlacklisted() && !x.IsHidden()),
             visibleFavoriteFoodList = Array.FindAll((FavoriteFoodType[])GetInstalledFavoriteFoodList(), x => !x.IsBlacklisted() && !x.IsHidden());
             self.mFavouriteColor = ((CASCharacter.NameColorPair)visibleFavoriteColorList.GetValue(RandomUtil.GetInt(0, visibleFavoriteColorList.Length - 1))).mColor;

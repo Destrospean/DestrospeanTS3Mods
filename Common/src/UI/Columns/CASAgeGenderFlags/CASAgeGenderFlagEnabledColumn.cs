@@ -6,9 +6,9 @@ namespace Destrospean.UI.Columns
 {
     public class CASAgeGenderFlagEnabledColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<CASAgeGenderFlags>
     {
-        readonly string mLocalizationPath;
+        private readonly string mLocalizationPath;
 
-        readonly List<CASAgeGenderFlags> mTraitsEnabled;
+        private readonly List<CASAgeGenderFlags> mTraitsEnabled;
 
         public CASAgeGenderFlagEnabledColumn(string localizationPath, CASAgeGenderFlags[] flagsEnabled) : base(localizationPath + "/Headers/Enabled:Text", localizationPath + "/Headers/Enabled:Tooltip", 40)
         {

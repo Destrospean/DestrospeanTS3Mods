@@ -5,7 +5,6 @@ using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.Interactions;
-using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
@@ -43,7 +42,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
         {
             return !DebugUtils.TryDisplayScriptError(() =>
                 {
-                    if (ServiceUtils.TryUICreateServiceProfile(out IServiceProfile profile))
+                    if (ServiceUtils.TryUICreateServiceProfile(out var profile))
                     {
                         profile.AddServiceToSaveGame();
                     }

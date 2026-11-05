@@ -6,20 +6,14 @@ namespace Destrospean.Misc
     [Persistable]
     public class SkillLevelPair
     {
-        ulong mSkillName = 0uL;
+        private ulong mSkillName;
 
-        public int SkillLevel = 0;
+        public int SkillLevel;
 
         public SkillNames SkillName
         {
-            get
-            {
-                return (SkillNames)mSkillName;
-            }
-            set
-            {
-                mSkillName = (ulong)value;
-            }
+            get => (SkillNames)mSkillName;
+            private set => mSkillName = (ulong)value;
         }
 
         public SkillLevelPair()

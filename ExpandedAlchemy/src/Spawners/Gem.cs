@@ -10,7 +10,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Spawners
         {
             get
             {
-                foreach (string name in Enum.GetNames(typeof(RockGemMetal)))
+                foreach (var name in Enum.GetNames(typeof(RockGemMetal)))
                 {
                     if (name == mGuid.ToString())
                     {

@@ -126,7 +126,7 @@ namespace Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff
 
         /// <summary>
         /// The list of hidden traits for the service NPC.
-        /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddHiddenTraits"/> and <see cref="RemoveHiddenTraits"/> methods instead.
+        /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddHiddenTraits"/> and <see cref="RemoveHiddenTraits(TraitNames[])"/> methods instead.
         /// </summary>
         List<TraitNames> HiddenTraits
         {
@@ -191,7 +191,7 @@ namespace Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff
 
         /// <summary>
         /// The service motives. If assigning manually (rather than as a parameter in the constructor) be sure include the <see cref="ServiceMotive"/> property.
-        /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddMotives"/> and <see cref="RemoveMotives"/> methods instead.
+        /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddMotives"/> and <see cref="RemoveMotives(CommodityKind[])"/> methods instead.
         /// </summary>
         List<CommodityKind> Motives
         {
@@ -228,7 +228,7 @@ namespace Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff
 
         /// <summary>
         /// The list of potential traits for the service NPC; will be randomly picked from, the number of which is specified by <see cref="PotentialTraitCount"/>.
-        /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddPotentialTraits"/> and <see cref="RemovePotentialTraits"/> methods instead.
+        /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddPotentialTraits"/> and <see cref="RemovePotentialTraits(TraitNames[])"/> methods instead.
         /// </summary>
         List<TraitNames> PotentialTraits
         {
@@ -358,7 +358,7 @@ namespace Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff
 
         /// <summary>
         /// The list of explicit traits for the service NPC.
-        /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddTraits"/> and <see cref="RemoveTraits"/> methods instead.
+        /// Note: do not add or remove elements from this property directly, as that will not work. Use the <see cref="AddTraits"/> and <see cref="RemoveTraits(TraitNames[])"/> methods instead.
         /// </summary>
         List<TraitNames> Traits
         {

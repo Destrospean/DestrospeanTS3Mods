@@ -29,7 +29,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
     {
         public class HangAroundBeforeLeaving : ChildSituation<CustomServiceSituation>
         {
-            AlarmHandle mAlarmHandle;
+            private AlarmHandle mAlarmHandle;
 
             public HangAroundBeforeLeaving()
             {
@@ -48,14 +48,14 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             public override void Init(CustomServiceSituation parent)
             {
                 parent.MoveAllPossibleToTargetInventory();
-                CustomService service = (CustomService)parent.Service;
+                var service = (CustomService)parent.Service;
                 mAlarmHandle = AlarmManager.AddAlarm(service.DelayBeforeLeaving, TimeUnit.Minutes, TimeToRoute, service.Profile.Name + " waiting to leave", AlarmType.DeleteOnReset, parent.Worker);
             }
 
             public override void OnSocializedWith(Sim sim)
             {
-                CustomService service = (CustomService)Parent.Service;
-                float timeLeft = AlarmManager.GetTimeLeft(mAlarmHandle, TimeUnit.Minutes);
+                var service = (CustomService)Parent.Service;
+                var timeLeft = AlarmManager.GetTimeLeft(mAlarmHandle, TimeUnit.Minutes);
                 if (timeLeft < service.ExtraWaitTimeAfterSocializing)
                 {
                     AlarmManager.UpdateAlarmTime(mAlarmHandle, service.ExtraWaitTimeAfterSocializing - timeLeft, TimeUnit.Minutes);
@@ -114,7 +114,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
         public class PerformDuties : ChildSituation<CustomServiceSituation>
         {
-            AlarmHandle mAlarmHandle = AlarmHandle.kInvalidHandle;
+            private AlarmHandle mAlarmHandle = AlarmHandle.kInvalidHandle;
 
             public bool HasDuties
             {
@@ -123,10 +123,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                     return !DebugUtils.TryDisplayScriptError(() =>
                         {
                             Parent.MoveAllPossibleToTargetInventory();
-                            CustomService service = Parent.Service as CustomService;
+                            var service = Parent.Service as CustomService;
                             if (service?.Profile.IsScaredOfBonehilda ?? false)
                             {
-                                foreach (Sim sim in Lot.GetObjects<Sim>())
+                                foreach (var sim in Lot.GetObjects<Sim>())
                                 {
                                     if (sim.SimDescription.IsBonehilda && sim.RoomId == Parent.Worker.RoomId)
                                     {
@@ -142,23 +142,25 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                             }
                             else if (Parent.Worker.CurrentInteraction.GetPriority().Level <= InteractionPriorityLevel.Autonomous)
                             {
-                                InteractionInstance interactionInstance = AutonomyUtils.FindBestAction(Parent.Worker.Autonomy);
+                                var interactionInstance = AutonomyUtils.FindBestAction(Parent.Worker.Autonomy);
                                 if (interactionInstance != null && Parent.IsInteractionBetterThanCurrent(interactionInstance))
                                 {
                                     Parent.Worker.AddExitReason(ExitReason.CanceledByScript);
                                     return true;
                                 }
                             }
+                            /*
                             if (Parent.Worker.InteractionQueue != null)
                             {
-                                InteractionInstance headInteraction = Parent.Worker.InteractionQueue.GetHeadInteraction();
+                                var headInteraction = Parent.Worker.InteractionQueue.GetHeadInteraction();
                                 if (headInteraction != null && service != null && headInteraction.SatisfiesCommodity(service.ServiceMotive))
                                 {
                                     return true;
                                 }
                             }
+                            */
                             return true;
-                        }, out bool retVal) && retVal;
+                        }, out var retVal) && retVal;
                 }
             }
 
@@ -176,9 +178,9 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                 {
                     return;
                 }
-                bool attendingToChild = false;
-                bool currentInteractionSatisfiesHunger = false;
-                List<Sim> extendedHouseholdSims = Parent.GetExtendedHouseholdSims();
+                var attendingToChild = false;
+                var currentInteractionSatisfiesHunger = false;
+                var extendedHouseholdSims = Parent.GetExtendedHouseholdSims();
                 if (Parent.Worker.CurrentInteraction != null)
                 {
                     if (Parent.Worker.CurrentInteraction.SatisfiesCommodity(CommodityKind.Hunger))
@@ -189,7 +191,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                     {
                         if (Parent.Worker.CurrentInteraction.Target is GameObject gameObject)
                         {
-                            foreach (Sim item in gameObject.ActorsUsingMe)
+                            foreach (var item in gameObject.ActorsUsingMe)
                             {
                                 if (extendedHouseholdSims.Contains(item) && item.SimDescription.ChildOrBelow)
                                 {
@@ -200,7 +202,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                         }
                         if (Parent.Worker.CurrentInteraction.GetPriority().Level <= InteractionPriorityLevel.Autonomous)
                         {
-                            InteractionInstance interactionInstance = Parent.Worker.Autonomy.FindBestAction();
+                            var interactionInstance = Parent.Worker.Autonomy.FindBestAction();
                             if (interactionInstance != null && Parent.IsInteractionBetterThanCurrent(interactionInstance))
                             {
                                 Parent.Worker.AddExitReason(ExitReason.CanceledByScript);
@@ -213,8 +215,8 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                         attendingToChild = true;
                     }
                 }
-                bool isInSameRoom = false;
-                foreach (Sim sim in extendedHouseholdSims)
+                var isInSameRoom = false;
+                foreach (var sim in extendedHouseholdSims)
                 {
                     if (sim.IsAtHome && sim.SimDescription.ChildOrBelow && sim.RoomId == Parent.Worker.RoomId)
                     {
@@ -252,7 +254,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                 DebugUtils.TryDisplayScriptError(() =>
                     {
                         Parent.Worker.WorkMotive = CommodityKind.None;
-                        foreach (CommodityKind motive in Parent.Service?.ServiceMotives ?? new List<CommodityKind>())
+                        foreach (var motive in Parent.Service?.ServiceMotives ?? new List<CommodityKind>())
                         {
                             Parent.Worker.Autonomy.Motives.RemoveMotive(motive);
                         }
@@ -263,15 +265,15 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
             public override void Init(CustomServiceSituation parent)
             {
-                CustomService service = (CustomService)parent.Service;
+                var service = (CustomService)parent.Service;
                 parent.Worker.GreetSimOnLot(parent.Lot);
                 mAlarmHandle = parent.Worker.AddAlarmRepeating(service.CheckTime, TimeUnit.Minutes, CheckForDuties, service.CheckTime, TimeUnit.Minutes, "Time for " + service.Profile.Name + " to check if everything is done", AlarmType.AlwaysPersisted);
             }
 
             public void PushSwitchToServiceUniform()
             {
-                CustomService service = Parent.Service as CustomService;
-                if (service?.Profile != null && OutfitAssignmentUtils.TryGetGlobalOutfitAssignment(Parent.Worker.SimDescription, service.Profile, out OutfitAssignmentUtils.OutfitAssignment outfitAssignment) && Parent.Worker.CurrentOutfitCategory != OutfitCategories.Career)
+                var service = Parent.Service as CustomService;
+                if (service?.Profile != null && Parent.Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out _) && Parent.Worker.CurrentOutfitCategory != OutfitCategories.Career)
                 {
                     Parent.Worker.PushSwitchToOutfitInteraction(Sim.ClothesChangeReason.Force, OutfitCategories.Career, new InteractionPriority(InteractionPriorityLevel.Autonomous, 50f));
                 }
@@ -324,7 +326,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
         public new class WaitToRoute : ChildSituation<CustomServiceSituation>
         {
-            AlarmHandle mAlarmHandle;
+            private AlarmHandle mAlarmHandle;
 
             public WaitToRoute()
             {
@@ -342,7 +344,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
             public override void Init(CustomServiceSituation parent)
             {
-                CustomService service = (CustomService)parent.Service;
+                var service = (CustomService)parent.Service;
                 mAlarmHandle = AlarmManager.AddAlarm(service.DelayBeforeArriving, TimeUnit.Minutes, TimeToRoute, service.Profile.Name + " waiting to route", AlarmType.DeleteOnReset, parent.Worker);
             }
 
@@ -350,8 +352,8 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             {
                 Parent.mProtectedInventory = Parent.Worker.Inventory.FindAll<IGameObject>(false);
                 Parent.OnServiceStarting();
-                CustomService service = (CustomService)Parent.Service;
-                RouteToLot<CustomServiceSituation, StartPerformingDuties> routeToLot = string.IsNullOrEmpty(service.Profile.CarInstanceName) ? new WalkToLot<CustomServiceSituation, StartPerformingDuties>(Parent) : new RouteToLot<CustomServiceSituation, StartPerformingDuties>(Parent);
+                var service = (CustomService)Parent.Service;
+                var routeToLot = string.IsNullOrEmpty(service.Profile.CarInstanceName) ? new WalkToLot<CustomServiceSituation, StartPerformingDuties>(Parent) : new RouteToLot<CustomServiceSituation, StartPerformingDuties>(Parent);
                 routeToLot.SetRouteTime(service.DriveTime);
                 Parent.SetState(routeToLot);
             }
@@ -387,7 +389,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
                 public override bool Run()
                 {
-                    Route route = Actor.CreateRoute();
+                    var route = Actor.CreateRoute();
                     //route.SetOption(Route.RouteOption.EnablePlanningAsCar, false);
                     Target.PlanToLot(route);
                     return Actor.DoRoute(route);
@@ -408,39 +410,15 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             }
         }
 
-        List<IGameObject> mProtectedInventory;
+        private List<IGameObject> mProtectedInventory;
 
-        public bool IsBabysittingService
-        {
-            get
-            {
-                return (Service as CustomService)?.Profile.IsBabysittingService ?? false;
-            }
-        }
+        public bool IsBabysittingService => (Service as CustomService)?.Profile.IsBabysittingService ?? false;
 
-        public override bool IsLiveInService
-        {
-            get
-            {
-                return (Service as CustomService)?.Profile.IsLiveInService ?? false;
-            }
-        }
+        public override bool IsLiveInService => (Service as CustomService)?.Profile.IsLiveInService ?? false;
 
-        public override bool ReportsFires
-        {
-            get
-            {
-                return (Service as CustomService)?.Profile.ReportsFires ?? false;
-            }
-        }
+        public override bool ReportsFires => (Service as CustomService)?.Profile.ReportsFires ?? false;
 
-        public bool RequireBeInSameRoom
-        {
-            get
-            {
-                return (Service as CustomService)?.Profile.RequireBeInSameRoom ?? false;
-            }
-        }
+        public bool RequireBeInSameRoom => (Service as CustomService)?.Profile.RequireBeInSameRoom ?? false;
 
         public override bool ServiceTerminated
         {
@@ -450,11 +428,11 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                 {
                     return true;
                 }
-                foreach (Sim sim in Lot.EffectiveHousehold.Sims)
+                foreach (var sim in Lot.EffectiveHousehold.Sims)
                 {
                     if (sim.SimDescription.YoungAdultOrAbove)
                     {
-                        Relationship relationship = Relationship.Get(Worker, sim, true);
+                        var relationship = Relationship.Get(Worker, sim, true);
                         if (relationship.LTR.Liking < ((CustomService)Service).RelationshipLevelForQuit)
                         {
                             SetToFire(Worker, Worker);
@@ -466,21 +444,9 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             }
         }
 
-        public override float TimeToStartWorking
-        {
-            get
-            {
-                return (Service as CustomService)?.Profile.TimeToStartWorking ?? 0f;
-            }
-        }
+        public override float TimeToStartWorking => (Service as CustomService)?.Profile.TimeToStartWorking ?? 0f;
 
-        public override float TimeToStopWorking
-        {
-            get
-            {
-                return (Service as CustomService)?.Profile.TimeToStopWorking ?? 0f;
-            }
-        }
+        public override float TimeToStopWorking => (Service as CustomService)?.Profile.TimeToStopWorking ?? 0f;
 
         public CustomServiceSituation()
         {
@@ -507,12 +473,12 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
         public override void ChargeForService(Callback callbackOnCompletion)
         {
-            int totalCost = CostTotal();
+            var totalCost = CostTotal();
             if (totalCost > 0 && Lot.EffectiveHousehold != null && !mbHasCharged && Lot.EffectiveHousehold.IsActive)
             {
                 if (Lot.EffectiveHousehold.FamilyFunds < totalCost)
                 {
-                    string entryKey = NotEnoughFundsMessage();
+                    var entryKey = NotEnoughFundsMessage();
                     if (entryKey != null)
                     {
                         StyledNotification.Show(new StyledNotification.Format(Localization.LocalizeString(entryKey, (Service as CustomService)?.Profile.Title), StyledNotification.NotificationStyle.kGameMessageNegative));
@@ -535,8 +501,8 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
         public override CarService CreateServiceCar()
         {
-            CustomService service = (CustomService)Service;
-            CarService car = GlobalFunctions.CreateObjectOutOfWorld(new ResourceKey(service.Profile.CarInstanceId, 0x319E4F1D, service.Profile.CarGroupId), typeof(CarServiceMaidVan).FullName, null) as CarService;
+            var service = (CustomService)Service;
+            var car = GlobalFunctions.CreateObjectOutOfWorld(new ResourceKey(service.Profile.CarInstanceId, 0x319E4F1D, service.Profile.CarGroupId), typeof(CarServiceMaidVan).FullName, null) as CarService;
             if (!string.IsNullOrEmpty(service.Profile.CarPreset))
             {
                 car?.ApplyPreset(service.Profile.CarPreset);
@@ -546,7 +512,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
         public static Inventory FindTargetSimInventory(Household household)
         {
-            foreach (Sim sim in household.Sims)
+            foreach (var sim in household.Sims)
             {
                 if (sim.SimDescription.TeenOrAbove && sim.HasInventory)
                 {
@@ -569,7 +535,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
         public override string GetUniformName(SimDescription simDescription)
         {
-            ServiceUtils.ServiceProfile profile = (Service as CustomService)?.Profile as ServiceUtils.ServiceProfile;
+            var profile = (Service as CustomService)?.Profile as ServiceUtils.ServiceProfile;
             return profile?.GetUniformNameCallback == null ? base.GetUniformName(Worker.SimDescription) : profile.GetUniformNameCallback(Worker.SimDescription);
         }
 
@@ -592,10 +558,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
         public override void SetMotivesAndCommodities()
         {
-            CustomService service = (CustomService)Service;
+            var service = (CustomService)Service;
             CommonUtils.UpdateMotiveTunings(Worker, service.ServiceMotive);
             Worker.WorkMotive = service.ServiceMotive;
-            foreach (CommodityKind motive in service.ServiceMotives)
+            foreach (var motive in service.ServiceMotives)
             {
                 Worker.Motives.CreateMotive(motive);
             }
@@ -626,11 +592,11 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
         {
             DebugUtils.TryDisplayScriptError(() =>
                 {
-                    CustomService service = (CustomService)Service;
-                    if (Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out OutfitAssignmentUtils.OutfitAssignment outfitAssignment) && Worker.AddAssignedOutfit(outfitAssignment.SpecialOutfitKey))
+                    var service = (CustomService)Service;
+                    if (Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out var outfitAssignment) && Worker.AddAssignedOutfit(outfitAssignment.SpecialOutfitKey))
                     {
                         Worker.SimDescription.AddOutfit(new SimOutfit(Worker.SimDescription.GetSpecialOutfit(outfitAssignment.SpecialOutfitKey).Key), OutfitCategories.Career, true);
-                        for (int i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
+                        for (var i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
                         {
                             Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
                         }
@@ -646,7 +612,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                         return;
                     }
                     Worker.SimDescription.AddOutfit(new SimOutfit(Worker.SimDescription.GetOutfit(OutfitCategories.Everyday, 0).Key), OutfitCategories.Career, true);
-                    for (int i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
+                    for (var i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
                     {
                         Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
                     }

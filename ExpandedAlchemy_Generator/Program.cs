@@ -4,13 +4,12 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Xml;
 using Mono.Cecil;
-using s3pi.Interfaces;
 
 namespace Destrospean.ExpandedAlchemy.Generator
 {
     class Program
     {
-        enum Locales
+        private enum Locales
         {
             ENG_US,
             CHS_CN,

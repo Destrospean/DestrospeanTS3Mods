@@ -7,21 +7,15 @@ namespace Destrospean.UI.Dialogs
 {
     public class ComboSelectionDialog : ModalDialog
     {
-        Button mCancelButton;
+        private Button mCancelButton;
 
-        ComboBox mCombo;
+        private ComboBox mCombo;
 
-        Button mOkayButton;
+        private Button mOkayButton;
 
-        object mResult;
+        private object mResult;
 
-        public object Result
-        {
-            get
-            {
-                return mResult;
-            }
-        }
+        public object Result => mResult;
 
         public ComboSelectionDialog(string title, IDictionary<string, object> entries, object defaultEntry, Vector2 position, PauseMode pauseMode) : base("ComboSelectionDialog", 4096, true, pauseMode, null)
         {
@@ -34,7 +28,7 @@ namespace Destrospean.UI.Dialogs
                 text.Caption = title;
             }
             mCombo = (ComboBox)mModalDialogWindow.GetChildByID(2u, true);
-            foreach (KeyValuePair<string, object> entry in entries)
+            foreach (var entry in entries)
             {
                 mCombo.ValueList.Add(entry.Key, entry.Value);
                 if (entry.Value == defaultEntry)
@@ -42,8 +36,8 @@ namespace Destrospean.UI.Dialogs
                     mCombo.CurrentSelection = (uint)(mCombo.ValueList.Count - 1);
                 }
             }
-            float x = position.x;
-            float y = position.y;
+            var x = position.x;
+            var y = position.y;
             if (x < 0 && y < 0)
             {
                 x = (float)Math.Round((mModalDialogWindow.Parent.Area.Width - mModalDialogWindow.Area.Width) / 2);
@@ -86,7 +80,7 @@ namespace Destrospean.UI.Dialogs
         {
             if (EnableModalDialogs)
             {
-                using (ComboSelectionDialog comboSelectionDialog = new ComboSelectionDialog(title, entries, defaultEntry, position, pauseMode))
+                using (var comboSelectionDialog = new ComboSelectionDialog(title, entries, defaultEntry, position, pauseMode))
                 {
                     comboSelectionDialog.StartModal();
                     return comboSelectionDialog.Result;

@@ -5,7 +5,7 @@ namespace Destrospean.UI.Columns
 {
     public class BodyTypeColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<BodyTypes>
     {
-        readonly string mLocalizationPath;
+        private readonly string mLocalizationPath;
 
         public BodyTypeColumn(string localizationPath) : base(localizationPath + "/Headers/PartType:Text", localizationPath + "/Headers/PartType:Tooltip", 400)
         {

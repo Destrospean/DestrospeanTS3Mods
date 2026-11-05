@@ -1,12 +1,10 @@
-﻿using Destrospean.Misc;
-using Destrospean.Utils;
+﻿using Destrospean.Utils;
 using Destrospean.Utils.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.Interactions;
-using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 
@@ -46,11 +44,11 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     while (true)
                     {
-                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out IServiceProfile[] profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && x.Inventory.Count > 0).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
+                        if (ServiceUtils.TryUIGetSelectedServiceProfiles(out var profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable && x.Inventory.Count > 0).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                         {
-                            if (ServiceUtils.TryUIGetSelectedInventoryObjects(out InventoryObjectCreationParameters[] inventoryObjects, profiles[0].Inventory.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
+                            if (ServiceUtils.TryUIGetSelectedInventoryObjects(out var inventoryObjects, profiles[0].Inventory.ToArray(), Localization.LocalizeString(LocalizationKey + ":Name")))
                             {
-                                foreach (InventoryObjectCreationParameters inventoryObjectCreationParameters in inventoryObjects)
+                                foreach (var inventoryObjectCreationParameters in inventoryObjects)
                                 {
                                     profiles[0].Inventory.Remove(inventoryObjectCreationParameters);
                                 }

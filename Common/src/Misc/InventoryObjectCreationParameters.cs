@@ -7,11 +7,11 @@ namespace Destrospean.Misc
     [Persistable]
     public class InventoryObjectCreationParameters
     {
-        public int Count = 0;
+        public int Count;
 
-        public uint GroupId = 0x00000000;
+        public uint GroupId;
 
-        public ulong InstanceId = 0x0000000000000000;
+        public ulong InstanceId;
 
         public string InstanceName;
 
@@ -46,8 +46,8 @@ namespace Destrospean.Misc
             {
                 return new IGameObject[0];
             }
-            IGameObject[] results = new IGameObject[count];
-            for (int i = 0; i < count; i++)
+            var results = new IGameObject[count];
+            for (var i = 0; i < count; i++)
             {
                 results[i] = GlobalFunctions.CreateObjectOutOfWorld(new ResourceKey(InstanceId, 0x319E4F1D, GroupId));
                 if (results[i].ObjectId == ObjectGuid.InvalidObjectGuid)

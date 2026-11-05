@@ -15,7 +15,80 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Misc/ActionTask.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Misc/ActionTask.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Misc/InventoryObjectCreationParameters.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Misc/InventoryObjectCreationParameters.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Misc/SkillLevelPair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Misc/SkillLevelPair.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Misc/Utf8StringWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Misc/Utf8StringWriter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/BodyTypes/BodyTypeColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/BodyTypes/BodyTypeColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/BodyTypes/BodyTypeEnabledColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/BodyTypes/BodyTypeEnabledColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/CASAgeGenderFlags/CASAgeGenderFlagColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/CASAgeGenderFlags/CASAgeGenderFlagColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/CASAgeGenderFlags/CASAgeGenderFlagEnabledColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/CASAgeGenderFlags/CASAgeGenderFlagEnabledColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/Skill/SkillColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/Skill/SkillColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/TextInListColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/TextInListColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/Trait/TraitColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/Trait/TraitColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/Trait/TraitEnabledColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/Trait/TraitEnabledColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Dialogs/ComboSelectionDialog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Dialogs/ComboSelectionDialog.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Dialogs/ObjectPickerDialog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Dialogs/ObjectPickerDialog.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Utils/DebugUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/DebugUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Utils/InteractionObjectTypeUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/InteractionObjectTypeUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Utils/NRaasMasterControllerIntegration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/NRaasMasterControllerIntegration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/Register/PotionShopConsignmentRegister.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/Register/PotionShopConsignmentRegister.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/Gem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/Gem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/GlowBugTerrarium.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/GlowBugTerrarium.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/Metal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/Metal.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/NaniteTerrarium.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/NaniteTerrarium.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/NormalTerrarium.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/NormalTerrarium.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/Rock.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/Rock.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/RockHuge.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/Spawners/RockHuge.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/AlchemyHairLoss.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/AlchemyHairLoss.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/RockGemMetalSpawnerUranium.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/RockGemMetalSpawnerUranium.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/Uranium.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/Uranium.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_Generator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_Generator/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_Generator/Properties/AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_Generator/Properties/AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Abstracts/Service.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Abstracts/Service.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Abstracts/ServiceSituation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Abstracts/ServiceSituation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/AddActiveTopicAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/AddActiveTopicAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/AddAutonomousInteraction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/AddAutonomousInteraction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/AddInventoryObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/AddInventoryObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/AddInventoryObjectToService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/AddInventoryObjectToService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/AssignCarToService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/AssignCarToService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/CallForServices.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/CallForServices.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/CloneServiceProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/CloneServiceProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/CreateServiceProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/CreateServiceProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/EditServiceProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/EditServiceProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/EditServiceUniform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/EditServiceUniform.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ExportServiceCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ExportServiceCollection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ImportServiceCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ImportServiceCollection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ListInteractions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ListInteractions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/RemoveActiveTopicAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/RemoveActiveTopicAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/RemoveAutonomousInteraction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/RemoveAutonomousInteraction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/RemoveInventoryObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/RemoveInventoryObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ResetServiceCar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ResetServiceCar.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ResetServiceUniform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ResetServiceUniform.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interfaces/IServiceProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interfaces/IServiceProfile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Services/CustomService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Services/CustomService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Situations/CustomServiceSituation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Situations/CustomServiceSituation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionActivenessColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionActivenessColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionGroupingColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionGroupingColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/InventoryObjectCreationParameters/InventoryObjectGroupColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/InventoryObjectCreationParameters/InventoryObjectGroupColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfileFlags/ServiceProfileFlagColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfileFlags/ServiceProfileFlagColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfileFlags/ServiceProfileFlagEnabledColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfileFlags/ServiceProfileFlagEnabledColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/AutonomyUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/AutonomyUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/FileUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/FileUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/OutfitAssignmentUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/OutfitAssignmentUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/FavoritesUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/FavoritesUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/NRaasMasterControllerIntegration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/NRaasMasterControllerIntegration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/Replacements.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/Replacements.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/Tuning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/Tuning.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites_Generator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites_Generator/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites_Generator/Properties/AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites_Generator/Properties/AssemblyInfo.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +100,9 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file:///usr/lib/mono/xbuild/Microsoft/NuGet/Microsoft.NuGet.targets" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/Interactions/AddAutonomousInteraction.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionActivenessColumn.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/MoreFavorites_Generator/Program.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -35,61 +111,61 @@
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000044740102831" />
-      <entry key="MS500" value="1.0867124887067803" />
-      <entry key="S2" value="1.790072274463773" />
-      <entry key="S5" value="2.6104101779301883" />
-      <entry key="S10" value="3.184732425638664" />
-      <entry key="S30" value="4.191651637570234" />
-      <entry key="S60" value="5.051492385485248" />
-      <entry key="M2" value="5.961658163968605" />
-      <entry key="M5" value="7.535026011442403" />
-      <entry key="M10" value="8.791484357029155" />
-      <entry key="M15" value="9.390408592490934" />
-      <entry key="M30" value="10.116411109169311" />
-      <entry key="H1" value="10.536329004640802" />
-      <entry key="H2" value="10.762396358269859" />
-      <entry key="H4" value="10.879716956792738" />
-      <entry key="D1" value="10.97974368700049" />
-      <entry key="W1" value="10.997101074106112" />
+      <entry key="MS100" value="1.290245557996384E-144" />
+      <entry key="MS500" value="1.667763537265397E-29" />
+      <entry key="S2" value="6.392200014975865E-8" />
+      <entry key="S5" value="0.0013744244191602052" />
+      <entry key="S10" value="0.04343122531661801" />
+      <entry key="S30" value="0.5234333381042209" />
+      <entry key="S60" value="1.0488477536807728" />
+      <entry key="M2" value="1.7452396856797312" />
+      <entry key="M5" value="3.1162157294652357" />
+      <entry key="M10" value="5.023019650150386" />
+      <entry key="M15" value="7.040457755372322" />
+      <entry key="M30" value="12.388171068495774" />
+      <entry key="H1" value="19.748975255979605" />
+      <entry key="H2" value="27.287194020773345" />
+      <entry key="H4" value="33.06822933600663" />
+      <entry key="D1" value="39.49194636054614" />
+      <entry key="W1" value="40.77942752468463" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="0.0" />
-      <entry key="S2" value="0.0" />
-      <entry key="S5" value="0.0" />
-      <entry key="S10" value="0.0" />
-      <entry key="S30" value="0.0" />
-      <entry key="S60" value="0.0" />
-      <entry key="M2" value="0.0" />
-      <entry key="M5" value="0.0" />
-      <entry key="M10" value="0.0" />
-      <entry key="M15" value="0.0" />
-      <entry key="M30" value="0.0" />
-      <entry key="H1" value="0.0" />
-      <entry key="H2" value="0.0" />
-      <entry key="H4" value="0.0" />
-      <entry key="D1" value="0.0" />
-      <entry key="W1" value="0.0" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0002397801747016" />
+      <entry key="S2" value="1.1249643232562507" />
+      <entry key="S5" value="1.483605118542042" />
+      <entry key="S10" value="1.8976204373092465" />
+      <entry key="S30" value="2.7352636558642986" />
+      <entry key="S60" value="3.252104450103711" />
+      <entry key="M2" value="3.8065149052256797" />
+      <entry key="M5" value="4.6676066033276165" />
+      <entry key="M10" value="5.222421401233402" />
+      <entry key="M15" value="5.502855481591312" />
+      <entry key="M30" value="6.039509946635739" />
+      <entry key="H1" value="6.657402928609338" />
+      <entry key="H2" value="7.19149877368759" />
+      <entry key="H4" value="7.552838838377952" />
+      <entry key="D1" value="7.918596374295771" />
+      <entry key="W1" value="7.988189025348692" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="7.96005103120384E-6" />
-      <entry key="MS500" value="0.11873224036765986" />
-      <entry key="S2" value="1.0636630237636118" />
-      <entry key="S5" value="2.1094598271020035" />
-      <entry key="S10" value="2.8625786126411077" />
-      <entry key="S30" value="4.0538138005827955" />
-      <entry key="S60" value="4.972590174215175" />
-      <entry key="M2" value="5.917883910621162" />
-      <entry key="M5" value="7.515976782690159" />
-      <entry key="M10" value="8.781617638522667" />
-      <entry key="M15" value="9.383744079385886" />
-      <entry key="M30" value="10.113032056793331" />
-      <entry key="H1" value="10.53462703777495" />
-      <entry key="H2" value="10.761542162302074" />
-      <entry key="H4" value="10.879289042214817" />
-      <entry key="D1" value="10.97967225331335" />
-      <entry key="W1" value="10.997090866471806" />
+      <entry key="MS100" value="3.604103581022736E-5" />
+      <entry key="MS500" value="0.12924113335624357" />
+      <entry key="S2" value="0.6590613630134653" />
+      <entry key="S5" value="1.1771207216623436" />
+      <entry key="S10" value="1.720344656900943" />
+      <entry key="S30" value="3.1250923451216486" />
+      <entry key="S60" value="4.209643248769244" />
+      <entry key="M2" value="5.492606798286934" />
+      <entry key="M5" value="7.752122594888993" />
+      <entry key="M10" value="10.226229653103374" />
+      <entry key="M15" value="12.528702652554118" />
+      <entry key="M30" value="18.41816415591893" />
+      <entry key="H1" value="26.40022826982546" />
+      <entry key="H2" value="34.47496777832376" />
+      <entry key="H4" value="40.61897042286482" />
+      <entry key="D1" value="47.410151180620126" />
+      <entry key="W1" value="48.76755943681209" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -192,7 +268,8 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Sort usings" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sort usings" />
+    <MESSAGE value="Miscellaneous changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

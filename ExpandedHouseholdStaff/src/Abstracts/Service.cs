@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Xml;
 using Destrospean.Enums;
 using Destrospean.Utils;
@@ -41,8 +40,8 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                     {
                         return StringTable.GetLocalizedString(DerivedType.GetLocalizationKey() + ":Title");
                     }
-                    List<Sim> simsAssignedToLot = Instance.GetSimsAssignedToLot(actor.LotHome);
-                    return Localization.LocalizeString(actor.IsFemale, DerivedType.GetLocalizationKey() + "/" + typeof(SetUnsetServiceBed).Name + (target.FindOwnedBed(simsAssignedToLot[0]) == target ? ":Unset" : ":Set") + "InteractionName", simsAssignedToLot[0].SimDescription);
+                    var simsAssignedToLot = Instance.GetSimsAssignedToLot(actor.LotHome);
+                    return Localization.LocalizeString(actor.IsFemale, DerivedType.GetLocalizationKey() + "/" + nameof(SetUnsetServiceBed) + (target.FindOwnedBed(simsAssignedToLot[0]) == target ? ":Unset" : ":Set") + "InteractionName", simsAssignedToLot[0].SimDescription);
                 }
 
                 public override bool Test(Sim actor, Bed target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
@@ -55,11 +54,11 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         }
                         if (Instance != null)
                         {
-                            List<Sim> simsAssignedToLot = Instance.GetSimsAssignedToLot(actor.LotHome);
+                            var simsAssignedToLot = Instance.GetSimsAssignedToLot(actor.LotHome);
                             if (simsAssignedToLot.Count > 0)
                             {
-                                Sim owner = simsAssignedToLot[0];
-                                Bed bed = target.FindOwnedBed(owner);
+                                var owner = simsAssignedToLot[0];
+                                var bed = target.FindOwnedBed(owner);
                                 if (bed == null || bed == target)
                                 {
                                     return target.CanBeUsedAsBed;
@@ -77,10 +76,10 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             {
                 if (Instance != null)
                 {
-                    Sim simActiveOnLot = Instance.GetSimActiveOnLot(Actor.LotHome);
+                    var simActiveOnLot = Instance.GetSimActiveOnLot(Actor.LotHome);
                     if (simActiveOnLot != null)
                     {
-                        Bed bed = Target.FindOwnedBed(simActiveOnLot);
+                        var bed = Target.FindOwnedBed(simActiveOnLot);
                         if (bed == Target)
                         {
                             Target.RelinquishOwnership(simActiveOnLot);
@@ -105,64 +104,28 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             }
         }
 
-        readonly List<ServiceUtils.CommodityChange> mOutputs = new List<ServiceUtils.CommodityChange>();
+        private readonly List<ServiceUtils.CommodityChange> mOutputs = new List<ServiceUtils.CommodityChange>();
 
-        ServiceType mServiceType;
+        private ServiceType mServiceType;
 
-        public static Type DerivedType
-        {
-            get
-            {
-                return typeof(T);
-            }
-        }
+        public static Type DerivedType => typeof(T);
 
         public static Service<T> Instance
         {
-            get
-            {
-                return ServiceUtils.PredefinedInstances.TryGetValue(DerivedType.Name, out Service service) ? (Service<T>)service : null;
-            }
-            set
-            {
-                ServiceUtils.PredefinedInstances[DerivedType.Name] = value;
-            }
+            get => ServiceUtils.PredefinedInstances.TryGetValue(DerivedType.Name, out var service) ? (Service<T>)service : null;
+            set => ServiceUtils.PredefinedInstances[DerivedType.Name] = value;
         }
 
-        public virtual bool IsHomelessService
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public virtual bool IsHomelessService => true;
 
-        public override bool IsPaidWeekly
-        {
-            get
-            {
-                return this is IAmLiveInService;
-            }
-        }
+        public override bool IsPaidWeekly => this is IAmLiveInService;
 
-        public virtual bool IsQuietAroundSleepingSims
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public virtual bool IsQuietAroundSleepingSims => false;
 
         /// <summary>
         /// Outputs for interactions and their target types that the service motive of the service is inserted into.
         /// </summary>
-        public virtual List<ServiceUtils.CommodityChange> Outputs
-        {
-            get
-            {
-                return mOutputs;
-            }
-        }
+        public virtual List<ServiceUtils.CommodityChange> Outputs => mOutputs;
 
         /// <summary>
         /// Gets the motive commodity kind for the service.
@@ -171,7 +134,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
         {
             get
             {
-                if (!ServiceUtils.ServiceMotives.TryGetValue(DerivedType, out CommodityKind serviceMotive))
+                if (!ServiceUtils.ServiceMotives.TryGetValue(DerivedType, out var serviceMotive))
                 {
                     serviceMotive = CommonUtils.GetCommodityKind("Be" + DerivedType.Name, CommodityKindType.Motive);
                 }
@@ -179,29 +142,11 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             }
         }
 
-        public override ServiceType ServiceType
-        {
-            get
-            {
-                return mServiceType == default(ServiceType) ? (ServiceType)(DerivedType.GetProperty("ServiceTypeStatic")?.GetValue(null, null) ?? ServiceTypeStatic) : mServiceType;
-            }
-        }
+        public override ServiceType ServiceType => mServiceType == default(ServiceType) ? (ServiceType)(DerivedType.GetProperty("ServiceTypeStatic")?.GetValue(null, null) ?? ServiceTypeStatic) : mServiceType;
 
-        public static ServiceType ServiceTypeStatic
-        {
-            get
-            {
-                return ServiceType.None;
-            }
-        }
+        public static ServiceType ServiceTypeStatic => ServiceType.None;
 
-        public virtual bool WaitsBeforePuttingAwayLeftovers
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public virtual bool WaitsBeforePuttingAwayLeftovers => false;
 
         public static void AddInteractions(Bed bed)
         {
@@ -211,18 +156,18 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
         /// <summary>
         /// Loads a motive tuning but (optionally) with a different commodity kind from the one specified in XML.
         /// </summary>
-        static void LoadMotive(XmlDocument xmlDocument, CommodityKind commodityKind = CommodityKind.None)
+        private static void LoadMotive(XmlDocument xmlDocument, CommodityKind commodityKind = CommodityKind.None)
         {
-            XmlNodeList elementsByTagName = xmlDocument.GetElementsByTagName("Motive");
+            var elementsByTagName = xmlDocument.GetElementsByTagName("Motive");
             foreach (XmlElement motiveElement in elementsByTagName)
             {
-                XmlElement tuningElement = (XmlElement)motiveElement.GetElementsByTagName("Tuning")[0];
-                bool addIfUniversalOnLoadFixUp = false;
-                if (tuningElement.HasAttribute("codeVersions") && ParserFunctions.TryParseCommaSeparatedList<ProductVersion>(tuningElement.GetAttribute("codeVersions"), out List<ProductVersion> codeVersions, ProductVersion.Undefined))
+                var tuningElement = (XmlElement)motiveElement.GetElementsByTagName("Tuning")[0];
+                var addIfUniversalOnLoadFixUp = false;
+                if (tuningElement.HasAttribute("codeVersions") && ParserFunctions.TryParseCommaSeparatedList(tuningElement.GetAttribute("codeVersions"), out var codeVersions, ProductVersion.Undefined))
                 {
                     addIfUniversalOnLoadFixUp = true;
-                    bool hasProduct = false;
-                    foreach (ProductVersion codeVersion in codeVersions)
+                    var hasProduct = false;
+                    foreach (var codeVersion in codeVersions)
                     {
                         if (GameUtils.IsInstalled(codeVersion))
                         {
@@ -235,95 +180,95 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         continue;
                     }
                 }
-                string commodityKindAttribute = tuningElement.GetAttribute("kind");
-                if (commodityKind != CommodityKind.None || ParserFunctions.TryParseEnum<CommodityKind>(commodityKindAttribute, out commodityKind, CommodityKind.None))
+                var commodityKindAttribute = tuningElement.GetAttribute("kind");
+                if (commodityKind != CommodityKind.None || ParserFunctions.TryParseEnum(commodityKindAttribute, out commodityKind, CommodityKind.None))
                 {
-                    string universalAttribute = tuningElement.GetAttribute("universal");
-                    bool universal = true;
+                    var universalAttribute = tuningElement.GetAttribute("universal");
+                    var universal = true;
                     if (universalAttribute != "")
                     {
                         universal = ParserFunctions.ParseBool(universalAttribute);
                     }
-                    string insatiableAttribute = tuningElement.GetAttribute("insatiable");
-                    bool insatiable = false;
+                    var insatiableAttribute = tuningElement.GetAttribute("insatiable");
+                    var insatiable = false;
                     if (insatiableAttribute != "")
                     {
                         insatiable = ParserFunctions.ParseBool(insatiableAttribute);
                     }
-                    string ageSpecificityAttribute = tuningElement.GetAttribute("ageSpecificity");
-                    CASAgeGenderFlags ageSpeciesSpecificity = CASAgeGenderFlags.AgeMask;
+                    var ageSpecificityAttribute = tuningElement.GetAttribute("ageSpecificity");
+                    var ageSpeciesSpecificity = CASAgeGenderFlags.AgeMask;
                     if (ageSpecificityAttribute != "" && ageSpecificityAttribute != "All")
                     {
-                        ParserFunctions.TryParseEnum<CASAgeGenderFlags>(ageSpecificityAttribute, out ageSpeciesSpecificity, CASAgeGenderFlags.AgeMask);
+                        ParserFunctions.TryParseEnum(ageSpecificityAttribute, out ageSpeciesSpecificity, CASAgeGenderFlags.AgeMask);
                     }
-                    string speciesSpecifityAttribute = tuningElement.GetAttribute("speciesSpecificity");
-                    if (speciesSpecifityAttribute != "" && ParserFunctions.TryParseEnum<CASAgeGenderFlags>(speciesSpecifityAttribute, out CASAgeGenderFlags speciesSpecifity, CASAgeGenderFlags.None))
+                    var speciesSpecifityAttribute = tuningElement.GetAttribute("speciesSpecificity");
+                    if (speciesSpecifityAttribute != "" && ParserFunctions.TryParseEnum(speciesSpecifityAttribute, out var speciesSpecifity, CASAgeGenderFlags.None))
                     {
                         ageSpeciesSpecificity |= speciesSpecifity;
                     }
-                    ParserFunctions.TryParseEnum<WorldRestrictionType>(tuningElement.GetAttribute("worldSpecificityType"), out WorldRestrictionType worldRestrictionType, WorldRestrictionType.None);
-                    ParserFunctions.TryParseCommaSeparatedList<WorldType>(tuningElement.GetAttribute("worldSpecificityWorldTypes"), out List<WorldType> worldRestrictionWorldTypes, WorldType.Undefined);
-                    ParserFunctions.TryParseCommaSeparatedList<WorldName>(tuningElement.GetAttribute("worldSpecificityWorldNames"), out List<WorldName> worldRestrictionWorldNames, WorldName.Undefined);
-                    string traitSpecificityAttribute = tuningElement.GetAttribute("traitSpecificity");
+                    ParserFunctions.TryParseEnum(tuningElement.GetAttribute("worldSpecificityType"), out var worldRestrictionType, WorldRestrictionType.None);
+                    ParserFunctions.TryParseCommaSeparatedList(tuningElement.GetAttribute("worldSpecificityWorldTypes"), out var worldRestrictionWorldTypes, WorldType.Undefined);
+                    ParserFunctions.TryParseCommaSeparatedList(tuningElement.GetAttribute("worldSpecificityWorldNames"), out var worldRestrictionWorldNames, WorldName.Undefined);
+                    var traitSpecificityAttribute = tuningElement.GetAttribute("traitSpecificity");
                     List<TraitNames> traitSpecificity = null;
                     if (traitSpecificityAttribute != "")
                     {
-                        ParserFunctions.TryParseCommaSeparatedList<TraitNames>(traitSpecificityAttribute, out List<TraitNames> traitNames, TraitNames.Unknown);
-                        foreach (TraitNames traitName in traitNames)
+                        ParserFunctions.TryParseCommaSeparatedList(traitSpecificityAttribute, out var traitNames, TraitNames.Unknown);
+                        foreach (var traitName in traitNames)
                         {
                             if (traitName != TraitNames.Unknown)
                             {
-                                Lazy.Add<List<TraitNames>, TraitNames>(ref traitSpecificity, traitName);
+                                Lazy.Add(ref traitSpecificity, traitName);
                             }
                         }
                     }
-                    ParserFunctions.TryParseEnum<DecayType>(tuningElement.GetAttribute("decayType"), out DecayType decayType, DecayType.DecayFromAutoSatisfy);
-                    float decayValue = ParserFunctions.ParseFloat(tuningElement.GetAttribute("decayValue"), 0f);
+                    ParserFunctions.TryParseEnum(tuningElement.GetAttribute("decayType"), out var decayType, DecayType.DecayFromAutoSatisfy);
+                    var decayValue = ParserFunctions.ParseFloat(tuningElement.GetAttribute("decayValue"), 0f);
                     decayValue = MotiveTuning.HackToFixupCertainMotiveDecayRates(commodityKind, decayValue);
-                    float initialMin = ParserFunctions.ParseFloat(tuningElement.GetAttribute("initialMin"), -100f);
-                    float initialMax = ParserFunctions.ParseFloat(tuningElement.GetAttribute("initialMax"), 100f);
-                    float timeRandomness = ParserFunctions.ParseFloat(tuningElement.GetAttribute("timeRandomness"), 0f);
-                    bool hasDefaultValue = ParserFunctions.ParseBool(tuningElement.GetAttribute("hasDefaultValue"));
-                    int intensity = ParserFunctions.ParseInt(tuningElement.GetAttribute("intensity"), 1);
-                    XmlNodeList intensityElements = motiveElement.GetElementsByTagName("Intensity");
-                    XmlNodeList pointElements = ((XmlElement)intensityElements[0]).GetElementsByTagName("Point");
-                    int count = pointElements.Count;
-                    Vector2[] coordinates = new Vector2[count];
-                    int index = 0;
+                    var initialMin = ParserFunctions.ParseFloat(tuningElement.GetAttribute("initialMin"), -100f);
+                    var initialMax = ParserFunctions.ParseFloat(tuningElement.GetAttribute("initialMax"), 100f);
+                    var timeRandomness = ParserFunctions.ParseFloat(tuningElement.GetAttribute("timeRandomness"), 0f);
+                    var hasDefaultValue = ParserFunctions.ParseBool(tuningElement.GetAttribute("hasDefaultValue"));
+                    var intensity = ParserFunctions.ParseInt(tuningElement.GetAttribute("intensity"), 1);
+                    var intensityElements = motiveElement.GetElementsByTagName("Intensity");
+                    var pointElements = ((XmlElement)intensityElements[0]).GetElementsByTagName("Point");
+                    var count = pointElements.Count;
+                    var coordinates = new Vector2[count];
+                    var index = 0;
                     foreach (XmlElement pointElement in pointElements)
                     {
-                        float x = ParserFunctions.ParseFloat(pointElement.GetAttribute("x"), 0f);
-                        float y = ParserFunctions.ParseFloat(pointElement.GetAttribute("y"), 0f) * intensity;
-                        Vector2 vector = new Vector2(x, y);
+                        var x = ParserFunctions.ParseFloat(pointElement.GetAttribute("x"), 0f);
+                        var y = ParserFunctions.ParseFloat(pointElement.GetAttribute("y"), 0f) * intensity;
+                        var vector = new Vector2(x, y);
                         coordinates[index] = vector;
                         index++;
                     }
-                    DesireCurve curve = new DesireCurve(coordinates);
-                    MotiveSatisfactionCurve motiveSatisfactionCurve = new MotiveSatisfactionCurve();
+                    var curve = new DesireCurve(coordinates);
+                    var motiveSatisfactionCurve = new MotiveSatisfactionCurve();
                     motiveSatisfactionCurve.Loops = true;
                     Curve autoSatisfyCurve = motiveSatisfactionCurve;
                     MotiveTuning.ParseCurve(motiveElement, "AutoSatisfy", autoSatisfyCurve);
-                    Curve motiveDecayCurve = motiveSatisfactionCurve.GetMotiveDecayCurve();
-                    Curve moodContributionCurve = new Curve();
+                    var motiveDecayCurve = motiveSatisfactionCurve.GetMotiveDecayCurve();
+                    var moodContributionCurve = new Curve();
                     MotiveTuning.ParseCurve(motiveElement, "MoodContribution", moodContributionCurve);
-                    List<MotiveTuning.MotiveBuffTrigger> buffTriggers = new List<MotiveTuning.MotiveBuffTrigger>();
+                    var buffTriggers = new List<MotiveTuning.MotiveBuffTrigger>();
                     foreach (XmlElement buffTriggerElement in  ((XmlElement)motiveElement.GetElementsByTagName("MotiveBuffs")[0]).GetElementsByTagName("BuffTrigger"))
                     {
-                        MotiveTuning.MotiveBuffTrigger motiveBuffTrigger = new MotiveTuning.MotiveBuffTrigger();
+                        var motiveBuffTrigger = new MotiveTuning.MotiveBuffTrigger();
                         motiveBuffTrigger.mTriggerValueStart = ParserFunctions.ParseFloat(buffTriggerElement.GetAttribute("TriggerValueStart"), -1000f);
                         motiveBuffTrigger.mTriggerValueEnd = ParserFunctions.ParseFloat(buffTriggerElement.GetAttribute("TriggerValueEnd"), -1000f);
                         motiveBuffTrigger.mDecay = ParserFunctions.ParseFloat(buffTriggerElement.GetAttribute("Decay"), 0f);
                         motiveBuffTrigger.mDecay = MotiveTuning.HackToFixupCertainMotiveDecayRates(commodityKind, motiveBuffTrigger.mDecay);
-                        ParserFunctions.TryParseEnum<BuffNames>(buffTriggerElement.GetAttribute("AddBuff"), out motiveBuffTrigger.mAddBuff, BuffNames.Undefined);
-                        ParserFunctions.TryParseCommaSeparatedList<BuffNames>(buffTriggerElement.GetAttribute("RemoveBuff"), out motiveBuffTrigger.mRemoveBuff, BuffNames.Undefined);
-                        string customClassAttribute = buffTriggerElement.GetAttribute("CustomClass");
+                        ParserFunctions.TryParseEnum(buffTriggerElement.GetAttribute("AddBuff"), out motiveBuffTrigger.mAddBuff, BuffNames.Undefined);
+                        ParserFunctions.TryParseCommaSeparatedList(buffTriggerElement.GetAttribute("RemoveBuff"), out motiveBuffTrigger.mRemoveBuff, BuffNames.Undefined);
+                        var customClassAttribute = buffTriggerElement.GetAttribute("CustomClass");
                         motiveBuffTrigger.mCustomClass = customClassAttribute.Length > 0 ? typeof(Motive).GetMethod(customClassAttribute) : null;
                         buffTriggers.Add(motiveBuffTrigger);
                     }
-                    MotiveTuning motiveTuning = new MotiveTuning(commodityKind, universal, insatiable, ageSpeciesSpecificity, worldRestrictionType, worldRestrictionWorldTypes, worldRestrictionWorldNames, traitSpecificity, curve, decayType, decayValue, motiveSatisfactionCurve, motiveDecayCurve, moodContributionCurve, hasDefaultValue, initialMin, initialMax, timeRandomness, buffTriggers, addIfUniversalOnLoadFixUp);
-                    if (!MotiveTuning.sTuning.TryGetValue((int)commodityKind, out List<MotiveTuning> motiveTunings))
+                    var motiveTuning = new MotiveTuning(commodityKind, universal, insatiable, ageSpeciesSpecificity, worldRestrictionType, worldRestrictionWorldTypes, worldRestrictionWorldNames, traitSpecificity, curve, decayType, decayValue, motiveSatisfactionCurve, motiveDecayCurve, moodContributionCurve, hasDefaultValue, initialMin, initialMax, timeRandomness, buffTriggers, addIfUniversalOnLoadFixUp);
+                    if (!MotiveTuning.sTuning.TryGetValue((int)commodityKind, out var motiveTunings))
                     {
-                        motiveTunings = (MotiveTuning.sTuning[(int)commodityKind] = new List<MotiveTuning>());
+                        motiveTunings = MotiveTuning.sTuning[(int)commodityKind] = new List<MotiveTuning>();
                     }
                     motiveTunings.Add(motiveTuning);
                     Commodities.NewType(commodityKind, 1, motiveTuning.Min, motiveTuning.Max, 0f, true, -100f, 100f);
@@ -333,7 +278,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public virtual void AddOutputs()
         {
-            foreach (ServiceUtils.CommodityChange output in Outputs)
+            foreach (var output in Outputs)
             {
                 ServiceMotive.AddAsOutput(output.InteractionDefinitionType, output.TargetType, output.ConstantChange, output.Locked, output.ActualValue, output.UpdateType, output.TimeDependsOnCommodityFilling, output.UpdateEvenOnFailure, output.UpdateAboveAndBelowZero);
             }
@@ -343,7 +288,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
         {
             DebugUtils.TryDisplayScriptError(() =>
                 {
-                    if (ServiceNPCSpecifications.ValidForCurrentWorld((ServiceType)(DerivedType.GetProperty("ServiceTypeStatic").GetValue(null, null) ?? ServiceTypeStatic)))
+                    if (ServiceNPCSpecifications.ValidForCurrentWorld((ServiceType)(DerivedType.GetProperty("ServiceTypeStatic")?.GetValue(null, null) ?? ServiceTypeStatic)))
                     {
                         if (Instance == null)
                         {
@@ -368,24 +313,17 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public new SimDescription CreateOrUpdateServiceNpc(SimDescription preCreatedSim, Lot lot)
         {
-            SimDescription simDescription = preCreatedSim;
+            var simDescription = preCreatedSim;
             DebugUtils.TryDisplayScriptError(() =>
                 {
-                    bool shouldUsePlumbot = false;
+                    var shouldUsePlumbot = false;
                     if (simDescription == null)
                     {
                         if (GameUtils.IsInstalled(ProductVersion.EP11))
                         {
                             shouldUsePlumbot = ServiceNPCSpecifications.ShouldUseServobot(ServiceType.ToString());
                         }
-                        if (shouldUsePlumbot)
-                        {
-                            simDescription = CreateRobotSim(this);
-                        }
-                        else
-                        {
-                            simDescription = CreateSimDescription(this, this is CustomService customService ? ServiceNPCSpecifications.ChooseRandomAge(customService.Profile.ValidAges) : ServiceNPCSpecifications.GetAge(ServiceType.ToString()), GetGenderForNewNpc(lot));
-                        }
+                        simDescription = shouldUsePlumbot ? CreateRobotSim(this) : CreateSimDescription(this, this is CustomService customService ? ServiceNPCSpecifications.ChooseRandomAge(customService.Profile.ValidAges) : ServiceNPCSpecifications.GetAge(ServiceType.ToString()), GetGenderForNewNpc(lot));
                         simDescription.FindSuitableVirtualHome();
                     }
                     else
@@ -410,19 +348,19 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
         {
             return DebugUtils.TryDisplayScriptError(() =>
                 {
-                    WorldName currentWorld = GameUtils.GetCurrentWorld();
-                    SimDescription simDescription = CreateSimDescriptionInternal(service, null, ageIfRandom, genderIfRandom, currentWorld, out bool randomlyCreated);
-                    service.GetNameForNewNpc(simDescription.IsMale, currentWorld, out string firstName, out string lastName);
+                    var currentWorld = GameUtils.GetCurrentWorld();
+                    var simDescription = CreateSimDescriptionInternal(service, null, ageIfRandom, genderIfRandom, currentWorld, out _);
+                    service.GetNameForNewNpc(simDescription.IsMale, currentWorld, out var firstName, out var lastName);
                     simDescription.FirstName = firstName;
                     simDescription.LastName = lastName;
                     return simDescription;
-                }, out SimDescription retVal) ? null : retVal;
+                }, out var retVal) ? null : retVal;
         }
 
         public static SimDescription CreateSimDescriptionInternal(Service<T> service, string outfitName, CASAgeGenderFlags ageIfRandom, CASAgeGenderFlags genderIfRandom, WorldName homeWorld, out bool randomlyCreated)
         {
             SimDescription simDescription = null;
-            bool tempRandomlyCreated = false;
+            var tempRandomlyCreated = false;
             DebugUtils.TryDisplayScriptError(() =>
                 {
                     tempRandomlyCreated = false;
@@ -431,18 +369,18 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         simDescription = null;
                         return;
                     }
-                    bool outfitIsInvalid = false;
+                    var outfitIsInvalid = false;
                     if (outfitName != null)
                     {
-                        SimOutfit simOutfit = new SimOutfit(ResourceKey.CreateOutfitKey(outfitName, 0));
+                        var simOutfit = new SimOutfit(ResourceKey.CreateOutfitKey(outfitName, 0));
                         if (simOutfit.IsValid)
                         {
-                            SimBuilder simBuilder = new SimBuilder
+                            var simBuilder = new SimBuilder
                                 {
                                     UseCompression = true
                                 };
                             OutfitUtils.SetOutfit(simBuilder, simOutfit, null);
-                            SimOutfit outfit = new SimOutfit(simBuilder.CacheOutfit("Service_" + outfitName));
+                            var outfit = new SimOutfit(simBuilder.CacheOutfit("Service_" + outfitName));
                             simDescription = new SimDescription(outfit);
                             simDescription.AddOutfit(outfit, OutfitCategories.Everyday, true);
                         }
@@ -456,17 +394,16 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         simDescription = genderIfRandom == CASAgeGenderFlags.None ? Genetics.MakeSim(ageIfRandom) : Genetics.MakeSim(ageIfRandom, genderIfRandom, homeWorld, uint.MaxValue);
                         tempRandomlyCreated = true;
                     }
-                    Lot lot = service.IsHomelessService ? null : LotManager.SelectRandomLotForNPCMoveIn(x => x.Household == null);
+                    var lot = service.IsHomelessService ? null : LotManager.SelectRandomLotForNPCMoveIn(x => x.Household == null);
                     if (lot == null)
                     {
                         InitialServiceNpcSetup(service, simDescription);
                         return;
                     }
-                    Household household = new SimUtils.HouseholdCreationSpec().Instantiate();
+                    var household = new SimUtils.HouseholdCreationSpec().Instantiate();
                     household.Add(simDescription);
                     lot.MoveIn(household);
                     simDescription.CreatedByService = service;
-                    return;
                 });
             randomlyCreated = tempRandomlyCreated;
             return simDescription;
@@ -482,13 +419,13 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
         {
             return DebugUtils.TryDisplayScriptError(() =>
                 {
-                    bool shouldUseServobot = false;
+                    var shouldUseServobot = false;
                     if (GameUtils.IsInstalled(ProductVersion.EP11))
                     {
                         shouldUseServobot = ServiceNPCSpecifications.ShouldUseServobot(ServiceType.ToString());
                     }
-                    List<SimDescription> pool = new List<SimDescription>();
-                    foreach (SimDescription simDescription in mPool)
+                    var pool = new List<SimDescription>();
+                    foreach (var simDescription in mPool)
                     {
                         if (!IsSimAssignedTask(simDescription) && CanSimBeAssignedToLot(simDescription, lot) && (shouldUseServobot && simDescription.IsEP11Bot || !shouldUseServobot && !simDescription.IsEP11Bot) && simDescription.CreatedSim == null)
                         {
@@ -497,17 +434,17 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                     }
                     if (pool.Count == 0)
                     {
-                        SimDescription simDescription = CreateNewNPCForPool(lot);
+                        var simDescription = CreateNewNPCForPool(lot);
                         if (simDescription != null)
                         {
                             AddSimToPool(simDescription);
                         }
                         return simDescription;
                     }
-                    SimDescription randomSimDescription = RandomUtil.GetRandomObjectFromList<SimDescription>(pool);
+                    var randomSimDescription = RandomUtil.GetRandomObjectFromList(pool);
                     if (AlwaysTryToSendSameSim && lot.Household != null)
                     {
-                        if (mPreferredServiceNpc.TryGetValue(lot.Household.HouseholdId, out SimDescription simDescription))
+                        if (mPreferredServiceNpc.TryGetValue(lot.Household.HouseholdId, out var simDescription))
                         {
                             if (pool.Contains(simDescription))
                             {
@@ -520,7 +457,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         }
                     }
                     return randomSimDescription;
-                }, out SimDescription retVal) ? null : retVal;
+                }, out var retVal) ? null : retVal;
         }
 
         public override string GetServiceTopic(Sim serviceSim)
@@ -537,7 +474,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                 {
                     if (e is World.OnObjectPlacedInLotEventArgs onObjectPlacedInLotEventArgs)
                     {
-                        GameObject gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
+                        var gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
                         if (typeof(IAmLiveInService).IsAssignableFrom(DerivedType))
                         {
                             if (gameObject is Bed bed)
@@ -553,7 +490,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                     {
                         CommonUtils.AddEnumValue<CommodityKind>("Be" + DerivedType.Name, ServiceMotive);
                         LoadServiceMotive();
-                        string activeTopic = DerivedType.Name + " Service";
+                        var activeTopic = DerivedType.Name + " Service";
                         if (!ActiveTopicData.Exists(activeTopic))
                         {
                             ActiveTopicData.Add(new ActiveTopicData(activeTopic, false, 1000, "", true, true, false, true, null, 0f, "", false));
@@ -561,7 +498,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         CommonUtils.AddActions(activeTopic, LongTermRelationshipTypes.Default, false, "Dismiss", "Fire");
                         ServiceUtils.LoadedTypes.Add(DerivedType);
                     }
-                    MethodInfo createMethod = DerivedType.GetMethod("Create");
+                    var createMethod = DerivedType.GetMethod("Create");
                     if (createMethod == null)
                     {
                         Create();
@@ -575,19 +512,22 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         return;
                     }
                     Instance.AddOutputs();
-                    IEnumerator<SimDescription> enumerator = Instance.Pool.GetEnumerator();
-                    while (enumerator.MoveNext())
+                    using (var enumerator = Instance.Pool.GetEnumerator())
                     {
-                        if (enumerator.Current != null && enumerator.Current.CreatedSim != null)
+                        while (enumerator.MoveNext())
                         {
-                            CommonUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim, ServiceMotive);
+                            if (enumerator.Current != null && enumerator.Current.CreatedSim != null)
+                            {
+                                CommonUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim, ServiceMotive);
+                            }
                         }
-                    }
-                    if (typeof(IAmLiveInService).IsAssignableFrom(DerivedType))
-                    {
-                        foreach (Bed bed in Sims3.Gameplay.Queries.GetObjects<Bed>())
+
+                        if (typeof(IAmLiveInService).IsAssignableFrom(DerivedType))
                         {
-                            AddInteractions(bed);
+                            foreach (var bed in Queries.GetObjects<Bed>())
+                            {
+                                AddInteractions(bed);
+                            }
                         }
                     }
                 });
@@ -612,7 +552,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public virtual void RemoveOutputs()
         {
-            foreach (ServiceUtils.CommodityChange output in Outputs)
+            foreach (var output in Outputs)
             {
                 ServiceMotive.RemoveAsOutput(output.InteractionDefinitionType, output.TargetType, output.ConstantChange, output.Locked, output.ActualValue, output.UpdateType, output.TimeDependsOnCommodityFilling, output.UpdateEvenOnFailure, output.UpdateAboveAndBelowZero);
             }

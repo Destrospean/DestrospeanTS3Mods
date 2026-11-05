@@ -6,7 +6,7 @@ namespace Destrospean.UI.Columns
 {
     public class TraitColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<Trait>
     {
-        readonly bool mIsFemale;
+        private readonly bool mIsFemale;
 
         public TraitColumn(string localizationPath, bool isFemale = false) : base(localizationPath + "/Headers/Trait:Text", localizationPath + "/Headers/Trait:Tooltip", 400)
         {
@@ -15,7 +15,7 @@ namespace Destrospean.UI.Columns
 
         public override ObjectPicker.ColumnInfo GetValue(Trait trait)
         {
-            string name = trait.TraitName(mIsFemale);
+            var name = trait.TraitName(mIsFemale);
             return new ObjectPicker.ThumbAndTextColumn(new ThumbnailKey(trait.IconKey, ThumbnailSize.Large), string.IsNullOrEmpty(name) ? trait.Guid.ToString() : name);
         }
     }

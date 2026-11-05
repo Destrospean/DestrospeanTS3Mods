@@ -6,13 +6,12 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Xml;
 using Mono.Cecil;
-using s3pi.Interfaces;
 
 namespace Destrospean.MoreFavorites.Generator
 {
     class Program
     {
-        enum Locales
+        private enum Locales
         {
             ENG_US,
             CHS_CN,
@@ -46,8 +45,8 @@ namespace Destrospean.MoreFavorites.Generator
             {
                 using (var attributes = new ImageAttributes())
                 {
-                    attributes.SetColorMatrix(new ColorMatrix(new float[][]
-                        {
+                    attributes.SetColorMatrix(new ColorMatrix(new[]
+                    {
                             new[]
                             {
                                 (float)color.R / byte.MaxValue,
@@ -244,7 +243,7 @@ namespace Destrospean.MoreFavorites.Generator
                 ulong largeIMAGKeyInstance = FNV64.GetHash(imageKeyInstanceBase + "_r2"),
                 smallIMAGKeyInstance = FNV64.GetHash(imageKeyInstanceBase + "_s_r2");
                 int startIndex;
-                if (hex == null || !uint.TryParse(("FFFFFFFF".Remove(0, hex.Length - (startIndex = hex.StartsWith("#") ? 1 : hex.StartsWith("0x") ? 2 : 0))) + hex.Substring(startIndex), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out var argb))
+                if (hex == null || !uint.TryParse("FFFFFFFF".Remove(0, hex.Length - (startIndex = hex.StartsWith("#") ? 1 : hex.StartsWith("0x") ? 2 : 0)) + hex.Substring(startIndex), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out var argb))
                 {
                     continue;
                 }
