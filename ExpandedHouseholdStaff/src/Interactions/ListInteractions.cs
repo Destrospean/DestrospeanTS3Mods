@@ -6,7 +6,6 @@ using Sims3.Gameplay.Utilities;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
 using Sims3.UI;
-using System;
 using Destrospean.Utils;
 
 namespace Destrospean.ExpandedHouseholdStaff.Interactions
