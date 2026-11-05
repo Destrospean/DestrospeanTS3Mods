@@ -1,9 +1,9 @@
 ﻿extern alias NRaasMasterController;
+using Destrospean.Utils;
 using Sims3.Gameplay;
 using Sims3.Gameplay.CAS;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
-using Destrospean.Utils;
 using GameHitParameters = NRaasMasterController::NRaas.CommonSpace.Options.GameHitParameters<Sims3.Gameplay.Abstracts.GameObject>;
 using SpeedTrap = NRaasMasterController::NRaas.SpeedTrap;
 using Stylist = NRaasMasterController::NRaas.MasterControllerSpace.Sims.Stylist;

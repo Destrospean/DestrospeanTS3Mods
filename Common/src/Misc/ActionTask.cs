@@ -1,5 +1,5 @@
-﻿using Sims3.SimIFace;
-using Destrospean.Delegates;
+﻿using Destrospean.Delegates;
+using Sims3.SimIFace;
 
 namespace Destrospean.Misc
 {

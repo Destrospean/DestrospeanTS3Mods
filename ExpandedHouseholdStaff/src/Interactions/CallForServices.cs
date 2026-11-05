@@ -1,6 +1,10 @@
-﻿using Sims3.Gameplay.Actors;
+﻿using System.Collections.Generic;
+using Destrospean.Utils;
+using Destrospean.Utils.ExpandedHouseholdStaff;
+using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.Core;
+using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services;
 using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Moving;
@@ -8,12 +12,8 @@ using Sims3.Gameplay.Objects.Electronics;
 using Sims3.Gameplay.Services;
 using Sims3.Gameplay.Tutorial;
 using Sims3.Gameplay.Utilities;
-using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services;
 using Sims3.SimIFace;
 using Sims3.UI;
-using System.Collections.Generic;
-using Destrospean.Utils;
-using Destrospean.Utils.ExpandedHouseholdStaff;
 
 namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
 {

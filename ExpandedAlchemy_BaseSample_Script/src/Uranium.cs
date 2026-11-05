@@ -1,12 +1,12 @@
-﻿using Sims3.Gameplay.Abstracts;
+﻿using System;
+using System.Collections.Generic;
+using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.Core;
 using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
-using System;
-using System.Collections.Generic;
 
 namespace Sims3.Gameplay.Objects.Spawners
 {

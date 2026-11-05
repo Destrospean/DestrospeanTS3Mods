@@ -1,13 +1,13 @@
-﻿using Sims3.Gameplay.Abstracts;
+﻿using Destrospean.Utils;
+using Destrospean.Utils.ExpandedHouseholdStaff;
+using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.Autonomy;
+using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Utilities;
-using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
-using Destrospean.Utils;
-using Destrospean.Utils.ExpandedHouseholdStaff;
 
 namespace Destrospean.ExpandedHouseholdStaff.Interactions
 {

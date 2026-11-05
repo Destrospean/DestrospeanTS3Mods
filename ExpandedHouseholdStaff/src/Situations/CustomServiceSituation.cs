@@ -1,10 +1,15 @@
-﻿using Sims3.Gameplay.Abstracts;
+﻿using System.Collections.Generic;
+using Destrospean.Utils;
+using Destrospean.Utils.ExpandedHouseholdStaff;
+using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Core;
+using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services;
+using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Interfaces;
@@ -14,14 +19,9 @@ using Sims3.Gameplay.Objects.Vehicles;
 using Sims3.Gameplay.Services;
 using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.Utilities;
-using Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services;
-using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
-using System.Collections.Generic;
-using Destrospean.Utils;
-using Destrospean.Utils.ExpandedHouseholdStaff;
 
 namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 {

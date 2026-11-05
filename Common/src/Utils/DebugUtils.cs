@@ -1,7 +1,7 @@
-﻿using Sims3.SimIFace;
-using Sims3.UI;
-using System;
+﻿using System;
 using Destrospean.Delegates;
+using Sims3.SimIFace;
+using Sims3.UI;
 
 namespace Sims3.Gameplay.Destrospean.Utils
 {

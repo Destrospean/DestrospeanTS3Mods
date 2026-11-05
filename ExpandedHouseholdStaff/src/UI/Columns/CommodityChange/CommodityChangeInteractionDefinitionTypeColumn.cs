@@ -1,5 +1,5 @@
-﻿using Sims3.UI;
-using Destrospean.Utils.ExpandedHouseholdStaff;
+﻿using Destrospean.Utils.ExpandedHouseholdStaff;
+using Sims3.UI;
 
 namespace Destrospean.UI.Columns.ExpandedHouseholdStaff
 {

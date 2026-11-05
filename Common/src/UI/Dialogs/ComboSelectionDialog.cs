@@ -1,7 +1,7 @@
-﻿using Sims3.SimIFace;
-using Sims3.UI;
-using System;
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Sims3.SimIFace;
+﻿using Sims3.UI;
 
 namespace Destrospean.UI.Dialogs
 {

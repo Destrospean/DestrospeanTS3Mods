@@ -1,6 +1,6 @@
-﻿using Sims3.Gameplay.ActorSystems;
+﻿using System.Collections.Generic;
+using Sims3.Gameplay.ActorSystems;
 using Sims3.UI;
-using System.Collections.Generic;
 
 namespace Destrospean.UI.Columns
 {

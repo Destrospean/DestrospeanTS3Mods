@@ -1,4 +1,15 @@
-﻿using Sims3.Gameplay;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Xml;
+using Destrospean.Enums;
+using Destrospean.Enums.ExpandedHouseholdStaff;
+using Destrospean.ExpandedHouseholdStaff.Interactions;
+using Destrospean.Misc;
+using Destrospean.UI.Columns;
+using Sims3.Gameplay;
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.CAS;
@@ -10,17 +21,6 @@ using Sims3.SimIFace.CAS;
 using Sims3.SimIFace.CustomContent;
 using Sims3.UI;
 using Sims3.UI.Controller;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Text;
-using System.Xml;
-using Destrospean.Enums;
-using Destrospean.Enums.ExpandedHouseholdStaff;
-using Destrospean.ExpandedHouseholdStaff.Interactions;
-using Destrospean.Misc;
-using Destrospean.UI.Columns;
 using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.Utils.ExpandedHouseholdStaff

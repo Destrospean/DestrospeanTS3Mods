@@ -1,7 +1,7 @@
-﻿using Sims3.Gameplay.Skills;
+﻿using Destrospean.Misc;
+using Sims3.Gameplay.Skills;
 using Sims3.SimIFace;
 using Sims3.UI;
-using Destrospean.Misc;
 
 namespace Destrospean.UI.Columns
 {

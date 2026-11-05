@@ -1,6 +1,6 @@
-﻿using Sims3.SimIFace.CAS;
+﻿using System.Collections.Generic;
+using Sims3.SimIFace.CAS;
 using Sims3.UI;
-using System.Collections.Generic;
 
 namespace Destrospean.UI.Columns
 {

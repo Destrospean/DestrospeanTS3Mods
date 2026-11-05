@@ -1,10 +1,10 @@
-﻿using Sims3.Gameplay;
+﻿using System.Collections;
+using Sims3.Gameplay;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.CAS;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI.CAS;
-using System.Collections;
 
 namespace Destrospean.Utils
 {

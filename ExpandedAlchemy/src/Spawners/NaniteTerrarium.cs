@@ -1,6 +1,6 @@
-﻿using Sims3.Gameplay.Interfaces;
+﻿using System;
+using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Objects.Insect;
-using System;
 
 namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Spawners
 {

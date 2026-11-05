@@ -1,4 +1,5 @@
-﻿using Sims3.Gameplay.Abstracts;
+﻿using System.Collections.Generic;
+using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Core;
@@ -7,7 +8,6 @@ using Sims3.Gameplay.Objects.Insect;
 using Sims3.Gameplay.Objects.Register;
 using Sims3.Gameplay.Objects.Spawners;
 using Sims3.SimIFace;
-using System.Collections.Generic;
 
 namespace Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register
 {

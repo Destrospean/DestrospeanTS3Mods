@@ -1,4 +1,7 @@
-﻿using Sims3.Gameplay.Abstracts;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.Autonomy;
@@ -16,9 +19,6 @@ using Sims3.Gameplay.UI;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.Enums;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace Destrospean.Utils.ExpandedHouseholdStaff
 {

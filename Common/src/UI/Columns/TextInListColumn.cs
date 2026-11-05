@@ -1,5 +1,5 @@
-﻿using Sims3.UI;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Sims3.UI;
 
 namespace Destrospean.UI.Columns
 {
