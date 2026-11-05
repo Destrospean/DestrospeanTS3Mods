@@ -241,7 +241,7 @@ namespace Destrospean.ExpandedHouseholdStaff
             {
                 text += ", " + Common.Localize("TagData:Birthday", sim.IsFemale, new object[]
                     {
-                        (int)(AgingManager.Singleton.AgingYearsToSimDays(AgingManager.GetMaximumAgingStageLength((IMiniSimDescription)sim)) - AgingManager.Singleton.AgingYearsToSimDays(sim.AgingYearsSinceLastAgeTransition))
+                        (int)(AgingManager.Singleton.AgingYearsToSimDays(AgingManager.GetMaximumAgingStageLength(sim)) - AgingManager.Singleton.AgingYearsToSimDays(sim.AgingYearsSinceLastAgeTransition))
                     });
             }
             if (Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.AgeInDays] || Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.AgeInYears] || Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.DaysTillNextStage])
@@ -462,11 +462,7 @@ namespace Destrospean.ExpandedHouseholdStaff
             }
             if (sim.IsPregnant && Tagger.Settings.mTagDataSettings[TagDataHelper.TagDataType.PregnancyInfo])
             {
-                IMiniSimDescription miniSimDescription = SimDescription.Find(sim.Pregnancy.DadDescriptionId);
-                if (miniSimDescription == null)
-                {
-                    miniSimDescription = MiniSimDescription.Find(sim.Pregnancy.DadDescriptionId);
-                }
+                IMiniSimDescription miniSimDescription = SimDescription.Find(sim.Pregnancy.DadDescriptionId) ?? (IMiniSimDescription)MiniSimDescription.Find(sim.Pregnancy.DadDescriptionId);
                 text += Common.NewLine;
                 if (miniSimDescription != null)
                 {
@@ -534,8 +530,7 @@ namespace Destrospean.ExpandedHouseholdStaff
         [ScoringFunction]
         public static float PutAwayLeftOversScoringFunction_EHSPatch(Sim actor, InteractionObjectPair iop)
         {
-            float retVal = 1f;
-            DebugUtils.TryDisplayScriptError(() =>
+            return DebugUtils.TryDisplayScriptError(() =>
                 {
                     CustomService customService = actor.Service as CustomService;
                     if (actor.IsPerformingAService && (customService?.WaitsBeforePuttingAwayLeftovers ?? false))
@@ -543,8 +538,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                         return iop.Target is IPreparedFood preparedFood && SimClock.ElapsedTime(TimeUnit.Minutes) - preparedFood.TimeOfCreation <= customService.TimeWaitBeforePutawayLeftovers ? 0f : 1f;
                     }
                     return CleanableComponent.PutAwayLeftOversScoringFunction(actor, iop);
-                }, out retVal);
-            return retVal;
+                }, out float retVal) ? 1f : retVal;
         }
     }
 }
