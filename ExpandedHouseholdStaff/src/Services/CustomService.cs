@@ -309,10 +309,8 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                             {
                                 if (enumerator.Current != null && enumerator.Current.CreatedSim != null)
                                 {
-                                    CommonUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim,
-                                        service.ServiceMotive);
-                                    (ServiceSituation.FindServiceSituationInvolving(enumerator.Current.CreatedSim) as
-                                        CustomServiceSituation)?.SetMotivesAndCommodities();
+                                    CommonUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim, service.ServiceMotive);
+                                    (ServiceSituation.FindServiceSituationInvolving(enumerator.Current.CreatedSim) as CustomServiceSituation)?.SetMotivesAndCommodities();
                                 }
                             }
                         }
