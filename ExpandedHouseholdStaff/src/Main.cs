@@ -9,6 +9,7 @@ using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
+using Sims3.Gameplay.ActorSystems.Children;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Core;
@@ -48,14 +49,16 @@ namespace Destrospean.ExpandedHouseholdStaff
 
         static Main()
         {
-            CommonUtils.ReplaceMethod<Main, Inventory>("AddInternal_Original", "AddInternal");
-            CommonUtils.ReplaceMethod<Inventory, Main>("AddInternal");
-            CommonUtils.ReplaceMethod<Main, Plant>("GardenInteractionLotValidityTest_Original", "GardenInteractionLotValidityTest");
-            CommonUtils.ReplaceMethod<Plant, Main>("GardenInteractionLotValidityTest");
-            CommonUtils.ReplaceMethod<Main, SocialComponent>("IsInServicePreventingSocialization_Original", "IsInServicePreventingSocialization");
-            CommonUtils.ReplaceMethod<SocialComponent, Main>("IsInServicePreventingSocialization");
-            CommonUtils.ReplaceMethod<Main, SimDescription>("IsPerformingAnyServiceOfType_Original", "IsPerformingAnyServiceOfType");
-            CommonUtils.ReplaceMethod<SimDescription, Main>("IsPerformingAnyServiceOfType");
+            CommonUtils.ReplaceMethod<Main, Inventory>(nameof(AddInternal_Original), nameof(AddInternal));
+            CommonUtils.ReplaceMethod<Inventory, Main>(nameof(AddInternal));
+            CommonUtils.ReplaceMethod<Main, CaregiverRoutingMonitor>(nameof(CountBabiesToddlersAndCaregivers_Original), nameof(CountBabiesToddlersAndCaregivers));
+            CommonUtils.ReplaceMethod<CaregiverRoutingMonitor, Main>(nameof(CountBabiesToddlersAndCaregivers));
+            CommonUtils.ReplaceMethod<Main, Plant>(nameof(GardenInteractionLotValidityTest_Original), nameof(GardenInteractionLotValidityTest));
+            CommonUtils.ReplaceMethod<Plant, Main>(nameof(GardenInteractionLotValidityTest));
+            CommonUtils.ReplaceMethod<Main, SocialComponent>(nameof(IsInServicePreventingSocialization_Original), nameof(IsInServicePreventingSocialization));
+            CommonUtils.ReplaceMethod<SocialComponent, Main>(nameof(IsInServicePreventingSocialization));
+            CommonUtils.ReplaceMethod<Main, SimDescription>(nameof(IsPerformingAnyServiceOfType_Original), nameof(IsPerformingAnyServiceOfType));
+            CommonUtils.ReplaceMethod<SimDescription, Main>(nameof(IsPerformingAnyServiceOfType));
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 switch (assembly.GetName().Name)
@@ -128,6 +131,24 @@ namespace Destrospean.ExpandedHouseholdStaff
         }
 
         public InventoryItem AddInternal_Original(IGameObject gameObject, uint stackNumber, InventoryStack stack, bool testPurge)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public static void CountBabiesToddlersAndCaregivers(Household household, Lot lot, Dictionary<Sim, Vector3> lastOnLotPositions, out int babyToddlerCount, out int caregiverCount, out int routingCaregiverCount, out Sim arbitraryBabyOrToddler, bool countServicesAsCaregiversEvenWithoutToddlers)
+        {
+            CountBabiesToddlersAndCaregivers_Original(household, lot, lastOnLotPositions, out babyToddlerCount, out caregiverCount, out routingCaregiverCount, out arbitraryBabyOrToddler, countServicesAsCaregiversEvenWithoutToddlers);
+            var adjustedBabyToddlerCount = countServicesAsCaregiversEvenWithoutToddlers && babyToddlerCount < 1 ? 1 : babyToddlerCount;
+            foreach (var service in ServiceUtils.CustomInstances.Values)
+            {
+                if (service.Profile.IsBabysittingService && (service.NumSimsAssignedToLot(lot) > 0 || service.IsServiceRequested(lot)))
+                {
+                    caregiverCount += adjustedBabyToddlerCount;
+                }
+            }
+        }
+
+        public static void CountBabiesToddlersAndCaregivers_Original(Household household, Lot lot, Dictionary<Sim, Vector3> lastOnLotPositions, out int babyToddlerCount, out int caregiverCount, out int routingCaregiverCount, out Sim arbitraryBabyOrToddler, bool countServicesAsCaregiversEvenWithoutToddlers)
         {
             throw new NotImplementedException();
         }
@@ -320,7 +341,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                     {
                         if (sim.CreatedSim.Motives.HasMotive(motive))
                         {
-                            if (motiveIndex >= 6)
+                            if (motiveIndex > 5)
                             {
                                 break;
                             }
@@ -502,7 +523,7 @@ namespace Destrospean.ExpandedHouseholdStaff
 
         public static void IntegrateNRaasTagger()
         {
-            CommonUtils.ReplaceMethod<TagDataHelper, Main>("GetStatus");
+            CommonUtils.ReplaceMethod<TagDataHelper, Main>(nameof(GetStatus));
         }
 
         public static bool IsInServicePreventingSocialization(Sim target)
