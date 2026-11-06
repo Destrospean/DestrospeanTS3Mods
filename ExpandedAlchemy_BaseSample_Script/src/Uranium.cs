@@ -28,8 +28,7 @@ namespace Sims3.Gameplay.Objects.Spawners
 
         [Tunable]
         [TunableComment("How often the Uranium sparkle Vfx plays in Sim hours. Format: (min, max). These are float values.")]
-        private static float[] kVfxFrequency = new[]
-            {
+        private static float[] kVfxFrequency = {
                 0.5f,
                 1f
             };

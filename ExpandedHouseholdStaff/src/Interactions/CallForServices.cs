@@ -14,6 +14,7 @@ using Sims3.Gameplay.Tutorial;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.UI;
+using Responder = Sims3.Gameplay.UI.Responder;
 
 namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
 {
@@ -126,8 +127,8 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Interactions
 
             public new static bool Show(Lot lot, ObjectGuid simGuid)
             {
-                UI.Responder.Instance.mServicesModel = new ServicesModel();
-                var servicesModel = (ServicesModel)UI.Responder.Instance.ServicesModel;
+                Responder.Instance.mServicesModel = new ServicesModel();
+                var servicesModel = (ServicesModel)Responder.Instance.ServicesModel;
                 servicesModel.Lot = lot;
                 servicesModel.SimGuid = simGuid;
                 return ServicesController.Show(simGuid);

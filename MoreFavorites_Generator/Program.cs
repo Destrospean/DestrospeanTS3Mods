@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Xml;
 using Mono.Cecil;
+using s3pi.Package;
 
 namespace Destrospean.MoreFavorites.Generator
 {
@@ -96,10 +99,10 @@ namespace Destrospean.MoreFavorites.Generator
 
         public static void Main(string[] args)
         {
-            var executable = System.Reflection.Assembly.GetExecutingAssembly();
+            var executable = Assembly.GetExecutingAssembly();
 
             // Create a new package to clone to
-            var package = s3pi.Package.Package.NewPackage(0);
+            var package = Package.NewPackage(0);
 
             // Get the XML
             var xmlDocument = new XmlDocument();
@@ -108,7 +111,7 @@ namespace Destrospean.MoreFavorites.Generator
                 var templateXmlPath = AppDomain.CurrentDomain.BaseDirectory + "Template.xml";
                 if (!File.Exists(templateXmlPath))
                 {
-                    File.WriteAllText(templateXmlPath, new StreamReader(executable.GetManifestResourceStream("Template.xml")).ReadToEnd());
+                    File.WriteAllText(templateXmlPath, new StreamReader(executable.GetManifestResourceStream("Template.xml") ?? throw new InvalidOperationException()).ReadToEnd());
                     return;
                 }
                 xmlDocument.Load(templateXmlPath);
@@ -121,73 +124,90 @@ namespace Destrospean.MoreFavorites.Generator
             Console.Write("Specify a unique suffix for the batch of favorites entries (leave blank for a random number suffix): ");
 
             // Get a unique name for the assembly and _XML resource
-            string identifier = Console.ReadLine(),
-            assemblyName = "MoreFavorites_" + (string.IsNullOrEmpty(identifier) ? FNV32.GetHash(Guid.NewGuid().ToString()).ToString() : identifier);
+            var identifier = Console.ReadLine();
+            var assemblyName = "MoreFavorites_" + (string.IsNullOrEmpty(identifier) ? FNV32.GetHash(Guid.NewGuid().ToString()).ToString() : identifier);
 
             // Get the assembly
             var assembly = AssemblyDefinition.ReadAssembly(executable.GetManifestResourceStream("MoreFavorites_Base.dll"));
 
             // Get the icons for the white color
-            Bitmap largeColorIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_color_i_white_r2.png")),
-            largeFoodIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_food_i_hamburger_r2.png")),
-            largeMusicIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_music_i_electronica_r2.png")),
-            smallColorIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_color_i_white_s_r2.png")),
-            smallFoodIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_food_i_hamburger_s_r2.png")),
-            smallMusicIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_music_i_electronica_s_r2.png"));
+            var largeColorIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_color_i_white_r2.png") ?? throw new InvalidOperationException());
+            var largeFoodIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_food_i_hamburger_r2.png") ?? throw new InvalidOperationException());
+            var largeMusicIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_music_i_electronica_r2.png") ?? throw new InvalidOperationException());
+            var smallColorIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_color_i_white_s_r2.png") ?? throw new InvalidOperationException());
+            var smallFoodIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_food_i_hamburger_s_r2.png") ?? throw new InvalidOperationException());
+            var smallMusicIMAG = new Bitmap(executable.GetManifestResourceStream("cas_favorites_music_i_electronica_s_r2.png") ?? throw new InvalidOperationException());
 
             // Copy the elements from the XML to put into the new package
             var rootNode = xmlDocument.SelectSingleNode("Favorites") ?? xmlDocument.SelectSingleNode("Favourites");
-            List<XmlElement> favoriteColorElements = new List<XmlElement>(),
-            favoriteFoodElements = new List<XmlElement>(),
-            favoriteMusicElements = new List<XmlElement>(),
-            unfavoriteElements = new List<XmlElement>();
-            foreach (XmlNode node in rootNode.ChildNodes)
+            var favoriteColorElements = new List<XmlElement>();
+            var favoriteFoodElements = new List<XmlElement>();
+            var favoriteMusicElements = new List<XmlElement>();
+            var unfavoriteElements = new List<XmlElement>();
+            if (rootNode?.ChildNodes != null)
             {
-                if ((node.Name == "FavoriteColor" || node.Name == "FavouriteColour") && !favoriteColorElements.Exists(x => node.Attributes["Name"].Value == x.GetAttribute("Name")))
+                foreach (XmlNode node in rootNode.ChildNodes)
                 {
-                    favoriteColorElements.Add((XmlElement)node);
-                }
-                if ((node.Name == "FavoriteFood" || node.Name == "FavouriteFood") && !favoriteFoodElements.Exists(x => node.Attributes["Recipe_Key"].Value == x.GetAttribute("Recipe_Key")))
-                {
-                    favoriteFoodElements.Add((XmlElement)node);
-                }
-                if ((node.Name == "FavoriteMusic" || node.Name == "FavouriteMusic") && !favoriteMusicElements.Exists(x => node.Attributes["Station_Name"].Value == x.GetAttribute("Station_Name")))
-                {
-                    favoriteMusicElements.Add((XmlElement)node);
-                }
-                if ((node.Name == "Unfavorite" || node.Name == "Unfavourite") && !unfavoriteElements.Exists(x => node.Attributes["Name"].Value == x.GetAttribute("Name") && (((XmlElement)node).GetAttribute("Favorite_Type") ?? ((XmlElement)node).GetAttribute("Favourite_Type")) == (x.GetAttribute("Favorite_Type") ?? x.GetAttribute("Favourite_Type"))))
-                {
-                    unfavoriteElements.Add((XmlElement)node);
+                    if (!(node is XmlElement element))
+                    {
+                        continue;
+                    }
+
+                    if ((element.Name == "FavoriteColor" || element.Name == "FavouriteColour") && !favoriteColorElements.Exists(x => element.GetAttribute("Name") == x.GetAttribute("Name")))
+                    {
+                        favoriteColorElements.Add(element);
+                    }
+
+                    if ((element.Name == "FavoriteFood" || element.Name == "FavouriteFood") && !favoriteFoodElements.Exists(x => element.GetAttribute("Recipe_Key") == x.GetAttribute("Recipe_Key")))
+                    {
+                        favoriteFoodElements.Add(element);
+                    }
+
+                    if ((element.Name == "FavoriteMusic" || element.Name == "FavouriteMusic") && !favoriteMusicElements.Exists(x => element.GetAttribute("Station_Name") == x.GetAttribute("Station_Name")))
+                    {
+                        favoriteMusicElements.Add(element);
+                    }
+
+                    var favoriteType = element.GetAttribute("Favorite_Type");
+                    if ((element.Name == "Unfavorite" || element.Name == "Unfavourite") && !unfavoriteElements.Exists(x =>
+                        {
+                            var foundFavoriteType = x.GetAttribute("Favorite_Type");
+                            return element.GetAttribute("Name") == x.GetAttribute("Name") && (string.IsNullOrEmpty(favoriteType) ? element.GetAttribute("Favourite_Type") : favoriteType) == (string.IsNullOrEmpty(foundFavoriteType) ? x.GetAttribute("Favourite_Type") : foundFavoriteType);
+                        }))
+                    {
+                        unfavoriteElements.Add(element);
+                    }
                 }
             }
+
             favoriteColorElements.RemoveAt(0);
             favoriteFoodElements.RemoveAt(0);
             favoriteMusicElements.RemoveAt(0);
             unfavoriteElements.RemoveAt(0);
-            rootNode.RemoveAll();
+            rootNode?.RemoveAll();
             foreach (var favoriteColorElement in favoriteColorElements)
             {
-                rootNode.AppendChild(favoriteColorElement);
+                rootNode?.AppendChild(favoriteColorElement);
             }
             foreach (var favoriteFoodElement in favoriteFoodElements)
             {
-                rootNode.AppendChild(favoriteFoodElement);
+                rootNode?.AppendChild(favoriteFoodElement);
             }
             foreach (var favoriteMusicElement in favoriteMusicElements)
             {
-                rootNode.AppendChild(favoriteMusicElement);
+                rootNode?.AppendChild(favoriteMusicElement);
             }
             foreach (var unfavoriteElement in unfavoriteElements)
             {
-                rootNode.AppendChild(unfavoriteElement);
+                rootNode?.AppendChild(unfavoriteElement);
             }
 
             // Rename the assembly for the new package
             assembly.Name.Name = assemblyName;
             assembly.MainModule.Name = assemblyName + ".dll";
 
-            Stream assemblyStream = new MemoryStream(),
-            xmlStream = new MemoryStream();
+            var assemblyStream = new MemoryStream();
+            var xmlStream = new MemoryStream();
 
             // Save the assembly with the new name
             assembly.Write(assemblyStream);
@@ -199,30 +219,28 @@ namespace Destrospean.MoreFavorites.Generator
             var s3saKeyInstance = FNV64.GetHash(assemblyName);
             var nameMapResource = new NameMapResource.NameMapResource(0, null);
             var stblResources = new StblResource.StblResource[Enum.GetValues(typeof(Locales)).Length];
-            for (var i = 0; i < stblResources.Length && (favoriteColorElements.Count > 0 || favoriteFoodElements.Exists(x =>
-                {
-                    return bool.TryParse(x.GetAttribute("IsGroup"), out var isGroup) && isGroup;
-                }) || favoriteMusicElements.Exists(x =>
-                    {
-                        return bool.TryParse(x.GetAttribute("IsGroup"), out var isGroup) && isGroup;
-                    })); i++)
+            for (var i = 0; i < stblResources.Length && (favoriteColorElements.Count > 0 || favoriteFoodElements.Exists(x => bool.TryParse(x.GetAttribute("IsGroup"), out var isGroup) && isGroup) || favoriteMusicElements.Exists(x => bool.TryParse(x.GetAttribute("IsGroup"), out var isGroup) && isGroup)); i++)
             {
-                var stblKeyInstance = ulong.Parse(i.ToString("X2") + s3saKeyInstance.ToString("X16").Substring(2), System.Globalization.NumberStyles.HexNumber);
+                var stblKeyInstance = ulong.Parse(i.ToString("X2") + s3saKeyInstance.ToString("X16").Substring(2), NumberStyles.HexNumber);
                 var stblName = "Strings_" + (Locales)i + "_0x" + stblKeyInstance.ToString("X16");
                 stblResources[i] = new StblResource.StblResource(0, null);
                 foreach (var favoriteColorElement in favoriteColorElements)
                 {
                     var colorName = favoriteColorElement.GetAttribute("Name");
-                    stblResources[i].Add(FNV64.GetHash("Gameplay/Objects/Appliances/FutureBar:" + colorName), favoriteColorElement.GetAttribute("Drink_Display_Name") ?? "Gameplay/Objects/Appliances/FutureBar:" + colorName);
-                    stblResources[i].Add(FNV64.GetHash("Gameplay/Objects/Plumbing/SonicShower:" + colorName), favoriteColorElement.GetAttribute("Display_Name") ?? "Gameplay/Objects/Plumbing/SonicShower:" + colorName);
-                    stblResources[i].Add(FNV64.GetHash("Ui/Caption/CAS/Favorites/Color:" + colorName), favoriteColorElement.GetAttribute("Display_Name") ?? "Ui/Caption/CAS/Favorites/Color:" + colorName);
+                    var attribute = favoriteColorElement.GetAttribute("Drink_Display_Name");
+                    stblResources[i].Add(FNV64.GetHash("Gameplay/Objects/Appliances/FutureBar:" + colorName), string.IsNullOrEmpty(attribute) ? "Gameplay/Objects/Appliances/FutureBar:" + colorName : attribute);
+                    attribute = favoriteColorElement.GetAttribute("Display_Name");
+                    stblResources[i].Add(FNV64.GetHash("Gameplay/Objects/Plumbing/SonicShower:" + colorName), string.IsNullOrEmpty(attribute) ? "Gameplay/Objects/Plumbing/SonicShower:" + colorName : attribute);
+                    attribute = favoriteColorElement.GetAttribute("Display_Name");
+                    stblResources[i].Add(FNV64.GetHash("Ui/Caption/CAS/Favorites/Color:" + colorName), string.IsNullOrEmpty(attribute) ? "Ui/Caption/CAS/Favorites/Color:" + colorName : attribute);
                 }
                 foreach (var favoriteFoodElement in favoriteFoodElements)
                 {
                     var recipeKey = favoriteFoodElement.GetAttribute("Recipe_Key");
                     if (bool.TryParse(favoriteFoodElement.GetAttribute("IsGroup"), out var isGroup) && isGroup)
                     {
-                        stblResources[i].Add(FNV64.GetHash("Gameplay/Excel/RecipeMasterList/Data:" + recipeKey), favoriteFoodElement.GetAttribute("Group_Display_Name") ?? "Gameplay/Excel/RecipeMasterList/Data:" + recipeKey);
+                        var groupDisplayName = favoriteFoodElement.GetAttribute("Group_Display_Name");
+                        stblResources[i].Add(FNV64.GetHash("Gameplay/Excel/RecipeMasterList/Data:" + recipeKey), string.IsNullOrEmpty(groupDisplayName) ? "Gameplay/Excel/RecipeMasterList/Data:" + recipeKey : groupDisplayName);
                     }
                 }
                 foreach (var favoriteMusicElement in favoriteMusicElements)
@@ -230,7 +248,8 @@ namespace Destrospean.MoreFavorites.Generator
                     var stationName = favoriteMusicElement.GetAttribute("Station_Name");
                     if (bool.TryParse(favoriteMusicElement.GetAttribute("IsGroup"), out var isGroup) && isGroup)
                     {
-                        stblResources[i].Add(FNV64.GetHash("Gameplay/Excel/Stereo/Stations:" + stationName), favoriteMusicElement.GetAttribute("Group_Display_Name") ?? "Gameplay/Excel/Stereo/Stations:" + stationName);
+                        var groupDisplayName = favoriteMusicElement.GetAttribute("Group_Display_Name");
+                        stblResources[i].Add(FNV64.GetHash("Gameplay/Excel/Stereo/Stations:" + stationName), string.IsNullOrEmpty(groupDisplayName) ? "Gameplay/Excel/Stereo/Stations:" + stationName : groupDisplayName);
                     }
                 }
                 package.AddResource(new ResourceKey(0x220557DA, 0, stblKeyInstance), stblResources[i].Stream, true);
@@ -238,17 +257,17 @@ namespace Destrospean.MoreFavorites.Generator
             }
             foreach (var favoriteColorElement in favoriteColorElements)
             {
-                string hex = favoriteColorElement.GetAttribute("Hex"),
-                imageKeyInstanceBase = "cas_favorites_color_i_" + favoriteColorElement.GetAttribute("Name");
-                ulong largeIMAGKeyInstance = FNV64.GetHash(imageKeyInstanceBase + "_r2"),
-                smallIMAGKeyInstance = FNV64.GetHash(imageKeyInstanceBase + "_s_r2");
+                var hex = favoriteColorElement.GetAttribute("Hex");
+                var imageKeyInstanceBase = "cas_favorites_color_i_" + favoriteColorElement.GetAttribute("Name");
+                var largeIMAGKeyInstance = FNV64.GetHash(imageKeyInstanceBase + "_r2");
+                var smallIMAGKeyInstance = FNV64.GetHash(imageKeyInstanceBase + "_s_r2");
                 int startIndex;
-                if (hex == null || !uint.TryParse("FFFFFFFF".Remove(0, hex.Length - (startIndex = hex.StartsWith("#") ? 1 : hex.StartsWith("0x") ? 2 : 0)) + hex.Substring(startIndex), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out var argb))
+                if (string.IsNullOrEmpty(hex) || !uint.TryParse("FFFFFFFF".Remove(0, hex.Length - (startIndex = hex.StartsWith("#") ? 1 : hex.StartsWith("0x") ? 2 : 0)) + hex.Substring(startIndex), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var argb))
                 {
                     continue;
                 }
-                Stream largeIMAGStream = new MemoryStream(),
-                smallIMAGStream = new MemoryStream();
+                var largeIMAGStream = new MemoryStream();
+                var smallIMAGStream = new MemoryStream();
                 Colorize(largeColorIMAG, Color.FromArgb((int)(argb | 0xFF000000))).Save(largeIMAGStream, ImageFormat.Png);
                 Colorize(smallColorIMAG, Color.FromArgb((int)(argb | 0xFF000000))).Save(smallIMAGStream, ImageFormat.Png);
                 package.AddResource(new ResourceKey(0x2F7D0004, 0, largeIMAGKeyInstance), largeIMAGStream, true);
@@ -264,13 +283,15 @@ namespace Destrospean.MoreFavorites.Generator
             }
             foreach (var favoriteFoodElement in favoriteFoodElements)
             {
-                string name = favoriteFoodElement.GetAttribute("Recipe_Key"),
-                largeIMAGKey = string.IsNullOrEmpty(favoriteFoodElement.GetAttribute("Icon_Key")) ? "cas_favs_food_i_" + name : favoriteFoodElement.GetAttribute("Icon_Key"),
-                smallIMAGKey = string.IsNullOrEmpty(favoriteFoodElement.GetAttribute("Small_Icon_Key")) ? "cas_favs_food_i_" + name + "_s" : favoriteFoodElement.GetAttribute("Small_Icon_Key");
-                ulong largeIMAGKeyInstance = FNV64.GetHash(largeIMAGKey),
-                smallIMAGKeyInstance = FNV64.GetHash(smallIMAGKey);
-                Stream largeIMAGStream = new MemoryStream(),
-                smallIMAGStream = new MemoryStream();
+                var name = favoriteFoodElement.GetAttribute("Recipe_Key");
+                var attribute = favoriteFoodElement.GetAttribute("Icon_Key");
+                var largeIMAGKey = string.IsNullOrEmpty(attribute) ? "cas_favs_food_i_" + name : attribute;
+                attribute = favoriteFoodElement.GetAttribute("Small_Icon_Key");
+                var smallIMAGKey = string.IsNullOrEmpty(attribute) ? "cas_favs_food_i_" + name + "_s" : attribute;
+                var largeIMAGKeyInstance = FNV64.GetHash(largeIMAGKey);
+                var smallIMAGKeyInstance = FNV64.GetHash(smallIMAGKey);
+                var largeIMAGStream = new MemoryStream();
+                var smallIMAGStream = new MemoryStream();
                 largeFoodIMAG.Save(largeIMAGStream, ImageFormat.Png);
                 smallFoodIMAG.Save(smallIMAGStream, ImageFormat.Png);
                 package.AddResource(new ResourceKey(0x2F7D0004, 0, largeIMAGKeyInstance), largeIMAGStream, true);
@@ -286,13 +307,15 @@ namespace Destrospean.MoreFavorites.Generator
             }
             foreach (var favoriteMusicElement in favoriteMusicElements)
             {
-                string name = favoriteMusicElement.GetAttribute("Station_Name"),
-                largeIMAGKey = string.IsNullOrEmpty(favoriteMusicElement.GetAttribute("Icon_Key")) ? "cas_favs_music_i_" + name : favoriteMusicElement.GetAttribute("Icon_Key"),
-                smallIMAGKey = string.IsNullOrEmpty(favoriteMusicElement.GetAttribute("Small_Icon_Key")) ? "cas_favs_music_i_" + name + "_s" : favoriteMusicElement.GetAttribute("Small_Icon_Key");
-                ulong largeIMAGKeyInstance = FNV64.GetHash(largeIMAGKey),
-                smallIMAGKeyInstance = FNV64.GetHash(smallIMAGKey);
-                Stream largeIMAGStream = new MemoryStream(),
-                smallIMAGStream = new MemoryStream();
+                var name = favoriteMusicElement.GetAttribute("Station_Name");
+                var attribute = favoriteMusicElement.GetAttribute("Icon_Key");
+                var largeIMAGKey = string.IsNullOrEmpty(attribute) ? "cas_favs_music_i_" + name : attribute;
+                attribute = favoriteMusicElement.GetAttribute("Small_Icon_Key");
+                var smallIMAGKey = string.IsNullOrEmpty(attribute) ? "cas_favs_music_i_" + name + "_s" : attribute;
+                var largeIMAGKeyInstance = FNV64.GetHash(largeIMAGKey);
+                var smallIMAGKeyInstance = FNV64.GetHash(smallIMAGKey);
+                var largeIMAGStream = new MemoryStream();
+                var smallIMAGStream = new MemoryStream();
                 largeMusicIMAG.Save(largeIMAGStream, ImageFormat.Png);
                 smallMusicIMAG.Save(smallIMAGStream, ImageFormat.Png);
                 package.AddResource(new ResourceKey(0x2F7D0004, 0, largeIMAGKeyInstance), largeIMAGStream, true);

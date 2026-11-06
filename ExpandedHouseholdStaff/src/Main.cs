@@ -36,6 +36,7 @@ using Sims3.UI.CAS;
 using Aging = NRaasTagger::NRaas.CommonSpace.Helpers.Aging;
 using Common = NRaasTagger::NRaas.Common;
 using OccultTypeHelper = NRaasTagger::NRaas.CommonSpace.Helpers.OccultTypeHelper;
+using Queries = Sims3.Gameplay.Queries;
 using SimTypes = NRaasTagger::NRaas.CommonSpace.Helpers.SimTypes;
 using TagDataHelper = NRaasTagger::NRaas.TaggerSpace.Helpers.TagDataHelper;
 using Tagger = NRaasTagger::NRaas.Tagger;
@@ -87,7 +88,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                 });
             World.sOnWorldLoadFinishedEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                 {
-                    foreach (var gameObject in Sims3.Gameplay.Queries.GetObjects<GameObject>())
+                    foreach (var gameObject in Queries.GetObjects<GameObject>())
                     {
                         gameObject.AddInteraction(ListInteractions.Singleton, true);
                         gameObject.AddInteraction(AddInventoryObjectToService.Singleton, true);

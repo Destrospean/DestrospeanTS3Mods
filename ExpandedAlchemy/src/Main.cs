@@ -16,6 +16,7 @@ using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.UI;
+using Queries = Sims3.Gameplay.Queries;
 
 namespace Destrospean.ExpandedAlchemy
 {
@@ -81,7 +82,7 @@ namespace Destrospean.ExpandedAlchemy
                 };
             World.sOnWorldLoadFinishedEventHandler += (sender, e) =>
                 {
-                    foreach (var register in Sims3.Gameplay.Queries.GetObjects<PotionShopConsignmentRegister>())
+                    foreach (var register in Queries.GetObjects<PotionShopConsignmentRegister>())
                     {
                         register.TryChangeScriptClass(kPotionConsignmentShopRegisterScriptClassName);
                     }
@@ -91,7 +92,7 @@ namespace Destrospean.ExpandedAlchemy
                             {
                                 if (((InWorldSubStateEvent)evt).State is EditTownState)
                                 {
-                                    foreach (var register in Sims3.Gameplay.Queries.GetObjects<PotionShopConsignmentRegister>())
+                                    foreach (var register in Queries.GetObjects<PotionShopConsignmentRegister>())
                                     {
                                         register.TryChangeScriptClass(kPotionConsignmentShopRegisterScriptClassName);
                                     }
@@ -561,10 +562,7 @@ namespace Destrospean.ExpandedAlchemy
                 }
                 return guid;
             }
-            var nameGuidPair = guidKey.Split(new[]
-                {
-                    '='
-                });
+            var nameGuidPair = guidKey.Split('=');
             if (nameGuidPair.Length == 2)
             {
                 name = nameGuidPair[0].Trim();

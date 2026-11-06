@@ -1,9 +1,10 @@
 ﻿using Destrospean.Misc;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns.ExpandedHouseholdStaff
 {
-    public class InventoryObjectCountColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<InventoryObjectCreationParameters>
+    public class InventoryObjectCountColumn : ObjectPickerDialog.CommonHeaderInfo<InventoryObjectCreationParameters>
     {
         public InventoryObjectCountColumn(string localizationPath) : base(localizationPath + "/Headers/Count:Text", localizationPath + "/Headers/Count:Tooltip", 220)
         {

@@ -2,10 +2,11 @@
 using Destrospean.Utils.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Utilities;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns.ExpandedHouseholdStaff
 {
-    public class ActiveTopicActionActivenessColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<ServiceUtils.ActiveTopicAction>
+    public class ActiveTopicActionActivenessColumn : ObjectPickerDialog.CommonHeaderInfo<ServiceUtils.ActiveTopicAction>
     {
         private readonly string mLocalizationPath;
 

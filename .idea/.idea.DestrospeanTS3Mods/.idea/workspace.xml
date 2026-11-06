@@ -16,9 +16,49 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/FileUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/FileUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/ExtensionAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/ExtensionAttribute.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/BodyTypes/BodyTypeColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/BodyTypes/BodyTypeColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/BodyTypes/BodyTypeEnabledColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/BodyTypes/BodyTypeEnabledColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/CASAgeGenderFlags/CASAgeGenderFlagColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/CASAgeGenderFlags/CASAgeGenderFlagColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/CASAgeGenderFlags/CASAgeGenderFlagEnabledColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/CASAgeGenderFlags/CASAgeGenderFlagEnabledColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/Skill/SkillColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/Skill/SkillColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/Skill/SkillLevelColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/Skill/SkillLevelColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/TextColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/TextColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/TextInListColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/TextInListColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/Trait/TraitColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/Trait/TraitColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/Trait/TraitEnabledColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/Trait/TraitEnabledColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/TypeColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/TypeColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Dialogs/ComboSelectionDialog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Dialogs/ComboSelectionDialog.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/Uranium.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/Uranium.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_Generator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_Generator/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_Generator/ResourceKey.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_Generator/ResourceKey.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/CallForServices.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/CallForServices.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Situations/CustomServiceSituation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Situations/CustomServiceSituation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionActivenessColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionActivenessColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionGroupingColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionGroupingColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/CommodityChange/CommodityChangeInteractionDefinitionTypeColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/CommodityChange/CommodityChangeInteractionDefinitionTypeColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/CommodityChange/CommodityChangeTargetTypeColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/CommodityChange/CommodityChangeTargetTypeColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/InventoryObjectCreationParameters/InventoryObjectCountColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/InventoryObjectCreationParameters/InventoryObjectCountColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/InventoryObjectCreationParameters/InventoryObjectGroupColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/InventoryObjectCreationParameters/InventoryObjectGroupColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/InventoryObjectCreationParameters/InventoryObjectInstanceNameColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/InventoryObjectCreationParameters/InventoryObjectInstanceNameColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfile/ServiceProfileNameColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfile/ServiceProfileNameColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfile/ServiceProfileTitleColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfile/ServiceProfileTitleColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfileFlags/ServiceProfileFlagColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfileFlags/ServiceProfileFlagColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfileFlags/ServiceProfileFlagEnabledColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/UI/Columns/ServiceProfileFlags/ServiceProfileFlagEnabledColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/AutonomyUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/AutonomyUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/OutfitAssignmentUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/OutfitAssignmentUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/strings/ExpandedHouseholdStaff_ITA_IT.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/strings/ExpandedHouseholdStaff_ITA_IT.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/FavoritesUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/FavoritesUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/NRaasMasterControllerIntegration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/NRaasMasterControllerIntegration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/Replacements.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/Replacements.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/Tuning.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/Tuning.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites_Generator/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites_Generator/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MoreFavorites_Generator/ResourceKey.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites_Generator/ResourceKey.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +71,23 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/10b68ae54a4c42dea64bbc48608e2c433f200/7e/707d9e44/TagDataHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/10b68ae54a4c42dea64bbc48608e2c433f200/92/e191ab49/PersistedSettings.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/81/36ae7749/ParserFunctions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/f7/9739e1c8/Service.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file:///usr/lib/mono/xbuild/Microsoft/NuGet/Microsoft.NuGet.targets" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/UI/Dialogs/ComboSelectionDialog.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/Utils/CommonUtils.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/Utils/OutfitExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/Interactions/CallForServices.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/Main.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionColumn.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/UI/Columns/ActiveTopicAction/ActiveTopicActionGroupingColumn.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/UI/Columns/CommodityChange/CommodityChangeInteractionDefinitionTypeColumn.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/UI/Columns/InventoryObjectCreationParameters/InventoryObjectInstanceNameColumn.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/Utils/FileUtils.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/MoreFavorites/src/FavoritesUtils.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/MoreFavorites/src/Tuning.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/sims3-package-interface/s3pi/s3pi/Interfaces/AApiVersionedFields.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -198,9 +253,9 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Sort usings" />
-    <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Minor change" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor change" />
+    <MESSAGE value="Miscellaneous changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

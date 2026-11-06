@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using Sims3.Gameplay.CAS;
+using Sims3.Gameplay.Objects.Appliances;
+using Sims3.Gameplay.Objects.CookingObjects;
+using Sims3.Gameplay.Objects.Electronics;
+using Sims3.SimIFace;
+using Sims3.UI;
 using Sims3.UI.CAS;
 
 namespace Destrospean.MoreFavorites
 {
     public class Main
     {
-        [Sims3.SimIFace.Tunable]
+        [Tunable]
         protected static bool kInstantiator;
 
         static Main()
@@ -27,19 +34,19 @@ namespace Destrospean.MoreFavorites
             ReplaceMethod(typeof(CASCharacter).GetMethod("OnFavoritesVisibilityChange", nonPublicInstance), typeof(Replacements).GetMethod("OnFavoritesVisibilityChange"));
             ReplaceMethod(typeof(CASCharacter).GetMethod("PopulateFavoritesGrid", nonPublicStatic), typeof(Replacements).GetMethod("PopulateFavoritesGrid"));
             ReplaceMethod(typeof(CASCharacter).GetMethod("RandomizeAllFavorites"), typeof(Replacements).GetMethod("RandomizeAllFavorites"));
-            ReplaceMethod(typeof(Sims3.Gameplay.CAS.CASLogic).GetMethod("ChangeFavoriteFoodToVegetarian", nonPublicInstance), typeof(Replacements).GetMethod("ChangeFavoriteFoodToVegetarian"));
-            ReplaceMethod(typeof(Sims3.Gameplay.CAS.CASLogic).GetMethod("GetRecipe"), typeof(Replacements).GetMethod("GetRecipe"));
-            ReplaceMethod(typeof(Sims3.UI.ChangeFavoritesDialog).GetMethod("OnFavoritesVisibilityChange", nonPublicInstance), typeof(Replacements.ChangeFavoritesDialogPatch).GetMethod("OnFavoritesVisibilityChange"));
-            ReplaceMethod(typeof(Sims3.UI.ChangeFavoritesDialog).GetMethod("PopulateFavoritesGrid", nonPublicInstance), typeof(Replacements.ChangeFavoritesDialogPatch).GetMethod("PopulateFavoritesGrid"));
-            ReplaceMethod(typeof(Sims3.UI.ChangeFavoritesDialog).GetMethod("RandomizeAllFavorites", nonPublicInstance), typeof(Replacements.ChangeFavoritesDialogPatch).GetMethod("RandomizeAllFavorites"));
-            ReplaceMethod(typeof(Sims3.Gameplay.Objects.CookingObjects.EatHeldFood).GetMethod("Run", nonPublicInstance), typeof(Replacements.EatHeldFoodPatch).GetMethod("Run"));
-            ReplaceMethod(typeof(Sims3.Gameplay.Objects.Appliances.FutureBar).GetMethod("AddDrinkEffects"), typeof(Replacements).GetMethod("AddDrinkEffects"));
-            ReplaceMethod(typeof(Sims3.Gameplay.Objects.Appliances.FutureBar).GetMethod("CreateDrinkList"), typeof(Replacements).GetMethod("CreateDrinkList"));
-            ReplaceMethod(typeof(Sims3.Gameplay.Objects.Appliances.FutureBar.OrderDrinks).GetMethod("Run", nonPublicInstance), typeof(Replacements.OrderDrinksPatch).GetMethod("Run"));
-            ReplaceMethod(typeof(Sims3.Gameplay.CAS.SimDescription).GetMethod("RandomizeFavoriteMusic", nonPublicInstance), typeof(Replacements).GetMethod("RandomizeFavoriteMusic"));
-            ReplaceMethod(typeof(Sims3.Gameplay.CAS.SimDescription).GetMethod("RandomizePreferences"), typeof(Replacements).GetMethod("RandomizePreferences"));
-            ReplaceMethod(typeof(Sims3.Gameplay.Objects.Electronics.Stereo).GetMethod("AddEnjoyingMusicCallback", nonPublicInstance), typeof(Replacements.StereoPatch).GetMethod("AddEnjoyingMusicCallback"));
-            ReplaceMethod(typeof(Sims3.Gameplay.Objects.Electronics.StereoStationData).GetMethod("GetStationName"), typeof(Replacements).GetMethod("GetStationName"));
+            ReplaceMethod(typeof(CASLogic).GetMethod("ChangeFavoriteFoodToVegetarian", nonPublicInstance), typeof(Replacements).GetMethod("ChangeFavoriteFoodToVegetarian"));
+            ReplaceMethod(typeof(CASLogic).GetMethod("GetRecipe"), typeof(Replacements).GetMethod("GetRecipe"));
+            ReplaceMethod(typeof(ChangeFavoritesDialog).GetMethod("OnFavoritesVisibilityChange", nonPublicInstance), typeof(Replacements.ChangeFavoritesDialogPatch).GetMethod("OnFavoritesVisibilityChange"));
+            ReplaceMethod(typeof(ChangeFavoritesDialog).GetMethod("PopulateFavoritesGrid", nonPublicInstance), typeof(Replacements.ChangeFavoritesDialogPatch).GetMethod("PopulateFavoritesGrid"));
+            ReplaceMethod(typeof(ChangeFavoritesDialog).GetMethod("RandomizeAllFavorites", nonPublicInstance), typeof(Replacements.ChangeFavoritesDialogPatch).GetMethod("RandomizeAllFavorites"));
+            ReplaceMethod(typeof(EatHeldFood).GetMethod("Run", nonPublicInstance), typeof(Replacements.EatHeldFoodPatch).GetMethod("Run"));
+            ReplaceMethod(typeof(FutureBar).GetMethod("AddDrinkEffects"), typeof(Replacements).GetMethod("AddDrinkEffects"));
+            ReplaceMethod(typeof(FutureBar).GetMethod("CreateDrinkList"), typeof(Replacements).GetMethod("CreateDrinkList"));
+            ReplaceMethod(typeof(FutureBar.OrderDrinks).GetMethod("Run", nonPublicInstance), typeof(Replacements.OrderDrinksPatch).GetMethod("Run"));
+            ReplaceMethod(typeof(SimDescription).GetMethod("RandomizeFavoriteMusic", nonPublicInstance), typeof(Replacements).GetMethod("RandomizeFavoriteMusic"));
+            ReplaceMethod(typeof(SimDescription).GetMethod("RandomizePreferences"), typeof(Replacements).GetMethod("RandomizePreferences"));
+            ReplaceMethod(typeof(Stereo).GetMethod("AddEnjoyingMusicCallback", nonPublicInstance), typeof(Replacements.StereoPatch).GetMethod("AddEnjoyingMusicCallback"));
+            ReplaceMethod(typeof(StereoStationData).GetMethod("GetStationName"), typeof(Replacements).GetMethod("GetStationName"));
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 switch (assembly.GetName().Name)
@@ -52,16 +59,16 @@ namespace Destrospean.MoreFavorites
                         break;
                 }
             }
-            Sims3.SimIFace.LoadSaveManager.ObjectGroupsPreLoad += FavoritesUtils.InitFavorites;
+            LoadSaveManager.ObjectGroupsPreLoad += FavoritesUtils.InitFavorites;
         }
 
         /// <summary>This method was borrowed from Lazy Duchess' Mono Patcher</summary>
         public static void ReplaceMethod(MethodInfo oldMethod, MethodInfo newMethod)
         {
             var replacementByteArray = new byte[40];
-            System.Runtime.InteropServices.Marshal.Copy(newMethod.MethodHandle.Value, replacementByteArray, 0, 40);
-            System.Runtime.InteropServices.Marshal.Copy(replacementByteArray, 0, oldMethod.MethodHandle.Value, 24);
-            System.Runtime.InteropServices.Marshal.Copy(replacementByteArray, 28, new IntPtr(oldMethod.MethodHandle.Value.ToInt32() + 28), 12);
+            Marshal.Copy(newMethod.MethodHandle.Value, replacementByteArray, 0, 40);
+            Marshal.Copy(replacementByteArray, 0, oldMethod.MethodHandle.Value, 24);
+            Marshal.Copy(replacementByteArray, 28, new IntPtr(oldMethod.MethodHandle.Value.ToInt32() + 28), 12);
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using NRaas.CommonSpace.Selection;
 using NRaas.MasterControllerSpace.SelectionCriteria;
 using NRaas.MasterControllerSpace.Sims.Intermediate.Favorites;
 using Sims3.Gameplay.CAS;
+using Sims3.Gameplay.Core;
 using Sims3.Gameplay.UI;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
@@ -19,7 +21,7 @@ namespace Destrospean.MoreFavorites
             public bool Run(SimDescription me, bool singleSelection)
             {
                 var favoriteColorField = typeof(ChangeFavoriteColor).GetField("mFavoriteColor", BindingFlags.NonPublic | BindingFlags.Instance);
-                if (!(bool)typeof(ChangeFavoriteColor).GetProperty("ApplyAll", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this, null))
+                if (!(typeof(ChangeFavoriteColor).GetProperty("ApplyAll", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(this, null) is bool applyAll && applyAll))
                 {
                     var options = new List<PreferenceColor.Item>();
                     foreach (var nameColorPair in CASCharacter.kColors)
@@ -30,15 +32,18 @@ namespace Destrospean.MoreFavorites
                         }
                         options.Add(new PreferenceColor.Item(nameColorPair.mColor, me.FavoriteColor == nameColorPair.mColor ? 1 : 0));
                     }
-                    var choice = new NRaas.CommonSpace.Selection.CommonSelection<PreferenceColor.Item>((string)typeof(ChangeFavoriteColor).GetProperty("Name").GetValue(this, null), me.FullName, options).SelectSingle();
+                    var choice = new CommonSelection<PreferenceColor.Item>((string)typeof(ChangeFavoriteColor).GetProperty("Name")?.GetValue(this, null), me.FullName, options).SelectSingle();
                     if (choice == null)
                     {
                         return false;
                     }
-                    favoriteColorField.SetValue(this, choice.Value);
+                    favoriteColorField?.SetValue(this, choice.Value);
                 }
-                me.FavoriteColor = (Color)favoriteColorField.GetValue(this);
-                if (Sims3.Gameplay.Core.PlumbBob.SelectedActor == me.CreatedSim)
+                if (favoriteColorField != null)
+                {
+                    me.FavoriteColor = (Color)favoriteColorField.GetValue(this);
+                }
+                if (PlumbBob.SelectedActor == me.CreatedSim)
                 {
                     ((HudModel)Responder.Instance.HudModel).OnSimFavoritesChanged(me.CreatedSim.ObjectId);
                 }
@@ -51,7 +56,7 @@ namespace Destrospean.MoreFavorites
             public bool Run(SimDescription me, bool singleSelection)
             {
                 var favoriteFoodField = typeof(ChangeFavoriteFood).GetField("mFavoriteFood", BindingFlags.NonPublic | BindingFlags.Instance);
-                if (!(bool)typeof(ChangeFavoriteFood).GetProperty("ApplyAll", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this, null))
+                if (!(typeof(ChangeFavoriteFood).GetProperty("ApplyAll", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(this, null) is bool applyAll && applyAll))
                 {
                     var options = new List<PreferenceFood.Item>();
                     foreach (FavoriteFoodType foodType in Enum.GetValues(typeof(FavoriteFoodType)))
@@ -73,15 +78,18 @@ namespace Destrospean.MoreFavorites
                         }
                         options.Add(new PreferenceFood.Item(foodType, me.FavoriteFood == foodType ? 1 : 0));
                     }
-                    var choice = new NRaas.CommonSpace.Selection.CommonSelection<PreferenceFood.Item>((string)typeof(ChangeFavoriteFood).GetProperty("Name").GetValue(this, null), me.FullName, options).SelectSingle();
+                    var choice = new CommonSelection<PreferenceFood.Item>((string)typeof(ChangeFavoriteFood).GetProperty("Name")?.GetValue(this, null), me.FullName, options).SelectSingle();
                     if (choice == null)
                     {
                         return false;
                     }
-                    favoriteFoodField.SetValue(this, choice.Value);
+                    favoriteFoodField?.SetValue(this, choice.Value);
                 }
-                me.mFavouriteFoodType = (FavoriteFoodType)favoriteFoodField.GetValue(this);
-                if (Sims3.Gameplay.Core.PlumbBob.SelectedActor == me.CreatedSim)
+                if (favoriteFoodField != null)
+                {
+                    me.mFavouriteFoodType = (FavoriteFoodType)favoriteFoodField.GetValue(this);
+                }
+                if (PlumbBob.SelectedActor == me.CreatedSim)
                 {
                     ((HudModel)Responder.Instance.HudModel).OnSimFavoritesChanged(me.CreatedSim.ObjectId);
                 }
@@ -94,7 +102,7 @@ namespace Destrospean.MoreFavorites
             public bool Run(SimDescription me, bool singleSelection)
             {
                 var favoriteMusicField = typeof(ChangeFavoriteMusic).GetField("mFavoriteMusic", BindingFlags.NonPublic | BindingFlags.Instance);
-                if (!(bool)typeof(ChangeFavoriteMusic).GetProperty("ApplyAll", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(this, null))
+                if (!(typeof(ChangeFavoriteMusic).GetProperty("ApplyAll", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(this, null) is bool applyAll && applyAll))
                 {
                     var options = new List<PreferenceMusic.Item>();
                     foreach (FavoriteMusicType musicType in Enum.GetValues(typeof(FavoriteMusicType)))
@@ -116,15 +124,18 @@ namespace Destrospean.MoreFavorites
                         }
                         options.Add(new PreferenceMusic.Item(musicType, me.FavoriteMusic == musicType ? 1 : 0));
                     }
-                    var choice = new NRaas.CommonSpace.Selection.CommonSelection<PreferenceMusic.Item>((string)typeof(ChangeFavoriteMusic).GetProperty("Name").GetValue(this, null), me.FullName, options).SelectSingle();
+                    var choice = new CommonSelection<PreferenceMusic.Item>((string)typeof(ChangeFavoriteMusic).GetProperty("Name")?.GetValue(this, null), me.FullName, options).SelectSingle();
                     if (choice == null)
                     {
                         return false;
                     }
-                    favoriteMusicField.SetValue(this, choice.Value);
+                    favoriteMusicField?.SetValue(this, choice.Value);
                 }
-                me.mFavouriteMusicType = (FavoriteMusicType)favoriteMusicField.GetValue(this);
-                if (Sims3.Gameplay.Core.PlumbBob.SelectedActor == me.CreatedSim)
+                if (favoriteMusicField != null)
+                {
+                    me.mFavouriteMusicType = (FavoriteMusicType)favoriteMusicField.GetValue(this);
+                }
+                if (PlumbBob.SelectedActor == me.CreatedSim)
                 {
                     ((HudModel)Responder.Instance.HudModel).OnSimFavoritesChanged(me.CreatedSim.ObjectId);
                 }
@@ -136,8 +147,8 @@ namespace Destrospean.MoreFavorites
         {
             public void SetValue(FavoriteMusicType value, FavoriteMusicType storeType)
             {
-                typeof(PreferenceMusic.Item).GetField("mValue", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(this, value);
-                typeof(PreferenceMusic.Item).GetField("mName", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(this, CASCharacter.GetFavoriteMusic(value));
+                typeof(PreferenceMusic.Item).GetField("mValue", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(this, value);
+                typeof(PreferenceMusic.Item).GetField("mName", BindingFlags.NonPublic | BindingFlags.Instance)?.SetValue(this, CASCharacter.GetFavoriteMusic(value));
                 ((PreferenceMusic.Item)(object)this).SetThumbnail(ResourceKey.CreatePNGKey(CASCharacter.GetFavoriteMusicPngName(value), FavoritesUtils.FavoriteMusicDictionary.ContainsKey(storeType) ? 0 : ResourceUtils.ProductVersionToGroupId(Responder.Instance.GetProductVersionForStereoStation(storeType))));
             }
         }

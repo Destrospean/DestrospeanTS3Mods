@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using Destrospean.Enums.ExpandedHouseholdStaff;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns.ExpandedHouseholdStaff
 {
-    public class ServiceProfileFlagEnabledColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<ServiceProfileFlags>
+    public class ServiceProfileFlagEnabledColumn : ObjectPickerDialog.CommonHeaderInfo<ServiceProfileFlags>
     {
         private readonly string mLocalizationPath;
 

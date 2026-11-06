@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Xml;
 using Sims3.Gameplay.Objects.Appliances;
 using Sims3.Gameplay.Objects.Electronics;
 using Sims3.Gameplay.Objects.FoodObjects;
+using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI.CAS;
@@ -11,22 +14,75 @@ namespace Destrospean.MoreFavorites
 {
     public static class FavoritesUtils
     {
-        public static readonly List<string> FavoriteColorBlacklist = new List<string>(),
-        FavoriteColorHiddenList = new List<string>(),
-        OriginalFavoriteColors = new List<string>(Array.ConvertAll(CASCharacter.kColors, x => x.mName));
+        public class FavoriteBase
+        {
+            public string IconKey
+            {
+                get;
+                protected set;
+            }
 
+            public readonly string Name;
+            
+            public readonly string Parent;
+
+            public string SmallIconKey
+            {
+                get;
+                protected set;
+            }
+
+            public FavoriteBase(string name, string iconKey, string smallIconKey, string parent)
+            {
+                IconKey = iconKey;
+                Name = name;
+                Parent = parent;
+                SmallIconKey = smallIconKey;
+            }
+        }
+        
+        public class FavoriteFood : FavoriteBase
+        {
+            public readonly Recipe Recipe;
+
+            public FavoriteFood(string name, Recipe recipe, string iconKey, string smallIconKey, string parent) : base(name, iconKey, smallIconKey, parent)
+            {
+                IconKey = string.IsNullOrEmpty(iconKey) ? "cas_favs_food_i_" + name : iconKey;
+                Recipe = recipe;
+                SmallIconKey = string.IsNullOrEmpty(smallIconKey) ? "cas_favs_food_i_" + name + "_s" : smallIconKey;
+            }
+        }
+
+        public class FavoriteMusic : FavoriteBase
+        {
+            public readonly StereoStationData StereoStationData;
+
+            public FavoriteMusic(string name, StereoStationData stereoStationData, string iconKey, string smallIconKey, string parent) : base(name, iconKey, smallIconKey, parent)
+            {
+                IconKey = string.IsNullOrEmpty(iconKey) ? "cas_favs_music_i_" + name : iconKey;
+                SmallIconKey = string.IsNullOrEmpty(smallIconKey) ? "cas_favs_music_i_" + name + "_s" : smallIconKey;
+                StereoStationData = stereoStationData;
+            }
+        }
+        
+        public static readonly List<string> FavoriteColorBlacklist = new List<string>();
+
+        public static readonly List<string> FavoriteColorHiddenList = new List<string>();
+        
         public static readonly Dictionary<string, string> FavoriteColorParentDictionary = new Dictionary<string, string>();
 
-        public static readonly List<FavoriteFoodType> FavoriteFoodBlacklist = new List<FavoriteFoodType>(),
-        FavoriteFoodHiddenList = new List<FavoriteFoodType>();
-
+        public static readonly List<FavoriteFoodType> FavoriteFoodBlacklist = new List<FavoriteFoodType>();
+        
         public static readonly Dictionary<FavoriteFoodType, FavoriteFood> FavoriteFoodDictionary = new Dictionary<FavoriteFoodType, FavoriteFood>();
 
-        public static readonly List<FavoriteMusicType> FavoriteMusicBlacklist = new List<FavoriteMusicType>(),
-        FavoriteMusicHiddenList = new List<FavoriteMusicType>();
+        public static readonly List<FavoriteFoodType> FavoriteFoodHiddenList = new List<FavoriteFoodType>();
 
+        public static readonly List<FavoriteMusicType> FavoriteMusicBlacklist = new List<FavoriteMusicType>();
+        
         public static readonly Dictionary<FavoriteMusicType, FavoriteMusic> FavoriteMusicDictionary = new Dictionary<FavoriteMusicType, FavoriteMusic>();
 
+        public static readonly List<FavoriteMusicType> FavoriteMusicHiddenList = new List<FavoriteMusicType>();
+        
         public static readonly uint[] FutureBarGlassRGBValues =
             {
                 0x000000,
@@ -286,55 +342,8 @@ namespace Destrospean.MoreFavorites
                 0xFFFFAA,
                 0xFFFFFF
             };
-
-        public class FavoriteBase
-        {
-            public string IconKey
-            {
-                get;
-                protected set;
-            }
-
-            public readonly string Name, Parent;
-
-            public string SmallIconKey
-            {
-                get;
-                protected set;
-            }
-
-            public FavoriteBase(string name, string iconKey, string smallIconKey, string parent)
-            {
-                IconKey = iconKey;
-                Name = name;
-                Parent = parent;
-                SmallIconKey = smallIconKey;
-            }
-        }
-
-        public class FavoriteFood : FavoriteBase
-        {
-            public readonly Recipe Recipe;
-
-            public FavoriteFood(string name, Recipe recipe, string iconKey, string smallIconKey, string parent) : base(name, iconKey, smallIconKey, parent)
-            {
-                IconKey = string.IsNullOrEmpty(iconKey) ? "cas_favs_food_i_" + name : iconKey;
-                Recipe = recipe;
-                SmallIconKey = string.IsNullOrEmpty(smallIconKey) ? "cas_favs_food_i_" + name + "_s" : smallIconKey;
-            }
-        }
-
-        public class FavoriteMusic : FavoriteBase
-        {
-            public readonly StereoStationData StereoStationData;
-
-            public FavoriteMusic(string name, StereoStationData stereoStationData, string iconKey, string smallIconKey, string parent) : base(name, iconKey, smallIconKey, parent)
-            {
-                IconKey = string.IsNullOrEmpty(iconKey) ? "cas_favs_music_i_" + name : iconKey;
-                SmallIconKey = string.IsNullOrEmpty(smallIconKey) ? "cas_favs_music_i_" + name + "_s" : smallIconKey;
-                StereoStationData = stereoStationData;
-            }
-        }
+        
+        public static readonly List<string> OriginalFavoriteColors = new List<string>(Array.ConvertAll(CASCharacter.kColors, x => x.mName));
 
         public static Color FindClosestColor(IEnumerable<Color> palette, Color color)
         {
@@ -366,102 +375,113 @@ namespace Destrospean.MoreFavorites
                 var reader = Simulator.ReadXml(new ResourceKey(ResourceUtils.HashString64(assembly.GetName().Name), 0x333406C, 0));
                 while (reader.Read())
                 {
-                    if (reader.NodeType == System.Xml.XmlNodeType.Element)
+                    if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (reader.Name == "Favorites" || reader.Name == "Favourites")
+                        switch (reader.Name)
                         {
-                            reader.MoveToContent();
-                        }
-                        else if (reader.Name == "FavoriteColor" || reader.Name == "FavouriteColour")
-                        {
-                            string hex = reader.GetAttribute("Hex"),
-                            name = reader.GetAttribute("Name"),
-                            opposite = reader.GetAttribute("Opposite");
-                            int index, startIndex;
-                            if (!string.IsNullOrEmpty(hex) && !string.IsNullOrEmpty(name) && uint.TryParse("FFFFFFFF".Remove(0, hex.Length - (startIndex = hex.StartsWith("#") ? 1 : hex.StartsWith("0x") ? 2 : 0)) + hex.Substring(startIndex), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out var argb))
+                            case "Favorites":
+                            case "Favourites":
+                                reader.MoveToContent();
+                                break;
+                            case "FavoriteColor":
+                            case "FavouriteColour":
                             {
-                                if ((index = favoriteColorList.FindIndex(x => x.mName == name)) == -1)
+                                var hex = reader.GetAttribute("Hex");
+                                var name = reader.GetAttribute("Name");
+                                var opposite = reader.GetAttribute("Opposite");
+                                int startIndex;
+                                if (!string.IsNullOrEmpty(hex) && !string.IsNullOrEmpty(name) && uint.TryParse("FFFFFFFF".Remove(0, hex.Length - (startIndex = hex.StartsWith("#") ? 1 : hex.StartsWith("0x") ? 2 : 0)) + hex.Substring(startIndex), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var argb))
                                 {
-                                    favoriteColorList.Add(new CASCharacter.NameColorPair(name, new Color(argb | 0xFF000000)));
-                                }
-                                else
-                                {
-                                    favoriteColorList[index] = new CASCharacter.NameColorPair(name, new Color(argb | 0xFF000000));
-                                }
-                                FavoriteColorParentDictionary.Add(name, reader.GetAttribute("Parent"));
-                                if (!string.IsNullOrEmpty(opposite))
-                                {
-                                    if ((index = favoriteAndOppositeDrinkList.FindIndex(x => x.mFaveDrink == name || x.mOppositeDrink == name)) > -1)
+                                    var index = favoriteColorList.FindIndex(x => x.mName == name);
+                                    if (index == -1)
                                     {
-                                        favoriteAndOppositeDrinkList.RemoveAt(index);
+                                        favoriteColorList.Add(new CASCharacter.NameColorPair(name, new Color(argb | 0xFF000000)));
                                     }
-                                    favoriteAndOppositeDrinkList.Add(new FutureBar.FavesAndOpposites(name, opposite));
+                                    else
+                                    {
+                                        favoriteColorList[index] = new CASCharacter.NameColorPair(name, new Color(argb | 0xFF000000));
+                                    }
+                                    FavoriteColorParentDictionary.Add(name, reader.GetAttribute("Parent"));
+                                    if (!string.IsNullOrEmpty(opposite))
+                                    {
+                                        if ((index = favoriteAndOppositeDrinkList.FindIndex(x => x.mFaveDrink == name || x.mOppositeDrink == name)) > -1)
+                                        {
+                                            favoriteAndOppositeDrinkList.RemoveAt(index);
+                                        }
+                                        favoriteAndOppositeDrinkList.Add(new FutureBar.FavesAndOpposites(name, opposite));
+                                    }
                                 }
-                            }
-                            if (bool.TryParse(reader.GetAttribute("Hidden"), out var hidden) && hidden)
-                            {
-                                FavoriteColorHiddenList.Add(name);
-                            }
-                        }
-                        else if (reader.Name == "FavoriteFood" || reader.Name == "FavouriteFood")
-                        {
-                            var recipeKey = reader.GetAttribute("Recipe_Key");
-                            bool isGroup = false,
-                            isValid = Recipe.NameToRecipeHash.TryGetValue(recipeKey, out var recipe);
-                            if (string.IsNullOrEmpty(recipeKey) || !isValid && !(bool.TryParse(reader.GetAttribute("IsGroup"), out isGroup) || isGroup))
-                            {
-                                continue;
-                            }
-                            var favoriteFoodType = Array.Exists(Enum.GetNames(typeof(FavoriteFoodType)), x => x == recipeKey) && isValid && recipe != null ? (FavoriteFoodType)Enum.Parse(typeof(FavoriteFoodType), recipeKey) : (FavoriteFoodType)ResourceUtils.HashString32(recipeKey);
-                            FavoriteFoodDictionary[favoriteFoodType] = new FavoriteFood(recipeKey, isValid ? recipe : isGroup ? recipe = new Recipe
+                                if (bool.TryParse(reader.GetAttribute("Hidden"), out var hidden) && hidden)
                                 {
-                                    mGenericName = "Gameplay/Excel/RecipeMasterList/Data:" + recipeKey
-                                } : null, reader.GetAttribute("Icon_Key"), reader.GetAttribute("Small_Icon_Key"), reader.GetAttribute("Parent"));
-                            if (!isValid && isGroup)
-                            {
-                                recipe.mNonPersistableData = recipe.mNonPersistableData ?? new Recipe.NonPersistableData();
-                                recipe.mNonPersistableData.mIsVegetarian = bool.TryParse(reader.GetAttribute("IsVegetarianGroup"), out var isVegetarianGroup) && isVegetarianGroup;
-                                if (isVegetarianGroup)
-                                {
-                                    recipe.mNonPersistableData.mGenericVegetarianName = recipe.mGenericName;
+                                    FavoriteColorHiddenList.Add(name);
                                 }
+                                break;
                             }
-                            if (bool.TryParse(reader.GetAttribute("Hidden"), out var isHidden) && isHidden)
+                            case "FavoriteFood":
+                            case "FavouriteFood":
                             {
-                                FavoriteFoodHiddenList.Add(favoriteFoodType);
+                                var recipeKey = reader.GetAttribute("Recipe_Key");
+                                var isValid = Recipe.NameToRecipeHash.TryGetValue(recipeKey, out var recipe);
+                                var isGroup = false;
+                                if (string.IsNullOrEmpty(recipeKey) || !isValid && !(bool.TryParse(reader.GetAttribute("IsGroup"), out isGroup) || isGroup))
+                                {
+                                    continue;
+                                }
+                                var favoriteFoodType = Array.Exists(Enum.GetNames(typeof(FavoriteFoodType)), x => x == recipeKey) && isValid && recipe != null ? (FavoriteFoodType)Enum.Parse(typeof(FavoriteFoodType), recipeKey) : (FavoriteFoodType)ResourceUtils.HashString32(recipeKey);
+                                FavoriteFoodDictionary[favoriteFoodType] = new FavoriteFood(recipeKey, isValid ? recipe : isGroup ? recipe = new Recipe
+                                    {
+                                        mGenericName = "Gameplay/Excel/RecipeMasterList/Data:" + recipeKey
+                                    } : null, reader.GetAttribute("Icon_Key"), reader.GetAttribute("Small_Icon_Key"), reader.GetAttribute("Parent"));
+                                if (isGroup)
+                                {
+                                    recipe.mNonPersistableData = recipe.mNonPersistableData ?? new Recipe.NonPersistableData();
+                                    recipe.mNonPersistableData.mIsVegetarian = bool.TryParse(reader.GetAttribute("IsVegetarianGroup"), out var isVegetarianGroup) && isVegetarianGroup;
+                                    if (isVegetarianGroup)
+                                    {
+                                        recipe.mNonPersistableData.mGenericVegetarianName = recipe.mGenericName;
+                                    }
+                                }
+                                if (bool.TryParse(reader.GetAttribute("Hidden"), out var isHidden) && isHidden)
+                                {
+                                    FavoriteFoodHiddenList.Add(favoriteFoodType);
+                                }
+                                break;
                             }
-                        }
-                        else if (reader.Name == "FavoriteMusic" || reader.Name == "FavouriteMusic")
-                        {
-                            var stationName = reader.GetAttribute("Station_Name");
-                            var isValid = StereoStationData.sStereoStationDictionary.TryGetValue("Gameplay/Excel/Stereo/Stations:" + stationName, out var stereoStationData);
-                            if (string.IsNullOrEmpty(stationName) || !isValid && !(bool.TryParse(reader.GetAttribute("IsGroup"), out var isGroup) || isGroup))
+                            case "FavoriteMusic":
+                            case "FavouriteMusic":
                             {
-                                continue;
+                                var stationName = reader.GetAttribute("Station_Name");
+                                var isValid = StereoStationData.sStereoStationDictionary.TryGetValue("Gameplay/Excel/Stereo/Stations:" + stationName, out var stereoStationData);
+                                if (string.IsNullOrEmpty(stationName) || !isValid && !(bool.TryParse(reader.GetAttribute("IsGroup"), out var isGroup) || isGroup))
+                                {
+                                    continue;
+                                }
+                                var favoriteMusicType = Array.Exists(Enum.GetNames(typeof(FavoriteMusicType)), x => x == stationName) && IsMusicTypeInstalled((FavoriteMusicType)Enum.Parse(typeof(FavoriteMusicType), stationName)) ? (FavoriteMusicType)Enum.Parse(typeof(FavoriteMusicType), stationName) : (FavoriteMusicType)ResourceUtils.HashString32("Gameplay/Excel/Stereo/Stations:" + stationName);
+                                FavoriteMusicDictionary[favoriteMusicType] = new FavoriteMusic(stationName, isValid ? stereoStationData : null, reader.GetAttribute("Icon_Key"), reader.GetAttribute("Small_Icon_Key"), reader.GetAttribute("Parent"));
+                                if (bool.TryParse(reader.GetAttribute("Hidden"), out var isHidden) && isHidden)
+                                {
+                                    FavoriteMusicHiddenList.Add(favoriteMusicType);
+                                }
+                                break;
                             }
-                            var favoriteMusicType = Array.Exists(Enum.GetNames(typeof(FavoriteMusicType)), x => x == stationName) && IsMusicTypeInstalled((FavoriteMusicType)Enum.Parse(typeof(FavoriteMusicType), stationName)) ? (FavoriteMusicType)Enum.Parse(typeof(FavoriteMusicType), stationName) : (FavoriteMusicType)ResourceUtils.HashString32("Gameplay/Excel/Stereo/Stations:" + stationName);
-                            FavoriteMusicDictionary[favoriteMusicType] = new FavoriteMusic(stationName, isValid ? stereoStationData : null, reader.GetAttribute("Icon_Key"), reader.GetAttribute("Small_Icon_Key"), reader.GetAttribute("Parent"));
-                            if (bool.TryParse(reader.GetAttribute("Hidden"), out var isHidden) && isHidden)
+                            case "Unfavorite":
+                            case "Unfavourite":
                             {
-                                FavoriteMusicHiddenList.Add(favoriteMusicType);
-                            }
-                        }
-                        else if (reader.Name == "Unfavorite" || reader.Name == "Unfavourite")
-                        {
-                            int index;
-                            var name = reader.GetAttribute("Name");
-                            switch ((reader.GetAttribute("Favorite_Type") ?? reader.GetAttribute("Favourite_Type") ?? "").ToLowerInvariant())
-                            {
-                                case "color":
-                                case "colour":
-                                    FavoriteColorBlacklist.Add(name);
-                                    break;
-                                case "food":
-                                    FavoriteFoodBlacklist.Add((index = Array.FindIndex(Enum.GetNames(typeof(FavoriteFoodType)), x => x.ToLowerInvariant() == name?.ToLowerInvariant())) > -1 ? (FavoriteFoodType)Enum.Parse(typeof(FavoriteFoodType), Enum.GetNames(typeof(FavoriteFoodType))[index]) : (FavoriteFoodType)ResourceUtils.HashString32(name));
-                                    break;
-                                case "music":
-                                    FavoriteMusicBlacklist.Add((index = Array.FindIndex(Enum.GetNames(typeof(FavoriteMusicType)), x => x.ToLowerInvariant() == name?.ToLowerInvariant())) > -1 ? (FavoriteMusicType)Enum.Parse(typeof(FavoriteMusicType), Enum.GetNames(typeof(FavoriteMusicType))[index]) : (FavoriteMusicType)ResourceUtils.HashString32("Gameplay/Excel/Stereo/Stations:" + name));
-                                    break;
+                                var name = reader.GetAttribute("Name");
+                                switch ((reader.GetAttribute("Favorite_Type") ?? reader.GetAttribute("Favourite_Type") ?? "").ToLowerInvariant())
+                                {
+                                    case "color":
+                                    case "colour":
+                                        FavoriteColorBlacklist.Add(name);
+                                        break;
+                                    case "food":
+                                        FavoriteFoodBlacklist.Add(ParserFunctions.TryParseEnum(name, out var favoriteFoodType, FavoriteFoodType.None, true) ? favoriteFoodType : (FavoriteFoodType)ResourceUtils.HashString32(name));
+                                        break;
+                                    case "music":
+                                        FavoriteMusicBlacklist.Add(ParserFunctions.TryParseEnum(name, out var favoriteMusicType, FavoriteMusicType.None, true) ? favoriteMusicType : (FavoriteMusicType)ResourceUtils.HashString32("Gameplay/Excel/Stereo/Stations:" + name));
+                                        break;
+                                }
+                                break;
                             }
                         }
                     }

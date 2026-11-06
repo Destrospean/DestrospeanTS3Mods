@@ -2,10 +2,11 @@
 using Sims3.Gameplay.Skills;
 using Sims3.SimIFace;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns
 {
-    public class SkillColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<SkillLevelPair>
+    public class SkillColumn : ObjectPickerDialog.CommonHeaderInfo<SkillLevelPair>
     {
         public SkillColumn(string localizationPath) : base(localizationPath + "/Headers/Skill:Text", localizationPath + "/Headers/Skill:Tooltip", 400)
         {

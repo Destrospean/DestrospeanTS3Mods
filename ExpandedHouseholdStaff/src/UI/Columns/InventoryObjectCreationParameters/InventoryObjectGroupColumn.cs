@@ -1,9 +1,10 @@
 ﻿using Destrospean.Misc;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns.ExpandedHouseholdStaff
 {
-    public class InventoryObjectGroupColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<InventoryObjectCreationParameters>
+    public class InventoryObjectGroupColumn : ObjectPickerDialog.CommonHeaderInfo<InventoryObjectCreationParameters>
     {
         public InventoryObjectGroupColumn(string localizationPath) : base(localizationPath + "/Headers/Group:Text", localizationPath + "/Headers/Group:Tooltip", 220)
         {

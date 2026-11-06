@@ -1,6 +1,6 @@
-﻿﻿namespace System.Runtime.CompilerServices
+﻿namespace System.Runtime.CompilerServices
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     public class ExtensionAttribute : Attribute
     {
     }

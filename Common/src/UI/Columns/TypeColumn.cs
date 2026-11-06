@@ -1,9 +1,10 @@
 ﻿using System;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns
 {
-    public class TypeColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<Type>
+    public class TypeColumn : ObjectPickerDialog.CommonHeaderInfo<Type>
     {
         public TypeColumn(string localizationPath) : base(localizationPath + "/Headers/Type:Text", localizationPath + "/Headers/Type:Tooltip", 440)
         {

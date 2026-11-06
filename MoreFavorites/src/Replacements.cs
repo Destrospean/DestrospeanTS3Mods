@@ -7,9 +7,11 @@ using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.CAS;
+using Sims3.Gameplay.Controllers;
 using Sims3.Gameplay.Core;
 using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Interactions;
+using Sims3.Gameplay.InteractionsShared;
 using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Objects.Appliances;
 using Sims3.Gameplay.Objects.CookingObjects;
@@ -18,6 +20,8 @@ using Sims3.Gameplay.Objects.Electronics;
 using Sims3.Gameplay.Objects.FoodObjects;
 using Sims3.Gameplay.Objects.Resort;
 using Sims3.Gameplay.Objects.Seating;
+using Sims3.Gameplay.Skills;
+using Sims3.Gameplay.Socializing;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
@@ -364,7 +368,7 @@ namespace Destrospean.MoreFavorites
                 }
                 if (Actor.SimDescription.IsBonehilda && Target is IGlass)
                 {
-                    Sims3.Gameplay.Controllers.PuddleManager.AddPuddle(Actor.Position);
+                    PuddleManager.AddPuddle(Actor.Position);
                 }
                 if (nectarGlass != null)
                 {
@@ -499,9 +503,9 @@ namespace Destrospean.MoreFavorites
                 }
                 AnimateSim(Target.EatLoopStateName);
                 SetParameter("wasInterrupted", true);
-                FieldInfo commodityToChangeField = GetType().GetField("mCommodityToChange"),
-                hungerPerBiteOrSipField = GetType().GetField("mHungerPerBiteOrSip"),
-                hungerValueThresholdField = GetType().GetField("mHungerValueThreshold");
+                var commodityToChangeField = GetType().GetField("mCommodityToChange");
+                var hungerPerBiteOrSipField = GetType().GetField("mHungerPerBiteOrSip");
+                var hungerValueThresholdField = GetType().GetField("mHungerValueThreshold");
                 if (Actor.Motives.HasMotive(CommodityKind.VampireThirst) && cookingProcess.IsVampireFood)
                 {
                     commodityToChangeField.SetValue(this, CommodityKind.VampireThirst);
@@ -604,7 +608,7 @@ namespace Destrospean.MoreFavorites
                                     {
                                         if (sim.RoomId == Actor.RoomId && sim.TraitManager.HasElement(TraitNames.Vegetarian))
                                         {
-                                            Sims3.Gameplay.Socializing.ActiveTopic.AddToSim(sim, "Disgusted By Meat");
+                                            ActiveTopic.AddToSim(sim, "Disgusted By Meat");
                                         }
                                     }
                                 }
@@ -656,7 +660,7 @@ namespace Destrospean.MoreFavorites
                 {
                     if (!cookingProcess.IsSpoiled && cookingProcess.Recipe.Key == "Cake Slice")
                     {
-                        Actor.BuffManager.AddElement(BuffNames.Meal, (int)(Sims3.Gameplay.Skills.Cooking.GoodMealBuffTuning.kBuffThreshold * HungerGiven / (float)hungerValueThresholdField.GetValue(this)), Sims3.Gameplay.Skills.Cooking.GoodMealBuffTuning.kBuffDuration * HungerGiven / (float)hungerValueThresholdField.GetValue(this), Origin.FromBirthdayCake);
+                        Actor.BuffManager.AddElement(BuffNames.Meal, (int)(Cooking.GoodMealBuffTuning.kBuffThreshold * HungerGiven / (float)hungerValueThresholdField.GetValue(this)), Cooking.GoodMealBuffTuning.kBuffDuration * HungerGiven / (float)hungerValueThresholdField.GetValue(this), Origin.FromBirthdayCake);
                     }
                     if (isFlaming)
                     {
@@ -854,7 +858,7 @@ namespace Destrospean.MoreFavorites
                         }
                         if (isDisturbed)
                         {
-                            Sims3.Gameplay.InteractionsShared.ReactToDisturbance.NoiseBroadcastCallback(sim, reactionBroadcaster);
+                            ReactToDisturbance.NoiseBroadcastCallback(sim, reactionBroadcaster);
                         }
                     }
                     else if (sim.LotCurrent == mLotCurrent)
@@ -1249,8 +1253,8 @@ namespace Destrospean.MoreFavorites
         public void RandomizePreferences()
         {
             var self = (SimDescription)(object)this;
-            Array visibleFavoriteColorList = Array.FindAll(CASCharacter.kColors, x => !x.IsBlacklisted() && !x.IsHidden()),
-            visibleFavoriteFoodList = Array.FindAll((FavoriteFoodType[])GetInstalledFavoriteFoodList(), x => !x.IsBlacklisted() && !x.IsHidden());
+            Array visibleFavoriteColorList = Array.FindAll(CASCharacter.kColors, x => !x.IsBlacklisted() && !x.IsHidden());
+            Array visibleFavoriteFoodList = Array.FindAll((FavoriteFoodType[])GetInstalledFavoriteFoodList(), x => !x.IsBlacklisted() && !x.IsHidden());
             self.mFavouriteColor = ((CASCharacter.NameColorPair)visibleFavoriteColorList.GetValue(RandomUtil.GetInt(0, visibleFavoriteColorList.Length - 1))).mColor;
             self.mFavouriteFoodType = (FavoriteFoodType)visibleFavoriteFoodList.GetValue(RandomUtil.GetInt(1, visibleFavoriteFoodList.Length - 1));
             self.RandomizeFavoriteMusic();

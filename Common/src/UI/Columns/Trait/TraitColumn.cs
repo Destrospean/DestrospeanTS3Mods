@@ -1,10 +1,11 @@
 ﻿using Sims3.Gameplay.ActorSystems;
 using Sims3.SimIFace;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns
 {
-    public class TraitColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<Trait>
+    public class TraitColumn : ObjectPickerDialog.CommonHeaderInfo<Trait>
     {
         private readonly bool mIsFemale;
 

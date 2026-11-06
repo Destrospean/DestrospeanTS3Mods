@@ -41,7 +41,7 @@ namespace Destrospean.ExpandedAlchemy.Generator
 
         public bool Equals(IResourceKey a, IResourceKey b)
         {
-            return a.Equals(b);
+            return a == null && b == null || (a?.Equals(b) ?? false);
         }
 
         public bool Equals(IResourceKey other)

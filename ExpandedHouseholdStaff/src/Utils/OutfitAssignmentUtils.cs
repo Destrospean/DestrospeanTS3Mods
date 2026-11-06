@@ -8,6 +8,7 @@ using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.Utils.ExpandedHouseholdStaff
 {
@@ -270,14 +271,14 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool ShowPartOverrideListDialog(AssignedOutfit assignedOutfit, out BodyTypes[] partOverrides, BodyTypes[] preSelectedPartOverrides = null)
         {
-            var entryKey = typeof(UI.Dialogs.ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "PartOverrideListDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "PartOverrideListDialog");
             var partOverrideList = new List<BodyTypes>(preSelectedPartOverrides ?? assignedOutfit.PartOverrides.ToArray());
             while (true)
             {
-                var selectedPartOverrides = UI.Dialogs.ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                var selectedPartOverrides = ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
                     {
                         new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<BodyTypes>(OverridableBodyTypes).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                    }, new List<UI.Dialogs.ObjectPickerDialog.CommonHeaderInfo<BodyTypes>>
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<BodyTypes>>
                     {
                         new BodyTypeColumn(entryKey),
                         new BodyTypeEnabledColumn(entryKey, partOverrideList.ToArray())

@@ -25,6 +25,7 @@ using Sims3.UI;
 using Sims3.UI.Controller;
 using ComboSelectionDialog = Destrospean.UI.Dialogs.ComboSelectionDialog;
 using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
+using Queries = Sims3.Gameplay.Queries;
 
 namespace Destrospean.Utils
 {
@@ -426,7 +427,7 @@ namespace Destrospean.Utils
         /// <param name="targetType">Target type.</param>
         public static void RefreshInteractionObjectPairs(Type interactionDefinitionType, Type targetType)
         {
-            foreach (var gameObject in Sims3.Gameplay.Queries.GetObjects<GameObject>())
+            foreach (var gameObject in Queries.GetObjects<GameObject>())
             {
                 if (targetType.IsAssignableFrom(gameObject.GetType()))
                 {
@@ -445,7 +446,7 @@ namespace Destrospean.Utils
                     }
                 }
             }
-            foreach (var sim in Sims3.Gameplay.Queries.GetObjects<Sim>())
+            foreach (var sim in Queries.GetObjects<Sim>())
             {
                 sim.UpdateCommodityInteractionMap();
             }

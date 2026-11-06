@@ -1,9 +1,10 @@
 ﻿using Sims3.Gameplay.Interfaces.Destrospean.ExpandedHouseholdStaff;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns.ExpandedHouseholdStaff
 {
-    public class ServiceProfileNameColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<IServiceProfile>
+    public class ServiceProfileNameColumn : ObjectPickerDialog.CommonHeaderInfo<IServiceProfile>
     {
         public ServiceProfileNameColumn(string localizationPath) : base(localizationPath + "/Headers/Name:Text", localizationPath + "/Headers/Name:Tooltip", 220)
         {

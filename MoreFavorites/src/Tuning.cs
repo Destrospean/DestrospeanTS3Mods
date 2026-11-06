@@ -1,8 +1,13 @@
-﻿namespace Sims3.Gameplay.Destrospean
+﻿using Sims3.SimIFace;
+
+namespace Sims3.Gameplay.Destrospean
 {
     public class MoreFavorites
     {
-        [SimIFace.Tunable]
-        public static bool kAllowBlacklistedFavoritesInMasterControllerDialogs, kAllowHiddenFavoritesInMasterControllerDialogs;
+        [Tunable]
+        public static bool kAllowBlacklistedFavoritesInMasterControllerDialogs;
+
+        [Tunable]
+        public static bool kAllowHiddenFavoritesInMasterControllerDialogs;
     }
 }

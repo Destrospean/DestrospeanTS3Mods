@@ -1,9 +1,10 @@
 ﻿using Sims3.SimIFace.CAS;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns
 {
-    public class CASAgeGenderFlagColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<CASAgeGenderFlags>
+    public class CASAgeGenderFlagColumn : ObjectPickerDialog.CommonHeaderInfo<CASAgeGenderFlags>
     {
         private readonly string mLocalizationPath;
 

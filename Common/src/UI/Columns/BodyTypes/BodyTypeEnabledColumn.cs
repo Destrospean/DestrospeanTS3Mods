@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns
 {
-    public class BodyTypeEnabledColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<BodyTypes>
+    public class BodyTypeEnabledColumn : ObjectPickerDialog.CommonHeaderInfo<BodyTypes>
     {
         private readonly string mLocalizationPath;
 

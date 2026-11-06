@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Xml;
 using Mono.Cecil;
+using s3pi.Package;
 
 namespace Destrospean.ExpandedAlchemy.Generator
 {
@@ -38,10 +41,10 @@ namespace Destrospean.ExpandedAlchemy.Generator
 
         public static void Main(string[] args)
         {
-            var executable = System.Reflection.Assembly.GetExecutingAssembly();
+            var executable = Assembly.GetExecutingAssembly();
 
             // Create a new package to clone to
-            var package = s3pi.Package.Package.NewPackage(0);
+            var package = Package.NewPackage(0);
 
             // Get the XML
             var xmlDocument = new XmlDocument();
@@ -50,7 +53,7 @@ namespace Destrospean.ExpandedAlchemy.Generator
                 var templateXmlPath = AppDomain.CurrentDomain.BaseDirectory + "Template.xml";
                 if (!File.Exists(templateXmlPath))
                 {
-                    File.WriteAllText(templateXmlPath, new StreamReader(executable.GetManifestResourceStream("Template.xml")).ReadToEnd());
+                    File.WriteAllText(templateXmlPath, new StreamReader(executable.GetManifestResourceStream("Template.xml") ?? throw new InvalidOperationException()).ReadToEnd());
                     return;
                 }
                 xmlDocument.Load(templateXmlPath);
@@ -63,8 +66,8 @@ namespace Destrospean.ExpandedAlchemy.Generator
             Console.Write("Specify a unique suffix for the package (leave blank for a random number suffix): ");
 
             // Get a unique name for the assembly and _XML resource
-            string identifier = Console.ReadLine(),
-            assemblyName = "ExpandedAlchemy_" + (string.IsNullOrEmpty(identifier) ? FNV32.GetHash(Guid.NewGuid().ToString()).ToString() : identifier);
+            var identifier = Console.ReadLine();
+            var assemblyName = "ExpandedAlchemy_" + (string.IsNullOrEmpty(identifier) ? FNV32.GetHash(Guid.NewGuid().ToString()).ToString() : identifier);
 
             // Get the assembly
             var assembly = AssemblyDefinition.ReadAssembly(executable.GetManifestResourceStream("ExpandedAlchemy_Base.dll"));
@@ -72,25 +75,29 @@ namespace Destrospean.ExpandedAlchemy.Generator
             // Copy the elements from the XML to put into the new package
             var rootNode = xmlDocument.SelectSingleNode("ExpandedAlchemyData");
             var elements = new List<XmlNode>();
-            foreach (XmlNode node in rootNode.ChildNodes)
+            if (rootNode != null)
             {
-                if (node is XmlElement)
+                foreach (XmlNode node in rootNode.ChildNodes)
                 {
-                    elements.Add(node);
+                    if (node is XmlElement)
+                    {
+                        elements.Add(node);
+                    }
                 }
-            }
-            rootNode.RemoveAll();
-            foreach (var element in elements)
-            {
-                rootNode.AppendChild(element);
+
+                rootNode.RemoveAll();
+                foreach (var element in elements)
+                {
+                    rootNode.AppendChild(element);
+                }
             }
 
             // Rename the assembly for the new package
             assembly.Name.Name = assemblyName;
             assembly.MainModule.Name = assemblyName + ".dll";
 
-            Stream assemblyStream = new MemoryStream(),
-            xmlStream = new MemoryStream();
+            var assemblyStream = new MemoryStream();
+            var xmlStream = new MemoryStream();
 
             // Save the assembly with the new name
             assembly.Write(assemblyStream);
@@ -111,7 +118,7 @@ namespace Destrospean.ExpandedAlchemy.Generator
             var stblResources = new StblResource.StblResource[Enum.GetValues(typeof(Locales)).Length];
             for (var i = 0; i < stblResources.Length; i++)
             {
-                var stblKeyInstance = ulong.Parse(i.ToString("X2") + s3saKeyInstance.ToString("X16").Substring(2), System.Globalization.NumberStyles.HexNumber);
+                var stblKeyInstance = ulong.Parse(i.ToString("X2") + s3saKeyInstance.ToString("X16").Substring(2), NumberStyles.HexNumber);
                 var stblName = "Strings_" + (Locales)i + "_0x" + stblKeyInstance.ToString("X16");
                 stblResources[i] = new StblResource.StblResource(0, null);
                 foreach (var element in elements)

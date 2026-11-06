@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.UI.Columns
 {
-    public class TextInListColumn : Dialogs.ObjectPickerDialog.CommonHeaderInfo<string>
+    public class TextInListColumn : ObjectPickerDialog.CommonHeaderInfo<string>
     {
         private readonly string mLocalizationPath;
 

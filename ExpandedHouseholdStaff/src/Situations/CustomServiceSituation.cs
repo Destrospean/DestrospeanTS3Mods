@@ -368,10 +368,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                 {
                     public override string GetInteractionName(Sim actor, Lot target, InteractionObjectPair iop)
                     {
-                        return string.IsNullOrEmpty(target.Name) ? LocalizeString(actor.IsFemale, target.GetMetaAutonomyVenueType().ToString(), new object[0]) : LocalizeString(actor.IsFemale, "VisitNamedLot", new object[]
-                            {
-                                target.Name
-                            });
+                        return string.IsNullOrEmpty(target.Name) ? LocalizeString(actor.IsFemale, target.GetMetaAutonomyVenueType().ToString()) : LocalizeString(actor.IsFemale, "VisitNamedLot", target.Name);
                     }
 
                     public override bool Test(Sim actor, Lot target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)

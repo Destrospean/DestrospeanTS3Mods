@@ -145,7 +145,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             tradeoffScore = null;
             if (iop.Tradeoff == null)
             {
-                autonomy.AddSnapshotScore(iop, "[No tradeoff] " + iop.InteractionDefinition.ToString(), iop.Target.ToString());
+                autonomy.AddSnapshotScore(iop, "[No tradeoff] " + iop.InteractionDefinition, iop.Target.ToString());
                 return 0f;
             }
             var initialMultiplier = 1f;
