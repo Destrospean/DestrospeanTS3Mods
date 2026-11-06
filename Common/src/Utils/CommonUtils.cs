@@ -733,7 +733,7 @@ namespace Destrospean.Utils
                     }, new List<ObjectPickerDialog.CommonHeaderInfo<SkillLevelPair>>
                     {
                         new SkillColumn(entryKey),
-                        new SkillLevelColumn(entryKey, skillList.ToArray())
+                        new SkillLevelColumn(entryKey)
                     }, 1, out var confirmed, out var cancelled, true);
                 if (cancelled)
                 {

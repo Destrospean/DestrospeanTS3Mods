@@ -6,7 +6,7 @@ namespace Destrospean.UI.Columns
 {
     public class SkillLevelColumn : ObjectPickerDialog.CommonHeaderInfo<SkillLevelPair>
     {
-        public SkillLevelColumn(string localizationPath, SkillLevelPair[] skills) : base(localizationPath + "/Headers/Level:Text", localizationPath + "/Headers/Level:Tooltip", 40)
+        public SkillLevelColumn(string localizationPath) : base(localizationPath + "/Headers/Level:Text", localizationPath + "/Headers/Level:Tooltip", 40)
         {
         }
 

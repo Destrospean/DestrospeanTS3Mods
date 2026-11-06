@@ -47,6 +47,8 @@
     <Compile Include="SimHairColors.cs" />
     <Compile Include="SimHairData.cs" />
     <Compile Include="SimHairGrowth.cs" />
+    <Compile Include="UI\Columns\CASPart\CASPartColumn.cs" />
+    <Compile Include="UI\Columns\CASPart\CASPartHairGrowthStateColumn.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Settings.cs" />
@@ -216,6 +218,5 @@
     <Folder Include="..\..\Common\src\UI\" />
     <Folder Include="..\..\Common\src\Utils\" />
     <Folder Include="UI\" />
-    <Folder Include="UI\Columns\" />
   </ItemGroup>
 </Project>

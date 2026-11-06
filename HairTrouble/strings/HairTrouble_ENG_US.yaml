@@ -98,15 +98,15 @@
                     "/Enabled":
                         ":True": "True"
                         ":False": "False"
-            "/HairGrowthStateListDialog":
-                ":Title": "Select Service Properties"
+            "/HairGrowthStateMapDialog":
+                ":Title": "Specify Hair Growth States"
                 "/Headers":
+                    "/CASPart":
+                        ":Text": "Hairstyle"
+                        ":Tooltip": "The hairstyle"
                     "/HairGrowthState":
-                        ":Text": "Growth State"
-                        ":Tooltip": "The name of the hair growth state"
-                    "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the hair belongs to the hair growth state"
+                        ":Text": "Hair Growth State"
+                        ":Tooltip": "The associated hair growth state"
                 "/Options":
                     "/HairGrowthState":
                         ":Unknown": "Unknown"
@@ -120,9 +120,6 @@
                         ":Long": "Long"
                         ":LongOrAbove": "Long or Longer"
                         ":VeryLong": "Very Long"
-                    "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
             "/HairClassificationCollectionListDialog":
                 ":Title": "Select Hair Classification Collection"
                 "/Headers":
