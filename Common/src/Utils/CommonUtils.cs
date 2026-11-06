@@ -374,6 +374,12 @@ namespace Destrospean.Utils
         {
             return type.Namespace?.Substring(type.Namespace.IndexOf(kAuthorName, StringComparison.Ordinal)).Replace('.', '/') + "/" + type.Name;
         }
+        
+        public static T GetRandomItem<T>(this IEnumerable<T> enumerable)
+        {
+            var list = new List<T>(enumerable);
+            return list[RandomUtil.GetInt(list.Count - 1)];
+        }
 
         public static void LoadMotive(string instanceName)
         {
@@ -849,6 +855,18 @@ namespace Destrospean.Utils
                 GlobalFunctions.PlaceWithHandTool(newGameObject);
             }
             return true;
+        }
+        
+        public static bool TryGetRandomItem<T>(this IEnumerable<T> enumerable, out T item) where T : class
+        {
+            var list = new List<T>(enumerable);
+            return (item = list.Count == 0 ? null : list[RandomUtil.GetInt(list.Count - 1)]) != null;
+        }
+
+        public static bool TryGetRandomItem<T>(this IEnumerable<T> enumerable, out T? item) where T : struct
+        {
+            var list = new List<T>(enumerable);
+            return (item = list.Count == 0 ? (T?)null : list[RandomUtil.GetInt(list.Count - 1)]).HasValue;
         }
 
         public static bool TryGetType(string fullName, out Type type)

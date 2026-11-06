@@ -1,0 +1,160 @@
+"Destrospean":
+    "/UI":
+        "/Dialogs":
+            "/CASAgeGenderFlagListDialog":
+                ":Title": "Select Allowed Demographics"
+                "/Titles":
+                    ":Age": "Select Allowed Ages"
+                    ":Gender": "Select Allowed Genders"
+                "/Headers":
+                    "/CASAgeGenderFlag":
+                        ":Text": "Setting"
+                        ":Tooltip": "The name of the setting corresponding to the demographic to allow"
+                    "/Enabled":
+                        ":Text": "Enabled"
+                        ":Tooltip": "Whether the demographic is allowed"
+                "/Options":
+                    "/CASAgeGenderFlag":
+                        ":Baby": "Allow Babies"
+                        ":Toddler": "Allow Toddlers"
+                        ":Child": "Allow Children"
+                        ":Teen": "Allow Teens"
+                        ":YoungAdult": "Allow Young Adults"
+                        ":Adult": "Allow Adults"
+                        ":Elder": "Allow Elders"
+                        ":Male": "Allow Males"
+                        ":Female": "Allow Females"
+                    "/Enabled":
+                        ":True": "True"
+                        ":False": "False"
+            "/HairTroubleOutfitDemographicDialog":
+                ":Title": "Select Demographic"
+                "/Titles":
+                    ":Age": "Select Age"
+                    ":Gender": "Select Gender"
+                "/Headers":
+                    "/CASAgeGenderFlag":
+                        ":Text": "Demographic"
+                        ":Tooltip": "The name of the demographic"
+                "/Options":
+                    "/CASAgeGenderFlag":
+                        ":Baby": "Baby"
+                        ":Toddler": "Toddler"
+                        ":Child": "Child"
+                        ":Teen": "Teen"
+                        ":Adult": "Young Adult/Adult"
+                        ":Elder": "Elder"
+                        ":Male": "Male"
+                        ":Female": "Female"
+            "/PartOverrideListDialog":
+                ":Title": "Select Part Overrides"
+                "/Headers":
+                    "/PartType":
+                        ":Text": "Part Type"
+                        ":Tooltip": "The name of the part type"
+                    "/Enabled":
+                        ":Text": "Enabled"
+                        ":Tooltip": "Whether the part override is enabled"
+                "/Options":
+                    "/PartType":
+                        ":Accessories": "Accessories"
+                        ":Armband": "Armband"
+                        ":Beard": "Facial Hair"
+                        ":Blush": "Blush"
+                        ":BodyHairCalves": "Body Hair (Calves)"
+                        ":BodyHairFeet": "Body Hair (Feet)"
+                        ":BodyHairForearms": "Body Hair (Forearms)"
+                        ":BodyHairFullBack": "Body Hair (Full Back)"
+                        ":BodyHairLowerBack": "Body Hair (Lower Back)"
+                        ":BodyHairStomach": "Body Hair (Stomach)"
+                        ":BodyHairUpperBack": "Body Hair (Upper Back)"
+                        ":BodyHairUpperChest": "Body Hair (Upper Chest)"
+                        ":Bracelet": "Bracelet"
+                        ":CostumeMakeup": "Costume Makeup"
+                        ":Earrings": "Earrings"
+                        ":Eyebrows": "Eyebrows"
+                        ":EyeLiner": "Eyeliner"
+                        ":EyeShadow": "Eyeshadow"
+                        ":FirstAccessories": "Accessories"
+                        ":FirstFace": "Lipstick"
+                        ":FullBody": "Full Body"
+                        ":Glasses": "Glasses"
+                        ":Gloves": "Gloves"
+                        ":Hair": "Hair"
+                        ":Lipstick": "Lipstick"
+                        ":LeftEarring": "Left Earring"
+                        ":LeftGarter": "Left Garter"
+                        ":LowerBody": "Lower Body"
+                        ":Mascara": "Mascara"
+                        ":Necklace": "Necklace"
+                        ":NoseRing": "Nose Ring"
+                        ":RightEarring": "Right Earring"
+                        ":RightGarter": "Right Garter"
+                        ":Ring": "Ring"
+                        ":Shoes": "Shoes"
+                        ":Socks": "Socks"
+                        ":UpperBody": "Upper Body"
+                        ":WeddingRing": "Wedding Ring"
+                    "/Enabled":
+                        ":True": "True"
+                        ":False": "False"
+            "/HairGrowthStateListDialog":
+                ":Title": "Select Service Properties"
+                "/Headers":
+                    "/HairGrowthState":
+                        ":Text": "Growth State"
+                        ":Tooltip": "The name of the hair growth state"
+                    "/Enabled":
+                        ":Text": "Enabled"
+                        ":Tooltip": "Whether the hair belongs to the hair growth state"
+                "/Options":
+                    "/HairGrowthState":
+                        ":Unknown": "Unknown"
+                        ":Any": "Any"
+                        ":Bald": "Bald"
+                        ":Shaved": "Shaved"
+                        ":Short": "Short"
+                        ":ShortOrAbove": "Short or Longer"
+                        ":Medium": "Medium"
+                        ":MediumOrAbove": "Medium or Longer"
+                        ":Long": "Long"
+                        ":LongOrAbove": "Long or Longer"
+                        ":VeryLong": "Very Long"
+                    "/Enabled":
+                        ":True": "True"
+                        ":False": "False"
+            "/HairClassificationCollectionListDialog":
+                ":Title": "Select Hair Classification Collection"
+                "/Headers":
+                    "/Text":
+                        ":Text": "Hair Classification Collection"
+                        ":Tooltip": "The name of the hair classification collection"
+            "/ExportHairClassificationCollectionFilenameDialog":
+                ":Title": "Export Hair Classifications"
+                ":Prompt": "Enter in the name of the hair classification collection to export."
+            "/ImportHairClassificationCollectionSuccessDialog":
+                ":Title": "Import Successful"
+                ":Message": "The selected hair classification collection was successfully imported."
+            "/ExportHairClassificationCollectionSuccessDialog":
+                ":Title": "Export Successful"
+                ":Message": "The hair classification collection was successfully exported."
+            "/DeleteHairClassificationCollectionSuccessDialog":
+                ":Title": "Deletion Successful"
+                ":Message": "The selected hair classification collections were successfully deleted."
+            "/NoHairClassificationCollectionsExistDialog":
+                ":Title": "Import Failed"
+                ":Message": "No hair classification collections currently exist."
+            "/HairClassificationCollectionExistsDialog":
+                ":Title": "Export Failed"
+                ":Message": "A hair classification collection of this name already exists."
+    "/HairTrouble":
+        "/Interactions":
+            ":Path": "Hair..."
+            "/DecrementHairGrowthState":
+                ":Name": "Decrement Hair Growth State by 1"
+            "/IncrementHairGrowthState":
+                ":Name": "Increment Hair Growth State by 1"
+            "/RemoveHairDye":
+                ":Name": "Remove Hair Dye"
+            "/ResetOriginalHair":
+                ":Name": "Set Genetic Hair Color to Current"

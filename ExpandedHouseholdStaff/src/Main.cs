@@ -73,7 +73,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                 }
             }
             InteractionObjectTypeUtils.InitTypes();
-            //List<EventListener> listeners = new List<EventListener>();
+            //var listeners = new List<EventListener>();
             LoadSaveManager.ObjectGroupsPreLoad += () => Phone.CallForServices.Singleton = new CallForServices.Definition();
             World.OnObjectPlacedInLotEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                 {
@@ -109,7 +109,7 @@ namespace Destrospean.ExpandedHouseholdStaff
             World.sOnWorldQuitEventHandler += (sender, e) =>
                 {
                     /*
-                    foreach (EventListener listener in listeners)
+                    foreach (var listener in listeners)
                     {
                         EventTracker.RemoveListener(listener);
                     }
