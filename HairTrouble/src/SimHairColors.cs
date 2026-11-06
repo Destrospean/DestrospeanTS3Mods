@@ -21,7 +21,7 @@ namespace Destrospean.HairTrouble
             simDescription.EyebrowColor = eyebrowColor;
             simDescription.FacialHairColors = facialHairColors;
             simDescription.HairColors = hairColors;
-            simDescription.ApplyToAllOutfits((simBuilder, outfitCategory, outfitIndex) => ApplyOverallHairColorsToOutfit(simDescription, simBuilder, outfitCategory, outfitIndex, bodyHairColor, eyebrowColor, facialHairColors, hairColors), spin);
+            simDescription.ApplyToAllOutfits((simBuilder, outfitCategory, outfitIndex) => simDescription.ApplyOverallHairColorsToOutfit(simBuilder, outfitCategory, outfitIndex, bodyHairColor, eyebrowColor, facialHairColors, hairColors), spin);
         }
 
         public static SimOutfit ApplyOverallHairColorsToOutfit(this SimDescription simDescription, SimBuilder simBuilder, OutfitCategories outfitCategory, int outfitIndex, GeneticColor bodyHairColor, GeneticColor eyebrowColor, GeneticColor[] facialHairColors, GeneticColor[] hairColors)

@@ -30,7 +30,7 @@ namespace Destrospean.HairTrouble
         public static void ApplyHairGrowthStateToAllOutfits(this SimDescription simDescription, HairGrowthStates hairGrowthState, bool spin = false)
         {
             CASPart? hairstyle = null;
-            simDescription.ApplyToAllOutfits((simBuilder, outfitCategory, outfitIndex) => ApplyHairGrowthStateToOutfit(simDescription, simBuilder, outfitCategory, outfitIndex, hairGrowthState, ref hairstyle), spin);
+            simDescription.ApplyToAllOutfits((simBuilder, outfitCategory, outfitIndex) => simDescription.ApplyHairGrowthStateToOutfit(simBuilder, outfitCategory, outfitIndex, hairGrowthState, ref hairstyle), spin);
         }
 
         public static SimOutfit ApplyHairGrowthStateToOutfit(this SimDescription simDescription, SimBuilder simBuilder, OutfitCategories outfitCategory, int outfitIndex, HairGrowthStates hairGrowthState, ref CASPart? hairstyle)
