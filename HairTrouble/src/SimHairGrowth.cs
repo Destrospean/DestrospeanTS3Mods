@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 using Destrospean.Enums.HairTrouble;
-using Destrospean.PreserveGeneticHair;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
 using Sims3.Gameplay.CAS;
@@ -130,10 +130,10 @@ namespace Destrospean.HairTrouble
                 {
                     continue;
                 }
-                var reader = Simulator.ReadXml(new ResourceKey(ResourceUtils.HashString64(assembly.GetName().Name), 0x333406C, 0));
+                var reader = Simulator.ReadXml(new ResourceKey(ResourceUtils.HashString64(assembly.GetName().Name), 0x0333406C, 0x00000000));
                 while (reader.Read())
                 {
-                    if (reader.NodeType == System.Xml.XmlNodeType.Element)
+                    if (reader.NodeType == XmlNodeType.Element)
                     {
                         if (reader.Name == "HairGrowthStateMap")
                         {
@@ -141,7 +141,7 @@ namespace Destrospean.HairTrouble
                         }
                         else if (reader.Name == "Entry")
                         {
-                            sHairGrowthStateMap[reader.GetAttribute("CASPartKey") ?? ""] = (HairGrowthStates)Enum.Parse(typeof(HairGrowthStates), reader.GetAttribute("GrowthState"));
+                            sHairGrowthStateMap[reader.GetAttribute("CASPartKey") ?? ""] = (HairGrowthStates)Enum.Parse(typeof(HairGrowthStates), reader.GetAttribute("GrowthState") ?? "");
                         }
                     }
                 }

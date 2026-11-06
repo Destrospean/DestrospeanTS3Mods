@@ -1,5 +1,4 @@
 using System;
-using Destrospean.PreserveGeneticHair;
 using Destrospean.Utils;
 using Sims3.Gameplay.CAS;
 using Sims3.SimIFace.CAS;
