@@ -15,7 +15,7 @@ namespace Destrospean.UI.Columns
         public override ObjectPicker.ColumnInfo GetValue(CASPart casPart)
         {
             var preset = new CASPartPreset(casPart, CASUtils.PartDataGetPresetId(casPart.Key, 0u), CASUtils.PartDataGetPreset(casPart.Key, 0u));
-            return new ObjectPicker.ThumbAndTextColumn(new ThumbnailKey(casPart.Key, preset.mPresetId != uint.MaxValue ? (int)preset.mPresetId : -1, (uint)preset.mPart.BodyType, (uint)preset.mPart.AgeGenderSpecies, ThumbnailSize.Large), CASUtils.PartDataGetName(casPart.Key));
+            return new ObjectPicker.ThumbAndTextColumn(new ThumbnailKey(preset.mPart.Key, preset.mPresetId != uint.MaxValue ? (int)preset.mPresetId : -1, (uint)preset.mPart.BodyType, (uint)preset.mPart.AgeGenderSpecies, ThumbnailSize.Large), CASUtils.PartDataGetName(casPart.Key));
         }
     }
 }
