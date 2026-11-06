@@ -44,7 +44,7 @@ namespace Destrospean.HairTrouble
 
             public override bool Run()
             {
-                Actor.SimDescription.DecrementHairGrowthState();
+                Target.SimDescription.DecrementHairGrowthState();
                 return true;
             }
         }
@@ -79,7 +79,7 @@ namespace Destrospean.HairTrouble
 
             public override bool Run()
             {
-                Actor.SimDescription.IncrementHairGrowthState();
+                Target.SimDescription.IncrementHairGrowthState();
                 return true;
             }
         }
@@ -170,8 +170,8 @@ namespace Destrospean.HairTrouble
 
             public override bool Run()
             {
-                Actor.SimDescription.ClearOriginalOverallHairColors();
-                Actor.SimDescription.InitOriginalOverallHairColors();
+                Target.SimDescription.ClearOriginalOverallHairColors();
+                Target.SimDescription.InitOriginalOverallHairColors();
                 return true;
             }
         }
