@@ -138,11 +138,16 @@ namespace Destrospean.Utils.HairTrouble
                         Encoding = Encoding.UTF8
                     }))
                 {
+                    xmlWriter.WriteStartDocument();
+                    xmlWriter.WriteStartElement("HairGrowthStateMap");
                     foreach (var entry in entries)
                     {
-                        xmlWriter.WriteElementString("CASPartKey", entry.Key);
-                        xmlWriter.WriteElementString("GrowthState", entry.Value.ToString());
+                        xmlWriter.WriteStartElement("Entry");
+                        xmlWriter.WriteAttributeString("CASPartKey", entry.Key);
+                        xmlWriter.WriteAttributeString("GrowthState", entry.Value.ToString());
+                        xmlWriter.WriteEndElement();
                     }
+                    xmlWriter.WriteEndElement();
                     xmlWriter.WriteEndDocument();
                     xmlWriter.Flush();
                 }
