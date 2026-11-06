@@ -300,7 +300,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
                         xmlWriter.WriteElementString("CheckTime", profile.CheckTime.ToString(CultureInfo.InvariantCulture));
 
-                        xmlWriter.WriteElementString("DriveTime", profile.CheckTime.ToString(CultureInfo.InvariantCulture));
+                        xmlWriter.WriteElementString("DriveTime", profile.DriveTime.ToString(CultureInfo.InvariantCulture));
 
                         xmlWriter.WriteElementString("MaxNumNPCsInPool", profile.MaxNumNPCsInPool.ToString());
 
