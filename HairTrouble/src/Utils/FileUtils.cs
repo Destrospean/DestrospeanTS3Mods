@@ -128,7 +128,7 @@ namespace Destrospean.Utils.HairTrouble
             return stringBuilder.ToString();
         }
 
-        public static string GetXml(IEnumerable<object> profiles)
+        public static string GetXml(IDictionary<string, HairGrowthStates> entries)
         {
             var stringBuilder = new StringBuilder();
             using (var stringWriter = new Utf8StringWriter(stringBuilder))
@@ -138,7 +138,7 @@ namespace Destrospean.Utils.HairTrouble
                         Encoding = Encoding.UTF8
                     }))
                 {
-                    foreach (var entry in SimHairGrowth.HairGrowthStateMap)
+                    foreach (var entry in entries)
                     {
                         xmlWriter.WriteElementString("CASPartKey", entry.Key);
                         xmlWriter.WriteElementString("GrowthState", entry.Value.ToString());
