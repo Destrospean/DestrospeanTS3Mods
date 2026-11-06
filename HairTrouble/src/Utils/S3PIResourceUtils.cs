@@ -1,4 +1,4 @@
-﻿namespace Destrospean.HairTrouble
+﻿namespace Destrospean.Utils.HairTrouble
 {
     public static class S3PIResourceUtils
     {

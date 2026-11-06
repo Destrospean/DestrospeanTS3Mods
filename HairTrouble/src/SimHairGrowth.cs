@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
 using Destrospean.PreserveGeneticHair;
 using Destrospean.Utils;
+using Destrospean.Utils.HairTrouble;
 using Sims3.Gameplay.CAS;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;

@@ -15,26 +15,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/HairTrouble/resources/nameMap.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/resources/nameMap.xsd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Enums/HairGrowthStateChangeFlags.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Enums/HairGrowthStates.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Properties/AssemblyInfo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Settings.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/S3PIResourceUtils.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_ENG_US.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DestrospeanTS3Mods.sln" beforeDir="false" afterPath="$PROJECT_DIR$/DestrospeanTS3Mods.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Utils/S3PIResourceUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/S3PIResourceUtils.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,7 +205,8 @@
     <MESSAGE value="Minor change" />
     <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Fix `CheckTime` being written for `DriveTime` in the XML" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix `CheckTime` being written for `DriveTime` in the XML" />
+    <MESSAGE value="Add HairTrouble" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add HairTrouble" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
