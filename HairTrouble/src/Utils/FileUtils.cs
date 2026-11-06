@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
+using Destrospean.Enums.HairTrouble;
+using Destrospean.HairTrouble;
 using Destrospean.Misc;
 using Destrospean.UI.Columns;
 using Sims3.Gameplay;
@@ -33,16 +35,16 @@ namespace Destrospean.Utils.HairTrouble
             }
             if (savedSettings.Count == 0)
             {
-                SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/NoServiceCollectionsExistDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/NoServiceCollectionsExistDialog:Message"));
+                SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Message"));
                 return;
             }
-            if (TryUIGetSelectedSavedSettingsNames(out var savedSettingsNames, new List<string>(savedSettings.Keys).ConvertAll(x => x.Replace(kSavedSettingsPrefix, "")).ToArray(), Localization.LocalizeString(/*DeleteServiceCollection.LocalizationKey* +*/ ":Name")))
+            if (TryUIGetSelectedSavedSettingsNames(out var savedSettingsNames, new List<string>(savedSettings.Keys).ConvertAll(x => x.Replace(kSavedSettingsPrefix, "")).ToArray(), Localization.LocalizeString(/*DeleteHairClassificationCollection.LocalizationKey* +*/ ":Name")))
             {
                 foreach (var name in savedSettingsNames)
                 {
                     BinModel.Singleton.DeleteFromExportBin(savedSettings[kSavedSettingsPrefix + name]);
                 }
-                SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/DeleteServiceCollectionSuccessDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/DeleteServiceCollectionSuccessDialog:Message"));
+                SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/DeleteHairClassificationCollectionSuccessDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/DeleteHairClassificationCollectionSuccessDialog:Message"));
             }
         }
 
@@ -52,7 +54,7 @@ namespace Destrospean.Utils.HairTrouble
             found = true;
             while (found)
             {
-                name = StringInputDialog.Show(Localization.LocalizeString(kLocalizationKey + "/ExportServiceCollectionFilenameDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/ExportServiceCollectionFilenameDialog:Prompt"), "");
+                name = StringInputDialog.Show(Localization.LocalizeString(kLocalizationKey + "/ExportHairClassificationCollectionFilenameDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/ExportHairClassificationCollectionFilenameDialog:Prompt"), "");
                 if (string.IsNullOrEmpty(name))
                 {
                     return false;
@@ -68,7 +70,7 @@ namespace Destrospean.Utils.HairTrouble
                     }
                     if (contents.HouseholdName == name)
                     {
-                        SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/ServiceCollectionExistsDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/ServiceCollectionExistsDialog:Message"));
+                        SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/HairClassificationCollectionExistsDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/HairClassificationCollectionExistsDialog:Message"));
                         found = true;
                         break;
                     }
@@ -79,7 +81,7 @@ namespace Destrospean.Utils.HairTrouble
             dummyHousehold.BioText = text;
             BinModel.Singleton.AddToExportBin(dummyHousehold);
             dummyHousehold.Destroy();
-            SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/ExportServiceCollectionSuccessDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/ExportServiceCollectionSuccessDialog:Message"));
+            SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/ExportHairClassificationCollectionSuccessDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/ExportHairClassificationCollectionSuccessDialog:Message"));
             return !found;
         }
 
@@ -96,10 +98,10 @@ namespace Destrospean.Utils.HairTrouble
             }
             if (savedSettings.Count == 0)
             {
-                SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/NoServiceCollectionsExistDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/NoServiceCollectionsExistDialog:Message"));
+                SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Message"));
                 return null;
             }
-            return TryUIGetSelectedSavedSettingsNames(out var savedSettingsNames, new List<string>(savedSettings.Keys).ConvertAll(x => x.Replace(kSavedSettingsPrefix, "")).ToArray(), Localization.LocalizeString(/*ImportServiceCollection.LocalizationKey +*/ ":Name"), 1) ? savedSettings[kSavedSettingsPrefix + savedSettingsNames[0]] : null;
+            return TryUIGetSelectedSavedSettingsNames(out var savedSettingsNames, new List<string>(savedSettings.Keys).ConvertAll(x => x.Replace(kSavedSettingsPrefix, "")).ToArray(), Localization.LocalizeString(/*ImportHairClassificationCollection.LocalizationKey +*/ ":Name"), 1) ? savedSettings[kSavedSettingsPrefix + savedSettingsNames[0]] : null;
         }
 
         public static string ExtractFromTuning(string name)
@@ -136,7 +138,11 @@ namespace Destrospean.Utils.HairTrouble
                         Encoding = Encoding.UTF8
                     }))
                 {
-                    xmlWriter.WriteEndElement();
+                    foreach (var entry in SimHairGrowth.HairGrowthStateMap)
+                    {
+                        xmlWriter.WriteElementString("CASPartKey", entry.Key);
+                        xmlWriter.WriteElementString("GrowthState", entry.Value.ToString());
+                    }
                     xmlWriter.WriteEndDocument();
                     xmlWriter.Flush();
                 }
@@ -179,12 +185,12 @@ namespace Destrospean.Utils.HairTrouble
             {
                 return false;
             }
-            LoadServiceProfiles(text);
-            SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/ImportServiceCollectionSuccessDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/ImportServiceCollectionSuccessDialog:Message"));
+            LoadHairClassifications(text);
+            SimpleMessageDialog.Show(Localization.LocalizeString(kLocalizationKey + "/ImportHairClassificationCollectionSuccessDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/ImportHairClassificationCollectionSuccessDialog:Message"));
             return true;
         }
 
-        public static void LoadServiceProfiles(string text)
+        public static void LoadHairClassifications(string text)
         {
             using (var stringReader = new StringReader(text))
             {
@@ -193,14 +199,21 @@ namespace Destrospean.Utils.HairTrouble
                         IgnoreComments = true
                     }))
                 {
-                    var xmlDocument = new XmlDocument();
-                    xmlDocument.Load(xmlReader);
-                    foreach (XmlNode node in xmlDocument.DocumentElement.ChildNodes)
+                    while (xmlReader.Read())
                     {
-                        if (node.Name == "ServiceProfile" && node is XmlElement element)
+                        if (xmlReader.NodeType == XmlNodeType.Element)
                         {
+                            if (xmlReader.Name == "HairGrowthStateMap")
+                            {
+                                xmlReader.MoveToContent();
+                            }
+                            else if (xmlReader.Name == "Entry")
+                            {
+                                SimHairGrowth.HairGrowthStateMap[xmlReader.GetAttribute("CASPartKey") ?? ""] = (HairGrowthStates)Enum.Parse(typeof(HairGrowthStates), xmlReader.GetAttribute("GrowthState") ?? "");
+                            }
                         }
                     }
+                    xmlReader.Close();
                 }
             }
         }
@@ -210,12 +223,12 @@ namespace Destrospean.Utils.HairTrouble
             Array.Sort(allNames);
             while (true)
             {
-                selectedNames = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(kLocalizationKey + "/ServiceCollectionListDialog:Title"), new List<ObjectPicker.TabInfo>
+                selectedNames = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(kLocalizationKey + "/HairClassificationCollectionListDialog:Title"), new List<ObjectPicker.TabInfo>
                     {
                         new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<string>(allNames).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
                     }, new List<ObjectPickerDialog.CommonHeaderInfo<string>>
                     {
-                        new TextColumn(kLocalizationKey + "/ServiceCollectionListDialog")
+                        new TextColumn(kLocalizationKey + "/HairClassificationCollectionListDialog")
                     }, selectableRowCount, out var confirmed, out var cancelled) ?? new List<string>()).ToArray();
                 if (cancelled)
                 {
@@ -228,35 +241,5 @@ namespace Destrospean.Utils.HairTrouble
                 }
             }
         }
-
-        public static string WrapInnerXmlAsDocument(XmlNode node)
-        {
-            if (string.IsNullOrEmpty(node.InnerXml))
-            {
-                return null;
-            }
-            var xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(node.InnerXml);
-            var xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
-            xmlDocument.InsertBefore(xmlDeclaration, xmlDocument.DocumentElement);
-            var stringBuilder = new StringBuilder();
-            using (var stringWriter = new Utf8StringWriter(stringBuilder))
-            {
-                using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
-                    {
-                        Encoding = Encoding.UTF8,
-                        Indent = true,
-                        IndentChars = "  ",
-                        OmitXmlDeclaration = false
-                    }))
-                {
-                    xmlDocument.WriteTo(xmlWriter);
-                    xmlWriter.Flush();
-                }
-                stringWriter.Flush();
-            }
-            return stringBuilder.ToString();
-        }
     }
 }
-

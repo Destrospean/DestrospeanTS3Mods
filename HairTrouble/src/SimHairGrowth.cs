@@ -12,6 +12,7 @@ namespace Destrospean.HairTrouble
 {
     public static class SimHairGrowth
     {
+        [PersistableStatic(true)]
         private static Dictionary<string, HairGrowthStates> sHairGrowthStateMap;
 
         public static Dictionary<string, HairGrowthStates> HairGrowthStateMap
