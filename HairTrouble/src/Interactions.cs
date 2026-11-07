@@ -58,27 +58,66 @@ namespace Destrospean.HairTrouble
                 {
                     hairGrowthStateMap[entry.Key] = entry.Value;
                 }
-                var hairstyles = new List<CASPart>();
-                foreach (ResourceKey key in new KeySearch(0x034AEECB))
+                var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "DemographicDialog");
+                var age = CASAgeGenderFlags.None;
+                var gender = CASAgeGenderFlags.None;
+                var hairGrowthState = HairGrowthStates.Unknown;
+                byte step = 0;
+                while (true)
                 {
-                    var casPart = new CASPart(key);
-                    if (casPart.BodyType == BodyTypes.Hair && (casPart.Age & Actor.SimDescription.Age) != 0 && (casPart.Gender & Actor.SimDescription.Gender) != 0)
+                    if (step == 0)
                     {
-                        hairstyles.Add(casPart);
+                        if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out age, CASAgeGenderFlags.None, CASAgeGenderFlags.AgeMask ^ CASAgeGenderFlags.Baby, Localization.LocalizeString(entryKey + "/Titles:Age"), entryKey, false))
+                        {
+                            SimHairGrowth.HairGrowthStateMap.Clear();
+                            foreach (var entry in hairGrowthStateMap)
+                            {
+                                SimHairGrowth.HairGrowthStateMap[entry.Key] = entry.Value;
+                            }
+                            return true;
+                        }
+                        step++;
                     }
-                }
-                if (!ShowHairGrowthStateMapDialog(hairstyles))
-                {
-                    SimHairGrowth.HairGrowthStateMap.Clear();
-                    foreach (var entry in hairGrowthStateMap)
+                    if (step == 1)
                     {
-                        SimHairGrowth.HairGrowthStateMap[entry.Key] = entry.Value;
+                        if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out gender, CASAgeGenderFlags.None, CASAgeGenderFlags.GenderMask, Localization.LocalizeString(entryKey + "/Titles:Gender"), entryKey, false))
+                        {
+                            step--;
+                            continue;
+                        }
+                        step++;
                     }
+                    if (step == 2)
+                    {
+                        if (!TryUIGetHairGrowthState(Localization.LocalizeString(typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "HairGrowthStateMapDialog/SubmenuTitles:HairGrowthState")), out hairGrowthState))
+                        {
+                            step--;
+                            continue;
+                        }
+                        step++;
+                    }
+                    if (step == 3)
+                    {
+                        var hairstyles = new List<CASPart>();
+                        foreach (ResourceKey key in new KeySearch(0x034AEECB))
+                        {
+                            var casPart = new CASPart(key);
+                            if (casPart.BodyType == BodyTypes.Hair && (casPart.Age & age) != 0 && (casPart.Gender & gender) != 0 && (SimHairGrowth.HairGrowthStateMap.TryGetValue(key.ToS3PIFormatKeyString(), out var value) ? hairGrowthState == value : hairGrowthState == HairGrowthStates.Unknown))
+                            {
+                                hairstyles.Add(casPart);
+                            }
+                        }
+                        if (!ShowHairGrowthStateMapDialog(hairGrowthState, hairstyles))
+                        {
+                            step--;
+                            continue;
+                        }
+                    }
+                    return true;
                 }
-                return true;
             }
             
-            public static bool ShowHairGrowthStateMapDialog(List<CASPart> allHairstyles, string title = null)
+            public static bool ShowHairGrowthStateMapDialog(HairGrowthStates currentHairGrowthState, List<CASPart> allHairstyles, string title = null)
             {
                 var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "HairGrowthStateMapDialog");
                 while (true)
@@ -90,18 +129,24 @@ namespace Destrospean.HairTrouble
                         {
                             new CASPartColumn(entryKey),
                             new CASPartHairGrowthStateColumn(entryKey, SimHairGrowth.HairGrowthStateMap)
-                        }, 1, out var confirmed, out var cancelled, true);
+                        }, int.MaxValue, out var confirmed, out var cancelled, true);
                     if (cancelled)
                     {
                         return false;
                     }
-                    if (confirmed)
+                    if (confirmed && selectedHairstyles.Count == 0)
                     {
                         return true;
                     }
-                    var keyString = selectedHairstyles[0].Key.ToS3PIFormatKeyString();
-                    TryUIGetHairGrowthState(Localization.LocalizeString(entryKey + "/SubmenuTitles:HairGrowthState"), out var hairGrowthState, SimHairGrowth.HairGrowthStateMap.TryGetValue(keyString, out var defaultValue) ? defaultValue : HairGrowthStates.Unknown);
-                    SimHairGrowth.HairGrowthStateMap[keyString] = hairGrowthState;
+                    TryUIGetHairGrowthState(Localization.LocalizeString(entryKey + "/SubmenuTitles:HairGrowthState"), out var hairGrowthState, SimHairGrowth.HairGrowthStateMap.TryGetValue(selectedHairstyles[0].Key.ToS3PIFormatKeyString(), out var defaultValue) ? defaultValue : HairGrowthStates.Unknown);
+                    foreach (var hairstyle in selectedHairstyles)
+                    {
+                        SimHairGrowth.HairGrowthStateMap[hairstyle.Key.ToS3PIFormatKeyString()] = hairGrowthState;
+                        if (currentHairGrowthState != hairGrowthState)
+                        {
+                            allHairstyles.Remove(hairstyle);
+                        }
+                    }
                 }
             }
             

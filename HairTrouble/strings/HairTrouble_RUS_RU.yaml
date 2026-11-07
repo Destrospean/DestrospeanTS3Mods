@@ -27,7 +27,7 @@
                     "/Enabled":
                         ":True": "True"
                         ":False": "False"
-            "/HairTroubleOutfitDemographicDialog":
+            "/DemographicDialog":
                 ":Title": "Select Demographic"
                 "/Titles":
                     ":Age": "Select Age"
@@ -42,7 +42,8 @@
                         ":Toddler": "Toddler"
                         ":Child": "Child"
                         ":Teen": "Teen"
-                        ":Adult": "Young Adult/Adult"
+                        ":YoungAdult": "Young Adult"
+                        ":Adult": "Adult"
                         ":Elder": "Elder"
                         ":Male": "Male"
                         ":Female": "Female"

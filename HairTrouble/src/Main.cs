@@ -29,7 +29,7 @@ namespace Destrospean.HairTrouble
                 });
             World.sOnWorldLoadFinishedEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                 {
-                    SimHairGrowth.InitHairGrowthStateMap();
+                    _ = SimHairGrowth.HairGrowthStateMap;
                     foreach (var mirror in Queries.GetObjects<Mirror>())
                     {
                         AddInteractions(mirror);
