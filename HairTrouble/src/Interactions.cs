@@ -62,7 +62,7 @@ namespace Destrospean.HairTrouble
                 foreach (ResourceKey key in new KeySearch(0x034AEECB))
                 {
                     var casPart = new CASPart(key);
-                    if (casPart.BodyType == BodyTypes.Hair)
+                    if (casPart.BodyType == BodyTypes.Hair && (casPart.Age & Actor.SimDescription.Age) != 0 && (casPart.Gender & Actor.SimDescription.Gender) != 0)
                     {
                         hairstyles.Add(casPart);
                     }
