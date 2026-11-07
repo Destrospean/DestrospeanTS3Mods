@@ -1,5 +1,4 @@
-﻿using Destrospean.Utils.HairTrouble;
-using Sims3.SimIFace;
+﻿using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
 using Sims3.UI.CAS;
