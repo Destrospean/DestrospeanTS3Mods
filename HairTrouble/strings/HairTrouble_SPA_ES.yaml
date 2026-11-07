@@ -99,13 +99,15 @@
                         ":True": "True"
                         ":False": "False"
             "/HairGrowthStateMapDialog":
-                ":Title": "Specify Hair Growth States"
+                ":Title": "Classify Hairstyles"
+                "/SubmenuTitles":
+                    ":HairGrowthState": "Select Hair Growth State"
                 "/Headers":
                     "/CASPart":
                         ":Text": "Hairstyle"
                         ":Tooltip": "The hairstyle"
                     "/HairGrowthState":
-                        ":Text": "Hair Growth State"
+                        ":Text": "Growth State"
                         ":Tooltip": "The associated hair growth state"
                 "/Options":
                     "/HairGrowthState":
@@ -114,11 +116,11 @@
                         ":Bald": "Bald"
                         ":Shaved": "Shaved"
                         ":Short": "Short"
-                        ":ShortOrAbove": "Short or Longer"
+                        ":ShortOrAbove": "≥ Short"
                         ":Medium": "Medium"
-                        ":MediumOrAbove": "Medium or Longer"
+                        ":MediumOrAbove": "≥ Medium"
                         ":Long": "Long"
-                        ":LongOrAbove": "Long or Longer"
+                        ":LongOrAbove": "≥ Long"
                         ":VeryLong": "Very Long"
             "/HairClassificationCollectionListDialog":
                 ":Title": "Select Hair Classification Collection"
@@ -147,6 +149,8 @@
     "/HairTrouble":
         "/Interactions":
             ":Path": "Hair..."
+            "/ClassifyHairstyles":
+                ":Name": "Classify Hairstyles"
             "/DecrementHairGrowthState":
                 ":Name": "Decrement Hair Growth State by 1"
             "/IncrementHairGrowthState":

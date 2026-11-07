@@ -86,17 +86,23 @@ namespace Destrospean.HairTrouble
         
         public static void AddInteractions(Mirror mirror)
         {
-            mirror?.AddInteraction(Interactions.RemoveHairDye.Singleton, true);
+            if (mirror == null)
+            {
+                return;
+            }
+            mirror.AddInteraction(Interactions.ClassifyHairstyles.Singleton, true);
+            mirror.AddInteraction(Interactions.RemoveHairDye.Singleton, true);
         }
 
         public static void AddInteractions(Sim sim)
         {
-            if (sim != null)
+            if (sim == null)
             {
-                sim.AddInteraction(Interactions.DecrementHairGrowthState.Singleton, true);
-                sim.AddInteraction(Interactions.IncrementHairGrowthState.Singleton, true);
-                sim.AddInteraction(Interactions.ResetOriginalHair.Singleton, true);
+                return;
             }
+            sim.AddInteraction(Interactions.DecrementHairGrowthState.Singleton, true);
+            sim.AddInteraction(Interactions.IncrementHairGrowthState.Singleton, true);
+            sim.AddInteraction(Interactions.ResetOriginalHair.Singleton, true);
         }
     }
 }
