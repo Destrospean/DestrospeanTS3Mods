@@ -181,4 +181,7 @@
     <Folder Include="Spawners\" />
     <Folder Include="Register\" />
   </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\resources\**\*"/>
+  </ItemGroup>
 </Project>

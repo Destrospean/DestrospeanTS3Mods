@@ -266,4 +266,7 @@
     <Folder Include="UI\Columns\ServiceProfileFlags\" />
     <Folder Include="Utils\" />
   </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\resources\**\*"/>
+  </ItemGroup>
 </Project>

@@ -219,4 +219,7 @@
     <Folder Include="..\..\Common\src\Utils\" />
     <Folder Include="UI\" />
   </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Include="..\resources\**\*"/>
+  </ItemGroup>
 </Project>
