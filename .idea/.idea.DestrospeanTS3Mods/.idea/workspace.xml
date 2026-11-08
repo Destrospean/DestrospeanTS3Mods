@@ -36,9 +36,15 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/81/36ae7749/ParserFunctions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/f7/9739e1c8/Service.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eeada6bd1a694cf19c15029bebd7ad7496000/6d/b1be706e/CASUtils.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/Enums/HairGrowthStateChangeFlags.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/HairTrouble/src/Interactions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/HairTrouble/src/Main.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/SimHairData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartColumn.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartHairGrowthStateColumn.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file:///usr/lib/mono/xbuild/Microsoft/NuGet/Microsoft.NuGet.targets" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
@@ -210,7 +216,8 @@
     <MESSAGE value="Minor change" />
     <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Remove unused import" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove unused import" />
+    <MESSAGE value="Add resources folder to .csproj" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add resources folder to .csproj" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

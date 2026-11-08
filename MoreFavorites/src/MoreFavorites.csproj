@@ -110,6 +110,7 @@
     <Exec Command="sh &quot;$(SolutionDir)scripts\GenerateTunables.sh&quot; &quot;MoreFavorites&quot;" Condition="'$(OS)' != 'Windows_NT'" />
   </Target>
   <ItemGroup>
-    <UpToDateCheckInput Include="..\resources\**\*"/>
+    <UpToDateCheckInput Include="..\resources\**\*" Exclude="..\resources\**\*.stbl"/>
+    <UpToDateCheckInput Include="..\strings\**\*"/>
   </ItemGroup>
 </Project>

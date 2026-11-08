@@ -267,6 +267,7 @@
     <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
-    <UpToDateCheckInput Include="..\resources\**\*"/>
+    <UpToDateCheckInput Include="..\resources\**\*" Exclude="..\resources\**\*.stbl"/>
+    <UpToDateCheckInput Include="..\strings\**\*"/>
   </ItemGroup>
 </Project>

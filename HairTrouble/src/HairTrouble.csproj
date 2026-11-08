@@ -70,17 +70,11 @@
     <Compile Include="..\..\Common\src\Misc\DummyComparer.cs">
       <Link>Misc\DummyComparer.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\src\Misc\ActionTask.cs">
-      <Link>Misc\ActionTask.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\src\Misc\Utf8StringWriter.cs">
       <Link>Misc\Utf8StringWriter.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\src\Misc\SkillLevelPair.cs">
       <Link>Misc\SkillLevelPair.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Misc\InventoryObjectCreationParameters.cs">
-      <Link>Misc\InventoryObjectCreationParameters.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\src\Utils\InteractionObjectTypeUtils.cs">
       <Link>Utils\InteractionObjectTypeUtils.cs</Link>
@@ -90,9 +84,6 @@
     </Compile>
     <Compile Include="..\..\Common\src\Utils\CommonUtils.cs">
       <Link>Utils\CommonUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Utils\NRaasMasterControllerIntegration.cs">
-      <Link>Utils\NRaasMasterControllerIntegration.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\src\Utils\OutfitExtensions.cs">
       <Link>Utils\OutfitExtensions.cs</Link>
@@ -135,9 +126,6 @@
     </Compile>
     <Compile Include="..\..\Common\src\UI\Dialogs\ComboSelectionDialog.cs">
       <Link>UI\Dialogs\ComboSelectionDialog.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Enums\DummyEnum.cs">
-      <Link>Enums\DummyEnum.cs</Link>
     </Compile>
     <Compile Include="Utils\S3PIResourceUtils.cs" />
   </ItemGroup>
@@ -220,6 +208,7 @@
     <Folder Include="UI\" />
   </ItemGroup>
   <ItemGroup>
-    <UpToDateCheckInput Include="..\resources\**\*"/>
+    <UpToDateCheckInput Include="..\resources\**\*" Exclude="..\resources\**\*.stbl"/>
+    <UpToDateCheckInput Include="..\strings\**\*"/>
   </ItemGroup>
 </Project>
