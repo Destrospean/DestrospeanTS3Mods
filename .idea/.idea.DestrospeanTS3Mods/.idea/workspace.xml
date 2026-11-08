@@ -15,9 +15,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Common/src/UI/Columns/CASPart/CASPartColumn.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Common/src/Utils/S3PIResourceUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartColumn.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartHairGrowthStateColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartHairGrowthStateColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Utils/S3PIResourceUtils.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +39,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/f7/9739e1c8/Service.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eeada6bd1a694cf19c15029bebd7ad7496000/6d/b1be706e/CASUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/src/Utils/S3PIResourceUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/Enums/HairGrowthStateChangeFlags.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/Interactions.cs" root0="FORCE_HIGHLIGHTING" />
@@ -136,7 +141,7 @@
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "master",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/Utils/FileUtilsBase.cs",
+    "last_opened_file_path": "/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/UI/Columns/CASPart/CASPartColumn.cs",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

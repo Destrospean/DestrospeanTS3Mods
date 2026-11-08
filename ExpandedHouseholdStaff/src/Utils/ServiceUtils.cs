@@ -5,6 +5,7 @@ using Destrospean.Enums;
 using Destrospean.Enums.ExpandedHouseholdStaff;
 using Destrospean.ExpandedHouseholdStaff.Interactions;
 using Destrospean.Misc;
+using Destrospean.UI.Columns;
 using Destrospean.UI.Columns.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.ActorSystems;

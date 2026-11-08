@@ -39,6 +39,15 @@
     <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\src\UI\Columns\InventoryObjectCreationParameters\InventoryObjectCountColumn.cs">
+      <Link>UI\Columns\InventoryObjectCreationParameters\InventoryObjectCountColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Columns\InventoryObjectCreationParameters\InventoryObjectGroupColumn.cs">
+      <Link>UI\Columns\InventoryObjectCreationParameters\InventoryObjectGroupColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Columns\InventoryObjectCreationParameters\InventoryObjectInstanceNameColumn.cs">
+      <Link>UI\Columns\InventoryObjectCreationParameters\InventoryObjectInstanceNameColumn.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\src\Utils\FileUtilsBase.cs">
       <Link>Utils\FileUtilsBase.cs</Link>
     </Compile>
@@ -77,9 +86,6 @@
     <Compile Include="UI\Columns\ActiveTopicAction\ActiveTopicActionGroupingColumn.cs" />
     <Compile Include="UI\Columns\CommodityChange\CommodityChangeInteractionDefinitionTypeColumn.cs" />
     <Compile Include="UI\Columns\CommodityChange\CommodityChangeTargetTypeColumn.cs" />
-    <Compile Include="UI\Columns\InventoryObjectCreationParameters\InventoryObjectCountColumn.cs" />
-    <Compile Include="UI\Columns\InventoryObjectCreationParameters\InventoryObjectGroupColumn.cs" />
-    <Compile Include="UI\Columns\InventoryObjectCreationParameters\InventoryObjectInstanceNameColumn.cs" />
     <Compile Include="UI\Columns\ServiceProfile\ServiceProfileNameColumn.cs" />
     <Compile Include="UI\Columns\ServiceProfile\ServiceProfileTitleColumn.cs" />
     <Compile Include="UI\Columns\ServiceProfileFlags\ServiceProfileFlagColumn.cs" />
@@ -261,10 +267,8 @@
     <Folder Include="Situations\" />
     <Folder Include="Services\" />
     <Folder Include="UI\" />
-    <Folder Include="UI\Columns\" />
     <Folder Include="UI\Columns\ActiveTopicAction\" />
     <Folder Include="UI\Columns\CommodityChange\" />
-    <Folder Include="UI\Columns\InventoryObjectCreationParameters\" />
     <Folder Include="UI\Columns\ServiceProfile\" />
     <Folder Include="UI\Columns\ServiceProfileFlags\" />
   </ItemGroup>

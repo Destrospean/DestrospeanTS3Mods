@@ -39,8 +39,14 @@
     <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\src\UI\Columns\CASPart\CASPartColumn.cs">
+      <Link>UI\Columns\CASPart\CASPartColumn.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\src\Utils\FileUtilsBase.cs">
       <Link>Utils\FileUtilsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\S3PIResourceUtils.cs">
+      <Link>Utils\S3PIResourceUtils.cs</Link>
     </Compile>
     <Compile Include="Enums\HairGrowthStateChangeFlags.cs" />
     <Compile Include="Enums\HairGrowthStates.cs" />
@@ -50,7 +56,6 @@
     <Compile Include="SimHairColors.cs" />
     <Compile Include="SimHairData.cs" />
     <Compile Include="SimHairGrowth.cs" />
-    <Compile Include="UI\Columns\CASPart\CASPartColumn.cs" />
     <Compile Include="UI\Columns\CASPart\CASPartHairGrowthStateColumn.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Main.cs" />
@@ -130,7 +135,6 @@
     <Compile Include="..\..\Common\src\UI\Dialogs\ComboSelectionDialog.cs">
       <Link>UI\Dialogs\ComboSelectionDialog.cs</Link>
     </Compile>
-    <Compile Include="Utils\S3PIResourceUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

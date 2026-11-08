@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
 using Destrospean.Misc;
+using Destrospean.UI.Columns;
 using Destrospean.UI.Columns.HairTrouble;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;

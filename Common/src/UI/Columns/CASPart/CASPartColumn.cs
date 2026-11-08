@@ -4,11 +4,11 @@ using Sims3.UI;
 using Sims3.UI.CAS;
 using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
-namespace Destrospean.UI.Columns.HairTrouble
+namespace Destrospean.UI.Columns
 {
     public class CASPartColumn : ObjectPickerDialog.CommonHeaderInfo<CASPart>
     {
-        public CASPartColumn(string localizationPath) : base(localizationPath + "/Headers/CASPart:Text", localizationPath + "/Headers/CASPart:Tooltip", 220)
+        public CASPartColumn(string localizationPath) : base(localizationPath + "/Headers/CASPart:Text", localizationPath + "/Headers/CASPart:Tooltip", 330)
         {
         }
 

@@ -2,7 +2,7 @@
 using Sims3.UI;
 using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
-namespace Destrospean.UI.Columns.ExpandedHouseholdStaff
+namespace Destrospean.UI.Columns
 {
     public class InventoryObjectGroupColumn : ObjectPickerDialog.CommonHeaderInfo<InventoryObjectCreationParameters>
     {

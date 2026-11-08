@@ -13,7 +13,7 @@ namespace Destrospean.UI.Columns.HairTrouble
 
         private readonly IDictionary<string, HairGrowthStates> mHairGrowthStateMap;
 
-        public CASPartHairGrowthStateColumn(string localizationPath, IDictionary<string, HairGrowthStates> hairGrowthStateMap) : base(localizationPath + "/Headers/HairGrowthState:Text", localizationPath + "/Headers/HairGrowthState:Tooltip", 220)
+        public CASPartHairGrowthStateColumn(string localizationPath, IDictionary<string, HairGrowthStates> hairGrowthStateMap) : base(localizationPath + "/Headers/HairGrowthState:Text", localizationPath + "/Headers/HairGrowthState:Tooltip", 110)
         {
             mLocalizationPath = localizationPath;
             mHairGrowthStateMap = hairGrowthStateMap;
