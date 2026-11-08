@@ -4,7 +4,7 @@ using Sims3.UI;
 using Sims3.UI.CAS;
 using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
-namespace Destrospean.UI.Columns
+namespace Destrospean.UI.Columns.HairTrouble
 {
     public class CASPartColumn : ObjectPickerDialog.CommonHeaderInfo<CASPart>
     {

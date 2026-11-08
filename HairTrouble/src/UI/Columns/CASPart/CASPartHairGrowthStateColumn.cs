@@ -5,7 +5,7 @@ using Sims3.SimIFace.CAS;
 using Sims3.UI;
 using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
-namespace Destrospean.UI.Columns
+namespace Destrospean.UI.Columns.HairTrouble
 {
     public class CASPartHairGrowthStateColumn : ObjectPickerDialog.CommonHeaderInfo<CASPart>
     {
