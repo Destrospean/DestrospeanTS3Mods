@@ -47,9 +47,9 @@ namespace Destrospean.HairTrouble
                     }
                     listeners.Add(EventTracker.AddListener(EventTypeId.kSimDescriptionDisposed, evt => DebugUtils.TryDisplayScriptError(() =>
                         {
-                            if (evt.TargetObject is Sim sim)
+                            if (evt is SimDescriptionEvent simDescriptionEvent)
                             {
-                                sim.SimDescription.ClearOriginalOverallHairColors();
+                                simDescriptionEvent.SimDescription.ClearOriginalOverallHairColors();
                             }
                             return ListenerAction.Keep;
                         }, out var retVal) ? ListenerAction.Keep : retVal));
