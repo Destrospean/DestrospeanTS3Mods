@@ -1391,13 +1391,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     }
                     step++;
                 }
-                if (step == 4)
+                if (step == 4 && !CommonUtils.TryUIGetUpdateType(Localization.LocalizeString(entryKey + "UpdateTypeDialog:Title"), out updateType, updateType))
                 {
-                    if (!CommonUtils.TryUIGetUpdateType(Localization.LocalizeString(entryKey + "UpdateTypeDialog:Title"), out updateType, updateType))
-                    {
-                        step--;
-                        continue;
-                    }
+                    step--;
+                    continue;
                 }
                 var serviceInSaveGame = CustomInstances.TryGetValue(profile.Name, out var service);
                 if (serviceInSaveGame)
