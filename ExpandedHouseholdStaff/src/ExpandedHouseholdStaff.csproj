@@ -39,6 +39,9 @@
     <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\src\Utils\FileUtilsBase.cs">
+      <Link>Utils\FileUtilsBase.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interactions\AddActiveTopicAction.cs" />
     <Compile Include="Interactions\AddAutonomousInteraction.cs" />
@@ -264,7 +267,6 @@
     <Folder Include="UI\Columns\InventoryObjectCreationParameters\" />
     <Folder Include="UI\Columns\ServiceProfile\" />
     <Folder Include="UI\Columns\ServiceProfileFlags\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="..\resources\**\*" Exclude="..\resources\**\*.stbl"/>

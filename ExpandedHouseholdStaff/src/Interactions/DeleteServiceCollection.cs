@@ -39,7 +39,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
 
         public override bool Run()
         {
-            FileUtils.DeleteFile();
+            FileUtils.Singleton.DeleteFile();
             return true;
         }
     }

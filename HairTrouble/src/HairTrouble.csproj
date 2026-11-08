@@ -39,6 +39,9 @@
     <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\src\Utils\FileUtilsBase.cs">
+      <Link>Utils\FileUtilsBase.cs</Link>
+    </Compile>
     <Compile Include="Enums\HairGrowthStateChangeFlags.cs" />
     <Compile Include="Enums\HairGrowthStates.cs" />
     <Compile Include="Interactions.cs" />

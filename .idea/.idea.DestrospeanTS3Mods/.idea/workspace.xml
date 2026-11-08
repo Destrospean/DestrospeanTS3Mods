@@ -15,11 +15,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Common/src/Utils/FileUtilsBase.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy/src/ExpandedAlchemy.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy/src/ExpandedAlchemy.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/DeleteServiceCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/DeleteServiceCollection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ExportServiceCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ExportServiceCollection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ImportServiceCollection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ImportServiceCollection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/FileUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/FileUtils.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MoreFavorites/src/MoreFavorites.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/MoreFavorites/src/MoreFavorites.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,7 +142,7 @@
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "master",
     "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/HairTrouble/src/UI/Columns/CASPart/CASPartColumn.cs",
+    "last_opened_file_path": "/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/Utils/FileUtilsBase.cs",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -208,16 +212,27 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Sort usings" />
     <MESSAGE value="Fix `CheckTime` being written for `DriveTime` in the XML" />
     <MESSAGE value="Add HairTrouble" />
     <MESSAGE value="Minor change" />
-    <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Remove unused import" />
     <MESSAGE value="Add resources folder to .csproj" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add resources folder to .csproj" />
+    <MESSAGE value="Miscellaneous changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

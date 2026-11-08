@@ -40,7 +40,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
 
         public override bool Run()
         {
-            FileUtils.ImportFromFile();
+            FileUtils.Singleton.ImportFromFile();
             foreach (var profile in ServiceUtils.ServiceProfiles)
             {
                 if (!ServiceUtils.CustomInstances.ContainsKey(profile.Name))
