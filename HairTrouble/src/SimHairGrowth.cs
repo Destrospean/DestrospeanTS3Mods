@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml;
 using Destrospean.Enums.HairTrouble;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
@@ -21,7 +20,14 @@ namespace Destrospean.HairTrouble
             {
                 if (sHairGrowthStateMap == null)
                 {
-                    InitHairGrowthStateMap();
+                    sHairGrowthStateMap = new Dictionary<string, HairGrowthStates>();
+                    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                    {
+                        if (assembly.GetType("Destrospean.HairTrouble.Data") != null)
+                        {
+                            FileUtils.Singleton.ImportFromTuning(assembly.GetName().Name);
+                        }
+                    }
                 }
                 return sHairGrowthStateMap;
             }
@@ -120,34 +126,6 @@ namespace Destrospean.HairTrouble
                 return true;
             }
             return false;
-        }
-
-        public static void InitHairGrowthStateMap()
-        {
-            sHairGrowthStateMap = new Dictionary<string, HairGrowthStates>();
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                if (assembly.GetType("Destrospean.HairTrouble.Data") == null)
-                {
-                    continue;
-                }
-                var reader = Simulator.ReadXml(new ResourceKey(ResourceUtils.HashString64(assembly.GetName().Name), 0x0333406C, 0x00000000));
-                while (reader.Read())
-                {
-                    if (reader.NodeType == XmlNodeType.Element)
-                    {
-                        if (reader.Name == "HairGrowthStateMap")
-                        {
-                            reader.MoveToContent();
-                        }
-                        else if (reader.Name == "Entry")
-                        {
-                            sHairGrowthStateMap[reader.GetAttribute("CASPartKey") ?? ""] = (HairGrowthStates)Enum.Parse(typeof(HairGrowthStates), reader.GetAttribute("GrowthState") ?? "");
-                        }
-                    }
-                }
-                reader.Close();
-            }
         }
 
         public static void OnHairGrowthStateChanged(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags)
