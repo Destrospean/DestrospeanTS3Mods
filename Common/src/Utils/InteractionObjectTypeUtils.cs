@@ -37,8 +37,8 @@ namespace Destrospean.Utils
 
         public static void InitTypes()
         {
-            IDictionary<string, Type> gameObjectTypes = new Dictionary<string, Type>();
-            IDictionary<string, Type> interactionDefinitionTypes = new Dictionary<string, Type>();
+            var gameObjectTypes = new Dictionary<string, Type>();
+            var interactionDefinitionTypes = new Dictionary<string, Type>();
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 foreach (var type in assembly.GetTypes())

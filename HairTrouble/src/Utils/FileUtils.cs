@@ -73,7 +73,6 @@ namespace Destrospean.Utils.HairTrouble
         
         public override string ToXml(IDictionary<string, HairGrowthStates> entries)
         {
-            
             var stringBuilder = new StringBuilder();
             using (var stringWriter = new Utf8StringWriter(stringBuilder))
             {
