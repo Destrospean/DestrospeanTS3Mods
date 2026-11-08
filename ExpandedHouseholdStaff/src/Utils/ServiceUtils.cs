@@ -1671,11 +1671,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     var tempCostString = costString;
                     if (!ShowCostDialog(ref tempCostString, isLiveInService))
                     {
-                        step--;
-                        if (isLiveInService)
-                        {
-                            step--;
-                        }
+                        step -= (sbyte)(isLiveInService ? 3 : 1);
                         continue;
                     }
                     step++;
