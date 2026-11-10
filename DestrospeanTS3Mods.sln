@@ -69,6 +69,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoreFavorites_Generator", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairTrouble", "HairTrouble\src\HairTrouble.csproj", "{97FE44FF-097D-4B25-89E0-C785CE3C5879}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketScienceSkill", "RocketScienceSkill\src\RocketScienceSkill.csproj", "{94A6EDEC-A7E0-4C1C-9112-859E0352F3AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -207,6 +209,10 @@ Global
 		{97FE44FF-097D-4B25-89E0-C785CE3C5879}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97FE44FF-097D-4B25-89E0-C785CE3C5879}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97FE44FF-097D-4B25-89E0-C785CE3C5879}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A6EDEC-A7E0-4C1C-9112-859E0352F3AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A6EDEC-A7E0-4C1C-9112-859E0352F3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A6EDEC-A7E0-4C1C-9112-859E0352F3AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A6EDEC-A7E0-4C1C-9112-859E0352F3AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{51023BD2-9139-438D-B794-95E5EC023537} = {6F41BE76-1714-4921-9C18-293860CC8B63}
