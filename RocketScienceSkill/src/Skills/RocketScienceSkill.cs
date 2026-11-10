@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Sims3.SimIFace;
 using Sims3.UI.Hud;
 
-namespace Sims3.Gameplay.Skills.Destrospean
+namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
 {
     public class RocketScienceSkill : Skill
     {

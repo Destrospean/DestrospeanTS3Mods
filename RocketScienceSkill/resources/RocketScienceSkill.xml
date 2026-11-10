@@ -48,7 +48,7 @@
     <SkillName>RocketScienceSkill</SkillName>
     <SkillDescription>RocketScienceSkillDescription</SkillDescription>
     <Hex>RocketScienceSkill</Hex>
-    <CustomClassName>Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill,Destrospean.RocketScienceSkill</CustomClassName>
+    <CustomClassName>Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill.RocketScienceSkill,Destrospean.RocketScienceSkill</CustomClassName>
     <MaxSkillLevel>10</MaxSkillLevel>
     <Commodity>RocketScienceSkill</Commodity>
     <Hidden>False</Hidden>
