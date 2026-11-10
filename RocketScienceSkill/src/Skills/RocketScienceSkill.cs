@@ -40,11 +40,6 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
         {
         }
 
-        public void IncrementRocketsBuiltStat()
-        {
-            mRocketsBuilt++;
-        }
-
         public override void CreateSkillJournalInfo()
         {
             mTrackedStats = new List<ITrackedStat>
@@ -65,6 +60,11 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
             base.ImportContent(reader);
             reader.ReadUint32(0x56CD8442, out mRocketsBuilt, 0u);
             return true;
+        }
+        
+        public void IncrementRocketsBuiltStat()
+        {
+            mRocketsBuilt++;
         }
 
         public override void MergeTravelData(Skill skill)
