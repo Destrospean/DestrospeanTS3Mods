@@ -481,16 +481,16 @@ namespace Destrospean.Utils
                         }
                         else
                         {
-                            var objArray = new object[]
+                            var parameters = new object[]
                                 {
                                     guid
                                 };
-                            var constructor = type.GetConstructor(Type.GetTypeArray(objArray));
+                            var constructor = type.GetConstructor(Type.GetTypeArray(parameters));
                             if (constructor == null)
                             {
                                 isInvalid = true;
                             }
-                            else if ((skill = constructor.Invoke(objArray) as Skill) == null)
+                            else if ((skill = constructor.Invoke(parameters) as Skill) == null)
                             {
                                 isInvalid = true;
                             }
