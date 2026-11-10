@@ -16,7 +16,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DestrospeanTS3Mods.sln" beforeDir="false" afterPath="$PROJECT_DIR$/DestrospeanTS3Mods.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RocketScienceSkill/resources/nameMap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/resources/nameMap.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +229,8 @@
     <MESSAGE value="Fix SimDescription disposal event handling" />
     <MESSAGE value="- Fix the inability to cancel editing a service" />
     <MESSAGE value="Simplify code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Simplify code" />
+    <MESSAGE value="Add Rocket Science Skill" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Rocket Science Skill" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

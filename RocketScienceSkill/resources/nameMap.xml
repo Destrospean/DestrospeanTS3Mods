@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nameMap.xsd">
   <resource name="RocketScienceSkill" type="0x073FAA07"/>
+  <resource name="a_rocketShip_build_getIn_x" type="0x6B20C4F3"/>
+  <resource name="a_rocketShip_build_getOut_x" type="0x6B20C4F3"/>
+  <resource name="a_rocketShip_build_hammer_low_succeed_x" type="0x6B20C4F3"/>
+  <resource name="a_rocketShip_build_hammer_succeed_x" type="0x6B20C4F3"/>
+  <resource name="a_rocketShip_build_left_wrench_x" type="0x6B20C4F3"/>
+  <resource name="a_rocketShip_build_right_wrench_x" type="0x6B20C4F3"/>
+  <resource name="a_rocketShip_build_torch_fail_x" type="0x6B20C4F3"/>
+  <resource name="a_rocketShip_build_torch_succeed_x" type="0x6B20C4F3"/>
   <resource name="*.stbl" type="0x220557DA"/>
 </resources>
