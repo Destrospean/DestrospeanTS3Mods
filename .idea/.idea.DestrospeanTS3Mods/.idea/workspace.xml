@@ -15,11 +15,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/RocketScienceSkill/resources/RocketScienceSkill.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RocketScienceSkill/resources/nameMap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/resources/nameMap.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RocketScienceSkill/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RocketScienceSkill/src/RocketScienceSkill.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/src/RocketScienceSkill.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -235,9 +232,9 @@
     <MESSAGE value="Add Rocket Science Skill" />
     <MESSAGE value="Add animations" />
     <MESSAGE value="Populate strings" />
-    <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Minor change" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor change" />
+    <MESSAGE value="Miscellaneous changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

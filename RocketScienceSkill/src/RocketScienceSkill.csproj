@@ -91,9 +91,6 @@
     <Compile Include="..\..\Common\src\Utils\CommonUtils.cs">
       <Link>Utils\CommonUtils.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\src\Utils\NRaasMasterControllerIntegration.cs">
-      <Link>Utils\NRaasMasterControllerIntegration.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\src\Utils\OutfitExtensions.cs">
       <Link>Utils\OutfitExtensions.cs</Link>
     </Compile>
