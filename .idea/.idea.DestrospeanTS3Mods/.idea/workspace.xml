@@ -15,7 +15,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RocketScienceSkill/src/Skills/RocketScienceSkill.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/src/Skills/RocketScienceSkill.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RocketScienceSkill/strings/RocketScienceSkill_ENG_US.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/strings/RocketScienceSkill_ENG_US.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,10 +234,10 @@
     <MESSAGE value="Add Rocket Science Skill" />
     <MESSAGE value="Add animations" />
     <MESSAGE value="Populate strings" />
-    <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Minor change" />
     <MESSAGE value="Reorder methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reorder methods" />
+    <MESSAGE value="Miscellaneous changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

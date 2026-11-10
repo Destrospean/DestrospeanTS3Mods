@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Destrospean.Utils;
+using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.UI.Hud;
 
@@ -6,13 +8,13 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
 {
     public class RocketScienceSkill : Skill
     {
-        public class RocketsBuilt : ITrackedStat
+        public class NumberOfRocketsBuilt : ITrackedStat
         {
             private RocketScienceSkill mSkill;
 
-            public string Description => "Number of rockets built: " + mSkill.mNumRocketsBuilt;
+            public string Description => Localization.LocalizeString(mSkill.SkillOwner.IsFemale, typeof(RocketScienceSkill).GetLocalizationKey() + "/TrackedStats:NumberOfRocketsBuilt", mSkill.SkillOwner, mSkill.mNumRocketsBuilt);
 
-            public RocketsBuilt(RocketScienceSkill skill)
+            public NumberOfRocketsBuilt(RocketScienceSkill skill)
             {
                 mSkill = skill;
             }
@@ -44,7 +46,7 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
         {
             mTrackedStats = new List<ITrackedStat>
             {
-                new RocketsBuilt(this)
+                new NumberOfRocketsBuilt(this)
             };
         }
 
@@ -62,7 +64,7 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
             return true;
         }
         
-        public void IncrementRocketsBuiltStat()
+        public void IncrementNumberOfRocketsBuiltStat()
         {
             mNumRocketsBuilt++;
         }

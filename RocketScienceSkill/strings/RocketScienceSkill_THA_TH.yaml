@@ -1,5 +1,8 @@
 "Destrospean":
     "/RocketScienceSkill":
+        "/RocketScienceSkill":
+            "/TrackedStats":
+                ":NumberOfRocketsBuilt": "Number of rockets built by {0.SimFirstName}: {1.Number}"
         "/Interactions":
             "/TestInteraction":
                 ":Path": "Rocket Science..."
