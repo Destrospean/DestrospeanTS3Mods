@@ -48,9 +48,9 @@
     <Compile Include="..\..\Common\src\UI\Columns\InventoryObjectCreationParameters\InventoryObjectInstanceNameColumn.cs">
       <Link>UI\Columns\InventoryObjectCreationParameters\InventoryObjectInstanceNameColumn.cs</Link>
     </Compile>
+    <Compile Include="Objects\RocketScaffolding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="RocketScaffolding.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="..\..\Common\src\ExtensionAttribute.cs">
       <Link>ExtensionAttribute.cs</Link>
@@ -136,6 +136,7 @@
     <Compile Include="..\..\Common\src\Enums\DummyEnum.cs">
       <Link>Enums\DummyEnum.cs</Link>
     </Compile>
+    <Compile Include="Skills\RocketScienceSkill.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

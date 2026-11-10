@@ -15,7 +15,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/RocketScienceSkill/src/Skills/RocketScienceSkill.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RocketScienceSkill/src/RocketScaffolding.cs" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/src/Objects/RocketScaffolding.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RocketScienceSkill/src/RocketScienceSkill.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/src/RocketScienceSkill.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,6 +47,7 @@
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/SimHairData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartHairGrowthStateColumn.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RocketScienceSkill/src/RocketScienceScaffolding.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/RocketScienceSkill/src/Skills/RocketScienceSkill.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file:///usr/lib/mono/xbuild/Microsoft/NuGet/Microsoft.NuGet.targets" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
@@ -232,9 +235,9 @@
     <MESSAGE value="Add Rocket Science Skill" />
     <MESSAGE value="Add animations" />
     <MESSAGE value="Populate strings" />
-    <MESSAGE value="Minor change" />
     <MESSAGE value="Miscellaneous changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
+    <MESSAGE value="Minor change" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor change" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
