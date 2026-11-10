@@ -30,10 +30,12 @@ namespace Destrospean.RocketScienceSkill
                 });
             World.sOnWorldLoadFinishedEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                 {
+                    /*
                     foreach (var gameObject in Queries.GetObjects<GameObject>())
                     {
-                        //gameObject.AddInteraction(ListInteractions.Singleton, true);
+                        gameObject.AddInteraction(ListInteractions.Singleton, true);
                     }
+                    */
                 });
             World.sOnWorldQuitEventHandler += (sender, e) =>
                 {
