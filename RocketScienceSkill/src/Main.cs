@@ -1,8 +1,6 @@
 using Destrospean.Utils;
-using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
-using Queries = Sims3.Gameplay.Queries;
 
 namespace Destrospean.RocketScienceSkill
 {
