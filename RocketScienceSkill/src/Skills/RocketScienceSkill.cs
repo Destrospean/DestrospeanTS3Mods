@@ -10,7 +10,7 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
         {
             private RocketScienceSkill mSkill;
 
-            public string Description => "NUMBER OF ROCKETS BUILT BY SIM: " + mSkill.mRocketsBuilt;
+            public string Description => "Number of rockets built: " + mSkill.mNumRocketsBuilt;
 
             public RocketsBuilt(RocketScienceSkill skill)
             {
@@ -21,7 +21,7 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
         [Persistable(false)]
         private List<ILifetimeOpportunity> mLifetimeOpportunities;
 
-        private uint mRocketsBuilt;
+        private uint mNumRocketsBuilt;
         
         [Persistable(false)]
         private List<ITrackedStat> mTrackedStats;
@@ -32,11 +32,11 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
 
         public override List<ITrackedStat> TrackedStats => mTrackedStats;
         
-        public RocketScienceSkill(SkillNames guid) : base(guid)
+        public RocketScienceSkill()
         {
         }
-
-        public RocketScienceSkill()
+        
+        public RocketScienceSkill(SkillNames guid) : base(guid)
         {
         }
 
@@ -51,20 +51,20 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
         public override bool ExportContent(IPropertyStreamWriter writer)
         {
             base.ExportContent(writer);
-            writer.WriteUint32(0x56CD8442, mRocketsBuilt);
+            writer.WriteUint32(0x56CD8442, mNumRocketsBuilt);
             return true;
         }
 
         public override bool ImportContent(IPropertyStreamReader reader)
         {
             base.ImportContent(reader);
-            reader.ReadUint32(0x56CD8442, out mRocketsBuilt, 0u);
+            reader.ReadUint32(0x56CD8442, out mNumRocketsBuilt, 0u);
             return true;
         }
         
         public void IncrementRocketsBuiltStat()
         {
-            mRocketsBuilt++;
+            mNumRocketsBuilt++;
         }
 
         public override void MergeTravelData(Skill skill)
@@ -72,7 +72,7 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
             base.MergeTravelData(skill);
             if (skill is RocketScienceSkill rocketScienceSkill)
             {
-                mRocketsBuilt = rocketScienceSkill.mRocketsBuilt;
+                mNumRocketsBuilt = rocketScienceSkill.mNumRocketsBuilt;
             }
         }
     }
