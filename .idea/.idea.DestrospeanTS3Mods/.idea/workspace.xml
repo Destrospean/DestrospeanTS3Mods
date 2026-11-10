@@ -16,6 +16,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/CASPart/CASPartColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/CASPart/CASPartColumn.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,11 +233,12 @@
     <MESSAGE value="Add Rocket Science Skill" />
     <MESSAGE value="Add animations" />
     <MESSAGE value="Populate strings" />
-    <MESSAGE value="Minor change" />
     <MESSAGE value="Reorder methods" />
     <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Change stat string" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change stat string" />
+    <MESSAGE value="Minor change" />
+    <MESSAGE value="Remove unused imports" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove unused imports" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
