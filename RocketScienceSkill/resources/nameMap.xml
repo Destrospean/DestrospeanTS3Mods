@@ -10,5 +10,6 @@
   <resource name="a_rocketShip_build_right_wrench_x" type="0x6B20C4F3"/>
   <resource name="a_rocketShip_build_torch_fail_x" type="0x6B20C4F3"/>
   <resource name="a_rocketShip_build_torch_succeed_x" type="0x6B20C4F3"/>
+  <resource name="RocketScienceSkill" type="0xA8D58BE5"/>
   <resource name="RocketScaffolding" type="0x02DC343F" group="0x00000000" instance="0x4C3ED8A145DF01CE"/>
 </resources>

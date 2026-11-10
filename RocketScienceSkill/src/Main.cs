@@ -1,3 +1,4 @@
+using Destrospean.Utils;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.SimIFace;
@@ -12,6 +13,7 @@ namespace Destrospean.RocketScienceSkill
 
         static Main()
         {
+            CommonUtils.LoadSkillData("RocketScienceSkill");
             //var listeners = new List<EventListener>();
             LoadSaveManager.ObjectGroupsPreLoad += () =>
                 {
