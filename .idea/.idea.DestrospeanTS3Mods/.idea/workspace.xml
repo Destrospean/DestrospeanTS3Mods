@@ -15,8 +15,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/RocketScienceSkill/resources/w_RocketScienceSkillUI_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RocketScienceSkill/resources/w_RocketScienceSkill_dreams_and_promises_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RocketScienceSkill/resources/w_RocketScienceSkill_icon.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/UI/Columns/CASPart/CASPartColumn.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Columns/CASPart/CASPartColumn.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RocketScienceSkill/resources/nameMap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/resources/nameMap.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +241,8 @@
     <MESSAGE value="Change stat string" />
     <MESSAGE value="Minor change" />
     <MESSAGE value="Remove unused imports" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove unused imports" />
+    <MESSAGE value="Used default thumbnails for hair" />
+    <option name="LAST_COMMIT_MESSAGE" value="Used default thumbnails for hair" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
