@@ -44,7 +44,7 @@ namespace Destrospean.Utils
 
         public abstract bool ExportToFile(string text, out bool found);
         
-        public static bool ExportToFile(string fileNamePrefix, string text, string fileNameDialogTitle, string successDialogTitle, string successDialogMessage, string fileNameDialogPrompt, string fileExistsDialogTitle, string fileExistsDialogMessage, out bool found)
+        public static bool ExportToFile(string fileNamePrefix, string text, string fileNameDialogTitle, string fileNameDialogPrompt, string successDialogTitle, string successDialogMessage, string fileExistsDialogTitle, string fileExistsDialogMessage, out bool found)
         {
             string name = null;
             found = true;

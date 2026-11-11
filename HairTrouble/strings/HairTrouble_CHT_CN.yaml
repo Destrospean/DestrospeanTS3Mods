@@ -154,6 +154,12 @@
                 ":Name": "Classify Hairstyles"
             "/DecrementHairGrowthState":
                 ":Name": "Decrement Hair Growth State by 1"
+            "/DeleteHairClassificationCollection":
+                ":Name": "Delete Hair Classification Collection"
+            "/ExportHairClassificationCollection":
+                ":Name": "Export Hair Classification Collection"
+            "/ImportHairClassificationCollection":
+                ":Name": "Import Hair Classification Collection"
             "/IncrementHairGrowthState":
                 ":Name": "Increment Hair Growth State by 1"
             "/RemoveHairDye":

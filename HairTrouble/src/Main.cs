@@ -90,8 +90,11 @@ namespace Destrospean.HairTrouble
             {
                 return;
             }
-            mirror.AddInteraction(Interactions.ClassifyHairstyles.Singleton, true);
             mirror.AddInteraction(Interactions.RemoveHairDye.Singleton, true);
+            mirror.AddInteraction(Interactions.ClassifyHairstyles.Singleton, true);
+            mirror.AddInteraction(Interactions.ImportHairClassificationCollection.Singleton, true);
+            mirror.AddInteraction(Interactions.ExportHairClassificationCollection.Singleton, true);
+            mirror.AddInteraction(Interactions.DeleteHairClassificationCollection.Singleton, true);
         }
 
         public static void AddInteractions(Sim sim)
@@ -100,9 +103,9 @@ namespace Destrospean.HairTrouble
             {
                 return;
             }
-            sim.AddInteraction(Interactions.DecrementHairGrowthState.Singleton, true);
-            sim.AddInteraction(Interactions.IncrementHairGrowthState.Singleton, true);
             sim.AddInteraction(Interactions.ResetOriginalHair.Singleton, true);
+            sim.AddInteraction(Interactions.IncrementHairGrowthState.Singleton, true);
+            sim.AddInteraction(Interactions.DecrementHairGrowthState.Singleton, true);
         }
     }
 }
