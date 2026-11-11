@@ -315,13 +315,19 @@ namespace Destrospean.HairTrouble
             {
                 return !DebugUtils.TryDisplayScriptError(() =>
                     {
-                        var hairGrowthStateMap = new SortedDictionary<string, HairGrowthStates>(new DummyComparer());
+                        var hairGrowthStateMapList = new List<KeyValuePair<string, HairGrowthStates>>();
                         foreach (var entry in SimHairGrowth.HairGrowthStateMap)
                         {
                             if (entry.Value > HairGrowthStates.Unknown)
                             {
-                                hairGrowthStateMap[entry.Key] = entry.Value;
+                                hairGrowthStateMapList.Add(entry);
                             }
+                        }
+                        hairGrowthStateMapList.Sort((a, b) => a.Value.CompareTo(b.Value));
+                        var hairGrowthStateMap = new SortedDictionary<string, HairGrowthStates>(new DummyComparer());
+                        foreach (var entry in hairGrowthStateMapList)
+                        {
+                            hairGrowthStateMap.Add(entry.Key, entry.Value);
                         }
                         var xml = FileUtils.Singleton.ToXml(hairGrowthStateMap);
                         if (!FileUtils.Singleton.ExportToFile(xml, out _))
@@ -330,14 +336,20 @@ namespace Destrospean.HairTrouble
                         }
                         if (Settings.kExportHairClassificationCollectionsAsXMLs)
                         {
-                            hairGrowthStateMap.Clear();
-                            hairGrowthStateMap.Add("", HairGrowthStates.Unknown);
+                            hairGrowthStateMapList.Clear();
                             foreach (var entry in SimHairGrowth.HairGrowthStateMap)
                             {
                                 if (entry.Value > HairGrowthStates.Unknown && !DownloadContent.IsCustomContent(S3PIResourceUtils.FromS3PIFormatKeyString(entry.Key)))
                                 {
-                                    hairGrowthStateMap[entry.Key] = entry.Value;
+                                    hairGrowthStateMapList.Add(entry);
                                 }
+                            }
+                            hairGrowthStateMapList.Sort((a, b) => a.Value.CompareTo(b.Value));
+                            hairGrowthStateMap.Clear();
+                            hairGrowthStateMap.Add("", HairGrowthStates.Unknown);
+                            foreach (var entry in hairGrowthStateMapList)
+                            {
+                                hairGrowthStateMap.Add(entry.Key, entry.Value);
                             }
                             xml = FileUtils.Singleton.ToXml(hairGrowthStateMap);
                             var fileHandle = 0u;
