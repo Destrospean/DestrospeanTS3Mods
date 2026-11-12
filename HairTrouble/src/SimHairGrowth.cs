@@ -12,26 +12,9 @@ namespace Destrospean.HairTrouble
     public static class SimHairGrowth
     {
         [PersistableStatic(true)]
-        private static Dictionary<string, HairGrowthStates> sHairGrowthStateMap;
+        private static Dictionary<string, HairGrowthStates> sHairGrowthStateMap = new Dictionary<string, HairGrowthStates>();
 
-        public static Dictionary<string, HairGrowthStates> HairGrowthStateMap
-        {
-            get
-            {
-                if (sHairGrowthStateMap == null)
-                {
-                    sHairGrowthStateMap = new Dictionary<string, HairGrowthStates>();
-                    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-                    {
-                        if (assembly.GetType("Destrospean.HairTrouble.Data") != null)
-                        {
-                            FileUtils.Singleton.ImportFromTuning(assembly.GetName().Name);
-                        }
-                    }
-                }
-                return sHairGrowthStateMap;
-            }
-        }
+        public static Dictionary<string, HairGrowthStates> HairGrowthStateMap => sHairGrowthStateMap;
 
         public static void ApplyHairGrowthStateToAllOutfits(this SimDescription simDescription, HairGrowthStates hairGrowthState, bool spin = false)
         {

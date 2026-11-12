@@ -48,9 +48,9 @@ namespace Destrospean.Utils.HairTrouble
             using (var stringReader = new StringReader(text))
             {
                 using (var xmlReader = XmlReader.Create(stringReader, new XmlReaderSettings
-                       {
-                           IgnoreComments = true
-                       }))
+                   {
+                       IgnoreComments = true
+                   }))
                 {
                     while (xmlReader.Read())
                     {
@@ -62,7 +62,17 @@ namespace Destrospean.Utils.HairTrouble
                             }
                             else if (xmlReader.Name == "HairClassification")
                             {
-                                SimHairGrowth.HairGrowthStateMap[xmlReader.GetAttribute("partKey") ?? ""] = (HairGrowthStates)Enum.Parse(typeof(HairGrowthStates), xmlReader.GetAttribute("growthState") ?? "");
+                                var key = xmlReader.GetAttribute("partKey");
+                                if (!string.IsNullOrEmpty(key) && !SimHairGrowth.HairGrowthStateMap.ContainsKey(key))
+                                {
+                                    try
+                                    {
+                                        SimHairGrowth.HairGrowthStateMap[key] = (HairGrowthStates)Enum.Parse(typeof(HairGrowthStates), xmlReader.GetAttribute("growthState") ?? "");
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                    }
+                                }
                             }
                         }
                     }
@@ -71,19 +81,19 @@ namespace Destrospean.Utils.HairTrouble
             }
         }
         
-        public override string ToXml(IDictionary<string, HairGrowthStates> entries)
+        public override string ToXml(IDictionary<string, HairGrowthStates> hairGrowthStateMap)
         {
             var stringBuilder = new StringBuilder();
             using (var stringWriter = new Utf8StringWriter(stringBuilder))
             {
                 using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
-                       {
-                           Encoding = Encoding.UTF8
-                       }))
+                   {
+                       Encoding = Encoding.UTF8
+                   }))
                 {
                     xmlWriter.WriteStartDocument();
                     xmlWriter.WriteStartElement("HairTroubleData");
-                    foreach (var entry in entries)
+                    foreach (var entry in hairGrowthStateMap)
                     {
                         xmlWriter.WriteStartElement("HairClassification");
                         xmlWriter.WriteAttributeString("partKey", entry.Key);

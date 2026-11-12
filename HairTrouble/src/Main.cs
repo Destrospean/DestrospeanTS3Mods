@@ -2,6 +2,7 @@ extern alias NRaasMasterController;
 using System;
 using System.Collections.Generic;
 using Destrospean.Utils;
+using Destrospean.Utils.HairTrouble;
 using NRaasMasterController::NRaas.MasterControllerSpace.CAS;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
@@ -38,7 +39,13 @@ namespace Destrospean.HairTrouble
                 });
             World.sOnWorldLoadFinishedEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                 {
-                    _ = SimHairGrowth.HairGrowthStateMap;
+                    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                    {
+                        if (assembly.GetType("Destrospean.HairTrouble.Data") != null)
+                        {
+                            FileUtils.Singleton.ImportFromTuning(assembly.GetName().Name);
+                        }
+                    }
                     foreach (var mirror in Queries.GetObjects<Mirror>())
                     {
                         AddInteractions(mirror);
@@ -47,13 +54,10 @@ namespace Destrospean.HairTrouble
                     {
                         AddInteractions(sim);
                     }
-                    if ((SimHairData.OriginalHairColors.Count == 0 || SimHairData.GrowthStates.Count == 0) && Household.ActiveHousehold != null)
+                    foreach (var sim in Queries.GetObjects<Sim>())
                     {
-                        foreach (var sim in Queries.GetObjects<Sim>())
-                        {
-                            sim.SimDescription.InitOriginalOverallHairColors();
-                            sim.SimDescription.GetHairGrowthState();
-                        }
+                        sim.SimDescription?.InitOriginalOverallHairColors();
+                        sim.SimDescription?.GetHairGrowthState();
                     }
                     listeners.Add(EventTracker.AddListener(EventTypeId.kSimDescriptionDisposed, evt => DebugUtils.TryDisplayScriptError(() =>
                         {
@@ -71,18 +75,6 @@ namespace Destrospean.HairTrouble
                                 AddInteractions(sim);
                                 sim.SimDescription.InitOriginalOverallHairColors();
                                 sim.SimDescription.GetHairGrowthState();
-                            }
-                            return ListenerAction.Keep;
-                        }, out var retVal) ? ListenerAction.Keep : retVal));
-                    listeners.Add(EventTracker.AddListener(EventTypeId.kEventSimSelected, evt => DebugUtils.TryDisplayScriptError(() =>
-                        {
-                            if (SimHairData.OriginalHairColors.Count == 0 || SimHairData.GrowthStates.Count == 0)
-                            {
-                                foreach (var sim in Queries.GetObjects<Sim>())
-                                {
-                                    sim.SimDescription.InitOriginalOverallHairColors();
-                                    sim.SimDescription.GetHairGrowthState();
-                                }
                             }
                             return ListenerAction.Keep;
                         }, out var retVal) ? ListenerAction.Keep : retVal));

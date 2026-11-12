@@ -175,8 +175,24 @@ namespace Destrospean.HairTrouble
                             nameof(HairGrowthStates.Shaved)
                         },
                         {
+                            Localization.LocalizeString(entryKey + HairGrowthStates.ShavedOrShort),
+                            nameof(HairGrowthStates.ShavedOrShort)
+                        },
+                        {
+                            Localization.LocalizeString(entryKey + HairGrowthStates.ShavedToMedium),
+                            nameof(HairGrowthStates.ShavedToMedium)
+                        },
+                        {
+                            Localization.LocalizeString(entryKey + HairGrowthStates.ShavedOrAbove),
+                            nameof(HairGrowthStates.ShavedOrAbove)
+                        },
+                        {
                             Localization.LocalizeString(entryKey + HairGrowthStates.Short),
                             nameof(HairGrowthStates.Short)
+                        },
+                        {
+                            Localization.LocalizeString(entryKey + HairGrowthStates.ShortOrMedium),
+                            nameof(HairGrowthStates.ShortOrMedium)
                         },
                         {
                             Localization.LocalizeString(entryKey + HairGrowthStates.ShortOrAbove),
@@ -185,6 +201,10 @@ namespace Destrospean.HairTrouble
                         {
                             Localization.LocalizeString(entryKey + HairGrowthStates.Medium),
                             nameof(HairGrowthStates.Medium)
+                        },
+                        {
+                            Localization.LocalizeString(entryKey + HairGrowthStates.MediumOrLong),
+                            nameof(HairGrowthStates.Long)
                         },
                         {
                             Localization.LocalizeString(entryKey + HairGrowthStates.MediumOrAbove),
