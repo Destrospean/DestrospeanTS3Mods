@@ -57,6 +57,8 @@
     <Compile Include="SimHairData.cs" />
     <Compile Include="SimHairGrowth.cs" />
     <Compile Include="UI\Columns\CASPart\CASPartHairGrowthStateColumn.cs" />
+    <Compile Include="UI\Columns\HairGrowthStates\HairGrowthStateColumn.cs" />
+    <Compile Include="UI\Columns\HairGrowthStates\HairGrowthStateEnabledColumn.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Settings.cs" />

@@ -105,7 +105,7 @@ namespace Destrospean.HairTrouble
                         foreach (ResourceKey key in new KeySearch(0x034AEECB))
                         {
                             var casPart = new CASPart(key);
-                            if (casPart.BodyType == BodyTypes.Hair && (casPart.Age & age) != 0 && (casPart.Gender & gender) != 0 && (SimHairGrowth.HairGrowthStateMap.TryGetValue(key.ToS3PIFormatKeyString(), out var value) ? hairGrowthState == value : hairGrowthState == HairGrowthStates.Unknown))
+                            if (casPart.BodyType == BodyTypes.Hair && (casPart.Age & age) != 0 && (casPart.Gender & gender) != 0 && (SimHairGrowth.HairGrowthStateMap.TryGetValue(key.ToS3PIFormatKeyString(), out var value) ? (hairGrowthState & value) != 0 || hairGrowthState == value : hairGrowthState == HairGrowthStates.Unknown))
                             {
                                 hairstyles.Add(casPart);
                             }
@@ -117,6 +117,64 @@ namespace Destrospean.HairTrouble
                         }
                     }
                     return true;
+                }
+            }
+            
+            public static bool ShowHairGrowthStateListDialog(out HairGrowthStates hairGrowthStates, HairGrowthStates? preSelectedHairGrowthStates = null)
+            {
+                hairGrowthStates = HairGrowthStates.Unknown;
+                var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "HairGrowthStateListDialog");
+                var hairGrowthStateList = new List<HairGrowthStates>(Array.FindAll((HairGrowthStates[])Enum.GetValues(typeof(HairGrowthStates)), x => preSelectedHairGrowthStates.HasValue && (preSelectedHairGrowthStates & x) == x));
+                while (true)
+                {
+                    if (hairGrowthStateList.Count == 0)
+                    {
+                        hairGrowthStateList.Add(HairGrowthStates.Unknown);
+                    }
+                    if (hairGrowthStateList.Contains(HairGrowthStates.Unknown) && hairGrowthStateList.Count > 1)
+                    {
+                        hairGrowthStateList.Remove(HairGrowthStates.Unknown);
+                    }
+                    var selectedHairGrowthStates = ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
+                        {
+                            new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<HairGrowthStates>((HairGrowthStates[])Enum.GetValues(typeof(HairGrowthStates))).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                        }, new List<ObjectPickerDialog.CommonHeaderInfo<HairGrowthStates>>
+                        {
+                            new HairGrowthStateColumn(entryKey),
+                            new HairGrowthStateEnabledColumn(entryKey, hairGrowthStateList.ToArray())
+                        }, 1, out var confirmed, out var cancelled, true);
+                    if (cancelled)
+                    {
+                        return false;
+                    }
+                    if (confirmed)
+                    {
+                        foreach (var hairGrowthState in hairGrowthStateList)
+                        {
+                            hairGrowthStates |= hairGrowthState;
+                        }
+                        return true;
+                    }
+                    if (selectedHairGrowthStates[0] == HairGrowthStates.Any)
+                    {
+                        hairGrowthStateList.Clear();
+                        foreach (HairGrowthStates hairGrowthState in Enum.GetValues(typeof(HairGrowthStates)))
+                        {
+                            hairGrowthStateList.Add(hairGrowthState);
+                        }
+                    }
+                    else if (hairGrowthStateList.Contains(selectedHairGrowthStates[0]))
+                    {
+                        hairGrowthStateList.Remove(selectedHairGrowthStates[0]);
+                    }
+                    else
+                    {
+                        if (selectedHairGrowthStates[0] == HairGrowthStates.Unknown)
+                        {
+                            hairGrowthStateList.Clear();
+                        }
+                        hairGrowthStateList.Add(selectedHairGrowthStates[0]);
+                    }
                 }
             }
             
@@ -141,13 +199,15 @@ namespace Destrospean.HairTrouble
                     {
                         return true;
                     }
-                    TryUIGetHairGrowthState(Localization.LocalizeString(entryKey + "/SubmenuTitles:HairGrowthState"), out var hairGrowthState, SimHairGrowth.HairGrowthStateMap.TryGetValue(selectedHairstyles[0].Key.ToS3PIFormatKeyString(), out var defaultValue) ? defaultValue : HairGrowthStates.Unknown);
-                    foreach (var hairstyle in selectedHairstyles)
+                    if (ShowHairGrowthStateListDialog(out var hairGrowthStates, SimHairGrowth.HairGrowthStateMap.TryGetValue(selectedHairstyles[0].Key.ToS3PIFormatKeyString(), out var defaultValue) ? defaultValue : HairGrowthStates.Unknown))
                     {
-                        SimHairGrowth.HairGrowthStateMap[hairstyle.Key.ToS3PIFormatKeyString()] = hairGrowthState;
-                        if (currentHairGrowthState != hairGrowthState)
+                        foreach (var hairstyle in selectedHairstyles)
                         {
-                            allHairstyles.Remove(hairstyle);
+                            SimHairGrowth.HairGrowthStateMap[hairstyle.Key.ToS3PIFormatKeyString()] = hairGrowthStates;
+                            if ((currentHairGrowthState & hairGrowthStates) == 0 && currentHairGrowthState != hairGrowthStates)
+                            {
+                                allHairstyles.Remove(hairstyle);
+                            }
                         }
                     }
                 }
@@ -163,10 +223,6 @@ namespace Destrospean.HairTrouble
                             nameof(HairGrowthStates.Unknown)
                         },
                         {
-                            Localization.LocalizeString(entryKey + HairGrowthStates.Any),
-                            nameof(HairGrowthStates.Any)
-                        },
-                        {
                             Localization.LocalizeString(entryKey + HairGrowthStates.Bald),
                             nameof(HairGrowthStates.Bald)
                         },
@@ -175,48 +231,16 @@ namespace Destrospean.HairTrouble
                             nameof(HairGrowthStates.Shaved)
                         },
                         {
-                            Localization.LocalizeString(entryKey + HairGrowthStates.ShavedOrShort),
-                            nameof(HairGrowthStates.ShavedOrShort)
-                        },
-                        {
-                            Localization.LocalizeString(entryKey + HairGrowthStates.ShavedToMedium),
-                            nameof(HairGrowthStates.ShavedToMedium)
-                        },
-                        {
-                            Localization.LocalizeString(entryKey + HairGrowthStates.ShavedOrAbove),
-                            nameof(HairGrowthStates.ShavedOrAbove)
-                        },
-                        {
                             Localization.LocalizeString(entryKey + HairGrowthStates.Short),
                             nameof(HairGrowthStates.Short)
-                        },
-                        {
-                            Localization.LocalizeString(entryKey + HairGrowthStates.ShortOrMedium),
-                            nameof(HairGrowthStates.ShortOrMedium)
-                        },
-                        {
-                            Localization.LocalizeString(entryKey + HairGrowthStates.ShortOrAbove),
-                            nameof(HairGrowthStates.ShortOrAbove)
                         },
                         {
                             Localization.LocalizeString(entryKey + HairGrowthStates.Medium),
                             nameof(HairGrowthStates.Medium)
                         },
                         {
-                            Localization.LocalizeString(entryKey + HairGrowthStates.MediumOrLong),
-                            nameof(HairGrowthStates.Long)
-                        },
-                        {
-                            Localization.LocalizeString(entryKey + HairGrowthStates.MediumOrAbove),
-                            nameof(HairGrowthStates.MediumOrAbove)
-                        },
-                        {
                             Localization.LocalizeString(entryKey + HairGrowthStates.Long),
                             nameof(HairGrowthStates.Long)
-                        },
-                        {
-                            Localization.LocalizeString(entryKey + HairGrowthStates.LongOrAbove),
-                            nameof(HairGrowthStates.LongOrAbove)
                         },
                         {
                             Localization.LocalizeString(entryKey + HairGrowthStates.VeryLong),

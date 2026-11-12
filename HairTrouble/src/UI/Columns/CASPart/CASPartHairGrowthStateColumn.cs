@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
 using Destrospean.Utils.HairTrouble;
 using Sims3.SimIFace.CAS;
@@ -21,7 +22,8 @@ namespace Destrospean.UI.Columns.HairTrouble
 
         public override ObjectPicker.ColumnInfo GetValue(CASPart casPart)
         {
-            return new ObjectPicker.TextColumn(Responder.Instance.LocalizationModel.LocalizeString(mLocalizationPath + "/Options/HairGrowthState:" + (mHairGrowthStateMap.TryGetValue(casPart.Key.ToS3PIFormatKeyString(), out var hairGrowthState) ? hairGrowthState : HairGrowthStates.Unknown)));
+            mHairGrowthStateMap.TryGetValue(casPart.Key.ToS3PIFormatKeyString(), out var hairGrowthStates);
+            return new ObjectPicker.TextColumn(string.Join(", ", Array.ConvertAll(hairGrowthStates.ToString().Split(','), x => Responder.Instance.LocalizationModel.LocalizeString(mLocalizationPath + "/Options/HairGrowthState:" + x.Trim(' ')))));
         }
     }
 }

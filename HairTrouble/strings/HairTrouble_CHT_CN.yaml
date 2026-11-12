@@ -99,6 +99,28 @@
                     "/Enabled":
                         ":True": "True"
                         ":False": "False"
+            "/HairGrowthStateListDialog":
+                ":Title": "Select Hair Growth States"
+                "/Headers":
+                    "/HairGrowthState":
+                        ":Text": "Growth State"
+                        ":Tooltip": "The name of the hair growth state"
+                    "/Enabled":
+                        ":Text": "Enabled"
+                        ":Tooltip": "Whether the part is available for the hair growth state"
+                "/Options":
+                    "/HairGrowthState":
+                        ":Unknown": "0. Unknown"
+                        ":Bald": "1. Bald"
+                        ":Shaved": "2. Shaved"
+                        ":Short": "3. Short"
+                        ":Medium": "4. Medium"
+                        ":Long": "5. Long"
+                        ":VeryLong": "6. Very Long"
+                        ":Any": "7. Any"
+                    "/Enabled":
+                        ":True": "True"
+                        ":False": "False"
             "/HairGrowthStateMapDialog":
                 ":Title": "Classify Hairstyles"
                 "/SubmenuTitles":
@@ -113,21 +135,13 @@
                 "/Options":
                     "/HairGrowthState":
                         ":Unknown": "Unknown"
-                        ":Any": "Any"
                         ":Bald": "Bald"
                         ":Shaved": "Shaved"
-                        ":ShavedOrShort": "Shaved/Short"
-                        ":ShavedToMedium": "Shaved/Short/Medium"
-                        ":ShavedOrAbove": "≥ Shaved"
                         ":Short": "Short"
-                        ":ShortOrMedium": "Short/Medium"
-                        ":ShortOrAbove": "≥ Short"
                         ":Medium": "Medium"
-                        ":MediumOrLong": "Medium/Long"
-                        ":MediumOrAbove": "≥ Medium"
                         ":Long": "Long"
-                        ":LongOrAbove": "≥ Long"
                         ":VeryLong": "Very Long"
+                        ":Any": "Any"
             "/HairClassificationCollectionListDialog":
                 ":Title": "Select Hair Classification Collection"
                 "/Headers":
