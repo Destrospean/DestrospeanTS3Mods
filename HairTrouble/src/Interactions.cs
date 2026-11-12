@@ -135,6 +135,10 @@ namespace Destrospean.HairTrouble
                     {
                         hairGrowthStateList.Remove(HairGrowthStates.Unknown);
                     }
+                    if (hairGrowthStateList.Count == Enum.GetNames(typeof(HairGrowthStates)).Length - 2)
+                    {
+                        hairGrowthStateList.Add(HairGrowthStates.Any);
+                    }
                     var selectedHairGrowthStates = ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + ":Title"), new List<ObjectPicker.TabInfo>
                         {
                             new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<HairGrowthStates>((HairGrowthStates[])Enum.GetValues(typeof(HairGrowthStates))).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
@@ -166,6 +170,10 @@ namespace Destrospean.HairTrouble
                     else if (hairGrowthStateList.Contains(selectedHairGrowthStates[0]))
                     {
                         hairGrowthStateList.Remove(selectedHairGrowthStates[0]);
+                        if (hairGrowthStateList.Contains(HairGrowthStates.Any))
+                        {
+                            hairGrowthStateList.Remove(HairGrowthStates.Any);
+                        }
                     }
                     else
                     {
