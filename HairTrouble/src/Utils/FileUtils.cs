@@ -56,13 +56,13 @@ namespace Destrospean.Utils.HairTrouble
                     {
                         if (xmlReader.NodeType == XmlNodeType.Element)
                         {
-                            if (xmlReader.Name == "HairGrowthStateMap")
+                            if (xmlReader.Name == "HairTroubleData")
                             {
                                 xmlReader.MoveToContent();
                             }
-                            else if (xmlReader.Name == "Entry")
+                            else if (xmlReader.Name == "HairClassification")
                             {
-                                SimHairGrowth.HairGrowthStateMap[xmlReader.GetAttribute("CASPartKey") ?? ""] = (HairGrowthStates)Enum.Parse(typeof(HairGrowthStates), xmlReader.GetAttribute("GrowthState") ?? "");
+                                SimHairGrowth.HairGrowthStateMap[xmlReader.GetAttribute("partKey") ?? ""] = (HairGrowthStates)Enum.Parse(typeof(HairGrowthStates), xmlReader.GetAttribute("growthState") ?? "");
                             }
                         }
                     }
@@ -82,12 +82,12 @@ namespace Destrospean.Utils.HairTrouble
                        }))
                 {
                     xmlWriter.WriteStartDocument();
-                    xmlWriter.WriteStartElement("HairGrowthStateMap");
+                    xmlWriter.WriteStartElement("HairTroubleData");
                     foreach (var entry in entries)
                     {
-                        xmlWriter.WriteStartElement("Entry");
-                        xmlWriter.WriteAttributeString("CASPartKey", entry.Key);
-                        xmlWriter.WriteAttributeString("GrowthState", entry.Value.ToString());
+                        xmlWriter.WriteStartElement("HairClassification");
+                        xmlWriter.WriteAttributeString("partKey", entry.Key);
+                        xmlWriter.WriteAttributeString("growthState", entry.Value.ToString());
                         xmlWriter.WriteEndElement();
                     }
                     xmlWriter.WriteEndElement();

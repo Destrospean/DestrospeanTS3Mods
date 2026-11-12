@@ -346,7 +346,6 @@ namespace Destrospean.HairTrouble
                             }
                             hairGrowthStateMapList.Sort((a, b) => a.Value.CompareTo(b.Value));
                             hairGrowthStateMap.Clear();
-                            hairGrowthStateMap.Add("", HairGrowthStates.Unknown);
                             foreach (var entry in hairGrowthStateMapList)
                             {
                                 hairGrowthStateMap.Add(entry.Key, entry.Value);

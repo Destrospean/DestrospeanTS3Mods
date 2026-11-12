@@ -16,9 +16,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +225,6 @@
     <MESSAGE value="Sort usings" />
     <MESSAGE value="Fix `CheckTime` being written for `DriveTime` in the XML" />
     <MESSAGE value="Add HairTrouble" />
-    <MESSAGE value="Remove unused import" />
     <MESSAGE value="Add resources folder to .csproj" />
     <MESSAGE value="Fix SimDescription disposal event handling" />
     <MESSAGE value="- Fix the inability to cancel editing a service" />
@@ -242,7 +239,8 @@
     <MESSAGE value="Used default thumbnails for hair" />
     <MESSAGE value="Add icons" />
     <MESSAGE value="Miscellaneous changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
+    <MESSAGE value="Remove unused import" />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove unused import" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
