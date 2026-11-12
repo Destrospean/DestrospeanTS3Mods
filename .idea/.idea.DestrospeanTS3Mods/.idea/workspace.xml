@@ -16,7 +16,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,9 +46,9 @@
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/SimHairData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartHairGrowthStateColumn.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/RocketScienceSkill/src/RocketScienceScaffolding.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RocketScienceSkill/src/Skills/RocketScienceSkill.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file:///usr/lib/mono/xbuild/Microsoft/NuGet/Microsoft.NuGet.targets" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/HairTrouble/src/Interactions.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
