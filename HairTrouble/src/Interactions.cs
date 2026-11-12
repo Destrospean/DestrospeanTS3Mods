@@ -198,7 +198,7 @@ namespace Destrospean.HairTrouble
                         {
                             new CASPartColumn(entryKey),
                             new CASPartHairGrowthStateColumn(entryKey, SimHairGrowth.HairGrowthStateMap)
-                        }, int.MaxValue, out var confirmed, out var cancelled, true);
+                        }, int.MaxValue, out var confirmed, out var cancelled, true, 1);
                     if (cancelled)
                     {
                         return false;

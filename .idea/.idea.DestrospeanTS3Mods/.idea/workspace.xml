@@ -16,6 +16,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/UI/Dialogs/ObjectPickerDialog.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/UI/Dialogs/ObjectPickerDialog.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

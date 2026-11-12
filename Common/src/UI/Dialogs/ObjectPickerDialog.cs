@@ -28,6 +28,8 @@ namespace Destrospean.UI.Dialogs
 
         private List<ObjectPicker.RowInfo> mResult;
 
+        private int mSortedTab;
+
         private ObjectPicker mTable;
 
         private Vector2 mTableOffset;
@@ -128,6 +130,10 @@ namespace Destrospean.UI.Dialogs
             var text = (Text)mModalDialogWindow.GetChildByID(99576787u, false);
             text.Area = new Rect(text.Area.TopLeft.x, 20f, text.Area.BottomRight.x, 50f - mModalDialogWindow.Area.Height);
             mModalDialogWindow.Visible = true;
+            if (mSortedTab > -1 && mSortedTab != mTable.mSortedTab)
+            {
+                mTable.mTable.Sort(mSortedTab);
+            }
         }
 
         public void OnComplete()
@@ -163,12 +169,12 @@ namespace Destrospean.UI.Dialogs
             return true;
         }
 
-        public static List<T> Show<T>(string title, List<ObjectPicker.TabInfo> tabs, List<CommonHeaderInfo<T>> headers, int selectableRowCount, out bool confirmed, out bool cancelled, bool okayButtonAlwaysEnabled = false)
+        public static List<T> Show<T>(string title, List<ObjectPicker.TabInfo> tabs, List<CommonHeaderInfo<T>> headers, int selectableRowCount, out bool confirmed, out bool cancelled, bool okayButtonAlwaysEnabled = false, int sortedTab = 0)
         {
-            return Show(title, tabs, headers, selectableRowCount, null, out confirmed, out cancelled, okayButtonAlwaysEnabled);
+            return Show(title, tabs, headers, selectableRowCount, null, out confirmed, out cancelled, okayButtonAlwaysEnabled, sortedTab);
         }
 
-        public static List<T> Show<T>(string title, List<ObjectPicker.TabInfo> tabs, List<CommonHeaderInfo<T>> headers, int selectableRowCount, List<ObjectPicker.RowInfo> preSelectedRows, out bool confirmed, out bool cancelled, bool okayButtonAlwaysEnabled = false)
+        public static List<T> Show<T>(string title, List<ObjectPicker.TabInfo> tabs, List<CommonHeaderInfo<T>> headers, int selectableRowCount, List<ObjectPicker.RowInfo> preSelectedRows, out bool confirmed, out bool cancelled, bool okayButtonAlwaysEnabled = false, int sortedTab = 0)
         {
             Simulator.Sleep(0u);
             var columnInfoLists = new List<List<ObjectPicker.ColumnInfo>>();
@@ -196,13 +202,14 @@ namespace Destrospean.UI.Dialogs
                     }
                 }
             }
-            return Show<T>(title, tabs, headers.ConvertAll(x => (ObjectPicker.HeaderInfo)x), selectableRowCount, preSelectedRows, out confirmed, out cancelled, okayButtonAlwaysEnabled);
+            return Show<T>(title, tabs, headers.ConvertAll(x => (ObjectPicker.HeaderInfo)x), selectableRowCount, preSelectedRows, out confirmed, out cancelled, okayButtonAlwaysEnabled, sortedTab);
         }
 
-        public static List<T> Show<T>(string title, List<ObjectPicker.TabInfo> tabs, List<ObjectPicker.HeaderInfo> headers, int selectableRowCount, List<ObjectPicker.RowInfo> preSelectedRows, out bool confirmed, out bool cancelled, bool okayButtonAlwaysEnabled = false)
+        public static List<T> Show<T>(string title, List<ObjectPicker.TabInfo> tabs, List<ObjectPicker.HeaderInfo> headers, int selectableRowCount, List<ObjectPicker.RowInfo> preSelectedRows, out bool confirmed, out bool cancelled, bool okayButtonAlwaysEnabled = false, int sortedTab = -1)
         {
             using (var objectPickerDialog = new ObjectPickerDialog(title, tabs, headers, selectableRowCount, preSelectedRows, okayButtonAlwaysEnabled))
             {
+                objectPickerDialog.mSortedTab = sortedTab;
                 objectPickerDialog.StartModal();
                 cancelled = objectPickerDialog.mWasCancelled;
                 confirmed = objectPickerDialog.mWasConfirmed;
