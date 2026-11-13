@@ -14,9 +14,7 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
-    </list>
+    <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -240,7 +238,8 @@
     <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Minor change" />
     <MESSAGE value="Change default tuning option" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change default tuning option" />
+    <MESSAGE value="Merge loops" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge loops" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

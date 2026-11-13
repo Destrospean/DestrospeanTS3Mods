@@ -71,164 +71,6 @@ namespace Destrospean.HairTrouble
             return colors;
         }
         
-        public void PopulateTypesGrid(bool isHat)
-        {
-            var self = (CASHair)(object)this;
-            var casModel = Responder.Instance.CASModel;
-            var colors = new[]
-                {
-                    new Color(0u),
-                    new Color(0u),
-                    new Color(0u),
-                    new Color(0u)
-                };
-            self.mHairTypesGrid.Clear();
-            var wornPart = self.GetWornPart();
-            var resourceKey = ResourceKey.CreateUILayoutKey("GenericCasItem", 0u);
-            var saveButtonEnabled = false;
-            if (self.mHairType == CASHair.HairType.Hat)
-            {
-                self.mHatsShareButton.Enabled = false;
-                self.mHatsDeleteButton.Enabled = false;
-                self.mDesignButton.Enabled = CASHair.PartIsHat(wornPart);
-            }
-            var casFeaturedStoreItems = Responder.Instance.StoreUI.GetCASFeaturedStoreItems(BodyTypes.Hair, casModel.OutfitCategory, casModel.Age | casModel.Species | casModel.Gender, isHat);
-            self.mContentTypeFilter.FilterObjects(casFeaturedStoreItems, out var shouldEnableCatalogProductFilter);
-            foreach (IFeaturedStoreItem featuredStoreItem in casFeaturedStoreItems)
-            {
-                if (self.mHairType == CASHair.HairType.Hat != ((featuredStoreItem.CategoryFlags & 0x400000) != 0))
-                {
-                    continue;
-                }
-                var windowByExportId = UIManager.LoadLayout(resourceKey).GetWindowByExportID(1);
-                if (windowByExportId == null)
-                {
-                    continue;
-                }
-                windowByExportId.Tag = featuredStoreItem;
-                windowByExportId.GetChildByID(35u, true);
-                var window = windowByExportId.GetChildByID(32u, true) as Window;
-                if (window?.Drawable is ImageDrawable imageDrawable)
-                {
-                    imageDrawable.Image = UIUtils.GetUIImageFromThumbnailKey(featuredStoreItem.ThumbKey);
-                    window.Invalidate();
-                }
-                window = (Window)windowByExportId.GetChildByID(768u, true);
-                window.Tag = featuredStoreItem;
-                window.CreateTooltipCallbackFunction = self.StoreItemCreateTooltip;
-                window.Visible = true;
-                ((Window)windowByExportId.GetChildByID(771u, true)).Visible = featuredStoreItem.IsSale;
-                var button = (Button)windowByExportId.GetChildByID(769u, true);
-                button.Caption = featuredStoreItem.PriceString;
-                button.Tag = windowByExportId;
-                button.Click += self.OnBuyButtonClick;
-                button.FocusAcquired += self.OnBuyButtonFocusAcquired;
-                button.FocusLost += self.OnBuyButtonFocusLost;
-                self.mHairTypesGrid.AddItem(new ItemGridCellItem(windowByExportId, featuredStoreItem));
-            }
-            var simHairGrowthState = ((CASLogic)casModel).mSimDescEditExisting.GetHairGrowthState();
-            foreach (CASPart casPart in self.mPartsList)
-            {
-                if (simHairGrowthState > HairGrowthStates.Unknown && !(casPart.TryGetHairGrowthState(out var partHairGrowthState) && (simHairGrowthState & partHairGrowthState) != 0))
-                {
-                    continue;
-                }
-                var isWardrobePart = Responder.Instance.CASModel.ActiveWardrobeContains(casPart);
-                var numPresets = CASUtils.PartDataNumPresets(casPart.Key);
-                var customContentType = UIUtils.GetCustomContentType(casPart.Key);
-                if (UIUtils.IsContentTypeDisabled(customContentType))
-                {
-                    continue;
-                }
-                ObjectDesigner.SetCASPart(casPart.Key);
-                var defaultPresetId = ObjectDesigner.DefaultPresetId;
-                var designPresetIndexFromId = ObjectDesigner.GetDesignPresetIndexFromId(defaultPresetId);
-                var defaultPresetString = ObjectDesigner.GetDesignPreset(designPresetIndexFromId);
-                if (string.IsNullOrEmpty(defaultPresetString))
-                {
-                    defaultPresetString = Simulator.LoadXMLString(new ResourceKey(casPart.Key.InstanceId, 0x0333406C, casPart.Key.GroupId));
-                }
-                var casPartPreset = new CASPartPreset(casPart, defaultPresetString);
-                var wornPartPresetString = "";
-                var replacedHairColorsPresetString = "";
-                if (wornPart.Key == casPartPreset.mPart.Key)
-                {
-                    wornPartPresetString = Responder.Instance.CASModel.GetDesignPreset(wornPart);
-                    replacedHairColorsPresetString = CASUtils.ReplaceHairColors(wornPartPresetString, colors);
-                }
-                if (casPartPreset.Valid && (self.mHairType == CASHair.HairType.Hair || ObjectDesigner.DefaultPresetId == uint.MaxValue))
-                {
-                    self.AddHairTypeGridItem(self.mHairTypesGrid, resourceKey, casPartPreset, isWardrobePart, ref shouldEnableCatalogProductFilter);
-                    if (casPartPreset.mPart.Key == wornPart.Key && (self.mHairType == CASHair.HairType.Hair || CASUtils.DesignPresetCompare(wornPartPresetString, defaultPresetString)))
-                    {
-                        self.mHairTypesGrid.SelectedItem = self.mHairTypesGrid.Count - 1;
-                        saveButtonEnabled = true;
-                    }
-                }
-                if (self.mHairType != CASHair.HairType.Hat)
-                {
-                    continue;
-                }
-                for (var i = 0u; i < numPresets; i++)
-                {
-                    var presetId = CASUtils.PartDataGetPresetId(casPart.Key, i);
-                    UIUtils.GetCustomContentType(casPart.Key, presetId);
-                    casPartPreset = new CASPartPreset(casPart, presetId, CASUtils.PartDataGetPreset(casPart.Key, i));
-                    if (!casPartPreset.Valid)
-                    {
-                        continue;
-                    }
-                    var hairTypeGridItemAdded = self.AddHairTypeGridItem(self.mHairTypesGrid, resourceKey, casPartPreset, isWardrobePart, ref shouldEnableCatalogProductFilter);
-                    if (wornPart.Key != casPartPreset.mPart.Key || !CASUtils.DesignPresetCompare(replacedHairColorsPresetString, CASUtils.ReplaceHairColors(casPartPreset.mPresetString, colors)))
-                    {
-                        continue;
-                    }
-                    self.mSavedPresetId = casPartPreset.mPresetId;
-                    saveButtonEnabled = true;
-                    if (hairTypeGridItemAdded)
-                    {
-                        self.mHairTypesGrid.SelectedItem = self.mHairTypesGrid.Count - 1;
-                        if (ObjectDesigner.IsUserDesignPreset(i))
-                        {
-                            self.mHatsShareButton.Enabled = true;
-                            self.mHatsDeleteButton.Enabled = true;
-                        }
-                    }
-                }
-            }
-            self.mHairTypesGrid.Tag = shouldEnableCatalogProductFilter;
-            if (self.mHairStylesGrid.Tag == null)
-            {
-                self.mHairStylesGrid.Tag = false;
-            }
-            self.mSortButton.Tag = (bool)self.mHairTypesGrid.Tag || (bool)self.mHairStylesGrid.Tag;
-            if (saveButtonEnabled)
-            {
-                self.mSaveButton.Enabled = false;
-            }
-            else if (self.mHairType == CASHair.HairType.Hat && CASHair.PartIsHat(wornPart))
-            {
-                var windowByExportId = UIManager.LoadLayout(resourceKey).GetWindowByExportID(1);
-                if (windowByExportId != null)
-                {
-                    var window = windowByExportId.GetChildByID(32u, true) as Window;
-                    if (window != null)
-                    {
-                        window.Visible = false;
-                    }
-                    window = windowByExportId.GetChildByID(36u, true) as Window;
-                    if (window != null)
-                    {
-                        window.Visible = true;
-                    }
-                    self.mHairTypesGrid.AddTempItem(new ItemGridCellItem(windowByExportId, null));
-                }
-                self.mSaveButton.Enabled = true;
-            }
-            self.mUndoOnDelete = false;
-            self.mContentTypeFilter.UpdateFilterButtonState();
-        }
-        
         public static void PopulateTypesGrid(CASHair casHair)
         {
             if (casHair == null)
@@ -395,6 +237,164 @@ namespace Destrospean.HairTrouble
             }
             casHair.mUndoOnDelete = false;
             casHair.mContentTypeFilter.UpdateFilterButtonState();
+        }
+        
+        public void PopulateTypesGrid(bool isHat)
+        {
+            var self = (CASHair)(object)this;
+            var casModel = Responder.Instance.CASModel;
+            var colors = new[]
+                {
+                    new Color(0u),
+                    new Color(0u),
+                    new Color(0u),
+                    new Color(0u)
+                };
+            self.mHairTypesGrid.Clear();
+            var wornPart = self.GetWornPart();
+            var resourceKey = ResourceKey.CreateUILayoutKey("GenericCasItem", 0u);
+            var saveButtonEnabled = false;
+            if (self.mHairType == CASHair.HairType.Hat)
+            {
+                self.mHatsShareButton.Enabled = false;
+                self.mHatsDeleteButton.Enabled = false;
+                self.mDesignButton.Enabled = CASHair.PartIsHat(wornPart);
+            }
+            var casFeaturedStoreItems = Responder.Instance.StoreUI.GetCASFeaturedStoreItems(BodyTypes.Hair, casModel.OutfitCategory, casModel.Age | casModel.Species | casModel.Gender, isHat);
+            self.mContentTypeFilter.FilterObjects(casFeaturedStoreItems, out var shouldEnableCatalogProductFilter);
+            foreach (IFeaturedStoreItem featuredStoreItem in casFeaturedStoreItems)
+            {
+                if (self.mHairType == CASHair.HairType.Hat != ((featuredStoreItem.CategoryFlags & 0x400000) != 0))
+                {
+                    continue;
+                }
+                var windowByExportId = UIManager.LoadLayout(resourceKey).GetWindowByExportID(1);
+                if (windowByExportId == null)
+                {
+                    continue;
+                }
+                windowByExportId.Tag = featuredStoreItem;
+                windowByExportId.GetChildByID(35u, true);
+                var window = windowByExportId.GetChildByID(32u, true) as Window;
+                if (window?.Drawable is ImageDrawable imageDrawable)
+                {
+                    imageDrawable.Image = UIUtils.GetUIImageFromThumbnailKey(featuredStoreItem.ThumbKey);
+                    window.Invalidate();
+                }
+                window = (Window)windowByExportId.GetChildByID(768u, true);
+                window.Tag = featuredStoreItem;
+                window.CreateTooltipCallbackFunction = self.StoreItemCreateTooltip;
+                window.Visible = true;
+                ((Window)windowByExportId.GetChildByID(771u, true)).Visible = featuredStoreItem.IsSale;
+                var button = (Button)windowByExportId.GetChildByID(769u, true);
+                button.Caption = featuredStoreItem.PriceString;
+                button.Tag = windowByExportId;
+                button.Click += self.OnBuyButtonClick;
+                button.FocusAcquired += self.OnBuyButtonFocusAcquired;
+                button.FocusLost += self.OnBuyButtonFocusLost;
+                self.mHairTypesGrid.AddItem(new ItemGridCellItem(windowByExportId, featuredStoreItem));
+            }
+            var simHairGrowthState = ((CASLogic)casModel).mSimDescEditExisting.GetHairGrowthState();
+            foreach (CASPart casPart in self.mPartsList)
+            {
+                if (simHairGrowthState > HairGrowthStates.Unknown && !(casPart.TryGetHairGrowthState(out var partHairGrowthState) && (simHairGrowthState & partHairGrowthState) != 0))
+                {
+                    continue;
+                }
+                var isWardrobePart = Responder.Instance.CASModel.ActiveWardrobeContains(casPart);
+                var numPresets = CASUtils.PartDataNumPresets(casPart.Key);
+                var customContentType = UIUtils.GetCustomContentType(casPart.Key);
+                if (UIUtils.IsContentTypeDisabled(customContentType))
+                {
+                    continue;
+                }
+                ObjectDesigner.SetCASPart(casPart.Key);
+                var defaultPresetId = ObjectDesigner.DefaultPresetId;
+                var designPresetIndexFromId = ObjectDesigner.GetDesignPresetIndexFromId(defaultPresetId);
+                var defaultPresetString = ObjectDesigner.GetDesignPreset(designPresetIndexFromId);
+                if (string.IsNullOrEmpty(defaultPresetString))
+                {
+                    defaultPresetString = Simulator.LoadXMLString(new ResourceKey(casPart.Key.InstanceId, 0x0333406C, casPart.Key.GroupId));
+                }
+                var casPartPreset = new CASPartPreset(casPart, defaultPresetString);
+                var wornPartPresetString = "";
+                var replacedHairColorsPresetString = "";
+                if (wornPart.Key == casPartPreset.mPart.Key)
+                {
+                    wornPartPresetString = Responder.Instance.CASModel.GetDesignPreset(wornPart);
+                    replacedHairColorsPresetString = CASUtils.ReplaceHairColors(wornPartPresetString, colors);
+                }
+                if (casPartPreset.Valid && (self.mHairType == CASHair.HairType.Hair || ObjectDesigner.DefaultPresetId == uint.MaxValue))
+                {
+                    self.AddHairTypeGridItem(self.mHairTypesGrid, resourceKey, casPartPreset, isWardrobePart, ref shouldEnableCatalogProductFilter);
+                    if (casPartPreset.mPart.Key == wornPart.Key && (self.mHairType == CASHair.HairType.Hair || CASUtils.DesignPresetCompare(wornPartPresetString, defaultPresetString)))
+                    {
+                        self.mHairTypesGrid.SelectedItem = self.mHairTypesGrid.Count - 1;
+                        saveButtonEnabled = true;
+                    }
+                }
+                if (self.mHairType != CASHair.HairType.Hat)
+                {
+                    continue;
+                }
+                for (var i = 0u; i < numPresets; i++)
+                {
+                    var presetId = CASUtils.PartDataGetPresetId(casPart.Key, i);
+                    UIUtils.GetCustomContentType(casPart.Key, presetId);
+                    casPartPreset = new CASPartPreset(casPart, presetId, CASUtils.PartDataGetPreset(casPart.Key, i));
+                    if (!casPartPreset.Valid)
+                    {
+                        continue;
+                    }
+                    var hairTypeGridItemAdded = self.AddHairTypeGridItem(self.mHairTypesGrid, resourceKey, casPartPreset, isWardrobePart, ref shouldEnableCatalogProductFilter);
+                    if (wornPart.Key != casPartPreset.mPart.Key || !CASUtils.DesignPresetCompare(replacedHairColorsPresetString, CASUtils.ReplaceHairColors(casPartPreset.mPresetString, colors)))
+                    {
+                        continue;
+                    }
+                    self.mSavedPresetId = casPartPreset.mPresetId;
+                    saveButtonEnabled = true;
+                    if (hairTypeGridItemAdded)
+                    {
+                        self.mHairTypesGrid.SelectedItem = self.mHairTypesGrid.Count - 1;
+                        if (ObjectDesigner.IsUserDesignPreset(i))
+                        {
+                            self.mHatsShareButton.Enabled = true;
+                            self.mHatsDeleteButton.Enabled = true;
+                        }
+                    }
+                }
+            }
+            self.mHairTypesGrid.Tag = shouldEnableCatalogProductFilter;
+            if (self.mHairStylesGrid.Tag == null)
+            {
+                self.mHairStylesGrid.Tag = false;
+            }
+            self.mSortButton.Tag = (bool)self.mHairTypesGrid.Tag || (bool)self.mHairStylesGrid.Tag;
+            if (saveButtonEnabled)
+            {
+                self.mSaveButton.Enabled = false;
+            }
+            else if (self.mHairType == CASHair.HairType.Hat && CASHair.PartIsHat(wornPart))
+            {
+                var windowByExportId = UIManager.LoadLayout(resourceKey).GetWindowByExportID(1);
+                if (windowByExportId != null)
+                {
+                    var window = windowByExportId.GetChildByID(32u, true) as Window;
+                    if (window != null)
+                    {
+                        window.Visible = false;
+                    }
+                    window = windowByExportId.GetChildByID(36u, true) as Window;
+                    if (window != null)
+                    {
+                        window.Visible = true;
+                    }
+                    self.mHairTypesGrid.AddTempItem(new ItemGridCellItem(windowByExportId, null));
+                }
+                self.mSaveButton.Enabled = true;
+            }
+            self.mUndoOnDelete = false;
+            self.mContentTypeFilter.UpdateFilterButtonState();
         }
     }
 }
