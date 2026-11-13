@@ -53,9 +53,6 @@ namespace Destrospean.HairTrouble
                     foreach (var sim in Queries.GetObjects<Sim>())
                     {
                         AddInteractions(sim);
-                    }
-                    foreach (var sim in Queries.GetObjects<Sim>())
-                    {
                         sim.SimDescription?.InitOriginalOverallHairColors();
                         sim.SimDescription?.GetHairGrowthState();
                     }

@@ -15,8 +15,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -234,13 +233,14 @@
     <MESSAGE value="Populate strings" />
     <MESSAGE value="Reorder methods" />
     <MESSAGE value="Change stat string" />
-    <MESSAGE value="Minor change" />
     <MESSAGE value="Remove unused imports" />
     <MESSAGE value="Used default thumbnails for hair" />
     <MESSAGE value="Add icons" />
     <MESSAGE value="Remove unused import" />
     <MESSAGE value="Miscellaneous changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
+    <MESSAGE value="Minor change" />
+    <MESSAGE value="Change default tuning option" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change default tuning option" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
