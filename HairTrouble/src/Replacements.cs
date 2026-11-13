@@ -96,7 +96,7 @@ namespace Destrospean.HairTrouble
             self.mContentTypeFilter.FilterObjects(casFeaturedStoreItems, out var shouldEnableCatalogProductFilter);
             foreach (IFeaturedStoreItem featuredStoreItem in casFeaturedStoreItems)
             {
-                if (self.mHairType == CASHair.HairType.Hat != (0 != (featuredStoreItem.CategoryFlags & 0x400000)))
+                if (self.mHairType == CASHair.HairType.Hat != ((featuredStoreItem.CategoryFlags & 0x400000) != 0))
                 {
                     continue;
                 }
