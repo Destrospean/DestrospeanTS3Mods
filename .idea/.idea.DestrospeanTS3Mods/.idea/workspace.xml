@@ -138,7 +138,7 @@
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/ts3buildtool/ts3buildtool.sln&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/Sims3PackagingUtils/Sims3PackagingUtils.sln&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -241,7 +241,8 @@
     <MESSAGE value="Change default tuning option" />
     <MESSAGE value="Merge loops" />
     <MESSAGE value="Reorder methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reorder methods" />
+    <MESSAGE value="Update ts3buildtool" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update ts3buildtool" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
