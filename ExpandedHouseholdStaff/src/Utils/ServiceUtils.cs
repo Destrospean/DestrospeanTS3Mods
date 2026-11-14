@@ -1636,7 +1636,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
                 var isLiveInService = (serviceProfileFlags & ServiceProfileFlags.LiveInService) == ServiceProfileFlags.LiveInService;
 
-                // The following code sets the time the service NPC spends working.
+                // The following code sets the time the service NPC starts working.
                 if (step == 6)
                 {
                     var tempTimeToStartWorking = timeToStartWorking;
@@ -1649,7 +1649,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     timeToStartWorking = tempTimeToStartWorking;
                 }
 
-                // The following code sets the time the service NPC spends working.
+                // The following code sets the time the service NPC stops working.
                 if (step == 7)
                 {
                     var tempTimeToStopWorking = timeToStopWorking;

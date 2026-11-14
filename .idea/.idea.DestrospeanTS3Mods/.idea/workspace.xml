@@ -16,6 +16,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,12 +238,13 @@
     <MESSAGE value="Add icons" />
     <MESSAGE value="Remove unused import" />
     <MESSAGE value="Miscellaneous changes" />
-    <MESSAGE value="Minor change" />
     <MESSAGE value="Change default tuning option" />
     <MESSAGE value="Merge loops" />
     <MESSAGE value="Reorder methods" />
     <MESSAGE value="Update ts3buildtool" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update ts3buildtool" />
+    <MESSAGE value="Update TuningResourceGenerator" />
+    <MESSAGE value="Minor change" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor change" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
