@@ -10,7 +10,7 @@ using s3pi.Package;
 
 namespace Destrospean.ExpandedAlchemy.Generator
 {
-    class Program
+    internal static class Program
     {
         private enum Locales
         {

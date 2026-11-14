@@ -12,7 +12,7 @@ using s3pi.Package;
 
 namespace Destrospean.MoreFavorites.Generator
 {
-    class Program
+    internal class Program
     {
         private enum Locales
         {
