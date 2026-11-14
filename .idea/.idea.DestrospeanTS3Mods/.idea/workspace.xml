@@ -14,7 +14,9 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="" />
+    <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -136,7 +138,7 @@
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/RocketScienceSkill/src/RocketScienceSkill.csproj&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/ts3buildtool/ts3buildtool.sln&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -229,7 +231,6 @@
     <MESSAGE value="Add Rocket Science Skill" />
     <MESSAGE value="Add animations" />
     <MESSAGE value="Populate strings" />
-    <MESSAGE value="Reorder methods" />
     <MESSAGE value="Change stat string" />
     <MESSAGE value="Remove unused imports" />
     <MESSAGE value="Used default thumbnails for hair" />
@@ -239,7 +240,8 @@
     <MESSAGE value="Minor change" />
     <MESSAGE value="Change default tuning option" />
     <MESSAGE value="Merge loops" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge loops" />
+    <MESSAGE value="Reorder methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reorder methods" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
