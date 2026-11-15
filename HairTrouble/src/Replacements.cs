@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
 using NRaasMasterController::NRaas;
 using Sims3.Gameplay.CAS;
+using Sims3.Gameplay.Destrospean.HairTrouble;
 using Sims3.Gameplay.Socializing;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
@@ -137,7 +138,7 @@ namespace Destrospean.HairTrouble
             var simHairGrowthState = ((CASLogic)casModel).mSimDescEditExisting.GetHairGrowthState();
             foreach (CASPart casPart in casHair.mPartsList)
             {
-                if (simHairGrowthState > HairGrowthStates.Unknown && !(casPart.TryGetHairGrowthState(out var partHairGrowthState) && (simHairGrowthState & partHairGrowthState) != 0))
+                if (Settings.kEnforceHairClassificationsInCAS && simHairGrowthState > HairGrowthStates.Unknown && !(casPart.TryGetHairGrowthState(out var partHairGrowthState) && (simHairGrowthState & partHairGrowthState) != 0))
                 {
                     continue;
                 }
@@ -297,7 +298,7 @@ namespace Destrospean.HairTrouble
             var simHairGrowthState = ((CASLogic)casModel).mSimDescEditExisting.GetHairGrowthState();
             foreach (CASPart casPart in self.mPartsList)
             {
-                if (simHairGrowthState > HairGrowthStates.Unknown && !(casPart.TryGetHairGrowthState(out var partHairGrowthState) && (simHairGrowthState & partHairGrowthState) != 0))
+                if (Settings.kEnforceHairClassificationsInCAS && simHairGrowthState > HairGrowthStates.Unknown && !(casPart.TryGetHairGrowthState(out var partHairGrowthState) && (simHairGrowthState & partHairGrowthState) != 0))
                 {
                     continue;
                 }

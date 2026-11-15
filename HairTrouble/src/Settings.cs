@@ -5,6 +5,9 @@ namespace Sims3.Gameplay.Destrospean.HairTrouble
     public class Settings
     {
         [Tunable]
+        public static bool kEnforceHairClassificationsInCAS = true;
+        
+        [Tunable]
         public static bool kExportHairClassificationCollectionsAsXMLs;
         
         [Tunable]
