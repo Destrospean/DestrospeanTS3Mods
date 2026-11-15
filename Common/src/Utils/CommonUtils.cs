@@ -640,6 +640,62 @@ namespace Destrospean.Utils
             }
             SkillManager.ParsePetSkillFatigueRates(data);
         }
+        
+        public static void Read(this IPropertyStreamReader reader, object memberHolder, string memberName, object defaultValue)
+        {
+            var field = memberHolder.GetType().GetField(memberName, (BindingFlags)0x34);
+            var property = memberHolder.GetType().GetProperty(memberName, (BindingFlags)0x34);
+            var nameHash = ResourceUtils.HashString32(memberName);
+            object value = null;
+            switch ((field?.GetType() ?? property?.GetType())?.Name)
+            {
+                case nameof(Boolean):
+                    reader.ReadBool(nameHash, out var boolVal, Convert.ToBoolean(defaultValue));
+                    value = boolVal;
+                    break;
+                case nameof(Byte):
+                    reader.ReadByte(nameHash, out var byteVal, Convert.ToByte(defaultValue));
+                    value = byteVal;
+                    break;
+                case nameof(Int16):
+                    reader.ReadInt16(nameHash, out var int16Val, Convert.ToInt16(defaultValue));
+                    value = int16Val;
+                    break;
+                case nameof(Int32):
+                    reader.ReadInt32(nameHash, out var int32Val, Convert.ToInt32(defaultValue));
+                    value = int32Val;
+                    break;
+                case nameof(Int64):
+                    reader.ReadInt64(nameHash, out var int64Val, Convert.ToInt64(defaultValue));
+                    value = int64Val;
+                    break;
+                case nameof(Single):
+                    reader.ReadFloat(nameHash, out var floatVal, Convert.ToSingle(defaultValue));
+                    value = floatVal;
+                    break;
+                case nameof(String):
+                    reader.ReadString(nameHash, out var stringVal, Convert.ToString(defaultValue));
+                    value = stringVal;
+                    break;
+                case nameof(UInt16):
+                    reader.ReadUint16(nameHash, out var uint16Val, Convert.ToUInt16(defaultValue));
+                    value = uint16Val;
+                    break;
+                case nameof(UInt32):
+                    reader.ReadUint32(nameHash, out var uint32Val, Convert.ToUInt32(defaultValue));
+                    value = uint32Val;
+                    break;
+                case nameof(UInt64):
+                    reader.ReadUint64(nameHash, out var uint64Val, Convert.ToUInt64(defaultValue));
+                    value = uint64Val;
+                    break;
+            }
+            if (value != null)
+            {
+                field?.SetValue(memberHolder, value);
+                property?.SetValue(memberHolder, value, null);
+            }
+        }
 
         /// <summary>
         /// Refreshes the interaction object pairs of a specified interaction definition for all existing objects of a specified type in the world.
@@ -1329,6 +1385,47 @@ namespace Destrospean.Utils
             if (motiveTuning != null)
             {
                 sim.mMotiveTuning[(int)commodityKind] = motiveTuning;
+            }
+        }
+        
+        public static void Write(this IPropertyStreamWriter writer, object memberHolder, string memberName)
+        {
+            var field = memberHolder.GetType().GetField(memberName, (BindingFlags)0x34);
+            var property = memberHolder.GetType().GetProperty(memberName, (BindingFlags)0x34);
+            var value = field?.GetValue(memberHolder) ?? property?.GetValue(memberHolder, null);
+            var nameHash = ResourceUtils.HashString32(memberName);
+            switch ((field?.GetType() ?? property?.GetType())?.Name)
+            {
+                case nameof(Boolean):
+                    writer.WriteBool(nameHash, Convert.ToBoolean(value));
+                    break;
+                case nameof(Byte):
+                    writer.WriteByte(nameHash, Convert.ToByte(value));
+                    break;
+                case nameof(Int16):
+                    writer.WriteInt16(nameHash, Convert.ToInt16(value));
+                    break;
+                case nameof(Int32):
+                    writer.WriteInt32(nameHash, Convert.ToInt32(value));
+                    break;
+                case nameof(Int64):
+                    writer.WriteInt64(nameHash, Convert.ToInt64(value));
+                    break;
+                case nameof(Single):
+                    writer.WriteFloat(nameHash, Convert.ToSingle(value));
+                    break;
+                case nameof(String):
+                    writer.WriteString(nameHash, Convert.ToString(value));
+                    break;
+                case nameof(UInt16):
+                    writer.WriteUint16(nameHash, Convert.ToUInt16(value));
+                    break;
+                case nameof(UInt32):
+                    writer.WriteUint32(nameHash, Convert.ToUInt32(value));
+                    break;
+                case nameof(UInt64):
+                    writer.WriteUint64(nameHash, Convert.ToUInt64(value));
+                    break;
             }
         }
     }

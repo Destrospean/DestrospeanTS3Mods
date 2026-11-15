@@ -27,7 +27,7 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
         
         [Persistable(false)]
         private List<ITrackedStat> mTrackedStats;
-
+        
         public override List<ILifetimeOpportunity> LifetimeOpportunities => mLifetimeOpportunities;
         
         public static SkillNames RocketScienceSkillGuid = (SkillNames)ResourceUtils.HashString64("RocketScienceSkill");
@@ -45,22 +45,22 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
         public override void CreateSkillJournalInfo()
         {
             mTrackedStats = new List<ITrackedStat>
-            {
-                new NumberOfRocketsBuilt(this)
-            };
+                {
+                    new NumberOfRocketsBuilt(this)
+                };
         }
 
         public override bool ExportContent(IPropertyStreamWriter writer)
         {
             base.ExportContent(writer);
-            writer.WriteUint32(0x56CD8442, mNumRocketsBuilt);
+            writer.Write(this, nameof(mNumRocketsBuilt));
             return true;
         }
 
         public override bool ImportContent(IPropertyStreamReader reader)
         {
             base.ImportContent(reader);
-            reader.ReadUint32(0x56CD8442, out mNumRocketsBuilt, 0u);
+            reader.Read(this, nameof(mNumRocketsBuilt), 0u);
             return true;
         }
         
