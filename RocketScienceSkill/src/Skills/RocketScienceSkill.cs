@@ -30,7 +30,7 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
         
         public override List<ILifetimeOpportunity> LifetimeOpportunities => mLifetimeOpportunities;
         
-        public static SkillNames RocketScienceSkillGuid = (SkillNames)ResourceUtils.HashString64("RocketScienceSkill");
+        public static SkillNames RocketScienceSkillGuid = (SkillNames)ResourceUtils.HashString64(nameof(RocketScienceSkill));
 
         public override List<ITrackedStat> TrackedStats => mTrackedStats;
         
