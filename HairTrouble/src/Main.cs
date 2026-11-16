@@ -10,6 +10,7 @@ using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Objects.Decorations;
+using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.UI.CAS;
 using Queries = Sims3.Gameplay.Queries;
@@ -53,8 +54,7 @@ namespace Destrospean.HairTrouble
                     foreach (var sim in Queries.GetObjects<Sim>())
                     {
                         AddInteractions(sim);
-                        sim.SimDescription?.InitOriginalOverallHairColors();
-                        sim.SimDescription?.GetHairGrowthState();
+                        sim.SimDescription.FixUpHairData();
                     }
                     listeners.Add(EventTracker.AddListener(EventTypeId.kSimDescriptionDisposed, evt => DebugUtils.TryDisplayScriptError(() =>
                         {
@@ -62,6 +62,8 @@ namespace Destrospean.HairTrouble
                             {
                                 simDescriptionEvent.SimDescription.ClearOriginalOverallHairColors();
                                 SimHairData.GrowthStates.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
+                                SimHairGrowth.HairGrowthAlarms.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
+                                SimHairGrowth.TimesOfLastHairGrowth.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
                             }
                             return ListenerAction.Keep;
                         }, out var retVal) ? ListenerAction.Keep : retVal));
@@ -70,14 +72,21 @@ namespace Destrospean.HairTrouble
                             if (evt.TargetObject is Sim sim)
                             {
                                 AddInteractions(sim);
-                                sim.SimDescription.InitOriginalOverallHairColors();
-                                sim.SimDescription.GetHairGrowthState();
+                                sim.SimDescription.FixUpHairData();
                             }
                             return ListenerAction.Keep;
                         }, out var retVal) ? ListenerAction.Keep : retVal));
                 });
             World.sOnWorldQuitEventHandler += (sender, e) =>
                 {
+                    foreach (var hairGrowthAlarmHandle in SimHairGrowth.HairGrowthAlarms.Values)
+                    {
+                        if (hairGrowthAlarmHandle != AlarmHandle.kInvalidHandle)
+                        {
+                            AlarmManager.Global.RemoveAlarm(hairGrowthAlarmHandle);
+                        }
+                    }
+                    SimHairGrowth.HairGrowthAlarms.Clear();
                     foreach (var listener in listeners)
                     {
                         EventTracker.RemoveListener(listener);

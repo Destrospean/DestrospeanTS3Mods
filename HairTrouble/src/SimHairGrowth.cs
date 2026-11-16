@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
+using Destrospean.Misc;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
 using Sims3.Gameplay.CAS;
+using Sims3.Gameplay.Destrospean.HairTrouble;
+using Sims3.Gameplay.Destrospean.Utils;
+using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 
@@ -13,9 +17,14 @@ namespace Destrospean.HairTrouble
     {
         [PersistableStatic(true)]
         private static Dictionary<string, HairGrowthStates> sHairGrowthStateMap = new Dictionary<string, HairGrowthStates>();
-
+        
+        public static Dictionary<ulong, AlarmHandle> HairGrowthAlarms = new Dictionary<ulong, AlarmHandle>();
+        
         public static Dictionary<string, HairGrowthStates> HairGrowthStateMap => sHairGrowthStateMap;
-
+        
+        [PersistableStatic]
+        public static Dictionary<ulong, long> TimesOfLastHairGrowth = new Dictionary<ulong, long>();
+        
         public static void ApplyHairGrowthStateToAllOutfits(this SimDescription simDescription, HairGrowthStates hairGrowthState, bool spin = false)
         {
             CASPart? hairstyle = null;
@@ -58,6 +67,27 @@ namespace Destrospean.HairTrouble
                 return true;
             }
             return false;
+        }
+        
+        public static void FixUpHairData(this SimDescription simDescription)
+        {
+            if (simDescription == null)
+            {
+                return;
+            }
+            simDescription.InitOriginalOverallHairColors();
+            simDescription.GetHairGrowthState();
+            if (HairGrowthAlarms.TryGetValue(simDescription.SimDescriptionId, out var hairGrowthAlarmHandle) && hairGrowthAlarmHandle != AlarmHandle.kInvalidHandle)
+            {
+                AlarmManager.Global.RemoveAlarm(hairGrowthAlarmHandle);
+            }
+            HairGrowthAlarms[simDescription.SimDescriptionId] = AlarmManager.Global.AddAlarmRepeating(1f, TimeUnit.Minutes, () =>
+                {
+                    if (simDescription.Household == Household.ActiveHousehold && SimClock.CurrentTicks - (TimesOfLastHairGrowth.TryGetValue(simDescription.SimDescriptionId, out var timeOfLastHairGrowth) ? timeOfLastHairGrowth : TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks) >= SimClock.ConvertToTicks(Settings.kHairGrowthInterval, Settings.kHairGrowthIntervalUnit))
+                    {
+                        ActionTask.Start(() => DebugUtils.TryDisplayScriptError(() => simDescription.IncrementHairGrowthState()));
+                    }
+                }, 1f, TimeUnit.Minutes, "Hair Growth Alarm -- SimDescriptionId: " + simDescription.SimDescriptionId, AlarmType.NeverPersisted, simDescription);
         }
 
         public static HairGrowthStates GetHairGrowthState(this SimOutfit outfit)
@@ -130,6 +160,7 @@ namespace Destrospean.HairTrouble
             {
                 simDescription.HasRootsShowing(true);
             }
+            TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks;
         }
 
         public static void SetHairGrowthState(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags = HairGrowthStateChangeFlags.Default)

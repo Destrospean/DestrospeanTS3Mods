@@ -1,4 +1,5 @@
-﻿using Sims3.SimIFace;
+﻿using Sims3.Gameplay.Utilities;
+using Sims3.SimIFace;
 
 namespace Sims3.Gameplay.Destrospean.HairTrouble
 {
@@ -9,6 +10,12 @@ namespace Sims3.Gameplay.Destrospean.HairTrouble
         
         [Tunable]
         public static bool kExportHairClassificationCollectionsAsXMLs;
+        
+        [Tunable]
+        public static float kHairGrowthInterval = 1f;
+        
+        [Tunable]
+        public static TimeUnit kHairGrowthIntervalUnit = TimeUnit.Days;
         
         [Tunable]
         public static bool kShowCheatInteractions;
