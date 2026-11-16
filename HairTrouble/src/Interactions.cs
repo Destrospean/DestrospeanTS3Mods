@@ -537,7 +537,6 @@ namespace Destrospean.HairTrouble
                 {
                     return false;
                 }
-
                 StandardEntry();
                 Mirror.EnterStateMachine(this);
                 AnimateSim("ChangeAppearance");

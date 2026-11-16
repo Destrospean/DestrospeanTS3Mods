@@ -15,16 +15,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Common/src/Misc/ActionScriptTask.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Misc/ActionScriptTask.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Misc/ActionScriptTask.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -260,9 +252,9 @@
     <MESSAGE value="Fix comments" />
     <MESSAGE value="Add tuning option" />
     <MESSAGE value="Minor change" />
-    <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Update TuningResourceGenerator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update TuningResourceGenerator" />
+    <MESSAGE value="Miscellaneous changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
