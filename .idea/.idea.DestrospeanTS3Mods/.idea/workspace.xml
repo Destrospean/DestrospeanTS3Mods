@@ -14,7 +14,18 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="" />
+    <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Common/src/Misc/ActionScriptTask.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,9 +46,11 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/95/7f93cd77/DateAndTime.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/a0/019cfb85/AlarmHandle.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/d5/8b6c70f6/SimClock.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/dc/b51581bf/GeneticColor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/e9/e80c5792/SkillNames.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/f7/9739e1c8/Service.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eeada6bd1a694cf19c15029bebd7ad7496000/6d/b1be706e/CASUtils.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eeada6bd1a694cf19c15029bebd7ad7496000/f3/dceda84c/Color.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/src/Utils/S3PIResourceUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" root0="FORCE_HIGHLIGHTING" />
@@ -49,8 +62,6 @@
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartHairGrowthStateColumn.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RocketScienceSkill/src/Skills/RocketScienceSkill.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file:///usr/lib/mono/xbuild/Microsoft/NuGet/Microsoft.NuGet.targets" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/HairTrouble/src/Settings.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/HairTrouble/src/SimHairGrowth.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -143,7 +154,7 @@
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/Sims3PackagingUtils/Sims3PackagingUtils.sln&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/Misc/ActionTask.cs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -245,13 +256,13 @@
     <MESSAGE value="Merge loops" />
     <MESSAGE value="Reorder methods" />
     <MESSAGE value="Update ts3buildtool" />
-    <MESSAGE value="Update TuningResourceGenerator" />
     <MESSAGE value="Fikx comments" />
     <MESSAGE value="Fix comments" />
     <MESSAGE value="Add tuning option" />
     <MESSAGE value="Minor change" />
     <MESSAGE value="Miscellaneous changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
+    <MESSAGE value="Update TuningResourceGenerator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update TuningResourceGenerator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -6,7 +6,6 @@ using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Destrospean.HairTrouble;
-using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
@@ -85,7 +84,8 @@ namespace Destrospean.HairTrouble
                 {
                     if (simDescription.Household == Household.ActiveHousehold && SimClock.CurrentTicks - (TimesOfLastHairGrowth.TryGetValue(simDescription.SimDescriptionId, out var timeOfLastHairGrowth) ? timeOfLastHairGrowth : TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks) >= SimClock.ConvertToTicks(Settings.kHairGrowthInterval, Settings.kHairGrowthIntervalUnit))
                     {
-                        ActionTask.Start(() => DebugUtils.TryDisplayScriptError(() => simDescription.IncrementHairGrowthState()));
+                        TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks;
+                        ActionScriptTask.Start(() => simDescription.IncrementHairGrowthState());
                     }
                 }, 1f, TimeUnit.Minutes, "Hair Growth Alarm -- SimDescriptionId: " + simDescription.SimDescriptionId, AlarmType.NeverPersisted, simDescription);
         }

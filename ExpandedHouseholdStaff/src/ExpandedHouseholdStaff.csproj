@@ -39,6 +39,9 @@
     <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\src\Misc\ActionTask.cs">
+      <Link>Misc\ActionTask.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\src\UI\Columns\InventoryObjectCreationParameters\InventoryObjectCountColumn.cs">
       <Link>UI\Columns\InventoryObjectCreationParameters\InventoryObjectCountColumn.cs</Link>
     </Compile>
@@ -113,9 +116,6 @@
     </Compile>
     <Compile Include="..\..\Common\src\Misc\DummyComparer.cs">
       <Link>Misc\DummyComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Misc\ActionTask.cs">
-      <Link>Misc\ActionTask.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\src\Misc\Utf8StringWriter.cs">
       <Link>Misc\Utf8StringWriter.cs</Link>
@@ -257,7 +257,6 @@
     <Folder Include="..\..\Common\src\" />
     <Folder Include="..\..\Common\src\Delegates\" />
     <Folder Include="..\..\Common\src\Enums\" />
-    <Folder Include="..\..\Common\src\Misc\" />
     <Folder Include="..\..\Common\src\UI\" />
     <Folder Include="..\..\Common\src\Utils\" />
     <Folder Include="Interactions\" />

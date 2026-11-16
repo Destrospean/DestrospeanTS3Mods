@@ -42,6 +42,9 @@
     <Compile Include="..\..\Common\src\Misc\ActionTask.cs">
       <Link>Misc\ActionTask.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\src\Misc\ActionScriptTask.cs">
+      <Link>Misc\ActionScriptTask.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\src\UI\Columns\CASPart\CASPartColumn.cs">
       <Link>UI\Columns\CASPart\CASPartColumn.cs</Link>
     </Compile>

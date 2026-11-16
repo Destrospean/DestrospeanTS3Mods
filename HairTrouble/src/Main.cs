@@ -51,6 +51,7 @@ namespace Destrospean.HairTrouble
                     {
                         AddInteractions(mirror);
                     }
+                    DebugUtils.ShowDebugMessageDialog("Original Hair Color Count: " + SimHairColors.sOriginalHairColors.Count);
                     foreach (var sim in Queries.GetObjects<Sim>())
                     {
                         AddInteractions(sim);

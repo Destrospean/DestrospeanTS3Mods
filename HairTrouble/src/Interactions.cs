@@ -537,6 +537,7 @@ namespace Destrospean.HairTrouble
                 {
                     return false;
                 }
+
                 StandardEntry();
                 Mirror.EnterStateMachine(this);
                 AnimateSim("ChangeAppearance");
@@ -545,7 +546,22 @@ namespace Destrospean.HairTrouble
                     StandardExit();
                     return false;
                 }
-                Actor.SimDescription.ApplyOverallHairColorsToAllOutfits(Actor.SimDescription.GetOriginalBodyHairColor(), Actor.SimDescription.GetOriginalEyebrowColor(), Actor.SimDescription.GetOriginalFacialHairColors(), Actor.SimDescription.GetOriginalHairColors(), true);
+
+                var facialHairColors = Actor.SimDescription.GetOriginalFacialHairColors();
+                var hairColors = Actor.SimDescription.GetOriginalHairColors();
+                Actor.SimDescription.ApplyOverallHairColorsToAllOutfits(Actor.SimDescription.GetOriginalBodyHairColor().Base, Actor.SimDescription.GetOriginalEyebrowColor().Base, new[]
+                    {
+                        facialHairColors.Base,
+                        facialHairColors.Highlight,
+                        facialHairColors.Root,
+                        facialHairColors.Tip
+                    }, new[]
+                    {
+                        hairColors.Base,
+                        hairColors.Highlight,
+                        hairColors.Root,
+                        hairColors.Tip
+                    }, true);
                 StandardExit();
                 return true;
             }

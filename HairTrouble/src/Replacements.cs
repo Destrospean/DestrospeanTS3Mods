@@ -59,16 +59,18 @@ namespace Destrospean.HairTrouble
                 simDescription = genealogies[random.Next(genealogies.Count)].SimDescription;
             }
             var colors = new Color[10];
-            for (var i = 0; i < 4; i++)
-            {
-                colors[i] = simDescription.GetOriginalHairColors()[i].Genetic;
-            }
-            colors[4] = simDescription.GetOriginalEyebrowColor().Genetic;
-            for (var i = 0; i < 4; i++)
-            {
-                colors[i + 5] = simDescription.GetOriginalFacialHairColors()[i].Genetic;
-            }
-            colors[9] = simDescription.GetOriginalBodyHairColor().Genetic;
+            var hairColors = simDescription.GetOriginalHairColors();
+            colors[0] = new Color(hairColors.Base);
+            colors[1] = new Color(hairColors.Highlight);
+            colors[2] = new Color(hairColors.Root);
+            colors[3] = new Color(hairColors.Tip);
+            colors[4] = new Color(simDescription.GetOriginalEyebrowColor().Base);
+            hairColors = simDescription.GetOriginalFacialHairColors();
+            colors[5] = new Color(hairColors.Base);
+            colors[6] = new Color(hairColors.Highlight);
+            colors[7] = new Color(hairColors.Root);
+            colors[8] = new Color(hairColors.Tip);
+            colors[9] = new Color(simDescription.GetOriginalBodyHairColor().Base);
             return colors;
         }
         
