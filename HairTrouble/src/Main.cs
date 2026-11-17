@@ -58,12 +58,12 @@ namespace Destrospean.HairTrouble
                     }
                     listeners.Add(EventTracker.AddListener(EventTypeId.kSimDescriptionDisposed, evt => DebugUtils.TryDisplayScriptError(() =>
                         {
-                            if (evt is SimDescriptionEvent simDescriptionEvent)
+                            if (evt is SimDescriptionEvent simDescriptionEvent && SimDescription.GetIMiniSimDescription(simDescriptionEvent.SimDescription.SimDescriptionId) == null)
                             {
                                 simDescriptionEvent.SimDescription.ClearOriginalOverallHairColors();
-                                SimHairGrowth.HairGrowthStates.Remove(simDescriptionEvent.SimDescription);
-                                SimHairGrowth.HairGrowthAlarms.Remove(simDescriptionEvent.SimDescription);
-                                SimHairGrowth.TimesOfLastHairGrowth.Remove(simDescriptionEvent.SimDescription);
+                                SimHairGrowth.HairGrowthStates.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
+                                SimHairGrowth.HairGrowthAlarms.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
+                                SimHairGrowth.TimesOfLastHairGrowth.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
                             }
                             return ListenerAction.Keep;
                         }, out var retVal) ? ListenerAction.Keep : retVal));

@@ -128,19 +128,19 @@ namespace Destrospean.HairTrouble
         public const int ChannelIndexTip = 3;
 
         [PersistableStatic(true)]
-        public static Dictionary<SimDescription, HairColor> OriginalBodyHairColors = new Dictionary<SimDescription, HairColor>();
+        public static Dictionary<ulong, HairColor> OriginalBodyHairColors = new Dictionary<ulong, HairColor>();
 
         [PersistableStatic(true)]
-        public static Dictionary<SimDescription, HairColor> OriginalEyebrowColors = new Dictionary<SimDescription, HairColor>();
+        public static Dictionary<ulong, HairColor> OriginalEyebrowColors = new Dictionary<ulong, HairColor>();
 
         [PersistableStatic(true)]
-        public static Dictionary<SimDescription, HairColor> OriginalFacialHairColors = new Dictionary<SimDescription, HairColor>();
+        public static Dictionary<ulong, HairColor> OriginalFacialHairColors = new Dictionary<ulong, HairColor>();
 
         [PersistableStatic(true)]
-        public static Dictionary<SimDescription, HairColor> OriginalHairColors = new Dictionary<SimDescription, HairColor>();
+        public static Dictionary<ulong, HairColor> OriginalHairColors = new Dictionary<ulong, HairColor>();
         
         [PersistableStatic(true)]
-        public static Dictionary<SimDescription, bool> RootsShowing = new Dictionary<SimDescription, bool>();
+        public static Dictionary<ulong, bool> RootsShowing = new Dictionary<ulong, bool>();
 
         public static void ApplyOverallHairColorsToAllOutfits(this SimDescription simDescription, Color bodyHairColor, Color eyebrowColor, Color[] facialHairColors, Color[] hairColors, bool spin = false)
         {
@@ -177,10 +177,10 @@ namespace Destrospean.HairTrouble
             {
                 return;
             }
-            OriginalBodyHairColors.Remove(simDescription);
-            OriginalEyebrowColors.Remove(simDescription);
-            OriginalFacialHairColors.Remove(simDescription);
-            OriginalHairColors.Remove(simDescription);
+            OriginalBodyHairColors.Remove(simDescription.SimDescriptionId);
+            OriginalEyebrowColors.Remove(simDescription.SimDescriptionId);
+            OriginalFacialHairColors.Remove(simDescription.SimDescriptionId);
+            OriginalHairColors.Remove(simDescription.SimDescriptionId);
         }
 
         public static HairColor GetOriginalBodyHairColor(this SimDescription simDescription)
@@ -189,11 +189,11 @@ namespace Destrospean.HairTrouble
             {
                 return null;
             }
-            if (OriginalBodyHairColors.TryGetValue(simDescription, out var originalColor))
+            if (OriginalBodyHairColors.TryGetValue(simDescription.SimDescriptionId, out var originalColor))
             {
                 return originalColor;
             }
-            return OriginalBodyHairColors[simDescription] = new HairColor(simDescription.ActiveBodyHairColor);
+            return OriginalBodyHairColors[simDescription.SimDescriptionId] = new HairColor(simDescription.ActiveBodyHairColor);
         }
 
         public static HairColor GetOriginalEyebrowColor(this SimDescription simDescription)
@@ -202,11 +202,11 @@ namespace Destrospean.HairTrouble
             {
                 return null;
             }
-            if (OriginalEyebrowColors.TryGetValue(simDescription, out var originalColor))
+            if (OriginalEyebrowColors.TryGetValue(simDescription.SimDescriptionId, out var originalColor))
             {
                 return originalColor;
             }
-            return OriginalEyebrowColors[simDescription] = new HairColor(simDescription.ActiveEyebrowColor);
+            return OriginalEyebrowColors[simDescription.SimDescriptionId] = new HairColor(simDescription.ActiveEyebrowColor);
         }
 
         public static HairColor GetOriginalFacialHairColors(this SimDescription simDescription)
@@ -215,11 +215,11 @@ namespace Destrospean.HairTrouble
             {
                 return null;
             }
-            if (OriginalFacialHairColors.TryGetValue(simDescription, out var originalColors))
+            if (OriginalFacialHairColors.TryGetValue(simDescription.SimDescriptionId, out var originalColors))
             {
                 return originalColors;
             }
-            return OriginalFacialHairColors[simDescription] = new HairColor(simDescription.ActiveFacialHairColors);
+            return OriginalFacialHairColors[simDescription.SimDescriptionId] = new HairColor(simDescription.ActiveFacialHairColors);
         }
 
         public static HairColor GetOriginalHairColors(this SimDescription simDescription)
@@ -228,11 +228,11 @@ namespace Destrospean.HairTrouble
             {
                 return null;
             }
-            if (OriginalHairColors.TryGetValue(simDescription, out var originalColors))
+            if (OriginalHairColors.TryGetValue(simDescription.SimDescriptionId, out var originalColors))
             {
                 return originalColors;
             }
-            return OriginalHairColors[simDescription] = new HairColor(simDescription.ActiveHairColors);
+            return OriginalHairColors[simDescription.SimDescriptionId] = new HairColor(simDescription.ActiveHairColors);
         }
 
         public static bool HasOriginalBodyHairColor(this SimDescription simDescription)
@@ -284,20 +284,20 @@ namespace Destrospean.HairTrouble
             }
             if (value == null)
             {
-                if (!simDescription.HasOriginalHairColors() && RootsShowing.TryGetValue(simDescription, out var rootsShowing))
+                if (!simDescription.HasOriginalHairColors() && RootsShowing.TryGetValue(simDescription.SimDescriptionId, out var rootsShowing))
                 {
                     return rootsShowing;
                 }
                 simDescription.ActiveHairColors[ChannelIndexRoot] = simDescription.GetOriginalHairColors().AsColors[ChannelIndexRoot]; 
                 simDescription.ApplyOverallHairColorsToAllOutfits(simDescription.ActiveBodyHairColor, simDescription.ActiveEyebrowColor, simDescription.ActiveFacialHairColors, simDescription.ActiveHairColors);
-                return RootsShowing[simDescription] = false;
+                return RootsShowing[simDescription.SimDescriptionId] = false;
             }
             if (value.Value)
             {
                 simDescription.ActiveHairColors[ChannelIndexRoot] = simDescription.GetOriginalHairColors().AsColors[ChannelIndexRoot]; 
                 simDescription.ApplyOverallHairColorsToAllOutfits(simDescription.ActiveBodyHairColor, simDescription.ActiveEyebrowColor, simDescription.ActiveFacialHairColors, simDescription.ActiveHairColors);
             }
-            return RootsShowing[simDescription] = value.Value;
+            return RootsShowing[simDescription.SimDescriptionId] = value.Value;
         }
 
         public static void InitOriginalOverallHairColors(this SimDescription simDescription)
