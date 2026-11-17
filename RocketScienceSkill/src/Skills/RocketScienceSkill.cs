@@ -21,7 +21,9 @@ namespace Sims3.Gameplay.Skills.Destrospean.RocketScienceSkill
         }
 
         [Persistable(false)]
+#pragma warning disable CS0649
         private List<ILifetimeOpportunity> mLifetimeOpportunities;
+#pragma warning restore CS0649
 
         private uint mNumRocketsBuilt;
         

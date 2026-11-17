@@ -1,12 +1,14 @@
 extern alias NRaasMasterController;
 using System;
 using System.Collections.Generic;
+using Destrospean.Misc;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
 using NRaasMasterController::NRaas.MasterControllerSpace.CAS;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.CAS;
+using Sims3.Gameplay.Destrospean.HairTrouble;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Objects.Decorations;
@@ -54,7 +56,7 @@ namespace Destrospean.HairTrouble
                     foreach (var sim in Queries.GetObjects<Sim>())
                     {
                         AddInteractions(sim);
-                        sim.SimDescription.FixUpHairData();
+                        FixUpHairData(sim.SimDescription);
                     }
                     listeners.Add(EventTracker.AddListener(EventTypeId.kSimDescriptionDisposed, evt => DebugUtils.TryDisplayScriptError(() =>
                         {
@@ -72,7 +74,7 @@ namespace Destrospean.HairTrouble
                             if (evt.TargetObject is Sim sim)
                             {
                                 AddInteractions(sim);
-                                sim.SimDescription.FixUpHairData();
+                                FixUpHairData(sim.SimDescription);
                             }
                             return ListenerAction.Keep;
                         }, out var retVal) ? ListenerAction.Keep : retVal));
@@ -117,6 +119,28 @@ namespace Destrospean.HairTrouble
             sim.AddInteraction(Interactions.ResetOriginalHair.Singleton, true);
             sim.AddInteraction(Interactions.IncrementHairGrowthState.Singleton, true);
             sim.AddInteraction(Interactions.DecrementHairGrowthState.Singleton, true);
+        }
+        
+        public static void FixUpHairData(SimDescription simDescription)
+        {
+            if (simDescription == null)
+            {
+                return;
+            }
+            simDescription.InitOriginalOverallHairColors();
+            simDescription.GetHairGrowthState();
+            if (SimHairGrowth.HairGrowthAlarms.TryGetValue(simDescription.SimDescriptionId, out var hairGrowthAlarmHandle) && hairGrowthAlarmHandle != AlarmHandle.kInvalidHandle)
+            {
+                AlarmManager.Global.RemoveAlarm(hairGrowthAlarmHandle);
+            }
+            SimHairGrowth.HairGrowthAlarms[simDescription.SimDescriptionId] = AlarmManager.Global.AddAlarmRepeating(1f, TimeUnit.Minutes, () =>
+            {
+                if (simDescription.Household == Household.ActiveHousehold && SimClock.CurrentTicks - (SimHairGrowth.TimesOfLastHairGrowth.TryGetValue(simDescription.SimDescriptionId, out var timeOfLastHairGrowth) ? timeOfLastHairGrowth : SimHairGrowth.TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks) >= SimClock.ConvertToTicks(Settings.kHairGrowthInterval, Settings.kHairGrowthIntervalUnit))
+                {
+                    SimHairGrowth.TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks;
+                    ActionScriptTask.Start(() => simDescription.IncrementHairGrowthState());
+                }
+            }, 1f, TimeUnit.Minutes, "Hair Growth Alarm -- SimDescriptionId: " + simDescription.SimDescriptionId, AlarmType.NeverPersisted, simDescription);
         }
 
         public static void IntegrateNRaasMasterController()

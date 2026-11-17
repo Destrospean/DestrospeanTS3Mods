@@ -8,7 +8,9 @@ namespace Sims3.Gameplay.Destrospean.Utils
     public class DebugUtils
     {
         [Tunable]
+#pragma warning disable CS0649
         private static bool kShowDebugMessages;
+#pragma warning restore CS0649
 
         /// <summary>
         /// Shows a debug message dialog (only when <see cref="Sims3.Gameplay.Destrospean.Utils.DebugUtils.kShowDebugMessages"/> is set to <c>true</c>).
