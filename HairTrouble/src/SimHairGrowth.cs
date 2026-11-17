@@ -48,7 +48,7 @@ namespace Destrospean.HairTrouble
             return new SimOutfit(simBuilder.CacheOutfit($"ApplyHairGrowthState_{simDescription.SimDescriptionId}_{outfitCategory}_{outfitIndex}"));
         }
 
-        public static bool DecrementHairGrowthState(this SimDescription simDescription, int by = 1, bool haircut = true, HairGrowthStateChangeFlags additionalFlags = HairGrowthStateChangeFlags.Default)
+        public static bool DecrementHairGrowthState(this SimDescription simDescription, int by = 1, bool haircut = true, HairGrowthStateChangeFlags additionalFlags = HairGrowthStateChangeFlags.Default, bool spin = false)
         {
             if (by < 1)
             {
@@ -63,7 +63,7 @@ namespace Destrospean.HairTrouble
             growthStates.Sort();
             if (newHairGrowthState < growthStates.FindLast(x => x > 0 && (x & (x - 1)) == 0))
             {
-                simDescription.SetHairGrowthState(newHairGrowthState, (haircut ? HairGrowthStateChangeFlags.Haircut : HairGrowthStateChangeFlags.Default) | additionalFlags);
+                simDescription.SetHairGrowthState(newHairGrowthState, (haircut ? HairGrowthStateChangeFlags.Haircut : HairGrowthStateChangeFlags.Default) | additionalFlags, spin);
                 return true;
             }
             return false;
@@ -117,7 +117,7 @@ namespace Destrospean.HairTrouble
             return validHairstyles.ToArray();
         }
 
-        public static bool IncrementHairGrowthState(this SimDescription simDescription, int by = 1, bool naturalGrowth = true, HairGrowthStateChangeFlags additionalFlags = HairGrowthStateChangeFlags.Default)
+        public static bool IncrementHairGrowthState(this SimDescription simDescription, int by = 1, bool naturalGrowth = true, HairGrowthStateChangeFlags additionalFlags = HairGrowthStateChangeFlags.Default, bool spin = false)
         {
             if (by < 1)
             {
@@ -126,15 +126,15 @@ namespace Destrospean.HairTrouble
             var newHairGrowthState = (int)simDescription.GetHairGrowthState() << by;
             if (newHairGrowthState > 1)
             {
-                simDescription.SetHairGrowthState(newHairGrowthState, (naturalGrowth ? HairGrowthStateChangeFlags.NaturalGrowth : HairGrowthStateChangeFlags.Default) | additionalFlags);
+                simDescription.SetHairGrowthState(newHairGrowthState, (naturalGrowth ? HairGrowthStateChangeFlags.NaturalGrowth : HairGrowthStateChangeFlags.Default) | additionalFlags, spin);
                 return true;
             }
             return false;
         }
 
-        public static void OnHairGrowthStateChanged(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags)
+        public static void OnHairGrowthStateChanged(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags, bool spin = false)
         {
-            simDescription.ApplyHairGrowthStateToAllOutfits(hairGrowthState);
+            simDescription.ApplyHairGrowthStateToAllOutfits(hairGrowthState, spin);
             if (!simDescription.HasRootsShowing() && (flags & HairGrowthStateChangeFlags.NaturalGrowth) != 0 && !simDescription.HasOriginalHairColors())
             {
                 simDescription.HasRootsShowing(true);
@@ -142,14 +142,14 @@ namespace Destrospean.HairTrouble
             TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks;
         }
 
-        public static void SetHairGrowthState(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags = HairGrowthStateChangeFlags.Default)
+        public static void SetHairGrowthState(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags = HairGrowthStateChangeFlags.Default, bool spin = false)
         {
-            simDescription.OnHairGrowthStateChanged(HairGrowthStates[simDescription.SimDescriptionId] = hairGrowthState.GetLongestHairGrowthState(), flags);
+            simDescription.OnHairGrowthStateChanged(HairGrowthStates[simDescription.SimDescriptionId] = hairGrowthState.GetLongestHairGrowthState(), flags, spin);
         }
 
-        public static void SetHairGrowthState(this SimDescription simDescription, int hairGrowthState, HairGrowthStateChangeFlags flags = HairGrowthStateChangeFlags.Default)
+        public static void SetHairGrowthState(this SimDescription simDescription, int hairGrowthState, HairGrowthStateChangeFlags flags = HairGrowthStateChangeFlags.Default, bool spin = false)
         {
-            simDescription.SetHairGrowthState((HairGrowthStates)hairGrowthState, flags);
+            simDescription.SetHairGrowthState((HairGrowthStates)hairGrowthState, flags, spin);
         }
 
         public static bool TryGetHairGrowthState(this SimOutfit outfit, out HairGrowthStates hairGrowthState)

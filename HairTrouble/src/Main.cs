@@ -103,6 +103,7 @@ namespace Destrospean.HairTrouble
             {
                 return;
             }
+            mirror.AddInteraction(Interactions.CutOwnHair.Singleton, true);
             mirror.AddInteraction(Interactions.RemoveHairDye.Singleton, true);
             mirror.AddInteraction(Interactions.ClassifyHairstyles.Singleton, true);
             mirror.AddInteraction(Interactions.ImportHairClassificationCollection.Singleton, true);

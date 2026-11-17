@@ -171,6 +171,18 @@
             ":Path": "Hair..."
             "/ClassifyHairstyles":
                 ":Name": "Classify Hairstyles"
+            "/CutOwnHair":
+                ":Path": "Cut Hair..."
+                "/Names":
+                    ":Bald": "Get a Fresh Start"
+                    ":Shaved": "Get a Close Crop"
+                    ":Short": "Get a Short Cut"
+                    ":Medium": "Get a Chop Above the Shoulders"
+                    ":Long": "Trim a Little Off the Ends"
+                "/Tooltips":
+                    ":SimHasHairSameLength": "{0.SimFirstName} already has hair of this length!"
+                    ":SimHasHairTooShort": "{0.SimFirstName}'s hair is not long enough to get this kind of haircut! Try letting {MA.him}{FA.her} grow it out to that length."
+                    ":SimHasNoHair": "{0.SimFirstName} is bald! There's no hair on {MA.his}{FA.her} head to cut!"
             "/DecrementHairGrowthState":
                 ":Name": "Decrement Hair Growth State by 1"
             "/DeleteHairClassificationCollection":
