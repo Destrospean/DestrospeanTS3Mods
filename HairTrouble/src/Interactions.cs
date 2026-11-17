@@ -46,7 +46,7 @@ namespace Destrospean.HairTrouble
 
                 public override bool Test(Sim actor, GameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                 {
-                    return Settings.kShowCheatInteractions;
+                    return Settings.kShowCheatInteractions && !isAutonomous;
                 }
             }
 
@@ -57,7 +57,7 @@ namespace Destrospean.HairTrouble
             public override bool Run()
             {
                 var hairGrowthStateMap = new Dictionary<string, HairGrowthStates>();
-                foreach (var entry in SimHairGrowth.HairGrowthStateMap)
+                foreach (var entry in SimHairGrowth.HairClassifications)
                 {
                     hairGrowthStateMap[entry.Key] = entry.Value;
                 }
@@ -72,10 +72,10 @@ namespace Destrospean.HairTrouble
                     {
                         if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out age, CASAgeGenderFlags.None, CASAgeGenderFlags.AgeMask ^ CASAgeGenderFlags.Baby, Localization.LocalizeString(entryKey + "/Titles:Age"), entryKey, false))
                         {
-                            SimHairGrowth.HairGrowthStateMap.Clear();
+                            SimHairGrowth.HairClassifications.Clear();
                             foreach (var entry in hairGrowthStateMap)
                             {
-                                SimHairGrowth.HairGrowthStateMap[entry.Key] = entry.Value;
+                                SimHairGrowth.HairClassifications[entry.Key] = entry.Value;
                             }
                             return true;
                         }
@@ -105,7 +105,7 @@ namespace Destrospean.HairTrouble
                         foreach (ResourceKey key in new KeySearch(0x034AEECB))
                         {
                             var casPart = new CASPart(key);
-                            if (casPart.BodyType == BodyTypes.Hair && (casPart.Age & age) != 0 && (casPart.Gender & gender) != 0 && (SimHairGrowth.HairGrowthStateMap.TryGetValue(key.ToS3PIFormatKeyString(), out var value) ? (hairGrowthState & value) != 0 || hairGrowthState == value : hairGrowthState == HairGrowthStates.Unknown))
+                            if (casPart.BodyType == BodyTypes.Hair && (casPart.Age & age) != 0 && (casPart.Gender & gender) != 0 && (SimHairGrowth.HairClassifications.TryGetValue(key.ToS3PIFormatKeyString(), out var value) ? (hairGrowthState & value) != 0 || hairGrowthState == value : hairGrowthState == HairGrowthStates.Unknown))
                             {
                                 hairstyles.Add(casPart);
                             }
@@ -197,7 +197,7 @@ namespace Destrospean.HairTrouble
                         }, new List<ObjectPickerDialog.CommonHeaderInfo<CASPart>>
                         {
                             new CASPartColumn(entryKey),
-                            new CASPartHairGrowthStateColumn(entryKey, SimHairGrowth.HairGrowthStateMap)
+                            new CASPartHairGrowthStateColumn(entryKey, SimHairGrowth.HairClassifications)
                         }, int.MaxValue, out var confirmed, out var cancelled, true, 1);
                     if (cancelled)
                     {
@@ -207,11 +207,11 @@ namespace Destrospean.HairTrouble
                     {
                         return true;
                     }
-                    if (ShowHairGrowthStateListDialog(out var hairGrowthStates, SimHairGrowth.HairGrowthStateMap.TryGetValue(selectedHairstyles[0].Key.ToS3PIFormatKeyString(), out var defaultValue) ? defaultValue : HairGrowthStates.Unknown))
+                    if (ShowHairGrowthStateListDialog(out var hairGrowthStates, SimHairGrowth.HairClassifications.TryGetValue(selectedHairstyles[0].Key.ToS3PIFormatKeyString(), out var defaultValue) ? defaultValue : HairGrowthStates.Unknown))
                     {
                         foreach (var hairstyle in selectedHairstyles)
                         {
-                            SimHairGrowth.HairGrowthStateMap[hairstyle.Key.ToS3PIFormatKeyString()] = hairGrowthStates;
+                            SimHairGrowth.HairClassifications[hairstyle.Key.ToS3PIFormatKeyString()] = hairGrowthStates;
                             if ((currentHairGrowthState & hairGrowthStates) == 0 && currentHairGrowthState != hairGrowthStates)
                             {
                                 allHairstyles.Remove(hairstyle);
@@ -285,7 +285,7 @@ namespace Destrospean.HairTrouble
 
                 public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                 {
-                    return Settings.kShowCheatInteractions;
+                    return Settings.kShowCheatInteractions && !isAutonomous;
                 }
             }
 
@@ -320,7 +320,7 @@ namespace Destrospean.HairTrouble
 
                 public override bool Test(Sim actor, GameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                 {
-                    return Settings.kShowCheatInteractions;
+                    return Settings.kShowCheatInteractions && !isAutonomous;
                 }
             }
 
@@ -355,7 +355,7 @@ namespace Destrospean.HairTrouble
 
                 public override bool Test(Sim actor, GameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                 {
-                    return Settings.kShowCheatInteractions && new List<HairGrowthStates>(SimHairGrowth.HairGrowthStateMap.Values).Exists(x => x > HairGrowthStates.Unknown);
+                    return Settings.kShowCheatInteractions && new List<HairGrowthStates>(SimHairGrowth.HairClassifications.Values).Exists(x => x > HairGrowthStates.Unknown) && !isAutonomous;
                 }
             }
 
@@ -368,7 +368,7 @@ namespace Destrospean.HairTrouble
                 return !DebugUtils.TryDisplayScriptError(() =>
                     {
                         var hairGrowthStateMapList = new List<KeyValuePair<string, HairGrowthStates>>();
-                        foreach (var entry in SimHairGrowth.HairGrowthStateMap)
+                        foreach (var entry in SimHairGrowth.HairClassifications)
                         {
                             if (entry.Value > HairGrowthStates.Unknown)
                             {
@@ -389,7 +389,7 @@ namespace Destrospean.HairTrouble
                         if (Settings.kExportHairClassificationCollectionsAsXMLs)
                         {
                             hairGrowthStateMapList.Clear();
-                            foreach (var entry in SimHairGrowth.HairGrowthStateMap)
+                            foreach (var entry in SimHairGrowth.HairClassifications)
                             {
                                 if (entry.Value > HairGrowthStates.Unknown && !DownloadContent.IsCustomContent(S3PIResourceUtils.FromS3PIFormatKeyString(entry.Key)))
                                 {
@@ -445,7 +445,7 @@ namespace Destrospean.HairTrouble
 
                 public override bool Test(Sim actor, GameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                 {
-                    return Settings.kShowCheatInteractions;
+                    return Settings.kShowCheatInteractions && !isAutonomous;
                 }
             }
 
@@ -480,7 +480,7 @@ namespace Destrospean.HairTrouble
 
                 public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                 {
-                    return Settings.kShowCheatInteractions;
+                    return Settings.kShowCheatInteractions && !isAutonomous;
                 }
             }
 
@@ -514,6 +514,10 @@ namespace Destrospean.HairTrouble
 
                 public override bool Test(Sim actor, IMirror target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                 {
+                    if (actor.SimDescription == null)
+                    {
+                        return false;
+                    }
                     if (actor.SimDescription.HasOriginalOverallHairColors() || actor.CurrentOutfitCategory == OutfitCategories.Singed || actor.SimDescription.Age == CASAgeGenderFlags.Baby || actor.OccultManager.DisallowClothesChange())
                     {
                         return false;
@@ -545,22 +549,7 @@ namespace Destrospean.HairTrouble
                     StandardExit();
                     return false;
                 }
-
-                var facialHairColors = Actor.SimDescription.GetOriginalFacialHairColors();
-                var hairColors = Actor.SimDescription.GetOriginalHairColors();
-                Actor.SimDescription.ApplyOverallHairColorsToAllOutfits(Actor.SimDescription.GetOriginalBodyHairColor().Base, Actor.SimDescription.GetOriginalEyebrowColor().Base, new[]
-                    {
-                        facialHairColors.Base,
-                        facialHairColors.Highlight,
-                        facialHairColors.Root,
-                        facialHairColors.Tip
-                    }, new[]
-                    {
-                        hairColors.Base,
-                        hairColors.Highlight,
-                        hairColors.Root,
-                        hairColors.Tip
-                    }, true);
+                Actor.SimDescription.ApplyOverallHairColorsToAllOutfits(Actor.SimDescription.GetOriginalBodyHairColor(), Actor.SimDescription.GetOriginalEyebrowColor(), Actor.SimDescription.GetOriginalFacialHairColors(), Actor.SimDescription.GetOriginalHairColors(), true);
                 StandardExit();
                 return true;
             }
@@ -586,7 +575,7 @@ namespace Destrospean.HairTrouble
 
                 public override bool Test(Sim actor, Sim target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                 {
-                    return Settings.kShowCheatInteractions;
+                    return Settings.kShowCheatInteractions && !isAutonomous;
                 }
             }
 

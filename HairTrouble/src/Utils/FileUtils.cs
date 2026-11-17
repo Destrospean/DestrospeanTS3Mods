@@ -63,11 +63,11 @@ namespace Destrospean.Utils.HairTrouble
                             else if (xmlReader.Name == "HairClassification")
                             {
                                 var key = xmlReader.GetAttribute("partKey");
-                                if (!string.IsNullOrEmpty(key) && !SimHairGrowth.HairGrowthStateMap.ContainsKey(key))
+                                if (!string.IsNullOrEmpty(key) && !SimHairGrowth.HairClassifications.ContainsKey(key))
                                 {
                                     try
                                     {
-                                        SimHairGrowth.HairGrowthStateMap[key] = (HairGrowthStates)Enum.Parse(typeof(HairGrowthStates), xmlReader.GetAttribute("growthState") ?? "");
+                                        SimHairGrowth.HairClassifications[key] = (HairGrowthStates)Enum.Parse(typeof(HairGrowthStates), xmlReader.GetAttribute("growthState") ?? "");
                                     }
                                     catch (ArgumentException)
                                     {

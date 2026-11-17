@@ -15,8 +15,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Common/src/Misc/ActionScriptTask.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Misc/ActionScriptTask.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +39,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6701d6ae713f4943b8afd3b84087182ad0000/8a/61160ebe/IComparable`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/09/4315736e/TimeUnit.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/19/476a5c50/SkillManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/21/d4b34751/SimDescription.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/81/36ae7749/ParserFunctions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/91/62aec543/AlarmManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/95/7f93cd77/DateAndTime.cs" root0="FORCE_HIGHLIGHTING" />
@@ -229,7 +236,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Sort usings" />
     <MESSAGE value="Fix `CheckTime` being written for `DriveTime` in the XML" />
     <MESSAGE value="Add HairTrouble" />
     <MESSAGE value="Add resources folder to .csproj" />
@@ -254,7 +260,8 @@
     <MESSAGE value="Minor change" />
     <MESSAGE value="Update TuningResourceGenerator" />
     <MESSAGE value="Miscellaneous changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

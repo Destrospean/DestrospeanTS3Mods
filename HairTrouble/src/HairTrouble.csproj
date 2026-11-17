@@ -60,7 +60,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Replacements.cs" />
     <Compile Include="SimHairColors.cs" />
-    <Compile Include="SimHairData.cs" />
     <Compile Include="SimHairGrowth.cs" />
     <Compile Include="UI\Columns\CASPart\CASPartHairGrowthStateColumn.cs" />
     <Compile Include="UI\Columns\HairGrowthStates\HairGrowthStateColumn.cs" />

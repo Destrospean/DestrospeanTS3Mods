@@ -51,7 +51,6 @@ namespace Destrospean.HairTrouble
                     {
                         AddInteractions(mirror);
                     }
-                    DebugUtils.ShowDebugMessageDialog("Original Hair Color Count: " + SimHairColors.sOriginalHairColors.Count);
                     foreach (var sim in Queries.GetObjects<Sim>())
                     {
                         AddInteractions(sim);
@@ -62,9 +61,9 @@ namespace Destrospean.HairTrouble
                             if (evt is SimDescriptionEvent simDescriptionEvent)
                             {
                                 simDescriptionEvent.SimDescription.ClearOriginalOverallHairColors();
-                                SimHairData.GrowthStates.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
-                                SimHairGrowth.HairGrowthAlarms.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
-                                SimHairGrowth.TimesOfLastHairGrowth.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
+                                SimHairGrowth.HairGrowthStates.Remove(simDescriptionEvent.SimDescription);
+                                SimHairGrowth.HairGrowthAlarms.Remove(simDescriptionEvent.SimDescription);
+                                SimHairGrowth.TimesOfLastHairGrowth.Remove(simDescriptionEvent.SimDescription);
                             }
                             return ListenerAction.Keep;
                         }, out var retVal) ? ListenerAction.Keep : retVal));
