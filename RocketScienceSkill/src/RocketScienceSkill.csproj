@@ -39,6 +39,9 @@
     <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\src\Misc\ActionScriptTask.cs">
+      <Link>Misc\ActionScriptTask.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\src\UI\Columns\InventoryObjectCreationParameters\InventoryObjectCountColumn.cs">
       <Link>UI\Columns\InventoryObjectCreationParameters\InventoryObjectCountColumn.cs</Link>
     </Compile>
@@ -211,7 +214,6 @@
     <Folder Include="..\..\Common\src\" />
     <Folder Include="..\..\Common\src\Delegates\" />
     <Folder Include="..\..\Common\src\Enums\" />
-    <Folder Include="..\..\Common\src\Misc\" />
     <Folder Include="..\..\Common\src\UI\" />
     <Folder Include="..\..\Common\src\Utils\" />
     <Folder Include="Enums\" />

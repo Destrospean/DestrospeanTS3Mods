@@ -32,7 +32,7 @@ namespace Destrospean.HairTrouble
 
         public static SimOutfit ApplyHairGrowthStateToOutfit(this SimDescription simDescription, SimBuilder simBuilder, OutfitCategories outfitCategory, int outfitIndex, HairGrowthStates hairGrowthState, ref CASPart? specificHairstyle)
         {
-            specificHairstyle = specificHairstyle ?? (simDescription.GetOutfit(OutfitCategories.Everyday, 0).TryGetHairGrowthState(out var outfitHairGrowthState, out specificHairstyle) && (outfitHairGrowthState & hairGrowthState) != 0 ? specificHairstyle : GetValidHairstyles(simDescription.AgeGenderSpecies, hairGrowthState, allowHats: false).TryGetRandomItem(out specificHairstyle) ? specificHairstyle : null);
+            specificHairstyle = specificHairstyle ?? (simDescription.GetOutfit(OutfitCategories.Everyday, 0).TryGetHairGrowthState(out var outfitHairGrowthState, out specificHairstyle) && (outfitHairGrowthState & hairGrowthState) != Enums.HairTrouble.HairGrowthStates.Unknown ? specificHairstyle : GetValidHairstyles(simDescription.AgeGenderSpecies, hairGrowthState, allowHats: false).TryGetRandomItem(out specificHairstyle) ? specificHairstyle : null);
             if (specificHairstyle == null)
             {
                 return null;
@@ -102,12 +102,12 @@ namespace Destrospean.HairTrouble
         public static CASPart[] GetValidHairstyles(CASAgeGenderFlags ageGenderSpecies, HairGrowthStates hairGrowthState, OutfitCategories outfitCategory = OutfitCategories.All, bool allowHats = true)
         {
             var validHairstyles = new List<CASPart>();
-            foreach (var hairGrowthStateMapKvp in HairClassifications)
+            foreach (var hairClassification in HairClassifications)
             {
-                if (hairGrowthStateMapKvp.Value == hairGrowthState)
+                if (hairClassification.Value == hairGrowthState)
                 {
-                    var hairstyle = new CASPart(S3PIResourceUtils.FromS3PIFormatKeyString(hairGrowthStateMapKvp.Key));
-                    if (hairstyle.Key != ResourceKey.kInvalidResourceKey && (hairstyle.Age & ageGenderSpecies) != 0 && (hairstyle.Gender & ageGenderSpecies) != 0 && (hairstyle.Species & ageGenderSpecies) != 0 && (hairstyle.CategoryFlags & (uint)outfitCategory) != 0 /*&& (hairstyle.CategoryFlags & (uint)OutfitCategoriesExtended.ValidForRandom) != 0*/ && (allowHats || (hairstyle.CategoryFlags & (uint)OutfitCategoriesExtended.IsHat) == 0) && (hairstyle.CategoryFlags & (uint)OutfitCategoriesExtended.IsHiddenInCAS) == 0)
+                    var hairstyle = new CASPart(S3PIResourceUtils.FromS3PIFormatKeyString(hairClassification.Key));
+                    if (hairstyle.Key != ResourceKey.kInvalidResourceKey && (hairstyle.Age & ageGenderSpecies) != CASAgeGenderFlags.None && (hairstyle.Gender & ageGenderSpecies) != CASAgeGenderFlags.None && (hairstyle.Species & ageGenderSpecies) != CASAgeGenderFlags.None && (hairstyle.CategoryFlags & (uint)outfitCategory) != 0u /*&& (hairstyle.CategoryFlags & (uint)OutfitCategoriesExtended.ValidForRandom) != 0*/ && (allowHats || (hairstyle.CategoryFlags & (uint)OutfitCategoriesExtended.IsHat) == 0u) && (hairstyle.CategoryFlags & (uint)OutfitCategoriesExtended.IsHiddenInCAS) == 0u)
                     {
                         validHairstyles.Add(hairstyle);
                     }
@@ -134,7 +134,7 @@ namespace Destrospean.HairTrouble
         public static void OnHairGrowthStateChanged(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags, bool spin = false, CASPart? specificHairstyle = null)
         {
             simDescription.ApplyHairGrowthStateToAllOutfits(hairGrowthState, spin, specificHairstyle);
-            if (!simDescription.HasRootsShowing() && (flags & HairGrowthStateChangeFlags.NaturalGrowth) != 0 && !simDescription.HasOriginalHairColors())
+            if (!simDescription.HasRootsShowing() && (flags & HairGrowthStateChangeFlags.NaturalGrowth) != HairGrowthStateChangeFlags.Default && !simDescription.HasOriginalHairColors())
             {
                 simDescription.HasRootsShowing(true);
             }

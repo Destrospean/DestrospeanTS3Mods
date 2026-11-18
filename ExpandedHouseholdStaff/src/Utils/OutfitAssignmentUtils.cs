@@ -136,11 +136,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 simDescription.RemoveSpecialOutfit(specialOutfitKey);
             }
-            using (var simBuilder = new SimBuilder
-                {
-                    UseCompression = true
-                })
+            using (var simBuilder = new SimBuilder())
             {
+                simBuilder.UseCompression = true;
                 simBuilder.PrepareForOutfit(simDescription.CreatedSim == null ? simDescription.GetOutfit(OutfitCategories.Everyday, 0) : simDescription.CreatedSim.CurrentOutfit);
                 foreach (var bodyType in OverridableBodyTypes)
                 {

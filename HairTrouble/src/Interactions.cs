@@ -25,7 +25,7 @@ using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.HairTrouble
 {
-    public class Interactions
+    public static class Interactions
     {
         public class ClassifyHairstyles : ImmediateInteraction<Sim, GameObject>
         {
@@ -58,9 +58,9 @@ namespace Destrospean.HairTrouble
             public override bool Run()
             {
                 var hairGrowthStateMap = new Dictionary<string, HairGrowthStates>();
-                foreach (var entry in SimHairGrowth.HairClassifications)
+                foreach (var hairClassification in SimHairGrowth.HairClassifications)
                 {
-                    hairGrowthStateMap[entry.Key] = entry.Value;
+                    hairGrowthStateMap[hairClassification.Key] = hairClassification.Value;
                 }
                 var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "DemographicDialog");
                 var age = CASAgeGenderFlags.None;
@@ -106,7 +106,7 @@ namespace Destrospean.HairTrouble
                         foreach (ResourceKey key in new KeySearch(0x034AEECB))
                         {
                             var casPart = new CASPart(key);
-                            if (casPart.BodyType == BodyTypes.Hair && (casPart.Age & age) != 0 && (casPart.Gender & gender) != 0 && (SimHairGrowth.HairClassifications.TryGetValue(key.ToS3PIFormatKeyString(), out var value) ? (hairGrowthState & value) != 0 || hairGrowthState == value : hairGrowthState == HairGrowthStates.Unknown))
+                            if (casPart.BodyType == BodyTypes.Hair && (casPart.Age & age) != CASAgeGenderFlags.None && (casPart.Gender & gender) != CASAgeGenderFlags.None && (SimHairGrowth.HairClassifications.TryGetValue(key.ToS3PIFormatKeyString(), out var value) ? (hairGrowthState & value) != HairGrowthStates.Unknown || hairGrowthState == value : hairGrowthState == HairGrowthStates.Unknown))
                             {
                                 hairstyles.Add(casPart);
                             }
@@ -213,7 +213,7 @@ namespace Destrospean.HairTrouble
                         foreach (var hairstyle in selectedHairstyles)
                         {
                             SimHairGrowth.HairClassifications[hairstyle.Key.ToS3PIFormatKeyString()] = hairGrowthStates;
-                            if ((currentHairGrowthState & hairGrowthStates) == 0 && currentHairGrowthState != hairGrowthStates)
+                            if ((currentHairGrowthState & hairGrowthStates) == HairGrowthStates.Unknown && currentHairGrowthState != hairGrowthStates)
                             {
                                 allHairstyles.Remove(hairstyle);
                             }
@@ -731,7 +731,7 @@ namespace Destrospean.HairTrouble
                 
                 public override string GetInteractionName(Sim actor, IMirror target, InteractionObjectPair iop)
                 {
-                    return Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Names:" + HairGrowthState);
+                    return Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Names:" + HairGrowthState) + Localization.Ellipsis;
                 }
 
                 public override string[] GetPath(bool isFemale)
@@ -753,11 +753,22 @@ namespace Destrospean.HairTrouble
                         };
                     selectedObjects = new List<ObjectPicker.TabInfo>
                         {
-                            new ObjectPicker.TabInfo("shop_all_r2", Localization.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<CASPart>(SimHairGrowth.GetValidHairstyles(parameters.Actor.SimDescription.AgeGenderSpecies, ((Definition)parameters.InteractionDefinition).HairGrowthState)).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>
-                                {
-                                    casPartColumn.GetValue(x)
-                                })))
+                            new ObjectPicker.TabInfo("shop_all_r2", Localization.LocalizeString(parameters.Actor.IsFemale, LocalizationKey + "/Names:" + HairGrowthState), new List<ObjectPicker.RowInfo>())
                         };
+                    foreach (var hairClassification in SimHairGrowth.HairClassifications)
+                    {
+                        if ((hairClassification.Value & ((Definition)parameters.InteractionDefinition).HairGrowthState) != HairGrowthStates.Unknown)
+                        {
+                            var hairstyle = new CASPart(S3PIResourceUtils.FromS3PIFormatKeyString(hairClassification.Key));
+                            if (hairstyle.Key != ResourceKey.kInvalidResourceKey && (hairstyle.Age & parameters.Actor.SimDescription.Age) != CASAgeGenderFlags.None && (hairstyle.Gender & parameters.Actor.SimDescription.Gender) != CASAgeGenderFlags.None && (hairstyle.Species & parameters.Actor.SimDescription.Species) != CASAgeGenderFlags.None && (hairstyle.CategoryFlags & (uint)OutfitCategoriesExtended.IsHiddenInCAS) == 0u)
+                            {
+                                selectedObjects[0].RowInfo.Add(new ObjectPicker.RowInfo(hairstyle, new List<ObjectPicker.ColumnInfo>
+                                    {
+                                        casPartColumn.GetValue(hairstyle)
+                                    }));
+                            }
+                        }
+                    }
                 }
 
                 public override bool Test(Sim actor, IMirror target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
@@ -801,7 +812,8 @@ namespace Destrospean.HairTrouble
                 }
                 if (SelectedObjects[0] is CASPart hairstyle)
                 {
-                    if (HairGrowthState == Actor.SimDescription.GetHairGrowthState())
+                    var hairGrowthState = Actor.SimDescription.GetHairGrowthState();
+                    if (HairGrowthState == hairGrowthState || SimHairGrowth.HairClassifications.TryGetValue(hairstyle.Key.ToS3PIFormatKeyString(), out var hairGrowthStates) && (hairGrowthStates & hairGrowthState) != HairGrowthStates.Unknown)
                     {
                         Actor.SimDescription.ApplyToAllOutfits((simBuilder, outfitCategory, outfitIndex) =>
                             {

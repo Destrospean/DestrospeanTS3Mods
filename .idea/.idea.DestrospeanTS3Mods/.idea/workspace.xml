@@ -16,33 +16,13 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/ExpandedAlchemy_BaseSample_Script.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/ExpandedAlchemy_BaseSample_Script.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/OutfitAssignmentUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/OutfitAssignmentUtils.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_CHS_CN.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_CHS_CN.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_CHT_CN.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_CHT_CN.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_CZE_CZ.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_CZE_CZ.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_DAN_DK.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_DAN_DK.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_DUT_NL.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_DUT_NL.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_ENG_US.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_ENG_US.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_FIN_FI.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_FIN_FI.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_FRE_FR.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_FRE_FR.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_GER_DE.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_GER_DE.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_GRE_GR.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_GRE_GR.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_HUN_HU.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_HUN_HU.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_ITA_IT.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_ITA_IT.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_JPN_JP.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_JPN_JP.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_KOR_KR.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_KOR_KR.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_NOR_NO.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_NOR_NO.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_POL_PL.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_POL_PL.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_POR_BR.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_POR_BR.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_POR_PT.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_POR_PT.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_RUS_RU.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_RUS_RU.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_SPA_ES.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_SPA_ES.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_SPA_MX.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_SPA_MX.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_SWE_SE.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_SWE_SE.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_THA_TH.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/strings/HairTrouble_THA_TH.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RocketScienceSkill/src/RocketScienceSkill.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/src/RocketScienceSkill.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,22 +34,7 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/10b68ae54a4c42dea64bbc48608e2c433f200/7e/707d9e44/TagDataHelper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/10b68ae54a4c42dea64bbc48608e2c433f200/92/e191ab49/PersistedSettings.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6701d6ae713f4943b8afd3b84087182ad0000/8a/61160ebe/IComparable`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/09/4315736e/TimeUnit.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/19/476a5c50/SkillManager.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/21/d4b34751/SimDescription.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/81/36ae7749/ParserFunctions.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/91/62aec543/AlarmManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/95/7f93cd77/DateAndTime.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/a0/019cfb85/AlarmHandle.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/d5/8b6c70f6/SimClock.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/dc/b51581bf/GeneticColor.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/e9/e80c5792/SkillNames.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/f7/9739e1c8/Service.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eeada6bd1a694cf19c15029bebd7ad7496000/6d/b1be706e/CASUtils.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/eeada6bd1a694cf19c15029bebd7ad7496000/f3/dceda84c/Color.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/42/0a7ff840/Sim.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/src/Utils/S3PIResourceUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" root0="FORCE_HIGHLIGHTING" />
@@ -77,7 +42,6 @@
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/Interactions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/Main.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/HairTrouble/src/SimHairData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartHairGrowthStateColumn.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RocketScienceSkill/src/Skills/RocketScienceSkill.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file:///usr/lib/mono/xbuild/Microsoft/NuGet/Microsoft.NuGet.targets" root0="FORCE_HIGHLIGHTING" />
@@ -173,7 +137,7 @@
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/Misc/ActionTask.cs&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/Misc/ActionScriptTask.cs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,

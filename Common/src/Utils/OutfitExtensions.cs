@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Destrospean.Misc;
 using Sims3.Gameplay;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.CAS;
@@ -32,7 +33,7 @@ namespace Destrospean.Utils
                 casLogic.LoadSim(simDescription, sim.CurrentOutfitCategory, sim.CurrentOutfitIndex);
                 CASChangeReporter.Instance.ClearChanges();
                 GameStates.TransitionToCASStylistMode();
-                while (GameStates.NextInWorldStateId != 0)
+                while (GameStates.NextInWorldStateId != InWorldState.SubState.LiveMode)
                 {
                     Simulator.Sleep(0u);
                 }
@@ -46,21 +47,19 @@ namespace Destrospean.Utils
 
         public static void ApplyToAllOutfits(this SimDescription simDescription, OutfitFunc outfitFunc, bool spin = false)
         {
-            using (var simBuilder = new SimBuilder
-                {
-                    UseCompression = true
-                })
+            using (var simBuilder = new SimBuilder())
             {
+                simBuilder.UseCompression = true;
                 simDescription.ApplyToAllOutfits(simBuilder, outfitFunc, spin);
             }
         }
 
         public static void ApplyToAllOutfits(this SimDescription simDescription, SimBuilder simBuilder, OutfitFunc outfitFunc, bool spin = false)
         {
-            OutfitCategories lastOutfitCategory = 0,
-            tempOutfitCategory = OutfitCategories.Everyday;
-            int lastOutfitIndex = 0,
-            tempOutfitIndex = simDescription.GetOutfitCount(tempOutfitCategory);
+            var lastOutfitCategory = OutfitCategories.None;
+            var lastOutfitIndex = 0;
+            const OutfitCategories tempOutfitCategory = OutfitCategories.Everyday;
+            var tempOutfitIndex = simDescription.GetOutfitCount(tempOutfitCategory);
             if (simDescription.CreatedSim != null)
             {
                 lastOutfitCategory = simDescription.CreatedSim.CurrentOutfitCategory;
@@ -81,24 +80,36 @@ namespace Destrospean.Utils
                     }
                 }
             }
-            foreach (var outfitCategory in simDescription.ListOfCategories)
+            if (spin)
             {
-                if (!(simDescription.Outfits[outfitCategory] is ArrayList outfits))
-                {
-                    continue;
-                }
-                for (var i = outfits.Count - 1; i > -1; i--)
-                {
-                    if (simDescription.CreatedSim == null || outfitCategory != lastOutfitCategory || i != lastOutfitIndex || !spin)
-                    {
-                        simDescription.ReplaceOutfit(outfitCategory, i, outfitFunc(simBuilder, outfitCategory, i));
-                    }
-                }
+                ActionScriptTask.Start(ReplaceOutfits);
+            }
+            else
+            {
+                ReplaceOutfits();
             }
             if (simDescription.CreatedSim != null && !spin)
             {
                 simDescription.CreatedSim.UpdateOutfitInfo();
                 simDescription.CreatedSim.RefreshCurrentOutfit(false);
+            }
+            return;
+            void ReplaceOutfits()
+            {
+                foreach (var outfitCategory in simDescription.ListOfCategories)
+                {
+                    if (!(simDescription.Outfits[outfitCategory] is ArrayList outfits))
+                    {
+                        continue;
+                    }
+                    for (var i = outfits.Count - 1; i > -1; i--)
+                    {
+                        if (simDescription.CreatedSim == null || outfitCategory != lastOutfitCategory || i != lastOutfitIndex || !spin)
+                        {
+                            simDescription.ReplaceOutfit(outfitCategory, i, outfitFunc(simBuilder, outfitCategory, i));
+                        }
+                    }
+                }
             }
         }
 

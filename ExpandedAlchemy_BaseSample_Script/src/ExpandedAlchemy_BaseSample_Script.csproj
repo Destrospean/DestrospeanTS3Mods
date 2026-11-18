@@ -39,6 +39,12 @@
     <BaseIntermediateOutputPath>..\build\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\src\Delegates\Action.cs">
+      <Link>Delegates\Action.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Misc\ActionScriptTask.cs">
+      <Link>Misc\ActionScriptTask.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AlchemyHairLoss.cs" />
     <Compile Include="RockGemMetalSpawnerUranium.cs" />
