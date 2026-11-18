@@ -266,6 +266,115 @@ namespace Destrospean.HairTrouble
             }
         }
         
+        public class CutOwnHair : Interaction<Sim, IMirror>
+        {
+            public class Definition : InteractionDefinition<Sim, IMirror, CutOwnHair>
+            {
+                public HairGrowthStates HairGrowthState;
+
+                public Definition()
+                {
+                }
+
+                public Definition(HairGrowthStates hairGrowthState)
+                {
+                    HairGrowthState = hairGrowthState;
+                }
+                
+                public override void AddInteractions(InteractionObjectPair iop, Sim actor, IMirror target, List<InteractionObjectPair> results)
+                {
+                    foreach (HairGrowthStates hairGrowthState in Enum.GetValues(typeof(HairGrowthStates)))
+                    {
+                        if (hairGrowthState > HairGrowthStates.Unknown && hairGrowthState < HairGrowthStates.VeryLong)
+                        {
+                            results.Add(new InteractionObjectPair(new Definition(hairGrowthState), target));
+                        }
+                    }
+                }
+
+                public override InteractionInstance CreateInstance(ref InteractionInstanceParameters parameters)
+                {
+                    var cutOwnHair = new CutOwnHair();
+                    cutOwnHair.SetHairGrowthState(HairGrowthState);
+                    cutOwnHair.Init(ref parameters);
+                    return cutOwnHair;
+                }
+                
+                public override string GetInteractionName(Sim actor, IMirror target, InteractionObjectPair iop)
+                {
+                    return Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Names:" + HairGrowthState);
+                }
+
+                public override string[] GetPath(bool isFemale)
+                {
+                    return new[]
+                    {
+                        Localization.LocalizeString(isFemale, LocalizationPath + ":Path"),
+                        Localization.LocalizeString(isFemale, LocalizationKey + ":Path")
+                    };
+                }
+                
+                public override bool Test(Sim actor, IMirror target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                {
+                    if (actor.SimDescription == null || actor.CurrentOutfitCategory == OutfitCategories.Singed || actor.SimDescription.Age == CASAgeGenderFlags.Baby || actor.OccultManager.DisallowClothesChange())
+                    {
+                        return false;
+                    }
+                    if (actor.BuffManager.HasTransformBuff())
+                    {
+                        greyedOutTooltipCallback = CreateTooltipCallback(Localization.LocalizeString(actor.IsFemale, "Gameplay/Buffs/BuffTransformation:CantChangeClothesTooltip", actor));
+                        return false;
+                    }
+                    if (HairGrowthStates.Bald == actor.SimDescription.GetHairGrowthState())
+                    {
+                        greyedOutTooltipCallback = CreateTooltipCallback(Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Tooltips:SimHasNoHair", actor));
+                        return false;
+                    }
+                    if (HairGrowthState > actor.SimDescription.GetHairGrowthState())
+                    {
+                        greyedOutTooltipCallback = CreateTooltipCallback(Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Tooltips:SimHasHairTooShort", actor));
+                        return false;
+                    }
+                    if (HairGrowthState == actor.SimDescription.GetHairGrowthState())
+                    {
+                        greyedOutTooltipCallback = CreateTooltipCallback(Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Tooltips:SimHasHairSameLength", actor));
+                        return false;
+                    }
+                    return true;
+                }
+            }
+            
+            public HairGrowthStates HairGrowthState;
+
+            public const string LocalizationKey = LocalizationPath + "/CutOwnHair";
+
+            public static InteractionDefinition Singleton = new Definition();
+            
+            public override bool Run()
+            {
+                if (!Target.Route(this))
+                {
+                    return false;
+                }
+                StandardEntry();
+                Mirror.EnterStateMachine(this);
+                AnimateSim("ChangeAppearance");
+                if (!Actor.IsSelectable)
+                {
+                    StandardExit();
+                    return false;
+                }
+                Actor.SimDescription.SetHairGrowthState(HairGrowthState, HairGrowthStateChangeFlags.Haircut, true);
+                StandardExit();
+                return true;
+            }
+            
+            public void SetHairGrowthState(HairGrowthStates hairGrowthState)
+            {
+                HairGrowthState = hairGrowthState;
+            }
+        }
+        
         public class DecrementHairGrowthState : ImmediateInteraction<Sim, Sim>
         {
             [DoesntRequireTuning]
@@ -495,115 +604,6 @@ namespace Destrospean.HairTrouble
                 return true;
             }
         }
-        
-        public class CutOwnHair : Interaction<Sim, IMirror>
-        {
-            public class Definition : InteractionDefinition<Sim, IMirror, CutOwnHair>
-            {
-                public HairGrowthStates HairGrowthState;
-
-                public Definition()
-                {
-                }
-
-                public Definition(HairGrowthStates hairGrowthState)
-                {
-                    HairGrowthState = hairGrowthState;
-                }
-                
-                public override void AddInteractions(InteractionObjectPair iop, Sim actor, IMirror target, List<InteractionObjectPair> results)
-                {
-                    foreach (HairGrowthStates hairGrowthState in Enum.GetValues(typeof(HairGrowthStates)))
-                    {
-                        if (hairGrowthState > HairGrowthStates.Unknown && hairGrowthState < HairGrowthStates.VeryLong)
-                        {
-                            results.Add(new InteractionObjectPair(new Definition(hairGrowthState), target)); ;
-                        }
-                    }
-                }
-
-                public override InteractionInstance CreateInstance(ref InteractionInstanceParameters parameters)
-                {
-                    var cutOwnHair = new CutOwnHair();
-                    cutOwnHair.SetHairGrowthState(HairGrowthState);
-                    cutOwnHair.Init(ref parameters);
-                    return cutOwnHair;
-                }
-                
-                public override string GetInteractionName(Sim actor, IMirror target, InteractionObjectPair iop)
-                {
-                    return Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Names:" + HairGrowthState);
-                }
-
-                public override string[] GetPath(bool isFemale)
-                {
-                    return new[]
-                    {
-                        Localization.LocalizeString(isFemale, LocalizationPath + ":Path"),
-                        Localization.LocalizeString(isFemale, LocalizationKey + ":Path")
-                    };
-                }
-
-                public override bool Test(Sim actor, IMirror target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
-                {
-                    if (actor.SimDescription == null || actor.CurrentOutfitCategory == OutfitCategories.Singed || actor.SimDescription.Age == CASAgeGenderFlags.Baby || actor.OccultManager.DisallowClothesChange())
-                    {
-                        return false;
-                    }
-                    if (actor.BuffManager.HasTransformBuff())
-                    {
-                        greyedOutTooltipCallback = CreateTooltipCallback(Localization.LocalizeString(actor.IsFemale, "Gameplay/Buffs/BuffTransformation:CantChangeClothesTooltip", actor));
-                        return false;
-                    }
-                    if (HairGrowthStates.Bald == actor.SimDescription.GetHairGrowthState())
-                    {
-                        greyedOutTooltipCallback = CreateTooltipCallback(Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Tooltips:SimHasNoHair", actor));
-                        return false;
-                    }
-                    if (HairGrowthState > actor.SimDescription.GetHairGrowthState())
-                    {
-                        greyedOutTooltipCallback = CreateTooltipCallback(Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Tooltips:SimHasHairTooShort", actor));
-                        return false;
-                    }
-                    if (HairGrowthState == actor.SimDescription.GetHairGrowthState())
-                    {
-                        greyedOutTooltipCallback = CreateTooltipCallback(Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Tooltips:SimHasHairSameLength", actor));
-                        return false;
-                    }
-                    return true;
-                }
-            }
-            
-            public HairGrowthStates HairGrowthState;
-
-            public const string LocalizationKey = LocalizationPath + "/CutOwnHair";
-
-            public static InteractionDefinition Singleton = new Definition();
-            
-            public override bool Run()
-            {
-                if (!Target.Route(this))
-                {
-                    return false;
-                }
-                StandardEntry();
-                Mirror.EnterStateMachine(this);
-                AnimateSim("ChangeAppearance");
-                if (!Actor.IsSelectable)
-                {
-                    StandardExit();
-                    return false;
-                }
-                Actor.SimDescription.SetHairGrowthState(HairGrowthState, HairGrowthStateChangeFlags.Haircut, true);
-                StandardExit();
-                return true;
-            }
-            
-            public void SetHairGrowthState(HairGrowthStates hairGrowthState)
-            {
-                HairGrowthState = hairGrowthState;
-            }
-        }
 
         public class RemoveHairDye : Interaction<Sim, IMirror>
         {
@@ -693,6 +693,134 @@ namespace Destrospean.HairTrouble
             {
                 Target.SimDescription.ClearOriginalOverallHairColors();
                 Target.SimDescription.InitOriginalOverallHairColors();
+                return true;
+            }
+        }
+        
+        public class StyleOwnHair : CutOwnHair
+        {
+            public new class Definition : CutOwnHair.Definition
+            {
+                public Definition()
+                {
+                }
+
+                public Definition(HairGrowthStates hairGrowthState)
+                {
+                    HairGrowthState = hairGrowthState;
+                }
+                
+                public override void AddInteractions(InteractionObjectPair iop, Sim actor, IMirror target, List<InteractionObjectPair> results)
+                {
+                    foreach (HairGrowthStates hairGrowthState in Enum.GetValues(typeof(HairGrowthStates)))
+                    {
+                        if (hairGrowthState > HairGrowthStates.Unknown && hairGrowthState <= HairGrowthStates.VeryLong)
+                        {
+                            results.Add(new InteractionObjectPair(new Definition(hairGrowthState), target));
+                        }
+                    }
+                }
+
+                public override InteractionInstance CreateInstance(ref InteractionInstanceParameters parameters)
+                {
+                    var styleOwnHair = new StyleOwnHair();
+                    styleOwnHair.SetHairGrowthState(HairGrowthState);
+                    styleOwnHair.Init(ref parameters);
+                    return styleOwnHair;
+                }
+                
+                public override string GetInteractionName(Sim actor, IMirror target, InteractionObjectPair iop)
+                {
+                    return Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Names:" + HairGrowthState);
+                }
+
+                public override string[] GetPath(bool isFemale)
+                {
+                    return new[]
+                    {
+                        Localization.LocalizeString(isFemale, LocalizationPath + ":Path"),
+                        Localization.LocalizeString(isFemale, LocalizationKey + ":Path")
+                    };
+                }
+                
+                public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> selectedObjects, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
+                {
+                    numSelectableRows = 1;
+                    var casPartColumn = new CASPartColumn(typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "HairGrowthStateMapDialog"));
+                    headers = new List<ObjectPicker.HeaderInfo>
+                        {
+                            new ObjectPicker.HeaderInfo(casPartColumn.HeaderTextId, casPartColumn.HeaderTooltipId, casPartColumn.Width)
+                        };
+                    selectedObjects = new List<ObjectPicker.TabInfo>
+                        {
+                            new ObjectPicker.TabInfo("shop_all_r2", Localization.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<CASPart>(SimHairGrowth.GetValidHairstyles(parameters.Actor.SimDescription.AgeGenderSpecies, ((Definition)parameters.InteractionDefinition).HairGrowthState)).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>
+                                {
+                                    casPartColumn.GetValue(x)
+                                })))
+                        };
+                }
+
+                public override bool Test(Sim actor, IMirror target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                {
+                    if (actor.SimDescription == null || actor.CurrentOutfitCategory == OutfitCategories.Singed || actor.SimDescription.Age == CASAgeGenderFlags.Baby || actor.OccultManager.DisallowClothesChange())
+                    {
+                        return false;
+                    }
+                    if (actor.BuffManager.HasTransformBuff())
+                    {
+                        greyedOutTooltipCallback = CreateTooltipCallback(Localization.LocalizeString(actor.IsFemale, "Gameplay/Buffs/BuffTransformation:CantChangeClothesTooltip", actor));
+                        return false;
+                    }
+                    var hairGrowthState = actor.SimDescription.GetHairGrowthState();
+                    if (HairGrowthState > hairGrowthState)
+                    {
+                        greyedOutTooltipCallback = CreateTooltipCallback(Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Tooltips:SimHas" + (hairGrowthState == HairGrowthStates.Bald ? "NoHair" : "HairTooShort"), actor));
+                        return false;
+                    }
+                    return true;
+                }
+            }
+
+            public new const string LocalizationKey = LocalizationPath + "/StyleOwnHair";
+
+            public new static InteractionDefinition Singleton = new Definition();
+            
+            public override bool Run()
+            {
+                if (!Target.Route(this))
+                {
+                    return false;
+                }
+                StandardEntry();
+                Mirror.EnterStateMachine(this);
+                AnimateSim("ChangeAppearance");
+                if (!Actor.IsSelectable || SelectedObjects == null || SelectedObjects.Count != 1)
+                {
+                    StandardExit();
+                    return false;
+                }
+                if (SelectedObjects[0] is CASPart hairstyle)
+                {
+                    if (HairGrowthState == Actor.SimDescription.GetHairGrowthState())
+                    {
+                        Actor.SimDescription.ApplyToAllOutfits((simBuilder, outfitCategory, outfitIndex) =>
+                            {
+                                simBuilder.PrepareForOutfit(Actor.SimDescription.GetOutfit(outfitCategory, outfitIndex));
+                                simBuilder.RemoveParts(BodyTypes.Hair);
+                                simBuilder.AddPart(hairstyle);
+                                OutfitUtils.InjectBodyHairColor(simBuilder, Actor.SimDescription.BodyHairColor.ActiveColor);
+                                OutfitUtils.InjectEyeBrowHairColor(simBuilder, Actor.SimDescription.EyebrowColor.ActiveColor);
+                                OutfitUtils.InjectHairColor(simBuilder, Array.ConvertAll(Actor.SimDescription.FacialHairColors, x => x.ActiveColor), BodyTypes.Beard);
+                                OutfitUtils.InjectHairColor(simBuilder, Array.ConvertAll(Actor.SimDescription.HairColors, x => x.ActiveColor), BodyTypes.Hair);
+                                return new SimOutfit(simBuilder.CacheOutfit($"ApplyHairGrowthState_{Actor.SimDescription.SimDescriptionId}_{outfitCategory}_{outfitIndex}"));
+                            });
+                    }
+                    else
+                    {
+                        Actor.SimDescription.SetHairGrowthState(HairGrowthState, HairGrowthStateChangeFlags.Haircut, true, hairstyle);
+                    }
+                }
+                StandardExit();
                 return true;
             }
         }

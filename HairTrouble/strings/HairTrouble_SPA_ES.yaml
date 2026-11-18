@@ -1,32 +1,6 @@
 "Destrospean":
     "/UI":
         "/Dialogs":
-            "/CASAgeGenderFlagListDialog":
-                ":Title": "Select Allowed Demographics"
-                "/Titles":
-                    ":Age": "Select Allowed Ages"
-                    ":Gender": "Select Allowed Genders"
-                "/Headers":
-                    "/CASAgeGenderFlag":
-                        ":Text": "Setting"
-                        ":Tooltip": "The name of the setting corresponding to the demographic to allow"
-                    "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the demographic is allowed"
-                "/Options":
-                    "/CASAgeGenderFlag":
-                        ":Baby": "Allow Babies"
-                        ":Toddler": "Allow Toddlers"
-                        ":Child": "Allow Children"
-                        ":Teen": "Allow Teens"
-                        ":YoungAdult": "Allow Young Adults"
-                        ":Adult": "Allow Adults"
-                        ":Elder": "Allow Elders"
-                        ":Male": "Allow Males"
-                        ":Female": "Allow Females"
-                    "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
             "/DemographicDialog":
                 ":Title": "Select Demographic"
                 "/Titles":
@@ -47,58 +21,6 @@
                         ":Elder": "Elder"
                         ":Male": "Male"
                         ":Female": "Female"
-            "/PartOverrideListDialog":
-                ":Title": "Select Part Overrides"
-                "/Headers":
-                    "/PartType":
-                        ":Text": "Part Type"
-                        ":Tooltip": "The name of the part type"
-                    "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the part override is enabled"
-                "/Options":
-                    "/PartType":
-                        ":Accessories": "Accessories"
-                        ":Armband": "Armband"
-                        ":Beard": "Facial Hair"
-                        ":Blush": "Blush"
-                        ":BodyHairCalves": "Body Hair (Calves)"
-                        ":BodyHairFeet": "Body Hair (Feet)"
-                        ":BodyHairForearms": "Body Hair (Forearms)"
-                        ":BodyHairFullBack": "Body Hair (Full Back)"
-                        ":BodyHairLowerBack": "Body Hair (Lower Back)"
-                        ":BodyHairStomach": "Body Hair (Stomach)"
-                        ":BodyHairUpperBack": "Body Hair (Upper Back)"
-                        ":BodyHairUpperChest": "Body Hair (Upper Chest)"
-                        ":Bracelet": "Bracelet"
-                        ":CostumeMakeup": "Costume Makeup"
-                        ":Earrings": "Earrings"
-                        ":Eyebrows": "Eyebrows"
-                        ":EyeLiner": "Eyeliner"
-                        ":EyeShadow": "Eyeshadow"
-                        ":FirstAccessories": "Accessories"
-                        ":FirstFace": "Lipstick"
-                        ":FullBody": "Full Body"
-                        ":Glasses": "Glasses"
-                        ":Gloves": "Gloves"
-                        ":Hair": "Hair"
-                        ":Lipstick": "Lipstick"
-                        ":LeftEarring": "Left Earring"
-                        ":LeftGarter": "Left Garter"
-                        ":LowerBody": "Lower Body"
-                        ":Mascara": "Mascara"
-                        ":Necklace": "Necklace"
-                        ":NoseRing": "Nose Ring"
-                        ":RightEarring": "Right Earring"
-                        ":RightGarter": "Right Garter"
-                        ":Ring": "Ring"
-                        ":Shoes": "Shoes"
-                        ":Socks": "Socks"
-                        ":UpperBody": "Upper Body"
-                        ":WeddingRing": "Wedding Ring"
-                    "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
             "/HairGrowthStateListDialog":
                 ":Title": "Select Hair Growth States"
                 "/Headers":
@@ -197,3 +119,15 @@
                 ":Name": "Remove Hair Dye"
             "/ResetOriginalHair":
                 ":Name": "Set Genetic Hair Color to Current"
+            "/StyleOwnHair":
+                ":Path": "Style Hair..."
+                "/Names":
+                    ":Bald": "A Fresh Start"
+                    ":Shaved": "A Close Crop"
+                    ":Short": "A Short Cut"
+                    ":Medium": "A Chop Above the Shoulders"
+                    ":Long": "A Little Off the Ends"
+                    ":VeryLong": "Luscious Locks"
+                "/Tooltips":
+                    ":SimHasHairTooShort": "{0.SimFirstName}'s hair is not long enough to get this kind of hairstyle! Try letting {MA.him}{FA.her} grow it out to that length."
+                    ":SimHasNoHair": "{0.SimFirstName} is bald! There's no hair on {MA.his}{FA.her} head to style!"

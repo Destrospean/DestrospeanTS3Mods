@@ -25,22 +25,21 @@ namespace Destrospean.HairTrouble
         [PersistableStatic]
         public static Dictionary<ulong, long> TimesOfLastHairGrowth = new Dictionary<ulong, long>();
         
-        public static void ApplyHairGrowthStateToAllOutfits(this SimDescription simDescription, HairGrowthStates hairGrowthState, bool spin = false)
+        public static void ApplyHairGrowthStateToAllOutfits(this SimDescription simDescription, HairGrowthStates hairGrowthState, bool spin = false, CASPart? specificHairstyle = null)
         {
-            CASPart? hairstyle = null;
-            simDescription.ApplyToAllOutfits((simBuilder, outfitCategory, outfitIndex) => simDescription.ApplyHairGrowthStateToOutfit(simBuilder, outfitCategory, outfitIndex, hairGrowthState, ref hairstyle), spin);
+            simDescription.ApplyToAllOutfits((simBuilder, outfitCategory, outfitIndex) => simDescription.ApplyHairGrowthStateToOutfit(simBuilder, outfitCategory, outfitIndex, hairGrowthState, ref specificHairstyle), spin);
         }
 
-        public static SimOutfit ApplyHairGrowthStateToOutfit(this SimDescription simDescription, SimBuilder simBuilder, OutfitCategories outfitCategory, int outfitIndex, HairGrowthStates hairGrowthState, ref CASPart? hairstyle)
+        public static SimOutfit ApplyHairGrowthStateToOutfit(this SimDescription simDescription, SimBuilder simBuilder, OutfitCategories outfitCategory, int outfitIndex, HairGrowthStates hairGrowthState, ref CASPart? specificHairstyle)
         {
-            hairstyle = hairstyle ?? (simDescription.GetOutfit(OutfitCategories.Everyday, 0).TryGetHairGrowthState(out var outfitHairGrowthState, out hairstyle) && (outfitHairGrowthState & hairGrowthState) != 0 ? hairstyle : GetValidHairstyles(simDescription.AgeGenderSpecies, hairGrowthState, allowHats: false).TryGetRandomItem(out hairstyle) ? hairstyle : null);
-            if (hairstyle == null)
+            specificHairstyle = specificHairstyle ?? (simDescription.GetOutfit(OutfitCategories.Everyday, 0).TryGetHairGrowthState(out var outfitHairGrowthState, out specificHairstyle) && (outfitHairGrowthState & hairGrowthState) != 0 ? specificHairstyle : GetValidHairstyles(simDescription.AgeGenderSpecies, hairGrowthState, allowHats: false).TryGetRandomItem(out specificHairstyle) ? specificHairstyle : null);
+            if (specificHairstyle == null)
             {
                 return null;
             }
             simBuilder.PrepareForOutfit(simDescription.GetOutfit(outfitCategory, outfitIndex));
             simBuilder.RemoveParts(BodyTypes.Hair);
-            simBuilder.AddPart(hairstyle.Value);
+            simBuilder.AddPart(specificHairstyle.Value);
             OutfitUtils.InjectBodyHairColor(simBuilder, simDescription.BodyHairColor.ActiveColor);
             OutfitUtils.InjectEyeBrowHairColor(simBuilder, simDescription.EyebrowColor.ActiveColor);
             OutfitUtils.InjectHairColor(simBuilder, Array.ConvertAll(simDescription.FacialHairColors, x => x.ActiveColor), BodyTypes.Beard);
@@ -89,7 +88,7 @@ namespace Destrospean.HairTrouble
 
         public static HairGrowthStates GetLongestHairGrowthState(this HairGrowthStates hairGrowthStates)
         {
-            HairGrowthStates longestHairGrowthState = Enums.HairTrouble.HairGrowthStates.Unknown;
+            var longestHairGrowthState = Enums.HairTrouble.HairGrowthStates.Unknown;
             foreach (int value in Enum.GetValues(typeof(HairGrowthStates)))
             {
                 if (value > 0 && (value & (value - 1)) == 0 && ((int)hairGrowthStates & value) != 0)
@@ -132,9 +131,9 @@ namespace Destrospean.HairTrouble
             return false;
         }
 
-        public static void OnHairGrowthStateChanged(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags, bool spin = false)
+        public static void OnHairGrowthStateChanged(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags, bool spin = false, CASPart? specificHairstyle = null)
         {
-            simDescription.ApplyHairGrowthStateToAllOutfits(hairGrowthState, spin);
+            simDescription.ApplyHairGrowthStateToAllOutfits(hairGrowthState, spin, specificHairstyle);
             if (!simDescription.HasRootsShowing() && (flags & HairGrowthStateChangeFlags.NaturalGrowth) != 0 && !simDescription.HasOriginalHairColors())
             {
                 simDescription.HasRootsShowing(true);
@@ -142,14 +141,14 @@ namespace Destrospean.HairTrouble
             TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks;
         }
 
-        public static void SetHairGrowthState(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags = HairGrowthStateChangeFlags.Default, bool spin = false)
+        public static void SetHairGrowthState(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags = HairGrowthStateChangeFlags.Default, bool spin = false, CASPart? specificHairstyle = null)
         {
-            simDescription.OnHairGrowthStateChanged(HairGrowthStates[simDescription.SimDescriptionId] = hairGrowthState.GetLongestHairGrowthState(), flags, spin);
+            simDescription.OnHairGrowthStateChanged(HairGrowthStates[simDescription.SimDescriptionId] = hairGrowthState.GetLongestHairGrowthState(), flags, spin, specificHairstyle);
         }
 
-        public static void SetHairGrowthState(this SimDescription simDescription, int hairGrowthState, HairGrowthStateChangeFlags flags = HairGrowthStateChangeFlags.Default, bool spin = false)
+        public static void SetHairGrowthState(this SimDescription simDescription, int hairGrowthState, HairGrowthStateChangeFlags flags = HairGrowthStateChangeFlags.Default, bool spin = false, CASPart? specificHairstyle = null)
         {
-            simDescription.SetHairGrowthState((HairGrowthStates)hairGrowthState, flags, spin);
+            simDescription.SetHairGrowthState((HairGrowthStates)hairGrowthState, flags, spin, specificHairstyle);
         }
 
         public static bool TryGetHairGrowthState(this SimOutfit outfit, out HairGrowthStates hairGrowthState)
