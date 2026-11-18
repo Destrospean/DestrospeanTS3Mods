@@ -42,8 +42,8 @@
     <Compile Include="..\..\Common\src\Delegates\Action.cs">
       <Link>Delegates\Action.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\src\Misc\ActionScriptTask.cs">
-      <Link>Misc\ActionScriptTask.cs</Link>
+    <Compile Include="..\..\Common\src\Misc\ActionTask.cs">
+      <Link>Misc\ActionTask.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AlchemyHairLoss.cs" />

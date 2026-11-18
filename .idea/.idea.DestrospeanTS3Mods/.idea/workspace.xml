@@ -19,10 +19,8 @@
       <change beforePath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/ExpandedAlchemy_BaseSample_Script.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/ExpandedAlchemy_BaseSample_Script.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/OutfitAssignmentUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/OutfitAssignmentUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RocketScienceSkill/src/RocketScienceSkill.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/RocketScienceSkill/src/RocketScienceSkill.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +32,8 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/42/0a7ff840/Sim.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/42/0a7ff840/Sim.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/93350ab35d6546fcbce83089dea1ed65d29000/95/bff45c43/ScriptTask.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/src/Utils/CommonUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/src/Utils/S3PIResourceUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" root0="FORCE_HIGHLIGHTING" />
@@ -137,7 +136,7 @@
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/Misc/ActionScriptTask.cs&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/Common/src/Misc/ActionTask.cs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,

@@ -731,7 +731,7 @@ namespace Destrospean.HairTrouble
                 
                 public override string GetInteractionName(Sim actor, IMirror target, InteractionObjectPair iop)
                 {
-                    return Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Names:" + HairGrowthState) + Localization.Ellipsis;
+                    return Localization.LocalizeString(actor.IsFemale, LocalizationKey + "/Names:" + HairGrowthState);
                 }
 
                 public override string[] GetPath(bool isFemale)

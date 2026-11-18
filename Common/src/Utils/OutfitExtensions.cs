@@ -12,7 +12,7 @@ namespace Destrospean.Utils
     public static class OutfitExtensions
     {
         public delegate bool EditSpecialOutfitFunc(Sim sim, string specialOutfitKey);
-
+        
         public delegate SimOutfit OutfitFunc(SimBuilder simBuilder, OutfitCategories outfitCategory, int outfitIndex);
 
         public static EditSpecialOutfitFunc EditSpecialOutfit = (sim, specialOutfitKey) =>
@@ -72,36 +72,13 @@ namespace Destrospean.Utils
                     if (outfit.IsValid)
                     {
                         simDescription.ReplaceOutfit(lastOutfitCategory, lastOutfitIndex, outfit);
-                        using (var switchOutfitHelper = new Sim.SwitchOutfitHelper(simDescription.CreatedSim, Sim.ClothesChangeReason.Force, lastOutfitCategory, lastOutfitIndex, false))
-                        {
-                            simDescription.CreatedSim.SwitchToOutfitWithSpin(switchOutfitHelper);
-                        }
-                        simDescription.RemoveOutfit(tempOutfitCategory, tempOutfitIndex, true);
                     }
                 }
             }
-            if (spin)
+            foreach (var outfitCategory in simDescription.ListOfCategories)
             {
-                ActionScriptTask.Start(ReplaceOutfits);
-            }
-            else
-            {
-                ReplaceOutfits();
-            }
-            if (simDescription.CreatedSim != null && !spin)
-            {
-                simDescription.CreatedSim.UpdateOutfitInfo();
-                simDescription.CreatedSim.RefreshCurrentOutfit(false);
-            }
-            return;
-            void ReplaceOutfits()
-            {
-                foreach (var outfitCategory in simDescription.ListOfCategories)
+                if (simDescription.Outfits[outfitCategory] is ArrayList outfits)
                 {
-                    if (!(simDescription.Outfits[outfitCategory] is ArrayList outfits))
-                    {
-                        continue;
-                    }
                     for (var i = outfits.Count - 1; i > -1; i--)
                     {
                         if (simDescription.CreatedSim == null || outfitCategory != lastOutfitCategory || i != lastOutfitIndex || !spin)
@@ -111,6 +88,17 @@ namespace Destrospean.Utils
                     }
                 }
             }
+            if (spin && simDescription.CreatedSim != null)
+            {
+                using (var switchOutfitHelper = new Sim.SwitchOutfitHelper(simDescription.CreatedSim, Sim.ClothesChangeReason.Force, lastOutfitCategory, lastOutfitIndex, false))
+                {
+                    simDescription.CreatedSim.SwitchToOutfitWithSpin(switchOutfitHelper);
+                }
+                simDescription.RemoveOutfit(tempOutfitCategory, tempOutfitIndex, true);
+                return;
+            }
+            simDescription.CreatedSim?.UpdateOutfitInfo();
+            simDescription.CreatedSim?.RefreshCurrentOutfit(false);
         }
 
         public static void OnShowUI(bool toShow)
