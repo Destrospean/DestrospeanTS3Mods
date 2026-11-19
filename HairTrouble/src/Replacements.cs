@@ -106,7 +106,7 @@ namespace Destrospean.HairTrouble
             {
                 foreach (IFeaturedStoreItem featuredStoreItem in casFeaturedStoreItems)
                 {
-                    if (casHair.mHairType == CASHair.HairType.Hat != ((featuredStoreItem.CategoryFlags & 0x400000) != 0))
+                    if (casHair.mHairType == CASHair.HairType.Hat != ((featuredStoreItem.CategoryFlags & 0x400000) != 0u))
                     {
                         continue;
                     }
@@ -140,7 +140,7 @@ namespace Destrospean.HairTrouble
             var simHairGrowthState = ((CASLogic)casModel).mSimDescEditExisting.GetHairGrowthState();
             foreach (CASPart casPart in casHair.mPartsList)
             {
-                if (Settings.kEnforceHairClassificationsInCAS && simHairGrowthState > HairGrowthStates.Unknown && !(casPart.TryGetHairGrowthState(out var partHairGrowthState) && (simHairGrowthState & partHairGrowthState) != 0))
+                if (Settings.kEnforceHairClassificationsInCAS && !casModel.CurrentlyEditingTransformedWerewolf() && !casModel.IsEditingUniform && !casModel.IsEditingMannequin && !string.IsNullOrEmpty(casModel.CurrentSimDescription.FirstName) && simHairGrowthState > HairGrowthStates.Unknown && !(casPart.TryGetHairGrowthState(out var partHairGrowthState) && (simHairGrowthState & partHairGrowthState) != HairGrowthStates.Unknown))
                 {
                     continue;
                 }
@@ -192,7 +192,7 @@ namespace Destrospean.HairTrouble
                         continue;
                     }
                     var hairTypeGridItemAdded = casHair.AddHairTypeGridItem(casHair.mHairTypesGrid, resourceKey, casPartPreset, isWardrobePart, ref shouldEnableCatalogProductFilter);
-                    if (!(wornPart.Key == casPartPreset.mPart.Key) || !CASUtils.DesignPresetCompare(replacedHairColorsPresetString, CASUtils.ReplaceHairColors(casPartPreset.mPresetString, colors)))
+                    if (wornPart.Key != casPartPreset.mPart.Key || !CASUtils.DesignPresetCompare(replacedHairColorsPresetString, CASUtils.ReplaceHairColors(casPartPreset.mPresetString, colors)))
                     {
                         continue;
                     }
@@ -267,7 +267,7 @@ namespace Destrospean.HairTrouble
             self.mContentTypeFilter.FilterObjects(casFeaturedStoreItems, out var shouldEnableCatalogProductFilter);
             foreach (IFeaturedStoreItem featuredStoreItem in casFeaturedStoreItems)
             {
-                if (self.mHairType == CASHair.HairType.Hat != ((featuredStoreItem.CategoryFlags & 0x400000) != 0))
+                if (self.mHairType == CASHair.HairType.Hat != ((featuredStoreItem.CategoryFlags & 0x400000) != 0u))
                 {
                     continue;
                 }
@@ -300,7 +300,7 @@ namespace Destrospean.HairTrouble
             var simHairGrowthState = ((CASLogic)casModel).mSimDescEditExisting.GetHairGrowthState();
             foreach (CASPart casPart in self.mPartsList)
             {
-                if (Settings.kEnforceHairClassificationsInCAS && simHairGrowthState > HairGrowthStates.Unknown && !(casPart.TryGetHairGrowthState(out var partHairGrowthState) && (simHairGrowthState & partHairGrowthState) != 0))
+                if (Settings.kEnforceHairClassificationsInCAS && !casModel.CurrentlyEditingTransformedWerewolf() && !casModel.IsEditingUniform && !casModel.IsEditingMannequin && !string.IsNullOrEmpty(casModel.CurrentSimDescription.FirstName) && simHairGrowthState > HairGrowthStates.Unknown && !(casPart.TryGetHairGrowthState(out var partHairGrowthState) && (simHairGrowthState & partHairGrowthState) != HairGrowthStates.Unknown))
                 {
                     continue;
                 }
