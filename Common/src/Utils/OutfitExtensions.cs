@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Destrospean.Misc;
 using Sims3.Gameplay;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.CAS;

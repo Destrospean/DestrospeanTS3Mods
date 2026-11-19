@@ -17,9 +17,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +254,6 @@
     <MESSAGE value="Minor change" />
     <MESSAGE value="Update TuningResourceGenerator" />
     <MESSAGE value="Minor changes" />
-    <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Rename variables" />
     <MESSAGE value="Introduce generator" />
     <MESSAGE value="Change how the XML loading works" />
@@ -265,7 +261,8 @@
     <MESSAGE value="Add more conditions" />
     <MESSAGE value="Enable hair growth for inactive Sims" />
     <MESSAGE value="Exclude unused classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exclude unused classes" />
+    <MESSAGE value="Miscellaneous changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
