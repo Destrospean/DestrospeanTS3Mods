@@ -12,6 +12,7 @@ using Sims3.Gameplay.Destrospean.HairTrouble;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Objects.Decorations;
+using Sims3.Gameplay.UI;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.UI.CAS;
@@ -42,6 +43,7 @@ namespace Destrospean.HairTrouble
                 });
             World.sOnWorldLoadFinishedEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                 {
+                    ((HudModel)Responder.Instance.HudModel).SimAppearanceChanged += OnSimAppearanceChanged;
                     foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                     {
                         if (assembly.GetType("Destrospean.HairTrouble.Data") != null)
@@ -63,8 +65,8 @@ namespace Destrospean.HairTrouble
                             if (evt is SimDescriptionEvent simDescriptionEvent && SimDescription.GetIMiniSimDescription(simDescriptionEvent.SimDescription.SimDescriptionId) == null)
                             {
                                 simDescriptionEvent.SimDescription.ClearOriginalOverallHairColors();
-                                SimHairGrowth.HairGrowthStates.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
                                 SimHairGrowth.HairGrowthAlarms.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
+                                SimHairGrowth.HairGrowthStates.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
                                 SimHairGrowth.TimesOfLastHairGrowth.Remove(simDescriptionEvent.SimDescription.SimDescriptionId);
                             }
                             return ListenerAction.Keep;
@@ -81,11 +83,12 @@ namespace Destrospean.HairTrouble
                 });
             World.sOnWorldQuitEventHandler += (sender, e) =>
                 {
-                    foreach (var hairGrowthAlarmHandle in SimHairGrowth.HairGrowthAlarms.Values)
+                    ((HudModel)Responder.Instance.HudModel).SimAppearanceChanged -= OnSimAppearanceChanged;
+                    foreach (var alarmHandle in SimHairGrowth.HairGrowthAlarms.Values)
                     {
-                        if (hairGrowthAlarmHandle != AlarmHandle.kInvalidHandle)
+                        if (alarmHandle != AlarmHandle.kInvalidHandle)
                         {
-                            AlarmManager.Global.RemoveAlarm(hairGrowthAlarmHandle);
+                            AlarmManager.Global.RemoveAlarm(alarmHandle);
                         }
                     }
                     SimHairGrowth.HairGrowthAlarms.Clear();
@@ -130,14 +133,14 @@ namespace Destrospean.HairTrouble
                 return;
             }
             simDescription.InitOriginalOverallHairColors();
-            var hairGrowthState = simDescription.GetHairGrowthState();
+            var initialHairGrowthState = simDescription.GetHairGrowthState();
             if (!SimHairGrowth.PreferredHairGrowthStates.ContainsKey(simDescription.SimDescriptionId))
             {
-                SimHairGrowth.PreferredHairGrowthStates[simDescription.SimDescriptionId] = hairGrowthState;
+                SimHairGrowth.PreferredHairGrowthStates[simDescription.SimDescriptionId] = initialHairGrowthState;
             }
-            if (SimHairGrowth.HairGrowthAlarms.TryGetValue(simDescription.SimDescriptionId, out var hairGrowthAlarmHandle) && hairGrowthAlarmHandle != AlarmHandle.kInvalidHandle)
+            if (SimHairGrowth.HairGrowthAlarms.TryGetValue(simDescription.SimDescriptionId, out var alarmHandle) && alarmHandle != AlarmHandle.kInvalidHandle)
             {
-                AlarmManager.Global.RemoveAlarm(hairGrowthAlarmHandle);
+                AlarmManager.Global.RemoveAlarm(alarmHandle);
             }
             SimHairGrowth.HairGrowthAlarms[simDescription.SimDescriptionId] = AlarmManager.Global.AddAlarmRepeating(1f, TimeUnit.Minutes, () =>
                 {
@@ -152,6 +155,11 @@ namespace Destrospean.HairTrouble
         public static void IntegrateNRaasMasterController()
         {
             CommonUtils.ReplaceMethod<CASHairEx, Replacements>(nameof(Replacements.PopulateTypesGrid));
+        }
+        
+        public static void OnSimAppearanceChanged(ObjectGuid objectGuid)
+        {
+            GameObject.GetObject<Sim>(objectGuid).SimDescription?.FixUpHairGrowthStates();
         }
     }
 }

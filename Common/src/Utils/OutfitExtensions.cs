@@ -3,6 +3,7 @@ using Destrospean.Misc;
 using Sims3.Gameplay;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.CAS;
+using Sims3.Gameplay.UI;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI.CAS;
@@ -95,10 +96,16 @@ namespace Destrospean.Utils
                     simDescription.CreatedSim.SwitchToOutfitWithSpin(switchOutfitHelper);
                 }
                 simDescription.RemoveOutfit(tempOutfitCategory, tempOutfitIndex, true);
+                ((HudModel)Responder.Instance.HudModel).NotifySimChanged(simDescription.CreatedSim.ObjectId);
                 return;
             }
-            simDescription.CreatedSim?.UpdateOutfitInfo();
-            simDescription.CreatedSim?.RefreshCurrentOutfit(false);
+            if (simDescription.CreatedSim == null)
+            {
+                return;
+            }
+            simDescription.CreatedSim.UpdateOutfitInfo();
+            simDescription.CreatedSim.RefreshCurrentOutfit(false);
+            ((HudModel)Responder.Instance.HudModel).NotifySimChanged(simDescription.CreatedSim.ObjectId);
         }
 
         public static void OnShowUI(bool toShow)

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
+using Destrospean.Misc;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
 using Sims3.Gameplay.CAS;
+using Sims3.Gameplay.Destrospean.HairTrouble;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
@@ -69,6 +71,26 @@ namespace Destrospean.HairTrouble
                 return true;
             }
             return false;
+        }
+
+        public static void FixUpHairGrowthStates(this SimDescription simDescription)
+        {
+            var partHairGrowthStates = Enums.HairTrouble.HairGrowthStates.Unknown;
+            if ((Settings.kEnableHairGrowthForInactiveSims || simDescription.Household == Household.ActiveHousehold) && simDescription.CreatedSim != null && Array.Exists(simDescription.CreatedSim.CurrentOutfit.Parts, x => x.BodyType == BodyTypes.Hair && x.TryGetHairGrowthState(out partHairGrowthStates) && (partHairGrowthStates & simDescription.GetHairGrowthState()) == Enums.HairTrouble.HairGrowthStates.Unknown))
+            {
+                if (simDescription.Household != Household.ActiveHousehold && PreferredHairGrowthStates.TryGetValue(simDescription.SimDescriptionId, out var preferredHairGrowthState) && preferredHairGrowthState < partHairGrowthStates && (preferredHairGrowthState & partHairGrowthStates) == Enums.HairTrouble.HairGrowthStates.Unknown)
+                {
+                    ActionScriptTask.Start(() =>
+                        {
+                            simDescription.SetHairGrowthState(preferredHairGrowthState);
+                        });
+                    return;
+                }
+                ActionScriptTask.Start(() =>
+                    {
+                        simDescription.SetHairGrowthState(partHairGrowthStates.GetLongestHairGrowthState());
+                    });
+            }
         }
 
         public static HairGrowthStates GetHairGrowthState(this SimOutfit outfit)
