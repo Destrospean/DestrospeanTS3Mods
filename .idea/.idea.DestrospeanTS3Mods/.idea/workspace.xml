@@ -16,9 +16,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +236,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Add resources folder to .csproj" />
     <MESSAGE value="Fix SimDescription disposal event handling" />
     <MESSAGE value="- Fix the inability to cancel editing a service" />
     <MESSAGE value="Simplify code" />
@@ -263,7 +260,8 @@
     <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Rename variables" />
     <MESSAGE value="Introduce generator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Introduce generator" />
+    <MESSAGE value="Change how the XML loading works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change how the XML loading works" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

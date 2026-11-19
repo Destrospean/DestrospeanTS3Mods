@@ -506,6 +506,19 @@ namespace Destrospean.HairTrouble
                                     hairClassificationList.Add(hairClassification);
                                 }
                             }
+                            ExportXml("Vanilla");
+                            foreach (var hairClassification in SimHairGrowth.HairClassifications)
+                            {
+                                if (hairClassification.Value > HairGrowthStates.Unknown && DownloadContent.IsCustomContent(S3PIResourceUtils.FromS3PIFormatKeyString(hairClassification.Key)))
+                                {
+                                    hairClassificationList.Add(hairClassification);
+                                }
+                            }
+                            ExportXml("CustomContent");
+                        }
+                        return;
+                        void ExportXml(string name)
+                        {
                             hairClassificationList.Sort((a, b) => a.Value.CompareTo(b.Value));
                             hairClassifications.Clear();
                             foreach (var entry in hairClassificationList)
@@ -514,7 +527,7 @@ namespace Destrospean.HairTrouble
                             }
                             xml = FileUtils.Singleton.ToXml(hairClassifications);
                             var fileHandle = 0u;
-                            Simulator.CreateExportFile(ref fileHandle, "HairClassifications");
+                            Simulator.CreateExportFile(ref fileHandle, "HairClassifications_" + name + "_");
                             if (fileHandle != 0u)
                             {
                                 var customXmlWriter = new CustomXmlWriter(fileHandle);
