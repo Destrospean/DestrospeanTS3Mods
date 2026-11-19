@@ -57,10 +57,10 @@ namespace Destrospean.HairTrouble
 
             public override bool Run()
             {
-                var hairGrowthStateMap = new Dictionary<string, HairGrowthStates>();
+                var hairClassifications = new Dictionary<string, HairGrowthStates>();
                 foreach (var hairClassification in SimHairGrowth.HairClassifications)
                 {
-                    hairGrowthStateMap[hairClassification.Key] = hairClassification.Value;
+                    hairClassifications[hairClassification.Key] = hairClassification.Value;
                 }
                 var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "DemographicDialog");
                 var age = CASAgeGenderFlags.None;
@@ -74,9 +74,9 @@ namespace Destrospean.HairTrouble
                         if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out age, CASAgeGenderFlags.None, CASAgeGenderFlags.AgeMask ^ CASAgeGenderFlags.Baby, Localization.LocalizeString(entryKey + "/Titles:Age"), entryKey, false))
                         {
                             SimHairGrowth.HairClassifications.Clear();
-                            foreach (var entry in hairGrowthStateMap)
+                            foreach (var hairClassification in hairClassifications)
                             {
-                                SimHairGrowth.HairClassifications[entry.Key] = entry.Value;
+                                SimHairGrowth.HairClassifications[hairClassification.Key] = hairClassification.Value;
                             }
                             return true;
                         }
@@ -477,42 +477,42 @@ namespace Destrospean.HairTrouble
             {
                 return !DebugUtils.TryDisplayScriptError(() =>
                     {
-                        var hairGrowthStateMapList = new List<KeyValuePair<string, HairGrowthStates>>();
-                        foreach (var entry in SimHairGrowth.HairClassifications)
+                        var hairClassificationList = new List<KeyValuePair<string, HairGrowthStates>>();
+                        foreach (var hairClassification in SimHairGrowth.HairClassifications)
                         {
-                            if (entry.Value > HairGrowthStates.Unknown)
+                            if (hairClassification.Value > HairGrowthStates.Unknown)
                             {
-                                hairGrowthStateMapList.Add(entry);
+                                hairClassificationList.Add(hairClassification);
                             }
                         }
-                        hairGrowthStateMapList.Sort((a, b) => a.Value.CompareTo(b.Value));
-                        var hairGrowthStateMap = new SortedDictionary<string, HairGrowthStates>(new DummyComparer());
-                        foreach (var entry in hairGrowthStateMapList)
+                        hairClassificationList.Sort((a, b) => a.Value.CompareTo(b.Value));
+                        var hairClassifications = new SortedDictionary<string, HairGrowthStates>(new DummyComparer());
+                        foreach (var hairClassification in hairClassificationList)
                         {
-                            hairGrowthStateMap.Add(entry.Key, entry.Value);
+                            hairClassifications.Add(hairClassification.Key, hairClassification.Value);
                         }
-                        var xml = FileUtils.Singleton.ToXml(hairGrowthStateMap);
+                        var xml = FileUtils.Singleton.ToXml(hairClassifications);
                         if (!FileUtils.Singleton.ExportToFile(xml, out _))
                         {
                             return;
                         }
                         if (Settings.kExportHairClassificationCollectionsAsXMLs)
                         {
-                            hairGrowthStateMapList.Clear();
-                            foreach (var entry in SimHairGrowth.HairClassifications)
+                            hairClassificationList.Clear();
+                            foreach (var hairClassification in SimHairGrowth.HairClassifications)
                             {
-                                if (entry.Value > HairGrowthStates.Unknown && !DownloadContent.IsCustomContent(S3PIResourceUtils.FromS3PIFormatKeyString(entry.Key)))
+                                if (hairClassification.Value > HairGrowthStates.Unknown && !DownloadContent.IsCustomContent(S3PIResourceUtils.FromS3PIFormatKeyString(hairClassification.Key)))
                                 {
-                                    hairGrowthStateMapList.Add(entry);
+                                    hairClassificationList.Add(hairClassification);
                                 }
                             }
-                            hairGrowthStateMapList.Sort((a, b) => a.Value.CompareTo(b.Value));
-                            hairGrowthStateMap.Clear();
-                            foreach (var entry in hairGrowthStateMapList)
+                            hairClassificationList.Sort((a, b) => a.Value.CompareTo(b.Value));
+                            hairClassifications.Clear();
+                            foreach (var entry in hairClassificationList)
                             {
-                                hairGrowthStateMap.Add(entry.Key, entry.Value);
+                                hairClassifications.Add(entry.Key, entry.Value);
                             }
-                            xml = FileUtils.Singleton.ToXml(hairGrowthStateMap);
+                            xml = FileUtils.Singleton.ToXml(hairClassifications);
                             var fileHandle = 0u;
                             Simulator.CreateExportFile(ref fileHandle, "HairClassifications");
                             if (fileHandle != 0u)

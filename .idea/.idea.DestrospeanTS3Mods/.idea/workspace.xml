@@ -16,10 +16,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/src/Utils/OutfitExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/ExpandedAlchemy_BaseSample_Script.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedAlchemy_BaseSample_Script/src/ExpandedAlchemy_BaseSample_Script.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
