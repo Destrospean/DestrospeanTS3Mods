@@ -22,6 +22,9 @@ namespace Destrospean.HairTrouble
         [PersistableStatic(true)]
         public static Dictionary<ulong, HairGrowthStates> HairGrowthStates = new Dictionary<ulong, HairGrowthStates>();
         
+        [PersistableStatic(true)]
+        public static Dictionary<ulong, HairGrowthStates> PreferredHairGrowthStates = new Dictionary<ulong, HairGrowthStates>();
+        
         [PersistableStatic]
         public static Dictionary<ulong, long> TimesOfLastHairGrowth = new Dictionary<ulong, long>();
         
@@ -134,7 +137,7 @@ namespace Destrospean.HairTrouble
         public static void OnHairGrowthStateChanged(this SimDescription simDescription, HairGrowthStates hairGrowthState, HairGrowthStateChangeFlags flags, bool spin = false, CASPart? specificHairstyle = null)
         {
             simDescription.ApplyHairGrowthStateToAllOutfits(hairGrowthState, spin, specificHairstyle);
-            if (!simDescription.HasRootsShowing() && (flags & HairGrowthStateChangeFlags.NaturalGrowth) != HairGrowthStateChangeFlags.Default && !simDescription.HasOriginalHairColors())
+            if ((flags & HairGrowthStateChangeFlags.NaturalGrowth) != HairGrowthStateChangeFlags.Default && !simDescription.HasOriginalHairColors())
             {
                 simDescription.HasRootsShowing(true);
             }

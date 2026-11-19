@@ -17,7 +17,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Replacements.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Settings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Settings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/SimHairGrowth.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +240,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="- Fix the inability to cancel editing a service" />
     <MESSAGE value="Simplify code" />
     <MESSAGE value="Add Rocket Science Skill" />
     <MESSAGE value="Add animations" />
@@ -263,7 +264,8 @@
     <MESSAGE value="Introduce generator" />
     <MESSAGE value="Change how the XML loading works" />
     <MESSAGE value="Change how exporting to XML works" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change how exporting to XML works" />
+    <MESSAGE value="Add more conditions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add more conditions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -130,19 +130,23 @@ namespace Destrospean.HairTrouble
                 return;
             }
             simDescription.InitOriginalOverallHairColors();
-            simDescription.GetHairGrowthState();
+            var hairGrowthState = simDescription.GetHairGrowthState();
+            if (!SimHairGrowth.PreferredHairGrowthStates.ContainsKey(simDescription.SimDescriptionId))
+            {
+                SimHairGrowth.PreferredHairGrowthStates[simDescription.SimDescriptionId] = hairGrowthState;
+            }
             if (SimHairGrowth.HairGrowthAlarms.TryGetValue(simDescription.SimDescriptionId, out var hairGrowthAlarmHandle) && hairGrowthAlarmHandle != AlarmHandle.kInvalidHandle)
             {
                 AlarmManager.Global.RemoveAlarm(hairGrowthAlarmHandle);
             }
             SimHairGrowth.HairGrowthAlarms[simDescription.SimDescriptionId] = AlarmManager.Global.AddAlarmRepeating(1f, TimeUnit.Minutes, () =>
-            {
-                if (simDescription.Household == Household.ActiveHousehold && SimClock.CurrentTicks - (SimHairGrowth.TimesOfLastHairGrowth.TryGetValue(simDescription.SimDescriptionId, out var timeOfLastHairGrowth) ? timeOfLastHairGrowth : SimHairGrowth.TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks) >= SimClock.ConvertToTicks(Settings.kHairGrowthInterval, Settings.kHairGrowthIntervalUnit))
                 {
-                    SimHairGrowth.TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks;
-                    ActionScriptTask.Start(() => simDescription.IncrementHairGrowthState());
-                }
-            }, 1f, TimeUnit.Minutes, "Hair Growth Alarm -- SimDescriptionId: " + simDescription.SimDescriptionId, AlarmType.NeverPersisted, simDescription);
+                    if ((Settings.kEnableHairGrowthForInactiveSims && simDescription.Household != Household.ActiveHousehold && (!SimHairGrowth.PreferredHairGrowthStates.TryGetValue(simDescription.SimDescriptionId, out var preferredHairGrowthState) || preferredHairGrowthState > simDescription.GetHairGrowthState()) || simDescription.Household == Household.ActiveHousehold) && SimClock.CurrentTicks - (SimHairGrowth.TimesOfLastHairGrowth.TryGetValue(simDescription.SimDescriptionId, out var timeOfLastHairGrowth) ? timeOfLastHairGrowth : SimHairGrowth.TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks) >= SimClock.ConvertToTicks(Settings.kHairGrowthInterval, Settings.kHairGrowthIntervalUnit))
+                    {
+                        SimHairGrowth.TimesOfLastHairGrowth[simDescription.SimDescriptionId] = SimClock.CurrentTicks;
+                        ActionScriptTask.Start(() => simDescription.IncrementHairGrowthState());
+                    }
+                }, 1f, TimeUnit.Minutes, "Hair Growth Alarm -- SimDescriptionId: " + simDescription.SimDescriptionId, AlarmType.NeverPersisted, simDescription);
         }
 
         public static void IntegrateNRaasMasterController()
