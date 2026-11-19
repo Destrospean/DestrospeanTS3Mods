@@ -71,6 +71,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairTrouble", "HairTrouble\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketScienceSkill", "RocketScienceSkill\src\RocketScienceSkill.csproj", "{94A6EDEC-A7E0-4C1C-9112-859E0352F3AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairTrouble_Base", "HairTrouble_Base\HairTrouble_Base.csproj", "{0A355C44-1A65-47B2-9FE6-79B1A1FA164D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairTrouble_Generator", "HairTrouble_Generator\HairTrouble_Generator.csproj", "{7060E243-9A65-4138-BA8F-F26E40E3BB9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -213,6 +217,14 @@ Global
 		{94A6EDEC-A7E0-4C1C-9112-859E0352F3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94A6EDEC-A7E0-4C1C-9112-859E0352F3AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94A6EDEC-A7E0-4C1C-9112-859E0352F3AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A355C44-1A65-47B2-9FE6-79B1A1FA164D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A355C44-1A65-47B2-9FE6-79B1A1FA164D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A355C44-1A65-47B2-9FE6-79B1A1FA164D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A355C44-1A65-47B2-9FE6-79B1A1FA164D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7060E243-9A65-4138-BA8F-F26E40E3BB9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7060E243-9A65-4138-BA8F-F26E40E3BB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7060E243-9A65-4138-BA8F-F26E40E3BB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7060E243-9A65-4138-BA8F-F26E40E3BB9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{51023BD2-9139-438D-B794-95E5EC023537} = {6F41BE76-1714-4921-9C18-293860CC8B63}

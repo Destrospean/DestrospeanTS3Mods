@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HairTroubleData>
+  <!-- "growthState" values include Unknown, Bald, Shaved, Short, Medium, Long, Very Long, and Any.
+  It can be multiple by a comma separated list (e.g., "Short, Medium, Long"). "Any" already includes all of them. -->
+  <HairClassification partKey="0x034AEECB-0x00000000-0x0000000000000000" growthState="Unknown" />
+</HairTroubleData>
