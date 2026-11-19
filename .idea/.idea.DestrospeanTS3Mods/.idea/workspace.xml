@@ -16,17 +16,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/HairTrouble_Base/Data.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble_Base/HairTrouble_Base.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble_Base/Properties/AssemblyInfo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble_Generator/HairTrouble_Generator.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble_Generator/Program.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble_Generator/Properties/AssemblyInfo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble_Generator/ResourceKey.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble_Generator/Template.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble_Generator/packages.config" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DestrospeanTS3Mods.sln" beforeDir="false" afterPath="$PROJECT_DIR$/DestrospeanTS3Mods.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -246,7 +238,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Add HairTrouble" />
     <MESSAGE value="Add resources folder to .csproj" />
     <MESSAGE value="Fix SimDescription disposal event handling" />
     <MESSAGE value="- Fix the inability to cancel editing a service" />
@@ -271,7 +262,8 @@
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Rename variables" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rename variables" />
+    <MESSAGE value="Introduce generator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Introduce generator" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

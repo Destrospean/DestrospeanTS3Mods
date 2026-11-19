@@ -45,12 +45,17 @@ namespace Destrospean.Utils.HairTrouble
         
         public override void LoadXml(string text)
         {
+            LoadXml(text, true);
+        }
+
+        public static void LoadXml(string text, bool replaceExisting)
+        {
             using (var stringReader = new StringReader(text))
             {
                 using (var xmlReader = XmlReader.Create(stringReader, new XmlReaderSettings
-                   {
-                       IgnoreComments = true
-                   }))
+                       {
+                           IgnoreComments = true
+                       }))
                 {
                     while (xmlReader.Read())
                     {
@@ -63,7 +68,7 @@ namespace Destrospean.Utils.HairTrouble
                             else if (xmlReader.Name == "HairClassification")
                             {
                                 var key = xmlReader.GetAttribute("partKey");
-                                if (!string.IsNullOrEmpty(key) && !SimHairGrowth.HairClassifications.ContainsKey(key))
+                                if (!string.IsNullOrEmpty(key) && (replaceExisting || !SimHairGrowth.HairClassifications.ContainsKey(key)))
                                 {
                                     try
                                     {

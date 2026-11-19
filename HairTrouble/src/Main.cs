@@ -46,7 +46,7 @@ namespace Destrospean.HairTrouble
                     {
                         if (assembly.GetType("Destrospean.HairTrouble.Data") != null)
                         {
-                            FileUtils.Singleton.ImportFromTuning(assembly.GetName().Name);
+                            FileUtils.LoadXml(FileUtils.ExtractFromTuning(assembly.GetName().Name), false);
                         }
                     }
                     foreach (var mirror in Queries.GetObjects<Mirror>())
