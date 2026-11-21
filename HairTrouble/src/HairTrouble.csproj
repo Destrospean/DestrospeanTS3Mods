@@ -53,7 +53,16 @@
     </Compile>
     <Compile Include="Enums\HairGrowthStateChangeFlags.cs" />
     <Compile Include="Enums\HairGrowthStates.cs" />
-    <Compile Include="Interactions.cs" />
+    <Compile Include="Interactions\ClassifyHairstyles.cs" />
+    <Compile Include="Interactions\CutOwnHair.cs" />
+    <Compile Include="Interactions\DecrementHairGrowthState.cs" />
+    <Compile Include="Interactions\DeleteHairClassificationCollection.cs" />
+    <Compile Include="Interactions\ExportHairClassificationCollection.cs" />
+    <Compile Include="Interactions\ImportHairClassificationCollection.cs" />
+    <Compile Include="Interactions\IncrementHairGrowthState.cs" />
+    <Compile Include="Interactions\RemoveHairDye.cs" />
+    <Compile Include="Interactions\ResetOriginalHair.cs" />
+    <Compile Include="Interactions\StyleOwnHair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Replacements.cs" />
     <Compile Include="SimHairColors.cs" />

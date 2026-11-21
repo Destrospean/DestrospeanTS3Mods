@@ -1,6 +1,7 @@
 extern alias NRaasMasterController;
 using System;
 using System.Collections.Generic;
+using Destrospean.HairTrouble.Interactions;
 using Destrospean.Misc;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
@@ -106,13 +107,13 @@ namespace Destrospean.HairTrouble
             {
                 return;
             }
-            mirror.AddInteraction(Interactions.CutOwnHair.Singleton, true);
-            mirror.AddInteraction(Interactions.StyleOwnHair.Singleton, true);
-            mirror.AddInteraction(Interactions.RemoveHairDye.Singleton, true);
-            mirror.AddInteraction(Interactions.ClassifyHairstyles.Singleton, true);
-            mirror.AddInteraction(Interactions.ImportHairClassificationCollection.Singleton, true);
-            mirror.AddInteraction(Interactions.ExportHairClassificationCollection.Singleton, true);
-            mirror.AddInteraction(Interactions.DeleteHairClassificationCollection.Singleton, true);
+            mirror.AddInteraction(CutOwnHair.Singleton, true);
+            mirror.AddInteraction(StyleOwnHair.Singleton, true);
+            mirror.AddInteraction(RemoveHairDye.Singleton, true);
+            mirror.AddInteraction(ClassifyHairstyles.Singleton, true);
+            mirror.AddInteraction(ImportHairClassificationCollection.Singleton, true);
+            mirror.AddInteraction(ExportHairClassificationCollection.Singleton, true);
+            mirror.AddInteraction(DeleteHairClassificationCollection.Singleton, true);
         }
 
         public static void AddInteractions(Sim sim)
@@ -121,9 +122,9 @@ namespace Destrospean.HairTrouble
             {
                 return;
             }
-            sim.AddInteraction(Interactions.ResetOriginalHair.Singleton, true);
-            sim.AddInteraction(Interactions.IncrementHairGrowthState.Singleton, true);
-            sim.AddInteraction(Interactions.DecrementHairGrowthState.Singleton, true);
+            sim.AddInteraction(ResetOriginalHair.Singleton, true);
+            sim.AddInteraction(IncrementHairGrowthState.Singleton, true);
+            sim.AddInteraction(DecrementHairGrowthState.Singleton, true);
         }
         
         public static void FixUpHairData(SimDescription simDescription)

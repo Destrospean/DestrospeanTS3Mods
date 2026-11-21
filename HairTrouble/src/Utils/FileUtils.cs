@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using Destrospean.Enums.HairTrouble;
 using Destrospean.HairTrouble;
+using Destrospean.HairTrouble.Interactions;
 using Destrospean.Misc;
 using Sims3.Gameplay.Utilities;
 
@@ -20,7 +21,7 @@ namespace Destrospean.Utils.HairTrouble
 
         public override void DeleteFile()
         {
-            DeleteFile(kSavedSettingsPrefix, kLocalizationKey, Localization.LocalizeString(Interactions.DeleteHairClassificationCollection.LocalizationKey + ":Name"), Localization.LocalizeString(kLocalizationKey + "/DeleteHairClassificationCollectionSuccessDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/DeleteHairClassificationCollectionSuccessDialog:Message"), Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Message"));
+            DeleteFile(kSavedSettingsPrefix, kLocalizationKey, Localization.LocalizeString(DeleteHairClassificationCollection.LocalizationKey + ":Name"), Localization.LocalizeString(kLocalizationKey + "/DeleteHairClassificationCollectionSuccessDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/DeleteHairClassificationCollectionSuccessDialog:Message"), Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Message"));
         }
 
         public override bool ExportToFile(string text, out bool found)
@@ -30,7 +31,7 @@ namespace Destrospean.Utils.HairTrouble
 
         public override string ExtractFromFile()
         {
-            return ExtractFromFile(kSavedSettingsPrefix, kLocalizationKey, Localization.LocalizeString(Interactions.ImportHairClassificationCollection.LocalizationKey + ":Name"), Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Message"));
+            return ExtractFromFile(kSavedSettingsPrefix, kLocalizationKey, Localization.LocalizeString(ImportHairClassificationCollection.LocalizationKey + ":Name"), Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/NoHairClassificationCollectionsExistDialog:Message"));
         }
         
         public override bool ImportFromFile()

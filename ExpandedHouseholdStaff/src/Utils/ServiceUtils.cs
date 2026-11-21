@@ -1161,7 +1161,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool ShowCostDialog(ref string costString, bool isLiveInService)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CostDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "CostDialog");
             costString = StringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), Localization.LocalizeString(entryKey + "/Prompts:" + (isLiveInService ? "Weekly" : "Daily")), costString, -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1f, -1f), StringInputDialog.Validation.Number, false, ModalDialog.PauseMode.PauseSimulator, false, true);
             return costString != null;
         }
@@ -1169,7 +1169,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public static bool ShowServiceProfileFlagListDialog(this IServiceProfile profile, out ServiceProfileFlags flags, ServiceProfileFlags? preSelectedFlags = null)
         {
             flags = 0;
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceProfileFlagListDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "ServiceProfileFlagListDialog");
             var flagList = new List<ServiceProfileFlags>(Array.FindAll((ServiceProfileFlags[])Enum.GetValues(typeof(ServiceProfileFlags)), x => preSelectedFlags.HasValue ? (preSelectedFlags & x) == x : (profile as ServiceProfile)?.HasFlags(x) ?? false));
             while (true)
             {
@@ -1252,7 +1252,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if the an action was added, <c>false</c> otherwise.</returns>
         public static bool TryUIAddAction(this IServiceProfile profile, string title)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "");
             string name = null;
             LongTermRelationshipTypes grouping = 0;
             ActiveTopicActionActiveness activeTopicActionActiveness = 0;
@@ -1324,7 +1324,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     "0x00000000",
                     "1"
                 };
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "AddInventoryObjectDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "AddInventoryObjectDialog");
             results = ThreeStringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), new[]
                 {
                     Localization.LocalizeString(entryKey + "/Prompts:SetInstanceName"),
@@ -1345,7 +1345,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if the an output was added, <c>false</c> otherwise.</returns>
         public static bool TryUIAddOutput(this IServiceProfile profile)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "");
             Type[] interactionDefinitionTypes = null;
             Type[] targetTypes = null;
             string advertisedString = null;
@@ -1421,7 +1421,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public static bool TryUICloneServiceProfile(this IServiceProfile profile, string newName, out IServiceProfile newProfile)
         {
             newProfile = null;
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CreateServiceProfileDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "CreateServiceProfileDialog");
             if (string.IsNullOrEmpty(newName))
             {
                 SimpleMessageDialog.Show(Localization.LocalizeString(entryKey + ":ServiceCreationFailed"), Localization.LocalizeString(entryKey + ":NameEmpty"));
@@ -1453,7 +1453,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if a service profile was created, <c>false</c> otherwise.</returns>
         public static bool TryUICreateServiceProfile(out IServiceProfile profile)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CreateServiceProfileDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "CreateServiceProfileDialog");
             profile = null;
             string serviceMotiveName = null;
             var name = "";
@@ -1512,7 +1512,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if the changes to the service profile were confirmed, <c>false</c> otherwise.</returns>
         public static bool TryUIEditServiceProfile(this IServiceProfile profile, bool saveWhenCancelled = false)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "");
 
             var age = profile.ValidAges;
             var costString = profile.ServiceTuning.kCost.ToString();
@@ -1785,7 +1785,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool TryUIGetSelectedActions(out ActiveTopicAction[] selectedActions, ActiveTopicAction[] allActions, string title = null, int selectableRowCount = int.MaxValue)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ActiveTopicActionListDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "ActiveTopicActionListDialog");
             while (true)
             {
                 selectedActions = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
@@ -1811,7 +1811,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool TryUIGetSelectedInventoryObjects(out InventoryObjectCreationParameters[] selectedInventoryObjects, InventoryObjectCreationParameters[] allInventoryObjects, string title = null, int selectableRowCount = int.MaxValue)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "InventoryObjectListDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "InventoryObjectListDialog");
             while (true)
             {
                 selectedInventoryObjects = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
@@ -1837,7 +1837,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool TryUIGetSelectedOutputs(out CommodityChange[] selectedOutputs, CommodityChange[] allOutputs, string title = null, int selectableRowCount = int.MaxValue)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "OutputListDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "OutputListDialog");
             while (true)
             {
                 selectedOutputs = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
@@ -1862,7 +1862,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static bool TryUIGetSelectedServiceProfiles(out IServiceProfile[] selectedProfiles, IServiceProfile[] allProfiles, string title = null, int selectableRowCount = int.MaxValue)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceProfileListDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "ServiceProfileListDialog");
             while (true)
             {
                 selectedProfiles = (ObjectPickerDialog.Show(title ?? Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:" + (selectableRowCount == 1 ? "Singular" : "Plural")), new List<ObjectPicker.TabInfo>
@@ -1958,7 +1958,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if the delays were set, <c>false</c> otherwise.</returns>
         public static bool TryUISetDelays(ref string[] delaysAsStrings)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "DelaysDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "DelaysDialog");
             delaysAsStrings = ThreeStringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), new[]
                 {
                     Localization.LocalizeString(entryKey + "/Prompts:SetDelayBeforeArriving"),
@@ -1974,7 +1974,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         /// <returns><c>true</c>, if feedback messages were set, <c>false</c> otherwise.</returns>
         public static bool TryUISetPhoneCallFeedback(ref string[] messages)
         {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "PhoneCallFeedbackDialog");
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "PhoneCallFeedbackDialog");
             messages = ThreeStringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), new[]
                 {
                     Localization.LocalizeString(entryKey + "/Prompts:SetRequestedMessage"),

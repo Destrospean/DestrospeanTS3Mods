@@ -49,7 +49,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                 {
                     return true;
                 }
-                var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "CloneServiceProfileDialog");
+                var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "CloneServiceProfileDialog");
                 var name = StringInputDialog.Show(Localization.LocalizeString(entryKey + ":Title"), Localization.LocalizeString(entryKey + ":Prompt"), profiles[0].Name + "_" + DownloadContent.GenerateGUID(), -1, ThumbnailKey.kInvalidThumbnailKey, new Vector2(-1, -1), StringInputDialog.Validation.None, false, ModalDialog.PauseMode.PauseSimulator, false, true);
                 if (name == null)
                 {

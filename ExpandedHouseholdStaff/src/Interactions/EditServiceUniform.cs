@@ -53,7 +53,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                     {
                         if (ServiceUtils.TryUIGetSelectedServiceProfiles(out var profiles, ServiceUtils.ServiceProfiles.FindAll(x => !x.IsImmutable).ToArray(), Localization.LocalizeString(LocalizationKey + ":Name"), 1))
                         {
-                            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "ServiceOutfitDemographicDialog");
+                            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "ServiceOutfitDemographicDialog");
                             var age = CASAgeGenderFlags.None;
                             var gender = CASAgeGenderFlags.None;
                             sbyte step = 0;

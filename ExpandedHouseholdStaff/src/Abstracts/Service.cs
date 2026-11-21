@@ -87,12 +87,12 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         }
                         if (Target.PartComponent != null && Target.PartComponent.PartDataList != null)
                         {
-                            foreach (BedData value in Target.PartComponent.PartDataList.Values)
+                            foreach (var partData in Target.PartComponent.PartDataList.Values)
                             {
-                                if (value != null)
+                                if (partData is BedData bedData)
                                 {
                                     Instance.mServiceType = ServiceType.Butler;
-                                    Target.ClaimOwnership(simActiveOnLot, value);
+                                    Target.ClaimOwnership(simActiveOnLot, bedData);
                                     Instance.mServiceType = default(ServiceType);
                                     break;
                                 }
