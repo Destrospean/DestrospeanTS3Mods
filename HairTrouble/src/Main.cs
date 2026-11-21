@@ -47,11 +47,6 @@ namespace Destrospean.HairTrouble
                         break;
                 }
             }
-
-            if (Array.Exists(AppDomain.CurrentDomain.GetAssemblies(), x => x.GetName().Name == "NRaasMasterController"))
-            {
-                IntegrateNRaasMasterController();
-            }
             var listeners = new List<EventListener>();
             World.OnObjectPlacedInLotEventHandler += (sender, e) => DebugUtils.TryDisplayScriptError(() =>
                 {

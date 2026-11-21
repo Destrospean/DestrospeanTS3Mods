@@ -235,7 +235,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Populate strings" />
     <MESSAGE value="Change stat string" />
     <MESSAGE value="Used default thumbnails for hair" />
     <MESSAGE value="Add icons" />
@@ -260,7 +259,8 @@
     <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Add DLLs" />
     <MESSAGE value="Minor change" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor change" />
+    <MESSAGE value="Do not copy dependencies" />
+    <option name="LAST_COMMIT_MESSAGE" value="Do not copy dependencies" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
