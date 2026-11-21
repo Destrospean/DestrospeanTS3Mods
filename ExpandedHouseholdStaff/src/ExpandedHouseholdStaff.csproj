@@ -82,6 +82,7 @@
     <Compile Include="Enums\ServiceProfileFlags.cs" />
     <Compile Include="Abstracts\Service.cs" />
     <Compile Include="Abstracts\ServiceSituation.cs" />
+    <Compile Include="Replacements.cs" />
     <Compile Include="Situations\CustomServiceSituation.cs" />
     <Compile Include="Services\CustomService.cs" />
     <Compile Include="UI\Columns\ActiveTopicAction\ActiveTopicActionActivenessColumn.cs" />
