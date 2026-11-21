@@ -16,10 +16,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Replacements.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/ExpandedHouseholdStaff.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Main.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/OutfitAssignmentUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/OutfitAssignmentUtils.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,7 +239,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="Used default thumbnails for hair" />
     <MESSAGE value="Add icons" />
     <MESSAGE value="Remove unused import" />
     <MESSAGE value="Change default tuning option" />
@@ -262,12 +258,13 @@
     <MESSAGE value="Enable hair growth for inactive Sims" />
     <MESSAGE value="Exclude unused classes" />
     <MESSAGE value="Remove unused imports" />
-    <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Add DLLs" />
     <MESSAGE value="Minor change" />
     <MESSAGE value="Do not copy dependencies" />
     <MESSAGE value="Remove unneeded lines" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove unneeded lines" />
+    <MESSAGE value="Miscellaneous changes" />
+    <MESSAGE value="Fix wrong type" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix wrong type" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
