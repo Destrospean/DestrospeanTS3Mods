@@ -30,16 +30,16 @@ namespace Destrospean.ExpandedHouseholdStaff
 
         static Main()
         {
-            CommonUtils.ReplaceMethod<Main, Inventory>(nameof(Replacements.AddInternal_Original), nameof(Replacements.AddInternal));
-            CommonUtils.ReplaceMethod<Inventory, Main>(nameof(Replacements.AddInternal));
-            CommonUtils.ReplaceMethod<Main, CaregiverRoutingMonitor>(nameof(Replacements.CountBabiesToddlersAndCaregivers_Original), nameof(Replacements.CountBabiesToddlersAndCaregivers));
-            CommonUtils.ReplaceMethod<CaregiverRoutingMonitor, Main>(nameof(Replacements.CountBabiesToddlersAndCaregivers));
-            CommonUtils.ReplaceMethod<Main, Plant>(nameof(Replacements.GardenInteractionLotValidityTest_Original), nameof(Replacements.GardenInteractionLotValidityTest));
-            CommonUtils.ReplaceMethod<Plant, Main>(nameof(Replacements.GardenInteractionLotValidityTest));
-            CommonUtils.ReplaceMethod<Main, SocialComponent>(nameof(Replacements.IsInServicePreventingSocialization_Original), nameof(Replacements.IsInServicePreventingSocialization));
-            CommonUtils.ReplaceMethod<SocialComponent, Main>(nameof(Replacements.IsInServicePreventingSocialization));
-            CommonUtils.ReplaceMethod<Main, SimDescription>(nameof(Replacements.IsPerformingAnyServiceOfType_Original), nameof(Replacements.IsPerformingAnyServiceOfType));
-            CommonUtils.ReplaceMethod<SimDescription, Main>(nameof(Replacements.IsPerformingAnyServiceOfType));
+            CommonUtils.ReplaceMethod<Replacements, Inventory>(nameof(Replacements.AddInternal_Original), nameof(Replacements.AddInternal));
+            CommonUtils.ReplaceMethod<Inventory, Replacements>(nameof(Replacements.AddInternal));
+            CommonUtils.ReplaceMethod<Replacements, CaregiverRoutingMonitor>(nameof(Replacements.CountBabiesToddlersAndCaregivers_Original), nameof(Replacements.CountBabiesToddlersAndCaregivers));
+            CommonUtils.ReplaceMethod<CaregiverRoutingMonitor, Replacements>(nameof(Replacements.CountBabiesToddlersAndCaregivers));
+            CommonUtils.ReplaceMethod<Replacements, Plant>(nameof(Replacements.GardenInteractionLotValidityTest_Original), nameof(Replacements.GardenInteractionLotValidityTest));
+            CommonUtils.ReplaceMethod<Plant, Replacements>(nameof(Replacements.GardenInteractionLotValidityTest));
+            CommonUtils.ReplaceMethod<Replacements, SocialComponent>(nameof(Replacements.IsInServicePreventingSocialization_Original), nameof(Replacements.IsInServicePreventingSocialization));
+            CommonUtils.ReplaceMethod<SocialComponent, Replacements>(nameof(Replacements.IsInServicePreventingSocialization));
+            CommonUtils.ReplaceMethod<Replacements, SimDescription>(nameof(Replacements.IsPerformingAnyServiceOfType_Original), nameof(Replacements.IsPerformingAnyServiceOfType));
+            CommonUtils.ReplaceMethod<SimDescription, Replacements>(nameof(Replacements.IsPerformingAnyServiceOfType));
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 switch (assembly.GetName().Name)
@@ -96,7 +96,7 @@ namespace Destrospean.ExpandedHouseholdStaff
 
         public static void IntegrateNRaasTagger()
         {
-            CommonUtils.ReplaceMethod<TagDataHelper, Main>(nameof(Replacements.GetStatus));
+            CommonUtils.ReplaceMethod<TagDataHelper, Replacements>(nameof(Replacements.GetStatus));
         }
     }
 }
