@@ -216,8 +216,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ExpandedHouseholdStaff\src\ExpandedHouseholdStaff.csproj">
       <Project>{a217f96a-14f1-4fa3-a82e-52ea73fd56e6}</Project>
-      <Aliases>ExpandedHouseholdStaff</Aliases>
       <Name>ExpandedHouseholdStaff</Name>
+      <Aliases>ExpandedHouseholdStaff</Aliases>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Target Name="Generate STBLs" BeforeTargets="Build">
