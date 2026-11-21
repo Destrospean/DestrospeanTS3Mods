@@ -66,7 +66,7 @@ namespace Destrospean.HairTrouble.Interactions
             public override void PopulatePieMenuPicker(ref InteractionInstanceParameters parameters, out List<ObjectPicker.TabInfo> selectedObjects, out List<ObjectPicker.HeaderInfo> headers, out int numSelectableRows)
             {
                 numSelectableRows = 1;
-                var casPartColumn = new CASPartColumn(typeof(ObjectPickerDialog).GetLocalizationKey().Replace("ObjectPickerDialog", "HairGrowthStateMapDialog"));
+                var casPartColumn = new CASPartColumn(typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "HairGrowthStateMapDialog"));
                 headers = new List<ObjectPicker.HeaderInfo>
                     {
                         new ObjectPicker.HeaderInfo(casPartColumn.HeaderTextId, casPartColumn.HeaderTooltipId, casPartColumn.Width)
