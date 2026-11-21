@@ -16,26 +16,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/CutOwnHair.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/DecrementHairGrowthState.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/DeleteHairClassificationCollection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/ExportHairClassificationCollection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/ImportHairClassificationCollection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/IncrementHairGrowthState.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/RemoveHairDye.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/ResetOriginalHair.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/StyleOwnHair.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Abstracts/Service.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Abstracts/Service.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/CloneServiceProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/CloneServiceProfile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/EditServiceUniform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/EditServiceUniform.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ResetServiceUniform.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Interactions/ResetServiceUniform.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Services/CustomService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Services/CustomService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/ClassifyHairstyles.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions/CutOwnHair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/CutOwnHair.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions/RemoveHairDye.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/RemoveHairDye.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions/StyleOwnHair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/StyleOwnHair.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/FileUtils.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -269,7 +253,6 @@
     <MESSAGE value="Fikx comments" />
     <MESSAGE value="Fix comments" />
     <MESSAGE value="Add tuning option" />
-    <MESSAGE value="Minor change" />
     <MESSAGE value="Update TuningResourceGenerator" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Rename variables" />
@@ -279,9 +262,10 @@
     <MESSAGE value="Add more conditions" />
     <MESSAGE value="Enable hair growth for inactive Sims" />
     <MESSAGE value="Exclude unused classes" />
-    <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Remove unused imports" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove unused imports" />
+    <MESSAGE value="Miscellaneous changes" />
+    <MESSAGE value="Minor change" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor change" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

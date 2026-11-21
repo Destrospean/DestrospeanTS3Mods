@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
+using Destrospean.HairTrouble;
 using Destrospean.UI.Columns;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
@@ -15,7 +16,7 @@ using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using Sims3.UI;
 
-namespace Destrospean.HairTrouble.Interactions
+namespace Sims3.Gameplay.Destrospean.HairTrouble.Interactions
 {
     public class StyleOwnHair : CutOwnHair
     {

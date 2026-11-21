@@ -10,6 +10,7 @@ using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Destrospean.HairTrouble;
+using Sims3.Gameplay.Destrospean.HairTrouble.Interactions;
 using Sims3.Gameplay.Destrospean.Utils;
 using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Objects.Decorations;

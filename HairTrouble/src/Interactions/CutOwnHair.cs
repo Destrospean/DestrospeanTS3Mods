@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
+using Destrospean.HairTrouble;
 using Destrospean.Utils;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.Autonomy;
@@ -11,7 +12,7 @@ using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 
-namespace Destrospean.HairTrouble.Interactions
+namespace Sims3.Gameplay.Destrospean.HairTrouble.Interactions
 {
     public class CutOwnHair : Interaction<Sim, IMirror>
     {
