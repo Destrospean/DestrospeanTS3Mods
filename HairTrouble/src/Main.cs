@@ -12,6 +12,7 @@ using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Destrospean.HairTrouble;
 using Sims3.Gameplay.Destrospean.HairTrouble.Interactions;
 using Sims3.Gameplay.Destrospean.Utils;
+using Sims3.Gameplay.Destrospean.Utils.HairTrouble;
 using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Objects.Decorations;
 using Sims3.Gameplay.UI;
@@ -31,6 +32,22 @@ namespace Destrospean.HairTrouble
         {
             CommonUtils.ReplaceMethod<Genetics, Replacements>(nameof(Replacements.InheritHairColor));
             CommonUtils.ReplaceMethod<CASHair, Replacements>(nameof(Replacements.PopulateTypesGrid));
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                switch (assembly.GetName().Name)
+                {
+                    case "Destrospean.ExpandedHouseholdStaff":
+                        IntegrateExpandedHouseholdStaff();
+                        break;
+                    case "Destrospean.OutfitAssignment":
+                        IntegrateOutfitAssignment();
+                        break;
+                    case "NRaasMasterController":
+                        IntegrateNRaasMasterController();
+                        break;
+                }
+            }
+
             if (Array.Exists(AppDomain.CurrentDomain.GetAssemblies(), x => x.GetName().Name == "NRaasMasterController"))
             {
                 IntegrateNRaasMasterController();
@@ -152,6 +169,16 @@ namespace Destrospean.HairTrouble
                         ActionScriptTask.Start(() => simDescription.IncrementHairGrowthState());
                     }
                 }, 1f, TimeUnit.Minutes, "Hair Growth Alarm -- SimDescriptionId: " + simDescription.SimDescriptionId, AlarmType.NeverPersisted, simDescription);
+        }
+        
+        public static void IntegrateExpandedHouseholdStaff()
+        {
+            ExpandedHouseholdStaffIntegration.Init();
+        }
+        
+        public static void IntegrateOutfitAssignment()
+        {
+            OutfitAssignmentIntegration.Init();
         }
 
         public static void IntegrateNRaasMasterController()

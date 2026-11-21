@@ -70,6 +70,7 @@
     <Compile Include="UI\Columns\CASPart\CASPartHairGrowthStateColumn.cs" />
     <Compile Include="UI\Columns\HairGrowthStates\HairGrowthStateColumn.cs" />
     <Compile Include="UI\Columns\HairGrowthStates\HairGrowthStateEnabledColumn.cs" />
+    <Compile Include="Utils\ExpandedHouseholdStaffIntegration.cs" />
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Settings.cs" />
@@ -148,9 +149,19 @@
     <Compile Include="..\..\Common\src\UI\Dialogs\ComboSelectionDialog.cs">
       <Link>UI\Dialogs\ComboSelectionDialog.cs</Link>
     </Compile>
+    <Compile Include="Utils\OutfitAssignmentIntegration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Reference Include="Destrospean.InteractionInstanceAdditions">
+      <HintPath>..\..\libs\Destrospean.InteractionInstanceAdditions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Destrospean.OutfitAssignment">
+      <HintPath>..\..\libs\Destrospean.OutfitAssignment.dll</HintPath>
+      <Aliases>OutfitAssignment</Aliases>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\..\libs\mscorlib.dll</HintPath>
       <Private>False</Private>
@@ -202,7 +213,13 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\ExpandedHouseholdStaff\src\ExpandedHouseholdStaff.csproj">
+      <Project>{a217f96a-14f1-4fa3-a82e-52ea73fd56e6}</Project>
+      <Aliases>ExpandedHouseholdStaff</Aliases>
+      <Name>ExpandedHouseholdStaff</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Target Name="Generate STBLs" BeforeTargets="Build">
     <Exec Command="&quot;$(SolutionDir)scripts\GenerateSTBLs.bat&quot; &quot;$(ProjectDir)..&quot;" Condition="'$(OS)' == 'Windows_NT'" />
     <Exec Command="sh &quot;$(SolutionDir)scripts\GenerateSTBLs.sh&quot; &quot;$(ProjectDir)..&quot;" Condition="'$(OS)' != 'Windows_NT'" />

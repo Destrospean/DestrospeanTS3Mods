@@ -16,8 +16,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac4a4cc1-472c-4992-b3ec-a5e075f73974" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions/CutOwnHair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/CutOwnHair.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions/RemoveHairDye.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/RemoveHairDye.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/ExpandedHouseholdStaffIntegration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HairTrouble/src/Utils/OutfitAssignmentIntegration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DestrospeanTS3Mods/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/HairTrouble.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/Interactions/StyleOwnHair.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Interactions/StyleOwnHair.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HairTrouble/src/Main.cs" beforeDir="false" afterPath="$PROJECT_DIR$/HairTrouble/src/Main.cs" afterDir="false" />
     </list>
@@ -38,10 +40,10 @@
     <setting file="file://$PROJECT_DIR$/Common/src/Utils/S3PIResourceUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/ExpandedHouseholdStaff/src/Utils/ServiceUtils.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/Enums/HairGrowthStateChangeFlags.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/HairTrouble/src/Interactions.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/Main.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/SimHairColors.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/HairTrouble/src/UI/Columns/CASPart/CASPartHairGrowthStateColumn.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/HairTrouble/src/Utils/OutfitAssignmentIntegration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/RocketScienceSkill/src/Skills/RocketScienceSkill.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file:///usr/lib/mono/xbuild/Microsoft/NuGet/Microsoft.NuGet.targets" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -136,7 +138,7 @@
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/HairTrouble_Generator/HairTrouble_Generator.csproj&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/andrew/Projects/The Sims 3 Projects/Source Code/DestrospeanTS3Mods/ExpandedHouseholdStaff/src/Enums/ServiceProfileFlags.cs&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -263,9 +265,9 @@
     <MESSAGE value="Enable hair growth for inactive Sims" />
     <MESSAGE value="Exclude unused classes" />
     <MESSAGE value="Remove unused imports" />
-    <MESSAGE value="Miscellaneous changes" />
     <MESSAGE value="Minor change" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor change" />
+    <MESSAGE value="Miscellaneous changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Miscellaneous changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
