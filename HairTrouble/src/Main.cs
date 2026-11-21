@@ -175,15 +175,15 @@ namespace Destrospean.HairTrouble
         {
             ExpandedHouseholdStaffIntegration.Init();
         }
-        
-        public static void IntegrateOutfitAssignment()
-        {
-            OutfitAssignmentIntegration.Init();
-        }
 
         public static void IntegrateNRaasMasterController()
         {
             CommonUtils.ReplaceMethod<CASHairEx, Replacements>(nameof(Replacements.PopulateTypesGrid));
+        }
+        
+        public static void IntegrateOutfitAssignment()
+        {
+            OutfitAssignmentIntegration.Init();
         }
         
         public static void OnSimAppearanceChanged(ObjectGuid objectGuid)
