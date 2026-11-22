@@ -340,7 +340,7 @@ namespace Destrospean.ExpandedHouseholdStaff
                 {
                     var majorDream = DreamsAndPromisesManager.GetMajorDream(sim.LifetimeWish);
                     var completed = "";
-                    if (sim.CreatedSim != null && sim.CreatedSim.DreamsAndPromisesManager != null)
+                    if (sim.CreatedSim?.DreamsAndPromisesManager != null)
                     {
                         var lifetimeWishNode = sim.CreatedSim.DreamsAndPromisesManager.LifetimeWishNode;
                         completed = " " + lifetimeWishNode.AmountCompleted;

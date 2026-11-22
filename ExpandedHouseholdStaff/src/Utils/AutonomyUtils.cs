@@ -306,11 +306,11 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 multiplier *= Autonomy.kVampireDaylightOutdoorMultiplier;
             }
-            if (targetSim != null && targetSim.Posture is IInBoxStallPosture && !(iop.InteractionDefinition is IBoxStallAllowedInteractionDefinition) && (autonomy.mActor != targetSim || autonomy.mCurrentSearchType != AutonomySearchType.BuffAutoSolve))
+            if (targetSim?.Posture is IInBoxStallPosture && !(iop.InteractionDefinition is IBoxStallAllowedInteractionDefinition) && (autonomy.mActor != targetSim || autonomy.mCurrentSearchType != AutonomySearchType.BuffAutoSolve))
             {
                 return 0f;
             }
-            if (autonomy.mActor.mSnubManager != null && autonomy.mActor.mSnubManager.ListOfSnubTargets != null)
+            if (autonomy.mActor.mSnubManager?.ListOfSnubTargets != null)
             {
                 foreach (var simDescriptionId in autonomy.mActor.mSnubManager.ListOfSnubTargets)
                 {

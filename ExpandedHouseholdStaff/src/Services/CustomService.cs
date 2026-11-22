@@ -86,7 +86,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                                 Target.RelinquishOwnership(simActiveOnLot);
                                 return true;
                             }
-                            if (Target.PartComponent != null && Target.PartComponent.PartDataList != null)
+                            if (Target.PartComponent?.PartDataList != null)
                             {
                                 foreach (var partData in Target.PartComponent.PartDataList.Values)
                                 {
@@ -215,7 +215,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                             }
                             foreach (var simDescription in new List<SimDescription>(service.Pool))
                             {
-                                if (simDescription != null && simDescription.CreatedSim != null)
+                                if (simDescription?.CreatedSim != null)
                                 {
                                     if (simDescription.CreatedSim == null)
                                     {
@@ -307,7 +307,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                         {
                             while (enumerator.MoveNext())
                             {
-                                if (enumerator.Current != null && enumerator.Current.CreatedSim != null)
+                                if (enumerator.Current?.CreatedSim != null)
                                 {
                                     MotiveUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim, service.ServiceMotive);
                                     (ServiceSituation.FindServiceSituationInvolving(enumerator.Current.CreatedSim) as CustomServiceSituation)?.SetMotivesAndCommodities();
