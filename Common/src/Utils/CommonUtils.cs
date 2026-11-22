@@ -114,7 +114,7 @@ namespace Destrospean.Utils
             {
                 caseInsensitiveEnumParser.mLookup.Remove(key.ToLowerInvariant());
             }
-            if (ParserFunctions.sCaseSensitiveEnumParsers.TryGetValue(typeof(T), out var caseSensitiveEnumParser) && caseSensitiveEnumParser.mLookup.ContainsKey(key))
+            if (ParserFunctions.sCaseSensitiveEnumParsers.TryGetValue(typeof(T), out var caseSensitiveEnumParser))
             {
                 caseSensitiveEnumParser.mLookup.Remove(key);
             }

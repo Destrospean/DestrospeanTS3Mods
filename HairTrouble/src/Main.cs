@@ -1,6 +1,7 @@
 extern alias NRaasMasterController;
 using System;
 using System.Collections.Generic;
+using Destrospean.Enums.HairTrouble;
 using Destrospean.HairTrouble.Interactions;
 using Destrospean.Misc;
 using Destrospean.Utils;
@@ -18,6 +19,7 @@ using Sims3.Gameplay.Objects.Decorations;
 using Sims3.Gameplay.UI;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
+using Sims3.SimIFace.CAS;
 using Sims3.UI.CAS;
 using Queries = Sims3.Gameplay.Queries;
 
@@ -148,6 +150,23 @@ namespace Destrospean.HairTrouble
             }
             simDescription.InitOriginalOverallHairColors();
             var initialHairGrowthState = simDescription.GetHairGrowthState();
+            if (!SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState.TryGetValue(simDescription.SimDescriptionId, out var outfitHairDatas))
+            {
+                outfitHairDatas = SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState[simDescription.SimDescriptionId] = new Dictionary<ResourceKey, SimHairGrowth.OutfitHairData>();
+            }
+            foreach (var outfitCategory in simDescription.ListOfCategories)
+            {
+                foreach (SimOutfit outfit in simDescription.GetOutfits(outfitCategory))
+                {
+                    if (!outfitHairDatas.ContainsKey(outfit.Key))
+                    {
+                        outfitHairDatas[outfit.Key] = new SimHairGrowth.OutfitHairData(simDescription, outfit, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>());
+                    }
+                    var hairstyle = Array.Find(outfit.Parts, x => x.BodyType == BodyTypes.Hair);
+                    outfitHairDatas[outfit.Key].CurrentHairstyle = hairstyle;
+                    outfitHairDatas[outfit.Key].CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
+                }
+            }
             if (!SimHairGrowth.PreferredHairGrowthStates.ContainsKey(simDescription.SimDescriptionId))
             {
                 SimHairGrowth.PreferredHairGrowthStates[simDescription.SimDescriptionId] = initialHairGrowthState;

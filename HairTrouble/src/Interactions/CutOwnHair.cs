@@ -112,7 +112,7 @@ namespace Sims3.Gameplay.Destrospean.HairTrouble.Interactions
                 StandardExit();
                 return false;
             }
-            Actor.SimDescription.SetHairGrowthState(HairGrowthState, HairGrowthStateChangeFlags.Haircut, true);
+            Actor.SimDescription.SetHairGrowthState(HairGrowthState, HairGrowthStateChangeFlags.Haircut, true, null, true);
             StandardExit();
             return true;
         }
