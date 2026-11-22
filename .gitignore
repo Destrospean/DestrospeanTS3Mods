@@ -366,5 +366,16 @@ FodyWeavers.xsd
 # Sims 3 STBL files
 *.stbl
 
-# JetBrains Rider
-.idea/
+## JetBrains Rider
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+*.iml
