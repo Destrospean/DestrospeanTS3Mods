@@ -261,7 +261,7 @@
                 ":Title": "Create Service"
                 "/Prompts":
                     ":Name": "Enter in the internal name of the service (must be unique)."
-                    ":Title": "Enter in display name of the service (what shows up in the UI)."
+                    ":Title": "Enter in the display name of the service (what shows up in the UI)."
                 ":ServiceCreationFailed": "Service Creation Failed"
                 ":NotUnique": "The internal name was not unique."
                 ":NameEmpty": "The internal name was not specified."
