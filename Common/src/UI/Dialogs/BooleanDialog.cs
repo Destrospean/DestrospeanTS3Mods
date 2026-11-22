@@ -4,7 +4,7 @@ using Sims3.Gameplay.Utilities;
 
 namespace Destrospean.UI.Dialogs
 {
-    public class BooleanDialog
+    public static class BooleanDialog
     {
         public static bool TryUIGetBooleanValue(string title, out bool boolean, bool defaultValue = false)
         {

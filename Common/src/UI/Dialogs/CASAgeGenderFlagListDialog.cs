@@ -7,7 +7,7 @@ using Sims3.UI;
 
 namespace Destrospean.UI.Dialogs
 {
-    public class CASAgeGenderFlagListDialog
+    public static class CASAgeGenderFlagListDialog
     {
         public static bool ShowCASAgeGenderFlagListDialog(out CASAgeGenderFlags flags, CASAgeGenderFlags? preSelectedFlags = null, CASAgeGenderFlags mask = CASAgeGenderFlags.AgeMask | CASAgeGenderFlags.GenderMask, string title = null, string entryKey = null, bool okayButtonAlwaysEnabled = true)
         {
