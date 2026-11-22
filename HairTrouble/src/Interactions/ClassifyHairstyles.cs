@@ -4,6 +4,7 @@ using Destrospean.Enums.HairTrouble;
 using Destrospean.Misc;
 using Destrospean.UI.Columns;
 using Destrospean.UI.Columns.HairTrouble;
+using Destrospean.UI.Dialogs;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
 using Sims3.Gameplay.Abstracts;
@@ -64,7 +65,7 @@ namespace Destrospean.HairTrouble.Interactions
             {
                 if (step == 0)
                 {
-                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out age, CASAgeGenderFlags.None, CASAgeGenderFlags.AgeMask ^ CASAgeGenderFlags.Baby, Localization.LocalizeString(entryKey + "/Titles:Age"), entryKey, false))
+                    if (!CASAgeGenderFlagListDialog.ShowCASAgeGenderFlagListDialog(out age, CASAgeGenderFlags.None, CASAgeGenderFlags.AgeMask ^ CASAgeGenderFlags.Baby, Localization.LocalizeString(entryKey + "/Titles:Age"), entryKey, false))
                     {
                         SimHairGrowth.HairClassifications.Clear();
                         foreach (var hairClassification in hairClassifications)
@@ -77,7 +78,7 @@ namespace Destrospean.HairTrouble.Interactions
                 }
                 if (step == 1)
                 {
-                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out gender, CASAgeGenderFlags.None, CASAgeGenderFlags.GenderMask, Localization.LocalizeString(entryKey + "/Titles:Gender"), entryKey, false))
+                    if (!CASAgeGenderFlagListDialog.ShowCASAgeGenderFlagListDialog(out gender, CASAgeGenderFlags.None, CASAgeGenderFlags.GenderMask, Localization.LocalizeString(entryKey + "/Titles:Gender"), entryKey, false))
                     {
                         step--;
                         continue;

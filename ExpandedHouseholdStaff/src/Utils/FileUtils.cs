@@ -72,14 +72,14 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                             var importedServiceMotiveName = element.GetAttribute("workMotive") ?? "Be" + serviceName;
                             var profile = new ServiceUtils.ServiceProfile(serviceName, null)
                                 {
-                                    ServiceMotive = CommonUtils.GetCommodityKind(importedServiceMotiveName, CommodityKindType.Motive),
+                                    ServiceMotive = CommodityUtils.GetCommodityKind(importedServiceMotiveName, CommodityKindType.Motive),
                                     VersionString = element.GetAttribute("version")
                                 };
                             var serviceMotiveName = importedServiceMotiveName;
                             while (ServiceUtils.ServiceMotiveExists(profile.ServiceMotive))
                             {
                                 serviceMotiveName = importedServiceMotiveName + "_" + DownloadContent.GenerateGUID();
-                                profile.ServiceMotive = CommonUtils.GetCommodityKind(serviceMotiveName, CommodityKindType.Motive);
+                                profile.ServiceMotive = CommodityUtils.GetCommodityKind(serviceMotiveName, CommodityKindType.Motive);
                             }
                             CommonUtils.AddEnumValue<CommodityKind>(serviceMotiveName, profile.ServiceMotive);
                             profile.Motives = new List<CommodityKind>

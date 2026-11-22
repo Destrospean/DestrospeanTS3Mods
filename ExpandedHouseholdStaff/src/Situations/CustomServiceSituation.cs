@@ -556,7 +556,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
         public override void SetMotivesAndCommodities()
         {
             var service = (CustomService)Service;
-            CommonUtils.UpdateMotiveTunings(Worker, service.ServiceMotive);
+            MotiveUtils.UpdateMotiveTunings(Worker, service.ServiceMotive);
             Worker.WorkMotive = service.ServiceMotive;
             foreach (var motive in service.ServiceMotives)
             {

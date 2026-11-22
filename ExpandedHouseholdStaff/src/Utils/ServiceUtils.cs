@@ -7,6 +7,7 @@ using Destrospean.ExpandedHouseholdStaff.Interactions;
 using Destrospean.Misc;
 using Destrospean.UI.Columns;
 using Destrospean.UI.Columns.ExpandedHouseholdStaff;
+using Destrospean.UI.Dialogs;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.Autonomy;
@@ -788,7 +789,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 RequestedMessage = requestedMessage ?? Localization.LocalizeString(entryKey + ":ServiceRequested", title);
                 CancelledMessage = cancelledMessage ?? Localization.LocalizeString(entryKey + ":ServiceCancelled", title);
                 CancelledWhileActiveMessage = cancelledWhileActiveMessage ?? Localization.LocalizeString(entryKey + ":ServiceCancelledWhileActive", title);
-                ServiceMotive = serviceMotive ?? CommonUtils.GetCommodityKind("Be" + name, CommodityKindType.Motive);
+                ServiceMotive = serviceMotive ?? CommodityUtils.GetCommodityKind("Be" + name, CommodityKindType.Motive);
                 Motives = additionalMotives ?? new List<CommodityKind>();
                 Outputs = outputs ?? new List<CommodityChange>();
                 if (!mMotives.Contains(mServiceMotive))
@@ -1289,7 +1290,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
                 if (step == 1)
                 {
-                    if (!CommonUtils.TryUIGetActiveTopicActionActiveness(Localization.LocalizeString(entryKey + "ActiveTopicActionActivenessDialog:Title"), out activeTopicActionActiveness, activeTopicActionActiveness))
+                    if (!ActiveTopicActionActivenessDialog.TryUIGetActiveTopicActionActiveness(Localization.LocalizeString(entryKey + "ActiveTopicActionActivenessDialog:Title"), out activeTopicActionActiveness, activeTopicActionActiveness))
                     {
                         step--;
                         continue;
@@ -1298,7 +1299,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
                 if (step == 2)
                 {
-                    if (!CommonUtils.TryUIGetLongTermRelationshipType(Localization.LocalizeString(entryKey + "LongTermRelationshipTypeDialog:Title"), profile.ValidGenders, out grouping, grouping))
+                    if (!LongTermRelationshipTypeDialog.TryUIGetLongTermRelationshipType(Localization.LocalizeString(entryKey + "LongTermRelationshipTypeDialog:Title"), profile.ValidGenders, out grouping, grouping))
                     {
                         step--;
                         continue;
@@ -1307,7 +1308,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
                 var isActive = activeTopicActionActiveness == ActiveTopicActionActiveness.FPA;
                 profile.AddActions(new ActiveTopicAction(name, grouping, isActive));
-                CommonUtils.AddActions(profile.Name + " Service", grouping, isActive, name);
+                SocialUtils.AddActions(profile.Name + " Service", grouping, isActive, name);
                 return true;
             }
         }
@@ -1356,7 +1357,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 if (step == 0)
                 {
-                    if (!CommonUtils.TryUIGetSelectedTypes(out interactionDefinitionTypes, new List<InteractionTuning>(InteractionTuning.sAllTunings.Values).ConvertAll(x => InteractionObjectTypeUtils.InteractionDefinitionTypes.ContainsKey(x.FullInteractionName) ? InteractionObjectTypeUtils.InteractionDefinitionTypes[x.FullInteractionName] : null).FindAll(x => x != null).ToArray(), Localization.LocalizeString(entryKey + "NamespaceListDialog/Titles:InteractionDefinition"), Localization.LocalizeString(entryKey + "TypeListDialog/Titles:InteractionDefinition"), 1))
+                    if (!NamespaceAndTypeListDialogs.TryUIGetSelectedTypes(out interactionDefinitionTypes, new List<InteractionTuning>(InteractionTuning.sAllTunings.Values).ConvertAll(x => InteractionObjectTypeUtils.InteractionDefinitionTypes.ContainsKey(x.FullInteractionName) ? InteractionObjectTypeUtils.InteractionDefinitionTypes[x.FullInteractionName] : null).FindAll(x => x != null).ToArray(), Localization.LocalizeString(entryKey + "NamespaceListDialog/Titles:InteractionDefinition"), Localization.LocalizeString(entryKey + "TypeListDialog/Titles:InteractionDefinition"), 1))
                     {
                         return false;
                     }
@@ -1364,7 +1365,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 }
                 if (step == 1)
                 {
-                    if (!CommonUtils.TryUIGetSelectedTypes(out targetTypes, new List<InteractionTuning>(InteractionTuning.sAllTunings.Values).FindAll(x => x.FullInteractionName == interactionDefinitionTypes?[0].FullName).ConvertAll(x => InteractionObjectTypeUtils.GameObjectTypes[x.FullObjectName]).ToArray(), Localization.LocalizeString(entryKey + "NamespaceListDialog/Titles:Target"), Localization.LocalizeString(entryKey + "TypeListDialog/Titles:Target"), 1))
+                    if (!NamespaceAndTypeListDialogs.TryUIGetSelectedTypes(out targetTypes, new List<InteractionTuning>(InteractionTuning.sAllTunings.Values).FindAll(x => x.FullInteractionName == interactionDefinitionTypes?[0].FullName).ConvertAll(x => InteractionObjectTypeUtils.GameObjectTypes[x.FullObjectName]).ToArray(), Localization.LocalizeString(entryKey + "NamespaceListDialog/Titles:Target"), Localization.LocalizeString(entryKey + "TypeListDialog/Titles:Target"), 1))
                     {
                         step--;
                         continue;
@@ -1391,7 +1392,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     }
                     step++;
                 }
-                if (step == 4 && !CommonUtils.TryUIGetUpdateType(Localization.LocalizeString(entryKey + "UpdateTypeDialog:Title"), out updateType, updateType))
+                if (step == 4 && !UpdateTypeDialog.TryUIGetUpdateType(Localization.LocalizeString(entryKey + "UpdateTypeDialog:Title"), out updateType, updateType))
                 {
                     step--;
                     continue;
@@ -1436,7 +1437,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             var serviceMotiveName = "Be" + newProfile.Name;
             while (ServiceMotiveExists(newProfile.ServiceMotive))
             {
-                newProfile.ServiceMotive = CommonUtils.GetCommodityKind(serviceMotiveName, CommodityKindType.Motive);
+                newProfile.ServiceMotive = CommodityUtils.GetCommodityKind(serviceMotiveName, CommodityKindType.Motive);
             }
             CommonUtils.AddEnumValue<CommodityKind>(serviceMotiveName, newProfile.ServiceMotive);
             newProfile.Motives = new List<CommodityKind>
@@ -1482,7 +1483,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 serviceMotiveName = "Be" + profile.Name;
                 while (ServiceMotiveExists(profile.ServiceMotive))
                 {
-                    profile.ServiceMotive = CommonUtils.GetCommodityKind(serviceMotiveName, CommodityKindType.Motive);
+                    profile.ServiceMotive = CommodityUtils.GetCommodityKind(serviceMotiveName, CommodityKindType.Motive);
                 }
                 CommonUtils.AddEnumValue<CommodityKind>(serviceMotiveName, profile.ServiceMotive);
                 profile.Motives = new List<CommodityKind>
@@ -1601,7 +1602,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the valid range of ages the service NPC can be.
                 if (step == 3)
                 {
-                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out var tempAge, age, CASAgeGenderFlags.AgeMask ^ CASAgeGenderFlags.Baby ^ CASAgeGenderFlags.Toddler, Localization.LocalizeString(entryKey + "CASAgeGenderFlagListDialog/Titles:Age")))
+                    if (!CASAgeGenderFlagListDialog.ShowCASAgeGenderFlagListDialog(out var tempAge, age, CASAgeGenderFlags.AgeMask ^ CASAgeGenderFlags.Baby ^ CASAgeGenderFlags.Toddler, Localization.LocalizeString(entryKey + "CASAgeGenderFlagListDialog/Titles:Age")))
                     {
                         step--;
                         continue;
@@ -1613,7 +1614,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the valid range of genders the service NPC can be.
                 if (step == 4)
                 {
-                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out var tempGender, gender, CASAgeGenderFlags.GenderMask, Localization.LocalizeString(entryKey + "CASAgeGenderFlagListDialog/Titles:Gender")))
+                    if (!CASAgeGenderFlagListDialog.ShowCASAgeGenderFlagListDialog(out var tempGender, gender, CASAgeGenderFlags.GenderMask, Localization.LocalizeString(entryKey + "CASAgeGenderFlagListDialog/Titles:Gender")))
                     {
                         step--;
                         continue;
@@ -1678,7 +1679,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 // The following code sets the motives the service NPC will always have.
                 if (step == 9)
                 {
-                    if (!CommonUtils.ShowCommodityKindListDialog(out var tempMotives, new List<object>(ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup.Values).FindAll(x => CommodityTest.IsMotive((CommodityKind)x)).ConvertAll(x => (CommodityKind)x).ToArray(), motives, null, entryKey + "MotiveListDialog"))
+                    if (!CommodityKindListDialog.ShowCommodityKindListDialog(out var tempMotives, new List<object>(ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup.Values).FindAll(x => CommodityTest.IsMotive((CommodityKind)x)).ConvertAll(x => (CommodityKind)x).ToArray(), motives, null, entryKey + "MotiveListDialog"))
                     {
                         step--;
                         continue;
@@ -1691,7 +1692,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 if (step == 10)
                 {
                     var tempTraits = new List<Trait>(traits);
-                    if (!CommonUtils.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, null, Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Explicit")))
+                    if (!TraitListDialog.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, null, Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Explicit")))
                     {
                         step--;
                         continue;
@@ -1704,7 +1705,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 if (step == 11)
                 {
                     var tempTraits = new List<Trait>(potentialTraits);
-                    if (!CommonUtils.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, null, Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Potential")))
+                    if (!TraitListDialog.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, null, Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Potential")))
                     {
                         step--;
                         continue;
@@ -1733,7 +1734,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 if (step == 13)
                 {
                     var tempTraits = new List<Trait>(hiddenTraits);
-                    if (!CommonUtils.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, new List<Trait>(TraitManager.GetDictionaryTraits).FindAll(x => x.IsHidden || x.IsReward), Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Hidden")))
+                    if (!TraitListDialog.ShowTraitListDialog(age, gender, CASAgeGenderFlags.Human, tempTraits, new List<Trait>(TraitManager.GetDictionaryTraits).FindAll(x => x.IsHidden || x.IsReward), Localization.LocalizeString(entryKey + "TraitListDialog/Titles:Hidden")))
                     {
                         step--;
                         if (potentialTraits.Count == 0)
@@ -1750,7 +1751,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 if (step == 14)
                 {
                     var tempSkills = skills.ConvertAll(x => new SkillLevelPair(x.SkillName, x.SkillLevel));
-                    if (!CommonUtils.ShowSkillListDialog(age, CASAgeGenderFlags.Human, tempSkills))
+                    if (!SkillListDialog.ShowSkillListDialog(age, CASAgeGenderFlags.Human, tempSkills))
                     {
                         step--;
                         continue;
@@ -1896,7 +1897,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 foreach (var action in actions)
                 {
                     profile.RemoveActions(x => x.Name == action.Name && x.Grouping == action.Grouping && x.IsActive == action.IsActive);
-                    CommonUtils.RemoveActions(profile.Name + " Service", action.Grouping, action.IsActive, action.Name);
+                    SocialUtils.RemoveActions(profile.Name + " Service", action.Grouping, action.IsActive, action.Name);
                 }
                 return true;
             }

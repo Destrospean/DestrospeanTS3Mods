@@ -11,7 +11,7 @@ namespace Destrospean.RocketScienceSkill
 
         static Main()
         {
-            CommonUtils.LoadSkillData("RocketScienceSkill");
+            SkillUtils.LoadSkillData("RocketScienceSkill");
             //var listeners = new List<EventListener>();
             LoadSaveManager.ObjectGroupsPreLoad += () =>
                 {

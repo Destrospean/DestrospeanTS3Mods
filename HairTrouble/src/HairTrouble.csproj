@@ -42,8 +42,17 @@
     <Compile Include="..\..\Common\src\Misc\ActionScriptTask.cs">
       <Link>Misc\ActionScriptTask.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\src\Misc\DummyComparer.cs">
+      <Link>Misc\DummyComparer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\src\UI\Columns\CASPart\CASPartColumn.cs">
       <Link>UI\Columns\CASPart\CASPartColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Columns\TextColumn.cs">
+      <Link>UI\Columns\TextColumn.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\CASAgeGenderFlagListDialog.cs">
+      <Link>UI\Dialogs\CASAgeGenderFlagListDialog.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\src\Utils\FileUtilsBase.cs">
       <Link>Utils\FileUtilsBase.cs</Link>
@@ -83,23 +92,8 @@
     <Compile Include="..\..\Common\src\Delegates\Func.cs">
       <Link>Delegates\Func.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\src\Enums\ActiveTopicActionActiveness.cs">
-      <Link>Enums\ActiveTopicActionActiveness.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Enums\CommodityKindType.cs">
-      <Link>Enums\CommodityKindType.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Misc\DummyComparer.cs">
-      <Link>Misc\DummyComparer.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\src\Misc\Utf8StringWriter.cs">
       <Link>Misc\Utf8StringWriter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Misc\SkillLevelPair.cs">
-      <Link>Misc\SkillLevelPair.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Utils\InteractionObjectTypeUtils.cs">
-      <Link>Utils\InteractionObjectTypeUtils.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\src\Utils\DebugUtils.cs">
       <Link>Utils\DebugUtils.cs</Link>
@@ -110,38 +104,11 @@
     <Compile Include="..\..\Common\src\Utils\OutfitExtensions.cs">
       <Link>Utils\OutfitExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\src\UI\Columns\TextColumn.cs">
-      <Link>UI\Columns\TextColumn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\UI\Columns\TypeColumn.cs">
-      <Link>UI\Columns\TypeColumn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\UI\Columns\TextInListColumn.cs">
-      <Link>UI\Columns\TextInListColumn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\UI\Columns\Skill\SkillLevelColumn.cs">
-      <Link>UI\Columns\Skill\SkillLevelColumn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\UI\Columns\Skill\SkillColumn.cs">
-      <Link>UI\Columns\Skill\SkillColumn.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\src\UI\Columns\CASAgeGenderFlags\CASAgeGenderFlagColumn.cs">
       <Link>UI\Columns\CASAgeGenderFlags\CASAgeGenderFlagColumn.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\src\UI\Columns\CASAgeGenderFlags\CASAgeGenderFlagEnabledColumn.cs">
       <Link>UI\Columns\CASAgeGenderFlags\CASAgeGenderFlagEnabledColumn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\UI\Columns\BodyTypes\BodyTypeColumn.cs">
-      <Link>UI\Columns\BodyTypes\BodyTypeColumn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\UI\Columns\BodyTypes\BodyTypeEnabledColumn.cs">
-      <Link>UI\Columns\BodyTypes\BodyTypeEnabledColumn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\UI\Columns\Trait\TraitColumn.cs">
-      <Link>UI\Columns\Trait\TraitColumn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\UI\Columns\Trait\TraitEnabledColumn.cs">
-      <Link>UI\Columns\Trait\TraitEnabledColumn.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\src\UI\Dialogs\ObjectPickerDialog.cs">
       <Link>UI\Dialogs\ObjectPickerDialog.cs</Link>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Destrospean.UI.Dialogs;
 using Destrospean.Utils;
 using Destrospean.Utils.ExpandedHouseholdStaff;
 using Sims3.Gameplay.Abstracts;
@@ -117,7 +118,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                             {
                                 if (step == 0)
                                 {
-                                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out age, CASAgeGenderFlags.None, age, Localization.LocalizeString(entryKey + "/Titles:Age"), entryKey, false))
+                                    if (!CASAgeGenderFlagListDialog.ShowCASAgeGenderFlagListDialog(out age, CASAgeGenderFlags.None, age, Localization.LocalizeString(entryKey + "/Titles:Age"), entryKey, false))
                                     {
                                         step--;
                                         continue;
@@ -126,7 +127,7 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                                 }
                                 if (step == 1)
                                 {
-                                    if (!CommonUtils.ShowCASAgeGenderFlagListDialog(out gender, CASAgeGenderFlags.None, gender, Localization.LocalizeString(entryKey + "/Titles:Gender"), entryKey, false))
+                                    if (!CASAgeGenderFlagListDialog.ShowCASAgeGenderFlagListDialog(out gender, CASAgeGenderFlags.None, gender, Localization.LocalizeString(entryKey + "/Titles:Gender"), entryKey, false))
                                     {
                                         step--;
                                         continue;

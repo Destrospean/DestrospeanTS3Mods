@@ -240,7 +240,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                         var activeTopic = profile.Name + " Service";
                         foreach (var action in profile.Actions)
                         {
-                            CommonUtils.RemoveActions(activeTopic, action.Grouping, action.IsActive, action.Name);
+                            SocialUtils.RemoveActions(activeTopic, action.Grouping, action.IsActive, action.Name);
                         }
                         if (ActiveTopicData.Exists(activeTopic))
                         {
@@ -276,7 +276,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                     }
                     foreach (var action in profile.Actions)
                     {
-                        CommonUtils.AddActions(activeTopic, action.Grouping, action.IsActive, action.Name);
+                        SocialUtils.AddActions(activeTopic, action.Grouping, action.IsActive, action.Name);
                     }
                     Create(profile);
                     if (ServiceUtils.CustomInstances.TryGetValue(profile.Name, out var service) && service != null)
@@ -309,7 +309,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Services
                             {
                                 if (enumerator.Current != null && enumerator.Current.CreatedSim != null)
                                 {
-                                    CommonUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim, service.ServiceMotive);
+                                    MotiveUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim, service.ServiceMotive);
                                     (ServiceSituation.FindServiceSituationInvolving(enumerator.Current.CreatedSim) as CustomServiceSituation)?.SetMotivesAndCommodities();
                                 }
                             }

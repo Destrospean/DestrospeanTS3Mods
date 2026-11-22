@@ -51,6 +51,36 @@
     <Compile Include="..\..\Common\src\UI\Columns\InventoryObjectCreationParameters\InventoryObjectInstanceNameColumn.cs">
       <Link>UI\Columns\InventoryObjectCreationParameters\InventoryObjectInstanceNameColumn.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\TraitListDialog.cs">
+      <Link>UI/Dialogs/TraitListDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\CommodityUtils.cs">
+      <Link>Utils\CommodityUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\FileUtilsBase.cs">
+      <Link>Utils\FileUtilsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\InteractionTuningUtils.cs">
+      <Link>Utils\InteractionTuningUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\MotiveUtils.cs">
+      <Link>Utils\MotiveUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\NRaasMasterControllerIntegration.cs">
+      <Link>Utils\NRaasMasterControllerIntegration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\PresetUtils.cs">
+      <Link>Utils\PresetUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\S3PIResourceUtils.cs">
+      <Link>Utils\S3PIResourceUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\SkillUtils.cs">
+      <Link>Utils\SkillUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\SocialUtils.cs">
+      <Link>Utils\SocialUtils.cs</Link>
+    </Compile>
     <Compile Include="Objects\RocketScaffolding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
@@ -215,7 +245,6 @@
     <Folder Include="..\..\Common\src\Delegates\" />
     <Folder Include="..\..\Common\src\Enums\" />
     <Folder Include="..\..\Common\src\UI\" />
-    <Folder Include="..\..\Common\src\Utils\" />
     <Folder Include="Enums\" />
     <Folder Include="UI\" />
   </ItemGroup>

@@ -136,7 +136,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
             {
                 if (!ServiceUtils.ServiceMotives.TryGetValue(DerivedType, out var serviceMotive))
                 {
-                    serviceMotive = CommonUtils.GetCommodityKind("Be" + DerivedType.Name, CommodityKindType.Motive);
+                    serviceMotive = CommodityUtils.GetCommodityKind("Be" + DerivedType.Name, CommodityKindType.Motive);
                 }
                 return serviceMotive;
             }
@@ -495,7 +495,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         {
                             ActiveTopicData.Add(new ActiveTopicData(activeTopic, false, 1000, "", true, true, false, true, null, 0f, "", false));
                         }
-                        CommonUtils.AddActions(activeTopic, LongTermRelationshipTypes.Default, false, "Dismiss", "Fire");
+                        SocialUtils.AddActions(activeTopic, LongTermRelationshipTypes.Default, false, "Dismiss", "Fire");
                         ServiceUtils.LoadedTypes.Add(DerivedType);
                     }
                     var createMethod = DerivedType.GetMethod("Create");
@@ -518,7 +518,7 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         {
                             if (enumerator.Current != null && enumerator.Current.CreatedSim != null)
                             {
-                                CommonUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim, ServiceMotive);
+                                MotiveUtils.UpdateMotiveTunings(enumerator.Current.CreatedSim, ServiceMotive);
                             }
                         }
 

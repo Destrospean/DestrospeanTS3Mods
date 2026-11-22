@@ -51,8 +51,74 @@
     <Compile Include="..\..\Common\src\UI\Columns\InventoryObjectCreationParameters\InventoryObjectInstanceNameColumn.cs">
       <Link>UI\Columns\InventoryObjectCreationParameters\InventoryObjectInstanceNameColumn.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\ActiveTopicActionActivenessDialog.cs">
+      <Link>UI\Dialogs\ActiveTopicActionActivenessDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\BooleanDialog.cs">
+      <Link>UI\Dialogs\BooleanDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\CASAgeGenderFlagListDialog.cs">
+      <Link>UI\Dialogs\CASAgeGenderFlagListDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\ComboSelectionDialog.cs">
+      <Link>UI\Dialogs\ComboSelectionDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\CommodityKindListDialog.cs">
+      <Link>UI\Dialogs\CommodityKindListDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\LongTermRelationshipTypeDialog.cs">
+      <Link>UI\Dialogs\LongTermRelationshipTypeDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\NamespaceAndTypeListDialogs.cs">
+      <Link>UI\Dialogs\NamespaceAndTypeListDialogs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\ObjectPickerDialog.cs">
+      <Link>UI\Dialogs\ObjectPickerDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\SkillListDialog.cs">
+      <Link>UI\Dialogs\SkillListDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\TraitListDialog.cs">
+      <Link>UI\Dialogs\TraitListDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\UI\Dialogs\UpdateTypeDialog.cs">
+      <Link>UI\Dialogs\UpdateTypeDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\CommodityUtils.cs">
+      <Link>Utils\CommodityUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\CommonUtils.cs">
+      <Link>Utils\CommonUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\DebugUtils.cs">
+      <Link>Utils\DebugUtils.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\src\Utils\FileUtilsBase.cs">
       <Link>Utils\FileUtilsBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\InteractionObjectTypeUtils.cs">
+      <Link>Utils\InteractionObjectTypeUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\InteractionTuningUtils.cs">
+      <Link>Utils\InteractionTuningUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\MotiveUtils.cs">
+      <Link>Utils\MotiveUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\NRaasMasterControllerIntegration.cs">
+      <Link>Utils\NRaasMasterControllerIntegration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\OutfitExtensions.cs">
+      <Link>Utils\OutfitExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\PresetUtils.cs">
+      <Link>Utils\PresetUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\SkillUtils.cs">
+      <Link>Utils\SkillUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\src\Utils\SocialUtils.cs">
+      <Link>Utils\SocialUtils.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interactions\AddActiveTopicAction.cs" />
@@ -127,21 +193,6 @@
     <Compile Include="..\..\Common\src\Misc\InventoryObjectCreationParameters.cs">
       <Link>Misc\InventoryObjectCreationParameters.cs</Link>
     </Compile>
-    <Compile Include="..\..\Common\src\Utils\InteractionObjectTypeUtils.cs">
-      <Link>Utils\InteractionObjectTypeUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Utils\DebugUtils.cs">
-      <Link>Utils\DebugUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Utils\CommonUtils.cs">
-      <Link>Utils\CommonUtils.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Utils\NRaasMasterControllerIntegration.cs">
-      <Link>Utils\NRaasMasterControllerIntegration.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\Utils\OutfitExtensions.cs">
-      <Link>Utils\OutfitExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\..\Common\src\UI\Columns\TextColumn.cs">
       <Link>UI\Columns\TextColumn.cs</Link>
     </Compile>
@@ -174,12 +225,6 @@
     </Compile>
     <Compile Include="..\..\Common\src\UI\Columns\Trait\TraitEnabledColumn.cs">
       <Link>UI\Columns\Trait\TraitEnabledColumn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\UI\Dialogs\ObjectPickerDialog.cs">
-      <Link>UI\Dialogs\ObjectPickerDialog.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Common\src\UI\Dialogs\ComboSelectionDialog.cs">
-      <Link>UI\Dialogs\ComboSelectionDialog.cs</Link>
     </Compile>
     <Compile Include="..\..\Common\src\Enums\DummyEnum.cs">
       <Link>Enums\DummyEnum.cs</Link>
@@ -259,7 +304,6 @@
     <Folder Include="..\..\Common\src\Delegates\" />
     <Folder Include="..\..\Common\src\Enums\" />
     <Folder Include="..\..\Common\src\UI\" />
-    <Folder Include="..\..\Common\src\Utils\" />
     <Folder Include="Interactions\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Enums\" />
