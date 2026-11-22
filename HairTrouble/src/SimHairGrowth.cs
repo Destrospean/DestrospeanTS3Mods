@@ -41,13 +41,13 @@ namespace Destrospean.HairTrouble
                 }
             }
             
-            public ResourceKey PreviousOutfitKey;
-
             public ResourceKey CurrentOutfitKey;
             
             public Dictionary<HairGrowthStates, CASPart> PreferredHairstylesByGrowthState;
             
             public Dictionary<HairGrowthStates, string> PreferredHatPresetsByGrowthState;
+            
+            public ResourceKey PreviousOutfitKey;
             
             public ulong SimDescriptionId;
             
