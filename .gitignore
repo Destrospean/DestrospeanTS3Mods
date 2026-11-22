@@ -365,3 +365,6 @@ FodyWeavers.xsd
 
 # Sims 3 STBL files
 *.stbl
+
+# JetBrains Rider
+.idea/
