@@ -165,12 +165,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                     }
                     simBuilder.RemoveParts(bodyType);
                     simBuilder.AddPart(savedPart.Part);
-                    if (!string.IsNullOrEmpty(savedPart.Preset))
+                    if (!string.IsNullOrEmpty(savedPart.Preset) && CASUtils.ApplyPresetToPart(simBuilder, savedPart.Part, savedPart.Preset))
                     {
-                        if (CASUtils.ApplyPresetToPart(simBuilder, savedPart.Part, savedPart.Preset))
-                        {
-                            simBuilder.SetPartPreset(savedPart.Part.Key, null, savedPart.Preset);
-                        }
+                        simBuilder.SetPartPreset(savedPart.Part.Key, null, savedPart.Preset);
                     }
                     OutfitUtils.AdjustPresetForHairColor(simBuilder, savedPart.Part, simDescription);
                 }

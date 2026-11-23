@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
 using Destrospean.Misc;
+using Destrospean.UI.Columns.HairTrouble;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
 using Sims3.Gameplay.CAS;
@@ -9,6 +10,8 @@ using Sims3.Gameplay.Destrospean.HairTrouble;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
+using Sims3.UI;
+using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.HairTrouble
 {
@@ -87,6 +90,9 @@ namespace Destrospean.HairTrouble
         
         [PersistableStatic(true)]
         public static Dictionary<ulong, List<OutfitHairData>> PreferredHairstylesByOutfitAndGrowthState = new Dictionary<ulong, List<OutfitHairData>>();
+        
+        [PersistableStatic(true)]
+        public static Dictionary<string, OutfitHairData> PreferredHairstylesBySpecialOutfitandGrowthState = new Dictionary<string, OutfitHairData>();
         
         [PersistableStatic]
         public static Dictionary<ulong, long> TimesOfLastHairGrowth = new Dictionary<ulong, long>();
@@ -289,6 +295,31 @@ namespace Destrospean.HairTrouble
         public static bool TryGetHairGrowthState(this SimDescription simDescription, out HairGrowthStates hairGrowthState)
         {
             return HairGrowthStates.TryGetValue(simDescription.SimDescriptionId, out hairGrowthState);
+        }
+        
+        public static bool TryUIGetHairGrowthState(out HairGrowthStates hairGrowthState)
+        {
+            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "HairGrowthStateListDialog");
+            while (true)
+            {
+                var selectedHairGrowthStates = ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:Singular"), new List<ObjectPicker.TabInfo>
+                    {
+                        new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<HairGrowthStates>((HairGrowthStates[])Enum.GetValues(typeof(HairGrowthStates))).FindAll(x => x > Enums.HairTrouble.HairGrowthStates.Unknown && x < Enums.HairTrouble.HairGrowthStates.Any).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
+                    }, new List<ObjectPickerDialog.CommonHeaderInfo<HairGrowthStates>>
+                    {
+                        new HairGrowthStateColumn(entryKey)
+                    }, 1, out var confirmed, out var cancelled);
+                if (cancelled)
+                {
+                    hairGrowthState = Enums.HairTrouble.HairGrowthStates.Unknown;
+                    return false;
+                }
+                if (confirmed)
+                {
+                    hairGrowthState = selectedHairGrowthStates[0];
+                    return true;
+                }
+            }
         }
     }
 }

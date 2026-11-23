@@ -1,9 +1,7 @@
 extern alias ExpandedHouseholdStaff;
-using System;
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
 using Destrospean.HairTrouble;
-using Destrospean.UI.Columns.HairTrouble;
 using Destrospean.UI.Dialogs;
 using ExpandedHouseholdStaff::Destrospean.Misc;
 using ExpandedHouseholdStaff::Destrospean.Utils.ExpandedHouseholdStaff;
@@ -17,7 +15,6 @@ using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
-using Sims3.UI;
 using static Sims3.Gameplay.Gameflow;
 using EditServiceUniform_Original = ExpandedHouseholdStaff::Destrospean.ExpandedHouseholdStaff.Interactions.EditServiceUniform;
 using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
@@ -87,7 +84,7 @@ namespace Destrospean.Utils.HairTrouble
                                     }
                                     if (step == 2)
                                     {
-                                        if (!TryUIGetSelectedHairGrowthState(out hairGrowthState))
+                                        if (!SimHairGrowth.TryUIGetHairGrowthState(out hairGrowthState))
                                         {
                                             step--;
                                             continue;
@@ -100,15 +97,6 @@ namespace Destrospean.Utils.HairTrouble
                                 {
                                     continue;
                                 }
-                                /*
-                                SimDescription simDescription;
-                                using (var simBuilder = new SimBuilder())
-                                {
-                                    simBuilder.UseCompression = true;
-                                    var homeWorld = GameUtils.GetCurrentWorld();
-                                    simDescription = Genetics.MakeSim(simBuilder, age, gender, new ResourceKey(0x4AC87CCEBDD2B1A2, 0x0354796A, 0x00000000), 0.28f, Genetics.GetGeneticHairColor(homeWorld), homeWorld, uint.MaxValue, false);
-                                }
-                                */
                                 var simDescription = Genetics.MakeSim(age, gender, GameUtils.GetCurrentWorld(), uint.MaxValue);
                                 EventTracker.AddListener(EventTypeId.kSimInstantiated, evt =>
                                     {
@@ -137,9 +125,9 @@ namespace Destrospean.Utils.HairTrouble
                                                             if (OutfitAssignmentUtils.ShowPartOverrideListDialog(OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey] = new OutfitAssignmentUtils.AssignedOutfit(simDescription.GetSpecialOutfit(specialOutfitKey)), out var partOverrides, preSelectedPartOverrides))
                                                             {
                                                                 OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].PartOverrides = new List<BodyTypes>(partOverrides);
-                                                                if (!AssignedOutfitHairData.TryGetValue(specialOutfitKey, out var outfitHairData))
+                                                                if (!SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState.TryGetValue(specialOutfitKey, out var outfitHairData))
                                                                 {
-                                                                    outfitHairData = AssignedOutfitHairData[specialOutfitKey] = new SimHairGrowth.OutfitHairData(0uL, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>());
+                                                                    outfitHairData = SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState[specialOutfitKey] = new SimHairGrowth.OutfitHairData(0uL, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>());
                                                                 }
                                                                 var savedPart = OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].Parts.Find(x => x.Part.BodyType == BodyTypes.Hair);
                                                                 outfitHairData.PreferredHairstylesByGrowthState[hairGrowthState] = savedPart.Part;
@@ -169,9 +157,6 @@ namespace Destrospean.Utils.HairTrouble
                     });
             }
         }
-        
-        [PersistableStatic(true)]
-        public static Dictionary<string, SimHairGrowth.OutfitHairData> AssignedOutfitHairData = new Dictionary<string, SimHairGrowth.OutfitHairData>();
         
         public static bool AddAssignedOutfit(this SimDescription simDescription, OutfitAssignmentUtils.AssignedOutfit assignedOutfit, string specialOutfitKey)
         {
@@ -211,7 +196,7 @@ namespace Destrospean.Utils.HairTrouble
                                         break;
                                     }
                                 }
-                                if (string.IsNullOrEmpty(assignedSpecialOutfitKey) || !AssignedOutfitHairData.TryGetValue(assignedSpecialOutfitKey, out var outfitHairData) || !outfitHairData.PreferredHairstylesByGrowthState.TryGetValue(hairGrowthState, out var hairstyle))
+                                if (string.IsNullOrEmpty(assignedSpecialOutfitKey) || !SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState.TryGetValue(assignedSpecialOutfitKey, out var outfitHairData) || !outfitHairData.PreferredHairstylesByGrowthState.TryGetValue(hairGrowthState, out var hairstyle))
                                 {
                                     continue;
                                 }
@@ -228,12 +213,9 @@ namespace Destrospean.Utils.HairTrouble
                     }
                     simBuilder.RemoveParts(bodyType);
                     simBuilder.AddPart(savedPart.Part);
-                    if (!string.IsNullOrEmpty(savedPart.Preset))
+                    if (!string.IsNullOrEmpty(savedPart.Preset) && CASUtils.ApplyPresetToPart(simBuilder, savedPart.Part, savedPart.Preset))
                     {
-                        if (CASUtils.ApplyPresetToPart(simBuilder, savedPart.Part, savedPart.Preset))
-                        {
-                            simBuilder.SetPartPreset(savedPart.Part.Key, null, savedPart.Preset);
-                        }
+                        simBuilder.SetPartPreset(savedPart.Part.Key, null, savedPart.Preset);
                     }
                     OutfitUtils.AdjustPresetForHairColor(simBuilder, savedPart.Part, simDescription);
                 }
@@ -250,31 +232,6 @@ namespace Destrospean.Utils.HairTrouble
                     typeof(string)
                 }), typeof(ExpandedHouseholdStaffIntegration).GetMethod(nameof(AddAssignedOutfit)));
             LoadSaveManager.ObjectGroupsPreLoad += () => EditServiceUniform_Original.Singleton = EditServiceUniform.Singleton;
-        }
-        
-        public static bool TryUIGetSelectedHairGrowthState(out HairGrowthStates hairGrowthState)
-        {
-            var entryKey = typeof(ObjectPickerDialog).GetLocalizationKey().Replace(nameof(ObjectPickerDialog), "HairGrowthStateListDialog");
-            while (true)
-            {
-                var selectedHairGrowthStates = ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(entryKey + "/Titles:Singular"), new List<ObjectPicker.TabInfo>
-                {
-                    new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), new List<HairGrowthStates>((HairGrowthStates[])Enum.GetValues(typeof(HairGrowthStates))).FindAll(x => x > HairGrowthStates.Unknown && x < HairGrowthStates.Any).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))
-                }, new List<ObjectPickerDialog.CommonHeaderInfo<HairGrowthStates>>
-                {
-                    new HairGrowthStateColumn(entryKey)
-                }, 1, out var confirmed, out var cancelled);
-                if (cancelled)
-                {
-                    hairGrowthState = HairGrowthStates.Unknown;
-                    return false;
-                }
-                if (confirmed)
-                {
-                    hairGrowthState = selectedHairGrowthStates[0];
-                    return true;
-                }
-            }
         }
     }
 }
