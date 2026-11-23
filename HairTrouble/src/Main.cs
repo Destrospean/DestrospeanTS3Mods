@@ -178,10 +178,33 @@ namespace Destrospean.HairTrouble
             }
             foreach (var outfitCategory in simDescription.ListOfCategories)
             {
-                var outfitHairDataCount = outfitHairDataList.FindAll(x => x.Category == outfitCategory).Count;
-                if (simDescription.GetOutfitCount(outfitCategory) < outfitHairDataCount)
+                foreach (var outfitHairData in outfitHairDataList.FindAll(x => x.Category == outfitCategory))
                 {
-                    outfitHairDataList.RemoveAll(x => x.Index >= outfitHairDataCount);
+                    var outfits = simDescription.GetOutfits(outfitCategory);
+                    var index = Array.FindIndex(outfits.ToArray(), x => x is SimOutfit outfit && outfit.Key == outfitHairData.OutfitKey);
+                    if (index > -1)
+                    {
+                        outfitHairData.Index = index;
+                        continue;
+                    }
+                    if (simDescription.GetOutfitCount(outfitCategory) < outfitHairDataList.FindAll(x => x.Category == outfitCategory).Count)
+                    {
+                        outfitHairDataList.Remove(outfitHairData);
+                        continue;
+                    }
+                    var outfitIndex = 0;
+                    foreach (SimOutfit outfit in outfits)
+                    {
+                        if (outfitIndex == outfitHairData.Index)
+                        {
+                            outfitHairData.OutfitKey = outfit.Key;
+                            var hairstyle = Array.Find(outfit.Parts, x => x.BodyType == BodyTypes.Hair);
+                            outfitHairData.CurrentHairstyle = hairstyle;
+                            outfitHairData.CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
+                            break;
+                        }
+                        outfitIndex++;
+                    }
                 }
             }
             foreach (var outfitCategory in simDescription.ListOfCategories)
@@ -226,7 +249,12 @@ namespace Destrospean.HairTrouble
             {
                 return;
             }
-            simDescription.FixUpHairGrowthStates();
+            var hairGrowthStates = HairGrowthStates.Unknown;
+            if ((Settings.kEnableHairGrowthForInactiveSims || simDescription.Household == Household.ActiveHousehold) && Array.Exists((simDescription.CreatedSim?.CurrentOutfit ?? simDescription.GetOutfit(OutfitCategories.Everyday, 0)).Parts, x => x.BodyType == BodyTypes.Hair && x.TryGetHairGrowthState(out hairGrowthStates) && (hairGrowthStates & simDescription.GetHairGrowthState()) == HairGrowthStates.Unknown))
+            {
+                simDescription.SetHairGrowthState(simDescription.Household != Household.ActiveHousehold && SimHairGrowth.PreferredHairGrowthStates.TryGetValue(simDescription.SimDescriptionId, out var preferredHairGrowthState) && preferredHairGrowthState < hairGrowthStates && (preferredHairGrowthState & hairGrowthStates) == HairGrowthStates.Unknown ? preferredHairGrowthState : hairGrowthStates.GetLongestHairGrowthState(), usePreferredHairstyle: true);
+                return;
+            }
             FixUpOutfitHairData(simDescription);
         }
     }

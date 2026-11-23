@@ -167,26 +167,6 @@ namespace Destrospean.HairTrouble
             return false;
         }
 
-        public static void FixUpHairGrowthStates(this SimDescription simDescription)
-        {
-            var partHairGrowthStates = Enums.HairTrouble.HairGrowthStates.Unknown;
-            if ((Settings.kEnableHairGrowthForInactiveSims || simDescription.Household == Household.ActiveHousehold) && simDescription.CreatedSim != null && Array.Exists(simDescription.CreatedSim.CurrentOutfit.Parts, x => x.BodyType == BodyTypes.Hair && x.TryGetHairGrowthState(out partHairGrowthStates) && (partHairGrowthStates & simDescription.GetHairGrowthState()) == Enums.HairTrouble.HairGrowthStates.Unknown))
-            {
-                if (simDescription.Household != Household.ActiveHousehold && PreferredHairGrowthStates.TryGetValue(simDescription.SimDescriptionId, out var preferredHairGrowthState) && preferredHairGrowthState < partHairGrowthStates && (preferredHairGrowthState & partHairGrowthStates) == Enums.HairTrouble.HairGrowthStates.Unknown)
-                {
-                    ActionScriptTask.Start(() =>
-                        {
-                            simDescription.SetHairGrowthState(preferredHairGrowthState, usePreferredHairstyle: true);
-                        });
-                    return;
-                }
-                ActionScriptTask.Start(() =>
-                    {
-                        simDescription.SetHairGrowthState(partHairGrowthStates.GetLongestHairGrowthState(), usePreferredHairstyle: true);
-                    });
-            }
-        }
-
         public static HairGrowthStates GetHairGrowthState(this SimOutfit outfit)
         {
             return outfit.TryGetHairGrowthState(out var hairGrowthState, out _) ? hairGrowthState : Enums.HairTrouble.HairGrowthStates.Unknown;
