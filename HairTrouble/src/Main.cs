@@ -1,6 +1,5 @@
 extern alias NRaasMasterController;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
 using Destrospean.HairTrouble.Interactions;
