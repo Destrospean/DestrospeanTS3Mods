@@ -1,5 +1,6 @@
 extern alias NRaasMasterController;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
 using Destrospean.HairTrouble.Interactions;
@@ -151,28 +152,8 @@ namespace Destrospean.HairTrouble
                 return;
             }
             simDescription.InitOriginalOverallHairColors();
+            FixUpOutfitHairData(simDescription);
             var initialHairGrowthState = simDescription.GetHairGrowthState();
-            if (!SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState.TryGetValue(simDescription.SimDescriptionId, out var outfitHairDataList))
-            {
-                outfitHairDataList = SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState[simDescription.SimDescriptionId] = new List<SimHairGrowth.OutfitHairData>();
-            }
-            foreach (var outfitCategory in simDescription.ListOfCategories)
-            {
-                var outfitIndex = 0;
-                foreach (SimOutfit outfit in simDescription.GetOutfits(outfitCategory))
-                {
-                    var index = outfitHairDataList.FindIndex(x => x.Category == outfitCategory && x.Index == outfitIndex);
-                    if (index == -1)
-                    {
-                        index = outfitHairDataList.Count;
-                        outfitHairDataList.Add(new SimHairGrowth.OutfitHairData(simDescription, outfit, outfitCategory, outfitIndex, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>()));
-                    }
-                    var hairstyle = Array.Find(outfit.Parts, x => x.BodyType == BodyTypes.Hair);
-                    outfitHairDataList[index].CurrentHairstyle = hairstyle;
-                    outfitHairDataList[index].CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
-                    outfitIndex++;
-                }
-            }
             if (!SimHairGrowth.PreferredHairGrowthStates.ContainsKey(simDescription.SimDescriptionId))
             {
                 SimHairGrowth.PreferredHairGrowthStates[simDescription.SimDescriptionId] = initialHairGrowthState;
@@ -191,6 +172,67 @@ namespace Destrospean.HairTrouble
                 }, 1f, TimeUnit.Minutes, "Hair Growth Alarm -- SimDescriptionId: " + simDescription.SimDescriptionId, AlarmType.NeverPersisted, simDescription);
         }
         
+        public static void FixUpOutfitHairData(SimDescription simDescription)
+        {
+            if (!SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState.TryGetValue(simDescription.SimDescriptionId, out var outfitHairDataList))
+            {
+                outfitHairDataList = SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState[simDescription.SimDescriptionId] = new List<SimHairGrowth.OutfitHairData>();
+            }
+            foreach (var outfitCategory in simDescription.ListOfCategories)
+            {
+                var outfitHairDataInCategoryList = outfitHairDataList.FindAll(x => x.Category == outfitCategory);
+                foreach (var outfitHairData in outfitHairDataInCategoryList)
+                {
+                    var exists = false;
+                    foreach (SimOutfit outfit in simDescription.GetOutfits(outfitCategory))
+                    {
+                        if (outfitHairData.OutfitKey == outfit.Key)
+                        {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if (!exists)
+                    {
+                        if (simDescription.GetOutfitCount(outfitCategory) == outfitHairDataInCategoryList.Count)
+                        {
+                            var outfitIndex = 0;
+                            foreach (SimOutfit outfit in simDescription.GetOutfits(outfitCategory))
+                            {
+                                if (outfitIndex == outfitHairData.Index)
+                                {
+                                    outfitHairData.OutfitKey = outfit.Key;
+                                    break;
+                                }
+                                outfitIndex++;
+                            }
+                        }
+                        else
+                        {
+                            outfitHairDataList.Remove(outfitHairData);
+                        }
+                    }
+                }
+            }
+            foreach (var outfitCategory in simDescription.ListOfCategories)
+            {
+                var outfitIndex = 0;
+                foreach (SimOutfit outfit in simDescription.GetOutfits(outfitCategory))
+                {
+                    var index = outfitHairDataList.FindIndex(x => x.Category == outfitCategory && x.Index == outfitIndex);
+                    if (index == -1)
+                    {
+                        index = outfitHairDataList.Count;
+                        outfitHairDataList.Add(new SimHairGrowth.OutfitHairData(simDescription, outfit, outfitCategory, outfitIndex, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>()));
+                    }
+                    var hairstyle = Array.Find(outfit.Parts, x => x.BodyType == BodyTypes.Hair);
+                    outfitHairDataList[index].CurrentHairstyle = hairstyle;
+                    outfitHairDataList[index].CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
+                    outfitIndex++;
+                }
+            }
+        }
+        
         public static void IntegrateExpandedHouseholdStaff()
         {
             ExpandedHouseholdStaffIntegration.Init();
@@ -205,10 +247,16 @@ namespace Destrospean.HairTrouble
         {
             OutfitAssignmentIntegration.Init();
         }
-        
+
         public static void OnSimAppearanceChanged(ObjectGuid objectGuid)
         {
-            GameObject.GetObject<Sim>(objectGuid).SimDescription?.FixUpHairGrowthStates();
+            var simDescription = GameObject.GetObject<Sim>(objectGuid).SimDescription;
+            if (simDescription == null)
+            {
+                return;
+            }
+            FixUpOutfitHairData(simDescription);
+            simDescription.FixUpHairGrowthStates();
         }
     }
 }
