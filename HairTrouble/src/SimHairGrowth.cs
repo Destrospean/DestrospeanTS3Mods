@@ -41,9 +41,9 @@ namespace Destrospean.HairTrouble
                 }
             }
 
-            public int Index;
-
             public OutfitCategories Category;
+
+            public int Index;
             
             public ResourceKey OutfitKey;
             
@@ -64,8 +64,8 @@ namespace Destrospean.HairTrouble
             public OutfitHairData(ulong simDescriptionId, ResourceKey outfitKey, OutfitCategories category, int index, Dictionary<HairGrowthStates, CASPart> preferredHairstylesByGrowthState, Dictionary<HairGrowthStates, string> preferredHatPresetsByGrowthState)
             {
                 Category = category;
-                OutfitKey = outfitKey;
                 Index = index;
+                OutfitKey = outfitKey;
                 PreferredHairstylesByGrowthState = preferredHairstylesByGrowthState;
                 PreferredHatPresetsByGrowthState = preferredHatPresetsByGrowthState;
                 SimDescriptionId = simDescriptionId;
