@@ -257,8 +257,8 @@ namespace Destrospean.HairTrouble
             {
                 return;
             }
-            FixUpOutfitHairData(simDescription);
             simDescription.FixUpHairGrowthStates();
+            FixUpOutfitHairData(simDescription);
         }
     }
 }
