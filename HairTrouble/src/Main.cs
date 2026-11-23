@@ -178,41 +178,10 @@ namespace Destrospean.HairTrouble
             }
             foreach (var outfitCategory in simDescription.ListOfCategories)
             {
-                var outfitHairDataInCategoryList = outfitHairDataList.FindAll(x => x.Category == outfitCategory);
-                foreach (var outfitHairData in outfitHairDataInCategoryList)
+                var outfitHairDataCount = outfitHairDataList.FindAll(x => x.Category == outfitCategory).Count;
+                if (simDescription.GetOutfitCount(outfitCategory) < outfitHairDataCount)
                 {
-                    var exists = false;
-                    foreach (SimOutfit outfit in simDescription.GetOutfits(outfitCategory))
-                    {
-                        if (outfitHairData.OutfitKey == outfit.Key)
-                        {
-                            exists = true;
-                            break;
-                        }
-                    }
-                    if (!exists)
-                    {
-                        if (simDescription.GetOutfitCount(outfitCategory) == outfitHairDataInCategoryList.Count)
-                        {
-                            var outfitIndex = 0;
-                            foreach (SimOutfit outfit in simDescription.GetOutfits(outfitCategory))
-                            {
-                                if (outfitIndex == outfitHairData.Index)
-                                {
-                                    outfitHairData.OutfitKey = outfit.Key;
-                                    var hairstyle = Array.Find(outfit.Parts, x => x.BodyType == BodyTypes.Hair);
-                                    outfitHairData.CurrentHairstyle = hairstyle;
-                                    outfitHairData.CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
-                                    break;
-                                }
-                                outfitIndex++;
-                            }
-                        }
-                        else
-                        {
-                            outfitHairDataList.Remove(outfitHairData);
-                        }
-                    }
+                    outfitHairDataList.RemoveAll(x => x.Index >= outfitHairDataCount);
                 }
             }
             foreach (var outfitCategory in simDescription.ListOfCategories)
