@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
 using NRaasMasterController::NRaas;
+using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Destrospean.HairTrouble;
 using Sims3.Gameplay.Socializing;
@@ -72,6 +73,21 @@ namespace Destrospean.HairTrouble
             colors[8] = new Color(hairColors.Tip);
             colors[9] = new Color(simDescription.GetOriginalBodyHairColor().Base);
             return colors;
+        }
+        
+        public void MarkUserDirectedClothingChange()
+        {
+            MarkUserDirectedClothingChange_Original();
+            var self = (Sim)(object)this;
+            foreach (var outfitHairData in SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState[self.SimDescription.SimDescriptionId])
+            {
+                outfitHairData.Index = Array.FindIndex(self.SimDescription.GetOutfits(outfitHairData.Category).ToArray(), x => x is SimOutfit outfit && outfit.Key == outfitHairData.OutfitKey);
+            }
+        }
+        
+        public void MarkUserDirectedClothingChange_Original()
+        {
+            throw new NotImplementedException();
         }
         
         public static void PopulateTypesGrid(CASHair casHair)

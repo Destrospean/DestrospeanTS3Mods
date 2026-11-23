@@ -34,6 +34,8 @@ namespace Destrospean.HairTrouble
         {
             CommonUtils.ReplaceMethod<Genetics, Replacements>(nameof(Replacements.InheritHairColor));
             CommonUtils.ReplaceMethod<CASHair, Replacements>(nameof(Replacements.PopulateTypesGrid));
+            CommonUtils.ReplaceMethod<Replacements, Sim>(nameof(Replacements.MarkUserDirectedClothingChange_Original), nameof(Replacements.MarkUserDirectedClothingChange));
+            CommonUtils.ReplaceMethod<Sim, Replacements>(nameof(Replacements.MarkUserDirectedClothingChange));
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 switch (assembly.GetName().Name)
@@ -150,21 +152,25 @@ namespace Destrospean.HairTrouble
             }
             simDescription.InitOriginalOverallHairColors();
             var initialHairGrowthState = simDescription.GetHairGrowthState();
-            if (!SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState.TryGetValue(simDescription.SimDescriptionId, out var outfitHairDatas))
+            if (!SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState.TryGetValue(simDescription.SimDescriptionId, out var outfitHairDataList))
             {
-                outfitHairDatas = SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState[simDescription.SimDescriptionId] = new Dictionary<ResourceKey, SimHairGrowth.OutfitHairData>();
+                outfitHairDataList = SimHairGrowth.PreferredHairstylesByOutfitAndGrowthState[simDescription.SimDescriptionId] = new List<SimHairGrowth.OutfitHairData>();
             }
             foreach (var outfitCategory in simDescription.ListOfCategories)
             {
+                var outfitIndex = 0;
                 foreach (SimOutfit outfit in simDescription.GetOutfits(outfitCategory))
                 {
-                    if (!outfitHairDatas.ContainsKey(outfit.Key))
+                    var index = outfitHairDataList.FindIndex(x => x.Category == outfitCategory && x.Index == outfitIndex);
+                    if (index == -1)
                     {
-                        outfitHairDatas[outfit.Key] = new SimHairGrowth.OutfitHairData(simDescription, outfit, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>());
+                        index = outfitHairDataList.Count;
+                        outfitHairDataList.Add(new SimHairGrowth.OutfitHairData(simDescription, outfit, outfitCategory, outfitIndex, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>()));
                     }
                     var hairstyle = Array.Find(outfit.Parts, x => x.BodyType == BodyTypes.Hair);
-                    outfitHairDatas[outfit.Key].CurrentHairstyle = hairstyle;
-                    outfitHairDatas[outfit.Key].CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
+                    outfitHairDataList[index].CurrentHairstyle = hairstyle;
+                    outfitHairDataList[index].CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
+                    outfitIndex++;
                 }
             }
             if (!SimHairGrowth.PreferredHairGrowthStates.ContainsKey(simDescription.SimDescriptionId))

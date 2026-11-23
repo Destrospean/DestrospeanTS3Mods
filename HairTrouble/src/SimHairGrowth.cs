@@ -40,14 +40,16 @@ namespace Destrospean.HairTrouble
                     }
                 }
             }
+
+            public int Index;
+
+            public OutfitCategories Category;
             
-            public ResourceKey CurrentOutfitKey;
+            public ResourceKey OutfitKey;
             
             public Dictionary<HairGrowthStates, CASPart> PreferredHairstylesByGrowthState;
             
             public Dictionary<HairGrowthStates, string> PreferredHatPresetsByGrowthState;
-            
-            public ResourceKey PreviousOutfitKey;
             
             public ulong SimDescriptionId;
             
@@ -55,27 +57,18 @@ namespace Destrospean.HairTrouble
             {
             }
             
-            public OutfitHairData(SimDescription simDescription, SimOutfit outfit, Dictionary<HairGrowthStates, CASPart> preferredHairstylesByGrowthState, Dictionary<HairGrowthStates, string> preferredHatPresetsByGrowthState) : this(simDescription.SimDescriptionId, outfit.Key, preferredHairstylesByGrowthState, preferredHatPresetsByGrowthState)
+            public OutfitHairData(SimDescription simDescription, SimOutfit outfit, OutfitCategories category, int index, Dictionary<HairGrowthStates, CASPart> preferredHairstylesByGrowthState, Dictionary<HairGrowthStates, string> preferredHatPresetsByGrowthState) : this(simDescription.SimDescriptionId, outfit.Key, category, index, preferredHairstylesByGrowthState, preferredHatPresetsByGrowthState)
             {
             }
             
-            public OutfitHairData(ulong simDescriptionId, ResourceKey currentOutfitKey, Dictionary<HairGrowthStates, CASPart> preferredHairstylesByGrowthState, Dictionary<HairGrowthStates, string> preferredHatPresetsByGrowthState)
+            public OutfitHairData(ulong simDescriptionId, ResourceKey outfitKey, OutfitCategories category, int index, Dictionary<HairGrowthStates, CASPart> preferredHairstylesByGrowthState, Dictionary<HairGrowthStates, string> preferredHatPresetsByGrowthState)
             {
-                CurrentOutfitKey = currentOutfitKey;
+                Category = category;
+                OutfitKey = outfitKey;
+                Index = index;
                 PreferredHairstylesByGrowthState = preferredHairstylesByGrowthState;
                 PreferredHatPresetsByGrowthState = preferredHatPresetsByGrowthState;
                 SimDescriptionId = simDescriptionId;
-            }
-
-            public void SetOutfit(SimOutfit outfit)
-            {
-                PreviousOutfitKey = CurrentOutfitKey;
-                if (!PreferredHairstylesByOutfitAndGrowthState.TryGetValue(SimDescriptionId, out var outfitHairDatas))
-                {
-                    outfitHairDatas = PreferredHairstylesByOutfitAndGrowthState[SimDescriptionId] = new Dictionary<ResourceKey, OutfitHairData>();
-                }
-                outfitHairDatas[CurrentOutfitKey = outfit.Key] = this;
-                outfitHairDatas.Remove(PreviousOutfitKey);
             }
         }
 
@@ -93,7 +86,7 @@ namespace Destrospean.HairTrouble
         public static Dictionary<ulong, HairGrowthStates> PreferredHairGrowthStates = new Dictionary<ulong, HairGrowthStates>();
         
         [PersistableStatic(true)]
-        public static Dictionary<ulong, Dictionary<ResourceKey, OutfitHairData>> PreferredHairstylesByOutfitAndGrowthState = new Dictionary<ulong, Dictionary<ResourceKey, OutfitHairData>>();
+        public static Dictionary<ulong, List<OutfitHairData>> PreferredHairstylesByOutfitAndGrowthState = new Dictionary<ulong, List<OutfitHairData>>();
         
         [PersistableStatic]
         public static Dictionary<ulong, long> TimesOfLastHairGrowth = new Dictionary<ulong, long>();
@@ -105,27 +98,26 @@ namespace Destrospean.HairTrouble
 
         public static SimOutfit ApplyHairGrowthStateToOutfit(this SimDescription simDescription, SimBuilder simBuilder, OutfitCategories outfitCategory, int outfitIndex, HairGrowthStates hairGrowthState, ref CASPart? specificHairstyle, bool usePreferredHairstyle = false)
         {
-            if (!PreferredHairstylesByOutfitAndGrowthState.TryGetValue(simDescription.SimDescriptionId, out var outfitHairDatas))
+            if (!PreferredHairstylesByOutfitAndGrowthState.TryGetValue(simDescription.SimDescriptionId, out var outfitHairDataList))
             {
-                outfitHairDatas = PreferredHairstylesByOutfitAndGrowthState[simDescription.SimDescriptionId] = new Dictionary<ResourceKey, OutfitHairData>();
+                outfitHairDataList = PreferredHairstylesByOutfitAndGrowthState[simDescription.SimDescriptionId] = new List<OutfitHairData>();
             }
-            var outfit = simDescription.GetOutfit(outfitCategory, outfitIndex);
-            if (outfitHairDatas.TryGetValue(outfit.Key, out var outfitHairData))
+            var oldOutfit = simDescription.GetOutfit(outfitCategory, outfitIndex);
+            var index = outfitHairDataList.FindIndex(x => x.Category == outfitCategory && x.Index == outfitIndex);
+            if (index == -1)
             {
-                if (usePreferredHairstyle)
-                {
-                    specificHairstyle = outfitHairData.PreferredHairstylesByGrowthState.TryGetValue(hairGrowthState, out var nextHairstyle) ? nextHairstyle : (CASPart?)null;
-                }
+                index = outfitHairDataList.Count;
+                outfitHairDataList.Add(new OutfitHairData(simDescription, oldOutfit, outfitCategory, outfitIndex, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>()));
             }
-            else
+            else if (usePreferredHairstyle)
             {
-                outfitHairData = outfitHairDatas[outfit.Key] = new OutfitHairData(simDescription, outfit, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>());
+                specificHairstyle = outfitHairDataList[index].PreferredHairstylesByGrowthState.TryGetValue(hairGrowthState, out var nextHairstyle) ? nextHairstyle : (CASPart?)null;
             }
-            if ((outfit.GetHairGrowthState() & simDescription.GetHairGrowthState()) != Enums.HairTrouble.HairGrowthStates.Unknown)
+            if ((oldOutfit.GetHairGrowthState() & simDescription.GetHairGrowthState()) != Enums.HairTrouble.HairGrowthStates.Unknown)
             {
-                var hairstyle = Array.Find(outfit.Parts, x => x.BodyType == BodyTypes.Hair);
-                outfitHairData.CurrentHairstyle = hairstyle;
-                outfitHairData.CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
+                var hairstyle = Array.Find(oldOutfit.Parts, x => x.BodyType == BodyTypes.Hair);
+                outfitHairDataList[index].CurrentHairstyle = hairstyle;
+                outfitHairDataList[index].CurrentHatPreset = oldOutfit.GetPartPreset(hairstyle.Key);
             }
             specificHairstyle = specificHairstyle ?? (simDescription.GetOutfit(OutfitCategories.Everyday, 0).TryGetHairGrowthState(out var outfitHairGrowthState, out specificHairstyle) && (outfitHairGrowthState & hairGrowthState) != Enums.HairTrouble.HairGrowthStates.Unknown ? specificHairstyle : GetValidHairstyles(simDescription.AgeGenderSpecies, hairGrowthState, allowHats: false).TryGetRandomItem(out specificHairstyle) ? specificHairstyle : null);
             if (specificHairstyle == null)
@@ -139,12 +131,12 @@ namespace Destrospean.HairTrouble
             OutfitUtils.InjectEyeBrowHairColor(simBuilder, simDescription.EyebrowColor.ActiveColor);
             OutfitUtils.InjectHairColor(simBuilder, Array.ConvertAll(simDescription.FacialHairColors, x => x.ActiveColor), BodyTypes.Beard);
             OutfitUtils.InjectHairColor(simBuilder, Array.ConvertAll(simDescription.HairColors, x => x.ActiveColor), BodyTypes.Hair);
-            if (outfitHairData.PreferredHatPresetsByGrowthState.TryGetValue(hairGrowthState, out var preset) && CASUtils.ApplyPresetToPart(simBuilder, specificHairstyle.Value, preset))
+            if (outfitHairDataList[index].PreferredHatPresetsByGrowthState.TryGetValue(hairGrowthState, out var preset) && CASUtils.ApplyPresetToPart(simBuilder, specificHairstyle.Value, preset))
             {
                 simBuilder.SetPartPreset(specificHairstyle.Value.Key, null, preset);
             }
             var newOutfit = new SimOutfit(simBuilder.CacheOutfit($"ApplyHairGrowthState_{simDescription.SimDescriptionId}_{outfitCategory}_{outfitIndex}"));
-            outfitHairData.SetOutfit(newOutfit);
+            outfitHairDataList[index].OutfitKey = newOutfit.Key;
             return newOutfit;
         }
 
