@@ -1,12 +1,11 @@
 extern alias OutfitAssignment;
 using Destrospean.Enums.HairTrouble;
 using Destrospean.HairTrouble;
-using Destrospean.Utils;
 using OutfitAssignment::Destrospean.OutfitAssignment;
 using Sims3.Gameplay.CAS;
 using Sims3.SimIFace.CAS;
 
-namespace Sims3.Gameplay.Destrospean.Utils.HairTrouble
+namespace Destrospean.Utils.HairTrouble
 {
     public static class OutfitAssignmentIntegration
     {

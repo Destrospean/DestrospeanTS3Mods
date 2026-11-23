@@ -23,6 +23,8 @@
                         ":Female": "Female"
             "/HairGrowthStateListDialog":
                 ":Title": "Select Hair Growth States"
+                "/Titles":
+                    ":Singular": "Select Hair Growth State"
                 "/Headers":
                     "/HairGrowthState":
                         ":Text": "Growth State"

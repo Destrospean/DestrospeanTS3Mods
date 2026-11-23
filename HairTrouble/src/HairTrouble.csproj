@@ -57,6 +57,9 @@
     <Compile Include="..\..\Common\src\Utils\FileUtilsBase.cs">
       <Link>Utils\FileUtilsBase.cs</Link>
     </Compile>
+    <Compile Include="..\..\Common\src\Utils\NRaasMasterControllerIntegration.cs">
+      <Link>Utils\NRaasMasterControllerIntegration.cs</Link>
+    </Compile>
     <Compile Include="..\..\Common\src\Utils\S3PIResourceUtils.cs">
       <Link>Utils\S3PIResourceUtils.cs</Link>
     </Compile>

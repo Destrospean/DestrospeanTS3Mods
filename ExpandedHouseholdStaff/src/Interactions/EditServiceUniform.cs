@@ -86,12 +86,10 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                             }
                             /*
                             SimDescription simDescription;
-                            using (SimBuilder simBuilder = new SimBuilder
-                                {
-                                    UseCompression = true
-                                })
+                            using (var simBuilder = new SimBuilder())
                             {
-                                WorldName homeWorld = GameUtils.GetCurrentWorld();
+                                simBuilder.UseCompression = true;
+                                var homeWorld = GameUtils.GetCurrentWorld();
                                 simDescription = Genetics.MakeSim(simBuilder, age, gender, new ResourceKey(0x4AC87CCEBDD2B1A2, 0x0354796A, 0x00000000), 0.28f, Genetics.GetGeneticHairColor(homeWorld), homeWorld, uint.MaxValue, false);
                             }
                             */
@@ -128,7 +126,6 @@ namespace Destrospean.ExpandedHouseholdStaff.Interactions
                                             simDescription.CreatedSim?.RemoveFromWorld();
                                             AlarmManager.Global.AddAlarm(1f, TimeUnit.Minutes, () =>
                                                 {
-                                                    var simDescriptionId = simDescription.SimDescriptionId;
                                                     Household.TouristHousehold.RemoveTemporary(simDescription);
                                                     simDescription.Dispose();
                                                 }, "Remove SimDescription: " + simDescription.SimDescriptionId, AlarmType.AlwaysPersisted, simDescription);

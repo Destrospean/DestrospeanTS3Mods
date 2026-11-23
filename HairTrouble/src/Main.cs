@@ -13,7 +13,6 @@ using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.Destrospean.HairTrouble;
 using Sims3.Gameplay.Destrospean.HairTrouble.Interactions;
 using Sims3.Gameplay.Destrospean.Utils;
-using Sims3.Gameplay.Destrospean.Utils.HairTrouble;
 using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Objects.Decorations;
 using Sims3.Gameplay.UI;
@@ -242,6 +241,7 @@ namespace Destrospean.HairTrouble
 
         public static void IntegrateNRaasMasterController()
         {
+            NRaasMasterControllerIntegration.Init();
             CommonUtils.ReplaceMethod<CASHairEx, Replacements>(nameof(Replacements.PopulateTypesGrid));
         }
         
