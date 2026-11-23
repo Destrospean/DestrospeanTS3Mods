@@ -201,6 +201,9 @@ namespace Destrospean.HairTrouble
                                 if (outfitIndex == outfitHairData.Index)
                                 {
                                     outfitHairData.OutfitKey = outfit.Key;
+                                    var hairstyle = Array.Find(outfit.Parts, x => x.BodyType == BodyTypes.Hair);
+                                    outfitHairData.CurrentHairstyle = hairstyle;
+                                    outfitHairData.CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
                                     break;
                                 }
                                 outfitIndex++;
