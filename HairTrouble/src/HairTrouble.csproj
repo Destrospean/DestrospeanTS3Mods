@@ -123,15 +123,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Reference Include="Destrospean.InteractionInstanceAdditions">
-      <HintPath>..\..\libs\Destrospean.InteractionInstanceAdditions.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Destrospean.OutfitAssignment">
-      <HintPath>..\..\libs\Destrospean.OutfitAssignment.dll</HintPath>
-      <Aliases>OutfitAssignment</Aliases>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="mscorlib">
       <HintPath>..\..\libs\mscorlib.dll</HintPath>
       <Private>False</Private>
@@ -188,6 +179,18 @@
       <Project>{a217f96a-14f1-4fa3-a82e-52ea73fd56e6}</Project>
       <Name>ExpandedHouseholdStaff</Name>
       <Aliases>ExpandedHouseholdStaff</Aliases>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\InteractionInstanceAdditions\src\InteractionInstanceAdditions.csproj">
+      <Project>{c02815ef-036d-43d9-9e04-9ef6ce3f8a61}</Project>
+      <Name>InteractionInstanceAdditions</Name>
+      <Aliases>InteractionInstanceAdditions</Aliases>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OutfitAssignment\src\OutfitAssignment.csproj">
+      <Project>{271b09be-ec1a-44ed-a607-7fe99891884b}</Project>
+      <Name>OutfitAssignment</Name>
+      <Aliases>OutfitAssignment</Aliases>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
