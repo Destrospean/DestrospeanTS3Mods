@@ -1,0 +1,86 @@
+﻿using Sims3.Gameplay;
+using Sims3.Gameplay.Actors;
+using Sims3.Gameplay.CAS;
+using Sims3.SimIFace;
+using Sims3.SimIFace.CAS;
+using Sims3.UI.CAS;
+
+namespace Destrospean.Utils
+{
+    public static class OutfitExtensions
+    {
+        public delegate bool EditSpecialOutfitFunc(Sim sim, string specialOutfitKey);
+
+        public static EditSpecialOutfitFunc EditSpecialOutfit = (sim, specialOutfitKey) =>
+            {
+                var simDescription = sim.SimDescription;
+                if (!simDescription.HasSpecialOutfit(specialOutfitKey))
+                {
+                    simDescription.AddSpecialOutfit(simDescription.GetOutfit(OutfitCategories.Everyday, 0), specialOutfitKey);
+                }
+                var previousOutfitCategory = sim.CurrentOutfitCategory;
+                var previousOutfitIndex = sim.CurrentOutfitIndex;
+                simDescription.AddOutfit(simDescription.GetSpecialOutfit(specialOutfitKey), OutfitCategories.Everyday, 0);
+                simDescription.RemoveSpecialOutfit(specialOutfitKey);
+                sim.SwitchToOutfitWithoutSpin(OutfitCategories.Everyday, 0);
+                var casLogic = CASLogic.GetSingleton();
+                casLogic.ShowUI += OnShowUI;
+                casLogic.UseTempSimDesc = true;
+                casLogic.LoadSim(simDescription, sim.CurrentOutfitCategory, sim.CurrentOutfitIndex);
+                CASChangeReporter.Instance.ClearChanges();
+                GameStates.TransitionToCASStylistMode();
+                while (GameStates.NextInWorldStateId != 0)
+                {
+                    Simulator.Sleep(0);
+                }
+                CASChangeReporter.Instance.SendChangedEvents(sim);
+                casLogic.ShowUI -= OnShowUI;
+                simDescription.AddSpecialOutfit(simDescription.GetOutfit(OutfitCategories.Everyday, 0), specialOutfitKey);
+                simDescription.RemoveOutfit(OutfitCategories.Everyday, 0, true);
+                sim.SwitchToOutfitWithoutSpin(previousOutfitCategory, previousOutfitIndex);
+                return !CASChangeReporter.Instance.CasCancelled;
+            };
+
+        public static void OnShowUI(bool toShow)
+        {
+            if (!toShow)
+            {
+                return;
+            }
+            var casDresserSheet = CASDresserSheet.gSingleton;
+            if (casDresserSheet == null || casDresserSheet.mButtons == null)
+            {
+                return;
+            }
+            for (var i = 1; i < casDresserSheet.mButtons.Length; i++)
+            {
+                if (casDresserSheet.mButtons[i] != null)
+                {
+                    casDresserSheet.mButtons[i].Visible = false;
+                }
+                if (casDresserSheet.mButtonText[i] != null)
+                {
+                    casDresserSheet.mButtonText[i].Visible = false;
+                }
+            }
+            var casDresserClothing = CASDresserClothing.gSingleton;
+            if (casDresserClothing == null || casDresserClothing.mOutfitButtons == null || casDresserClothing.mDeleteOutfitButtons == null)
+            {
+                return;
+            }
+            for (var i = 1; i < casDresserClothing.mOutfitButtons.Length; i++)
+            {
+                casDresserClothing.mOutfitButtons[i].Visible = false;
+                casDresserClothing.mDeleteOutfitButtons[i].Visible = false;
+            }
+            casDresserClothing.mAddOutfitButton.Visible = false;
+        }
+
+        public static void PrepareForOutfit(this SimBuilder simBuilder, SimOutfit outfit)
+        {
+            simBuilder.Clear();
+            OutfitUtils.SetAutomaticModifiers(simBuilder);
+            OutfitUtils.SetOutfit(simBuilder, outfit, null);
+        }
+    }
+}

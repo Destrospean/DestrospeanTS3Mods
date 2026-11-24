@@ -109,7 +109,6 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
   <Target Name="Create Package" AfterTargets="Build">
     <Exec Command="&quot;$(SolutionDir)scripts\CreatePackage.bat&quot; &quot;ExpandedAlchemy&quot; &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..&quot; &quot;$(ProjectDir)..\dist\&quot;" Condition="'$(OS)' == 'Windows_NT'" />
     <Exec Command="sh &quot;$(SolutionDir)scripts\CreatePackage.sh&quot; &quot;ExpandedAlchemy&quot; &quot;$(TargetPath)&quot; &quot;$(ProjectDir)..&quot; &quot;$(ProjectDir)..\dist\&quot;" Condition="'$(OS)' != 'Windows_NT'" />

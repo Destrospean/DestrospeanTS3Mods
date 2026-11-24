@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nameMap.xsd">
+  <resource name="Destrospean.OutfitAssignment.dll" type="0x073FAA07"/>
+  <resource name="Destrospean.InteractionInstanceAdditions.dll" type="0x073FAA07"/>
+  <resource name="*.stbl" type="0x220557DA"/>
+</resources>

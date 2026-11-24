@@ -273,7 +273,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             public void PushSwitchToServiceUniform()
             {
                 var service = Parent.Service as CustomService;
-                if (service?.Profile != null && Parent.Worker.CurrentOutfitCategory != OutfitCategories.Career && !Parent.Worker.BuffManager.HasAnyElement(BuffNames.Singed, BuffNames.SingedElectricity, BuffNames.EmbarrassedClothesHidden) && !Parent.Worker.BuffManager.HasTransformBuff() && !Parent.Worker.OccultManager.DisallowClothesChange() && Parent.Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out _))
+                if (service?.Profile != null && Parent.Worker.CurrentOutfitCategory != OutfitCategories.Career && !Parent.Worker.BuffManager.HasAnyElement(BuffNames.Singed, BuffNames.SingedElectricity, BuffNames.EmbarrassedClothesHidden) && !Parent.Worker.BuffManager.DisallowClothesChange() && !Parent.Worker.OccultManager.DisallowClothesChange() && Parent.Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out _))
                 {
                     Parent.SwitchWorkerToServiceOutfit(true);
                 }

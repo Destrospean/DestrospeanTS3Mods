@@ -1,0 +1,178 @@
+"Destrospean":
+    "/OutfitAssignment":
+        "/Dialogs":
+            "/EntryCallbackTypeDialog":
+                "/Options":
+                    ":InteractionStarted": "Interacción iniciada"
+                    ":OutfitChanged": "Cambio de ropa realizado"
+                    ":StandardEntry": "Entrada estándar"
+                    ":SyncLevelCommitted": "Comprometido (Social)"
+                    ":SyncLevelRouted": "Ruta calculada (Social)"
+                ":Title": "Seleccionar tipo de entrada"
+            "/ExitCallbackTypeDialog":
+                "/Options":
+                    ":InteractionEnded": "Interacción terminada"
+                    ":Never": "Nunca"
+                    ":StandardExit": "Salida estándar"
+                    ":SyncLevelCompleted": "Completado (Social)"
+                ":Title": "Seleccionar tipo de salida"
+            "/InteractionListDialog":
+                "/Header":
+                    ":Text": "Interacción"
+                    ":Tooltip": "El nombre completo de la interacción"
+                ":Title": "Seleccionar interacciones"
+            "/NamespaceListDialog":
+                "/Header":
+                    ":Text": "Espacio de nombres"
+                    ":Tooltip": "El espacio de nombres que contiene las interacciones"
+                ":Title": "Seleccionar espacio de nombres"
+            "/OutfitCategoryDialog":
+                "/Options":
+                    ":Athletic": "Ropa atlética"
+                    ":Career": "Profesión"
+                    ":Everyday": "Ropa de diario"
+                    ":Formalwear": "Formal"
+                    ":MartialArts": "Artes marciales"
+                    ":Naked": "Desnudo"
+                    ":None": "Ninguno"
+                    ":Outerwear": "Ropa de exterior"
+                    ":Singed": "Chamuscado"
+                    ":SkinnyDippingTowel": "Toalla para baño nudista"
+                    ":Sleepwear": "Ropa de dormir"
+                    ":Swimwear": "Traje de baño"
+                ":Title": "Seleccionar categoría de ropa"
+            "/DemographicDialog":
+                ":Title": "Select Demographic"
+                "/Titles":
+                    ":Age": "Select Age"
+                    ":Gender": "Select Gender"
+                "/Headers":
+                    "/CASAgeGenderFlag":
+                        ":Text": "Demographic"
+                        ":Tooltip": "The name of the demographic"
+                "/Options":
+                    "/CASAgeGenderFlag":
+                        ":Baby": "Baby"
+                        ":Toddler": "Toddler"
+                        ":Child": "Child"
+                        ":Teen": "Teen"
+                        ":Adult": "Young Adult/Adult"
+                        ":Elder": "Elder"
+                        ":Male": "Male"
+                        ":Female": "Female"
+            "/PartOverrideListDialog":
+                "/Headers":
+                    "/Enabled":
+                        ":Text": "Habilitado"
+                        ":Tooltip": "Indica si la anulación de piezas está habilitada"
+                    "/PartType":
+                        ":Text": "Tipo de pieza"
+                        ":Tooltip": "El nombre del tipo de pieza"
+                "/Options":
+                    "/Enabled":
+                        ":False": "Falso"
+                        ":True": "Verdadero"
+                    "/PartType":
+                        ":Accessories": "Accesorios"
+                        ":Armband": "Brazalete"
+                        ":Beard": "Vello facial"
+                        ":Blush": "Rubor"
+                        ":BodyHairCalves": "Vello corporal (pantorrillas)"
+                        ":BodyHairFeet": "Vello corporal (pies)"
+                        ":BodyHairForearms": "Vello corporal (antebrazos)"
+                        ":BodyHairFullBack": "Vello corporal (espalda completa)"
+                        ":BodyHairLowerBack": "Vello corporal (espalda baja)"
+                        ":BodyHairStomach": "Vello corporal (abdomen)"
+                        ":BodyHairUpperBack": "Vello corporal (espalda superior)"
+                        ":BodyHairUpperChest": "Vello corporal (pecho superior)"
+                        ":Bracelet": "Pulsera"
+                        ":CostumeMakeup": "Maquillaje de disfraces"
+                        ":Earrings": "Pendientes"
+                        ":Eyebrows": "Cejas"
+                        ":EyeLiner": "Delineador de ojos"
+                        ":EyeShadow": "Sombra de ojos"
+                        ":FirstAccessories": "Accesorios"
+                        ":FirstFace": "Labial"
+                        ":FullBody": "Cuerpo entero"
+                        ":Glasses": "Gafas"
+                        ":Gloves": "Guantes"
+                        ":Hair": "Cabello"
+                        ":Lipstick": "Labial"
+                        ":LeftEarring": "Pendiente izquierdo"
+                        ":LeftGarter": "Liga izquierda"
+                        ":LowerBody": "Parte inferior del cuerpo"
+                        ":Mascara": "Máscara de pestañas"
+                        ":Necklace": "Collar"
+                        ":NoseRing": "Piercing de nariz"
+                        ":RightEarring": "Pendiente derecho"
+                        ":RightGarter": "Liga derecha"
+                        ":Ring": "Anillo"
+                        ":Shoes": "Zapatos"
+                        ":Socks": "Calcetines"
+                        ":UpperBody": "Parte superior del cuerpo"
+                        ":WeddingRing": "Anillo de bodas"
+                ":Title": "Seleccionar anulaciones de piezas"
+            "/SimListDialog":
+                "/Header":
+                    ":Text": "Sim"
+                    ":Tooltip": "El nombre completo e ilustración del Sim"
+                ":Title": "Seleccionar Sims"
+        "/Interactions":
+            "/AssignOutfitCategoryToInteraction":
+                ":Name": "Asignar categoría de ropa a interacciones"
+                "/Paths":
+                    ":Base": "Asignación de ropa..."
+                    ":Global": "Global..."
+                    ":Individual": "Sim activo..."
+            "/AssignOutfitToInteraction":
+                "/Messages":
+                    ":MultipleGlobalOutfitsForInteractionsFound": "Se han encontrado múltiples prendas para el grupo de edad y género de {0.SimFirstName} entre las interacciones seleccionadas. Al elegir múltiples interacciones que ya tienen ropa asignada, selecciona solo aquellas que compartan una única prenda."
+                    ":MultipleIndividualOutfitsForInteractionsFound": "Se han encontrado múltiples prendas para {0.SimFirstName} entre las interacciones seleccionadas. Al elegir múltiples interacciones que ya tienen ropa asignada, selecciona solo aquellas que compartan una única prenda."
+                "/Names":
+                    ":Full": "Asignar ropa a interacciones"
+                    ":Partial": "Asignar ropa parcial a interacciones"
+                "/Paths":
+                    ":Base": "Asignación de ropa..."
+                    ":Global": "Global..."
+                    ":Individual": "Sim activo..."
+            "/ConfigureOutfitAssignment":
+                ":Name": "Configurar asignaciones de ropa"
+                "/Paths":
+                    ":Base": "Asignación de ropa..."
+                    ":Global": "Global..."
+                    ":Individual": "Sim activo..."
+            "/CopyAssignedOutfitToInteraction":
+                "/Miscellaneous":
+                    ":SelectDestinationInteraction": "Seleccionar interacciones de destino"
+                    ":SelectDestinationNamespace": "Seleccionar espacio de nombres de destino"
+                    ":SelectSourceInteraction": "Seleccionar interacciones de origen"
+                    ":SelectSourceNamespace": "Seleccionar espacio de nombres de origen"
+                ":Name": "Copiar ropa asignada a interacciones"
+                "/Paths":
+                    ":Base": "Asignación de ropa..."
+                    ":Global": "Global..."
+                    ":Individual": "Sim activo..."
+            "/CopyOutfitAssignmentToSim":
+                ":Name": "Copiar ropa asignada a otros Sims"
+                "/Paths":
+                    ":Base": "Asignación de ropa..."
+                    ":Global": "Global..."
+                    ":Individual": "Sim activo..."
+            "/EditAssignedOutfit":
+                ":Name": "Editar ropa asignada"
+                "/Paths":
+                    ":Base": "Asignación de ropa..."
+                    ":Global": "Global..."
+                    ":Individual": "Sim activo..."
+            "/ExtendAssignedOutfitToInteraction":
+                ":Name": "Extender ropa asignada a interacciones"
+                "/Paths":
+                    ":Base": "Asignación de ropa..."
+                    ":Global": "Global..."
+                    ":Individual": "Sim activo..."
+            "/UnassignOutfitToInteraction":
+                ":Name": "Desasignar ropa de interacciones"
+                "/Paths":
+                    ":Base": "Asignación de ropa..."
+                    ":Global": "Global..."
+                    ":Individual": "Sim activo..."

@@ -298,7 +298,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
 
         public static void SwitchToAssignedOutfit(this Sim sim, OutfitAssignment outfitAssignment, bool spin = true)
         {
-            if (sim.BuffManager.HasElement(BuffNames.Singed) || sim.BuffManager.HasElement(BuffNames.SingedElectricity) || sim.BuffManager.HasElement(BuffNames.EmbarrassedClothesHidden) || sim.BuffManager.DisallowClothesChange() || sim.OccultManager.DisallowClothesChange())
+            if (sim.BuffManager.HasAnyElement(BuffNames.Singed, BuffNames.SingedElectricity, BuffNames.EmbarrassedClothesHidden) || sim.BuffManager.DisallowClothesChange() || sim.OccultManager.DisallowClothesChange())
             {
                 return;
             }

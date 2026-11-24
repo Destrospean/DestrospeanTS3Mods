@@ -75,6 +75,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairTrouble_Base", "HairTro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairTrouble_Generator", "HairTrouble_Generator\HairTrouble_Generator.csproj", "{7060E243-9A65-4138-BA8F-F26E40E3BB9A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteractionInstanceAdditions", "InteractionInstanceAdditions\src\InteractionInstanceAdditions.csproj", "{C02815EF-036D-43D9-9E04-9EF6CE3F8A61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutfitAssignment", "OutfitAssignment\src\OutfitAssignment.csproj", "{271B09BE-EC1A-44ED-A607-7FE99891884B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -225,6 +229,14 @@ Global
 		{7060E243-9A65-4138-BA8F-F26E40E3BB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7060E243-9A65-4138-BA8F-F26E40E3BB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7060E243-9A65-4138-BA8F-F26E40E3BB9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C02815EF-036D-43D9-9E04-9EF6CE3F8A61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C02815EF-036D-43D9-9E04-9EF6CE3F8A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C02815EF-036D-43D9-9E04-9EF6CE3F8A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C02815EF-036D-43D9-9E04-9EF6CE3F8A61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{271B09BE-EC1A-44ED-A607-7FE99891884B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271B09BE-EC1A-44ED-A607-7FE99891884B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271B09BE-EC1A-44ED-A607-7FE99891884B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271B09BE-EC1A-44ED-A607-7FE99891884B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{51023BD2-9139-438D-B794-95E5EC023537} = {6F41BE76-1714-4921-9C18-293860CC8B63}

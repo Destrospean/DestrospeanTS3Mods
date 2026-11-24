@@ -1,0 +1,178 @@
+"Destrospean":
+    "/OutfitAssignment":
+        "/Dialogs":
+            "/EntryCallbackTypeDialog":
+                "/Options":
+                    ":InteractionStarted": "Interaction Started"
+                    ":OutfitChanged": "Outfit Changed"
+                    ":StandardEntry": "Standard Entry"
+                    ":SyncLevelCommitted": "Committed (Social)"
+                    ":SyncLevelRouted": "Routed (Social)"
+                ":Title": "Select Entry Type"
+            "/ExitCallbackTypeDialog":
+                "/Options":
+                    ":InteractionEnded": "Interaction Ended"
+                    ":Never": "Never"
+                    ":StandardExit": "Standard Exit"
+                    ":SyncLevelCompleted": "Completed (Social)"
+                ":Title": "Select Exit Type"
+            "/InteractionListDialog":
+                "/Header":
+                    ":Text": "Interaction"
+                    ":Tooltip": "The full name of the interaction"
+                ":Title": "Select Interactions"
+            "/NamespaceListDialog":
+                "/Header":
+                    ":Text": "Namespace"
+                    ":Tooltip": "The namespace that holds the interactions"
+                ":Title": "Select Namespace"
+            "/OutfitCategoryDialog":
+                "/Options":
+                    ":Athletic": "Athletic"
+                    ":Career": "Career"
+                    ":Everyday": "Everyday"
+                    ":Formalwear": "Formal"
+                    ":MartialArts": "Martial Arts"
+                    ":Naked": "Naked"
+                    ":None": "None"
+                    ":Outerwear": "Outerwear"
+                    ":Singed": "Singed"
+                    ":SkinnyDippingTowel": "Skinny Dipping Towel"
+                    ":Sleepwear": "Sleepwear"
+                    ":Swimwear": "Swimwear"
+                ":Title": "Select Outfit Category"
+            "/DemographicDialog":
+                ":Title": "Select Demographic"
+                "/Titles":
+                    ":Age": "Select Age"
+                    ":Gender": "Select Gender"
+                "/Headers":
+                    "/CASAgeGenderFlag":
+                        ":Text": "Demographic"
+                        ":Tooltip": "The name of the demographic"
+                "/Options":
+                    "/CASAgeGenderFlag":
+                        ":Baby": "Baby"
+                        ":Toddler": "Toddler"
+                        ":Child": "Child"
+                        ":Teen": "Teen"
+                        ":Adult": "Young Adult/Adult"
+                        ":Elder": "Elder"
+                        ":Male": "Male"
+                        ":Female": "Female"
+            "/PartOverrideListDialog":
+                "/Headers":
+                    "/Enabled":
+                        ":Text": "Enabled"
+                        ":Tooltip": "Whether the part override is enabled"
+                    "/PartType":
+                        ":Text": "Part Type"
+                        ":Tooltip": "The name of the part type"
+                "/Options":
+                    "/Enabled":
+                        ":False": "False"
+                        ":True": "True"
+                    "/PartType":
+                        ":Accessories": "Accessories"
+                        ":Armband": "Armband"
+                        ":Beard": "Facial Hair"
+                        ":Blush": "Blush"
+                        ":BodyHairCalves": "Body Hair (Calves)"
+                        ":BodyHairFeet": "Body Hair (Feet)"
+                        ":BodyHairForearms": "Body Hair (Forearms)"
+                        ":BodyHairFullBack": "Body Hair (Full Back)"
+                        ":BodyHairLowerBack": "Body Hair (Lower Back)"
+                        ":BodyHairStomach": "Body Hair (Stomach)"
+                        ":BodyHairUpperBack": "Body Hair (Upper Back)"
+                        ":BodyHairUpperChest": "Body Hair (Upper Chest)"
+                        ":Bracelet": "Bracelet"
+                        ":CostumeMakeup": "Costume Makeup"
+                        ":Earrings": "Earrings"
+                        ":Eyebrows": "Eyebrows"
+                        ":EyeLiner": "Eyeliner"
+                        ":EyeShadow": "Eyeshadow"
+                        ":FirstAccessories": "Accessories"
+                        ":FirstFace": "Lipstick"
+                        ":FullBody": "Full Body"
+                        ":Glasses": "Glasses"
+                        ":Gloves": "Gloves"
+                        ":Hair": "Hair"
+                        ":Lipstick": "Lipstick"
+                        ":LeftEarring": "Left Earring"
+                        ":LeftGarter": "Left Garter"
+                        ":LowerBody": "Lower Body"
+                        ":Mascara": "Mascara"
+                        ":Necklace": "Necklace"
+                        ":NoseRing": "Nose Ring"
+                        ":RightEarring": "Right Earring"
+                        ":RightGarter": "Right Garter"
+                        ":Ring": "Ring"
+                        ":Shoes": "Shoes"
+                        ":Socks": "Socks"
+                        ":UpperBody": "Upper Body"
+                        ":WeddingRing": "Wedding Ring"
+                ":Title": "Select Part Overrides"
+            "/SimListDialog":
+                "/Header":
+                    ":Text": "Sim"
+                    ":Tooltip": "The full name and illustration of the Sim"
+                ":Title": "Select Sims"
+        "/Interactions":
+            "/AssignOutfitCategoryToInteraction":
+                ":Name": "Assign Outfit Category to Interactions"
+                "/Paths":
+                    ":Base": "Outfit Assignment..."
+                    ":Global": "Global..."
+                    ":Individual": "Active Sim..."
+            "/AssignOutfitToInteraction":
+                "/Messages":
+                    ":MultipleGlobalOutfitsForInteractionsFound": "Multiple outfits have been found for {0.SimFirstName}'s age group and gender among the selected interactions. When selecting multiple interactions that already have outfits, only select those that share a single outfit."
+                    ":MultipleIndividualOutfitsForInteractionsFound": "Multiple outfits have been found for {0.SimFirstName} among the selected interactions. When selecting multiple interactions that already have outfits, only select those that share a single outfit."
+                "/Names":
+                    ":Full": "Assign Outfit to Interactions"
+                    ":Partial": "Assign Partial Outfit to Interactions"
+                "/Paths":
+                    ":Base": "Outfit Assignment..."
+                    ":Global": "Global..."
+                    ":Individual": "Active Sim..."
+            "/ConfigureOutfitAssignment":
+                ":Name": "Configure Outfit Assignments"
+                "/Paths":
+                    ":Base": "Outfit Assignment..."
+                    ":Global": "Global..."
+                    ":Individual": "Active Sim..."
+            "/CopyAssignedOutfitToInteraction":
+                "/Miscellaneous":
+                    ":SelectDestinationInteraction": "Select Destination Interactions"
+                    ":SelectDestinationNamespace": "Select Destination Namespace"
+                    ":SelectSourceInteraction": "Select Source Interactions"
+                    ":SelectSourceNamespace": "Select Source Namespace"
+                ":Name": "Copy Assigned Outfit to Interactions"
+                "/Paths":
+                    ":Base": "Outfit Assignment..."
+                    ":Global": "Global..."
+                    ":Individual": "Active Sim..."
+            "/CopyOutfitAssignmentToSim":
+                ":Name": "Copy Assigned Outfit to Other Sims"
+                "/Paths":
+                    ":Base": "Outfit Assignment..."
+                    ":Global": "Global..."
+                    ":Individual": "Active Sim..."
+            "/EditAssignedOutfit":
+                ":Name": "Edit Assigned Outfit"
+                "/Paths":
+                    ":Base": "Outfit Assignment..."
+                    ":Global": "Global..."
+                    ":Individual": "Active Sim..."
+            "/ExtendAssignedOutfitToInteraction":
+                ":Name": "Extend Assigned Outfit to Interactions"
+                "/Paths":
+                    ":Base": "Outfit Assignment..."
+                    ":Global": "Global..."
+                    ":Individual": "Active Sim..."
+            "/UnassignOutfitToInteraction":
+                ":Name": "Unassign Outfits to Interactions"
+                "/Paths":
+                    ":Base": "Outfit Assignment..."
+                    ":Global": "Global..."
+                    ":Individual": "Active Sim..."

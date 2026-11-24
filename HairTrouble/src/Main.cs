@@ -42,7 +42,7 @@ namespace Destrospean.HairTrouble
                     case "Destrospean.ExpandedHouseholdStaff":
                         IntegrateExpandedHouseholdStaff();
                         break;
-                    case "Destrospean.OutfitAssignment":
+                    case "OutfitAssignment":
                         IntegrateOutfitAssignment();
                         break;
                     case "NRaasMasterController":
