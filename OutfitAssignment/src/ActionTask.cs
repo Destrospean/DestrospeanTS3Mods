@@ -4,10 +4,10 @@ namespace Destrospean.Misc
 {
     public class ActionTask : Task
     {
-        public delegate void Action();
-
         private Action[] mActions;
 
+        public delegate void Action();
+        
         public ActionTask(params Action[] actions)
         {
             mActions = actions;
