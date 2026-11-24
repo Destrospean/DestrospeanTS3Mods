@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Destrospean.Enums.HairTrouble;
-using Destrospean.Misc;
 using Destrospean.UI.Columns.HairTrouble;
 using Destrospean.Utils;
 using Destrospean.Utils.HairTrouble;
 using Sims3.Gameplay.CAS;
-using Sims3.Gameplay.Destrospean.HairTrouble;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
