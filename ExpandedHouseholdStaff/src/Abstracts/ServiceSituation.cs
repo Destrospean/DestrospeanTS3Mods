@@ -331,6 +331,11 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
 
         public override void SwitchWorkerToServiceOutfit()
         {
+            SwitchWorkerToServiceOutfit(false);
+        }
+        
+        public virtual void SwitchWorkerToServiceOutfit(bool pushAsInteraction)
+        {
             var uniformName = GetUniformName(Worker.SimDescription);
             if (uniformName != null)
             {
@@ -342,6 +347,11 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
                         Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
                     }
                 }
+            }
+            if (pushAsInteraction)
+            {
+                Worker.PushSwitchToOutfitInteraction(Sim.ClothesChangeReason.Force, OutfitCategories.Career, new InteractionPriority(InteractionPriorityLevel.Autonomous, 50f));
+                return;
             }
             base.SwitchWorkerToServiceOutfit();
         }

@@ -317,7 +317,7 @@ namespace Destrospean.Utils.HairTrouble
                                         break;
                                     }
                                 }
-                                if (string.IsNullOrEmpty(assignedSpecialOutfitKey) || !SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState.TryGetValue(assignedSpecialOutfitKey, out var outfitHairData) || !outfitHairData.PreferredHairstylesByGrowthState.TryGetValue(hairGrowthState, out var hairstyle))
+                                if (string.IsNullOrEmpty(assignedSpecialOutfitKey) || !SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.TryGetValue(assignedSpecialOutfitKey, out var outfitHairData) || !outfitHairData.PreferredHairstylesByGrowthState.TryGetValue(hairGrowthState, out var hairstyle))
                                 {
                                     continue;
                                 }
@@ -350,9 +350,9 @@ namespace Destrospean.Utils.HairTrouble
             {
                 return;
             }
-            if (!SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState.TryGetValue(specialOutfitKey, out var outfitHairData))
+            if (!SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.TryGetValue(specialOutfitKey, out var outfitHairData))
             {
-                outfitHairData = SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState[specialOutfitKey] = new SimHairGrowth.OutfitHairData(0uL, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0);
+                outfitHairData = SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState[specialOutfitKey] = new SimHairGrowth.OutfitHairData(sim.SimDescription.SimDescriptionId, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0);
             }
             var savedPart = OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].Parts.Find(x => x.Part.BodyType == BodyTypes.Hair);
             outfitHairData.PreferredHairstylesByGrowthState[hairGrowthState] = savedPart.Part;
@@ -477,9 +477,9 @@ namespace Destrospean.Utils.HairTrouble
                         {
                             if (runInternalCallback(true, false, simDescription.CreatedSim, simDescription.CreatedSim, out var specialOutfitKey))
                             {
-                                if (!SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState.TryGetValue(specialOutfitKey, out var outfitHairData))
+                                if (!SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.TryGetValue(specialOutfitKey, out var outfitHairData))
                                 {
-                                    outfitHairData = SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState[specialOutfitKey] = new SimHairGrowth.OutfitHairData(0uL, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0);
+                                    outfitHairData = SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState[specialOutfitKey] = new SimHairGrowth.OutfitHairData(0uL, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0);
                                 }
                                 var savedPart = OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].Parts.Find(x => x.Part.BodyType == BodyTypes.Hair);
                                 outfitHairData.PreferredHairstylesByGrowthState[selectedHairGrowthState] = savedPart.Part;

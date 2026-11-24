@@ -17,7 +17,6 @@ using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
 using static Sims3.Gameplay.Gameflow;
 using EditServiceUniform_Original = ExpandedHouseholdStaff::Destrospean.ExpandedHouseholdStaff.Interactions.EditServiceUniform;
-using ObjectPickerDialog = Destrospean.UI.Dialogs.ObjectPickerDialog;
 
 namespace Destrospean.Utils.HairTrouble
 {
@@ -125,9 +124,9 @@ namespace Destrospean.Utils.HairTrouble
                                                             if (OutfitAssignmentUtils.ShowPartOverrideListDialog(OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey] = new OutfitAssignmentUtils.AssignedOutfit(simDescription.GetSpecialOutfit(specialOutfitKey)), out var partOverrides, preSelectedPartOverrides))
                                                             {
                                                                 OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].PartOverrides = new List<BodyTypes>(partOverrides);
-                                                                if (!SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState.TryGetValue(specialOutfitKey, out var outfitHairData))
+                                                                if (!SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.TryGetValue(specialOutfitKey, out var outfitHairData))
                                                                 {
-                                                                    outfitHairData = SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState[specialOutfitKey] = new SimHairGrowth.OutfitHairData(0uL, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0);
+                                                                    outfitHairData = SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState[specialOutfitKey] = new SimHairGrowth.OutfitHairData(0uL, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0);
                                                                 }
                                                                 var savedPart = OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].Parts.Find(x => x.Part.BodyType == BodyTypes.Hair);
                                                                 outfitHairData.PreferredHairstylesByGrowthState[hairGrowthState] = savedPart.Part;
@@ -196,7 +195,7 @@ namespace Destrospean.Utils.HairTrouble
                                         break;
                                     }
                                 }
-                                if (string.IsNullOrEmpty(assignedSpecialOutfitKey) || !SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState.TryGetValue(assignedSpecialOutfitKey, out var outfitHairData) || !outfitHairData.PreferredHairstylesByGrowthState.TryGetValue(hairGrowthState, out var hairstyle))
+                                if (string.IsNullOrEmpty(assignedSpecialOutfitKey) || !SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.TryGetValue(assignedSpecialOutfitKey, out var outfitHairData) || !outfitHairData.PreferredHairstylesByGrowthState.TryGetValue(hairGrowthState, out var hairstyle))
                                 {
                                     continue;
                                 }
@@ -232,6 +231,19 @@ namespace Destrospean.Utils.HairTrouble
                     typeof(string)
                 }), typeof(ExpandedHouseholdStaffIntegration).GetMethod(nameof(AddAssignedOutfit)));
             LoadSaveManager.ObjectGroupsPreLoad += () => EditServiceUniform_Original.Singleton = EditServiceUniform.Singleton;
+            World.sOnWorldLoadFinishedEventHandler += (sender, args) => ServiceUtils.ServiceProfileRemoved += OnServiceProfileRemoved;
+            World.sOnWorldQuitEventHandler += (sender, args) => ServiceUtils.ServiceProfileRemoved -= OnServiceProfileRemoved;
+            return;
+            void OnServiceProfileRemoved()
+            {
+                foreach (var specialOutfitKey in new List<string>(SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.Keys))
+                {
+                    if (!OutfitAssignmentUtils.OutfitAssignments.Exists(x => x.SpecialOutfitKey == specialOutfitKey))
+                    {
+                        SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.Remove(specialOutfitKey);
+                    }
+                }
+            }
         }
     }
 }

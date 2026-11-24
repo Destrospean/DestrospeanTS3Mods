@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Destrospean.Delegates;
 using Destrospean.Enums;
 using Destrospean.Enums.ExpandedHouseholdStaff;
 using Destrospean.ExpandedHouseholdStaff.Interactions;
@@ -967,7 +968,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public static Dictionary<string, Service> PredefinedInstances = new Dictionary<string, Service>();
 
         public static Dictionary<Type, CommodityKind> ServiceMotives = new Dictionary<Type, CommodityKind>();
-
+        
+        public static event Action ServiceProfileRemoved;
+        
         [PersistableStatic(true)]
         public static List<IServiceProfile> ServiceProfiles = new List<IServiceProfile>();
 
@@ -1130,6 +1133,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 CustomService.Deinit(profile);
                 CustomInstances.Remove(name);
                 ServiceProfiles.Remove(profile);
+                ServiceProfileRemoved?.Invoke();
             }
         }
 

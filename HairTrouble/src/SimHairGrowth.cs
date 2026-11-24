@@ -143,7 +143,7 @@ namespace Destrospean.HairTrouble
         public static Dictionary<ulong, List<OutfitHairData>> PreferredHairstylesByOutfitAndGrowthState = new Dictionary<ulong, List<OutfitHairData>>();
         
         [PersistableStatic(true)]
-        public static Dictionary<string, OutfitHairData> PreferredHairstylesBySpecialOutfitandGrowthState = new Dictionary<string, OutfitHairData>();
+        public static Dictionary<string, OutfitHairData> PreferredHairstylesBySpecialOutfitAndGrowthState = new Dictionary<string, OutfitHairData>();
         
         [PersistableStatic]
         public static Dictionary<ulong, long> TimesOfLastHairGrowth = new Dictionary<ulong, long>();

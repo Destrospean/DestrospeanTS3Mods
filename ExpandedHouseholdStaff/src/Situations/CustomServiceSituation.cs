@@ -273,9 +273,9 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             public void PushSwitchToServiceUniform()
             {
                 var service = Parent.Service as CustomService;
-                if (service?.Profile != null && Parent.Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out _) && Parent.Worker.CurrentOutfitCategory != OutfitCategories.Career)
+                if (service?.Profile != null && Parent.Worker.CurrentOutfitCategory != OutfitCategories.Career && !Parent.Worker.BuffManager.HasAnyElement(BuffNames.Singed, BuffNames.SingedElectricity, BuffNames.EmbarrassedClothesHidden) && !Parent.Worker.BuffManager.HasTransformBuff() && !Parent.Worker.OccultManager.DisallowClothesChange() && Parent.Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out _))
                 {
-                    Parent.Worker.PushSwitchToOutfitInteraction(Sim.ClothesChangeReason.Force, OutfitCategories.Career, new InteractionPriority(InteractionPriorityLevel.Autonomous, 50f));
+                    Parent.SwitchWorkerToServiceOutfit(true);
                 }
             }
         }
@@ -584,8 +584,13 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
         {
             return sim.Motives.IsHungry();
         }
-
+        
         public override void SwitchWorkerToServiceOutfit()
+        {
+            SwitchWorkerToServiceOutfit(false);
+        }
+
+        public override void SwitchWorkerToServiceOutfit(bool pushAsInteraction)
         {
             DebugUtils.TryDisplayScriptError(() =>
                 {
@@ -599,13 +604,18 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                         }
                         if (!Worker.SimDescription.IsRobot)
                         {
+                            if (pushAsInteraction)
+                            {
+                                Worker.PushSwitchToOutfitInteraction(Sim.ClothesChangeReason.Force, OutfitCategories.Career, new InteractionPriority(InteractionPriorityLevel.Autonomous, 50f));
+                                return;
+                            }
                             Worker.SwitchToOutfitWithoutSpin(OutfitCategories.Career);
                         }
                         return;
                     }
                     if ((service.Profile as ServiceUtils.ServiceProfile)?.GetUniformFromName ?? false)
                     {
-                        base.SwitchWorkerToServiceOutfit();
+                        base.SwitchWorkerToServiceOutfit(pushAsInteraction);
                         return;
                     }
                     Worker.SimDescription.AddOutfit(new SimOutfit(Worker.SimDescription.GetOutfit(OutfitCategories.Everyday, 0).Key), OutfitCategories.Career, true);
@@ -615,6 +625,11 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                     }
                     if (!Worker.SimDescription.IsRobot)
                     {
+                        if (pushAsInteraction)
+                        {
+                            Worker.PushSwitchToOutfitInteraction(Sim.ClothesChangeReason.Force, OutfitCategories.Career, new InteractionPriority(InteractionPriorityLevel.Autonomous, 50f));
+                            return;
+                        }
                         Worker.SwitchToOutfitWithoutSpin(OutfitCategories.Career);
                     }
                 });
