@@ -97,11 +97,11 @@ namespace Destrospean.HairTrouble
                 }
                 foreach (var part in outfit.Parts)
                 {
-                    if (part.BodyType == BodyTypes.Hair)
+                    if (part.BodyType == BodyTypes.Hair || !OtherParts.TryGetValue(part.BodyType, out var otherPart) || !OtherPresets.TryGetValue(part.BodyType, out var otherPreset))
                     {
                         continue;
                     }
-                    if (OtherParts[part.BodyType].Key != part.Key || OtherPresets[part.BodyType] != outfit.GetPartPreset(part.Key))
+                    if (otherPart.Key != part.Key || otherPreset != outfit.GetPartPreset(part.Key))
                     {
                         return false;
                     }
