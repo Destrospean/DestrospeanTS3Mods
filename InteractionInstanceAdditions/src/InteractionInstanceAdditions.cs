@@ -45,10 +45,10 @@ namespace Destrospean
         
         static InteractionInstanceAdditions()
         {
-            ReplaceMethod<InteractionInstance, InteractionInstanceAdditions>("RunInteractionWithoutCleanup");
-            ReplaceMethod<InteractionInstance, InteractionInstanceAdditions>("StandardEntry");
-            ReplaceMethod<InteractionInstance, InteractionInstanceAdditions>("StandardExit");
-            ReplaceMethod<Sim, InteractionInstanceAdditions>("WaitForSynchronizationLevelWithSim");
+            ReplaceMethod<InteractionInstance, InteractionInstanceAdditions>(nameof(RunInteractionWithoutCleanup));
+            ReplaceMethod<InteractionInstance, InteractionInstanceAdditions>(nameof(StandardEntry));
+            ReplaceMethod<InteractionInstance, InteractionInstanceAdditions>(nameof(StandardExit));
+            ReplaceMethod<Sim, InteractionInstanceAdditions>(nameof(WaitForSynchronizationLevelWithSim));
         }
 
         /// <summary>
