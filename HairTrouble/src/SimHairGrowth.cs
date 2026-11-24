@@ -20,6 +20,8 @@ namespace Destrospean.HairTrouble
         {
             private ResourceKey mOutfitKey;
             
+            public OutfitCategories Category;
+            
             public CASPart? CurrentHairstyle
             {
                 get => HairGrowthStates.TryGetValue(SimDescriptionId, out var hairGrowthState) && PreferredHairstylesByGrowthState.TryGetValue(hairGrowthState, out var hairstyle) ? hairstyle : (CASPart?)null;
@@ -43,9 +45,7 @@ namespace Destrospean.HairTrouble
                     }
                 }
             }
-
-            public OutfitCategories Category;
-
+            
             public int Index;
             
             public Dictionary<BodyTypes, CASPart> OtherParts = new Dictionary<BodyTypes, CASPart>();
