@@ -231,19 +231,16 @@ namespace Destrospean.Utils.HairTrouble
                     typeof(string)
                 }), typeof(ExpandedHouseholdStaffIntegration).GetMethod(nameof(AddAssignedOutfit)));
             LoadSaveManager.ObjectGroupsPreLoad += () => EditServiceUniform_Original.Singleton = EditServiceUniform.Singleton;
-            World.sOnWorldLoadFinishedEventHandler += (sender, args) => ServiceUtils.ServiceProfileRemoved += OnServiceProfileRemoved;
-            World.sOnWorldQuitEventHandler += (sender, args) => ServiceUtils.ServiceProfileRemoved -= OnServiceProfileRemoved;
-            return;
-            void OnServiceProfileRemoved()
-            {
-                foreach (var specialOutfitKey in new List<string>(SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.Keys))
+            ServiceUtils.ServiceProfileRemoved += () =>
                 {
-                    if (!OutfitAssignmentUtils.OutfitAssignments.Exists(x => x.SpecialOutfitKey == specialOutfitKey))
+                    foreach (var specialOutfitKey in new List<string>(SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.Keys))
                     {
-                        SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.Remove(specialOutfitKey);
+                        if (!OutfitAssignmentUtils.OutfitAssignments.Exists(x => x.SpecialOutfitKey == specialOutfitKey))
+                        {
+                            SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.Remove(specialOutfitKey);
+                        }
                     }
-                }
-            }
+                };
         }
     }
 }
