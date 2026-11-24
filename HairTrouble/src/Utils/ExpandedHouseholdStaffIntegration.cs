@@ -127,7 +127,7 @@ namespace Destrospean.Utils.HairTrouble
                                                                 OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].PartOverrides = new List<BodyTypes>(partOverrides);
                                                                 if (!SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState.TryGetValue(specialOutfitKey, out var outfitHairData))
                                                                 {
-                                                                    outfitHairData = SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState[specialOutfitKey] = new SimHairGrowth.OutfitHairData(0uL, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>());
+                                                                    outfitHairData = SimHairGrowth.PreferredHairstylesBySpecialOutfitandGrowthState[specialOutfitKey] = new SimHairGrowth.OutfitHairData(0uL, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0);
                                                                 }
                                                                 var savedPart = OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].Parts.Find(x => x.Part.BodyType == BodyTypes.Hair);
                                                                 outfitHairData.PreferredHairstylesByGrowthState[hairGrowthState] = savedPart.Part;

@@ -182,9 +182,11 @@ namespace Destrospean.HairTrouble
                 {
                     var outfits = simDescription.GetOutfits(outfitCategory);
                     var index = Array.FindIndex(outfits.ToArray(), x => x is SimOutfit outfit && outfit.Key == outfitHairData.OutfitKey);
+                    index = index == -1 ? Array.FindIndex(outfits.ToArray(), x => x is SimOutfit outfit && outfitHairData.OtherPartsMatch(outfit)) : index;
                     if (index > -1)
                     {
                         outfitHairData.Index = index;
+                        outfitHairData.OutfitKey = ((SimOutfit)outfits[index]).Key;
                         continue;
                     }
                     if (simDescription.GetOutfitCount(outfitCategory) < outfitHairDataList.FindAll(x => x.Category == outfitCategory).Count)
@@ -197,10 +199,10 @@ namespace Destrospean.HairTrouble
                     {
                         if (outfitIndex == outfitHairData.Index)
                         {
-                            outfitHairData.OutfitKey = outfit.Key;
                             var hairstyle = Array.Find(outfit.Parts, x => x.BodyType == BodyTypes.Hair);
                             outfitHairData.CurrentHairstyle = hairstyle;
                             outfitHairData.CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
+                            outfitHairData.OutfitKey = outfit.Key;
                             break;
                         }
                         outfitIndex++;
@@ -216,11 +218,12 @@ namespace Destrospean.HairTrouble
                     if (index == -1)
                     {
                         index = outfitHairDataList.Count;
-                        outfitHairDataList.Add(new SimHairGrowth.OutfitHairData(simDescription, outfit, outfitCategory, outfitIndex, new Dictionary<HairGrowthStates, CASPart>(), new Dictionary<HairGrowthStates, string>()));
+                        outfitHairDataList.Add(new SimHairGrowth.OutfitHairData(simDescription, outfit, outfitCategory, outfitIndex));
                     }
                     var hairstyle = Array.Find(outfit.Parts, x => x.BodyType == BodyTypes.Hair);
                     outfitHairDataList[index].CurrentHairstyle = hairstyle;
                     outfitHairDataList[index].CurrentHatPreset = outfit.GetPartPreset(hairstyle.Key);
+                    outfitHairDataList[index].OutfitKey = outfit.Key;
                     outfitIndex++;
                 }
             }
