@@ -59,10 +59,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         public class OutfitAssignment
         {
             public string ServiceName;
+            
+            public SimDescription SimDescription;
 
             public string SpecialOutfitKey;
-
-            public SimDescription SimDescription;
 
             public OutfitAssignment()
             {
