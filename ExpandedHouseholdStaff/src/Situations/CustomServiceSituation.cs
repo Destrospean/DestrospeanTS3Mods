@@ -595,30 +595,24 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             DebugUtils.TryDisplayScriptError(() =>
                 {
                     var service = (CustomService)Service;
-                    if (Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out var outfitAssignment))
+                    if (Worker.SimDescription.TryGetGlobalOutfitAssignment(service.Profile, out var outfitAssignment) && Worker.AddAssignedOutfit(outfitAssignment.SpecialOutfitKey))
                     {
-                        if (Worker.SimDescription.HasSpecialOutfit(outfitAssignment.SpecialOutfitKey))
+                        Worker.SimDescription.AddOutfit(new SimOutfit(Worker.SimDescription.GetSpecialOutfit(outfitAssignment.SpecialOutfitKey).Key), OutfitCategories.Career, true);
+                        for (var i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
                         {
-                            Worker.SimDescription.RemoveSpecialOutfit(outfitAssignment.SpecialOutfitKey);
+                            Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
                         }
-                        if (Worker.AddAssignedOutfit(outfitAssignment.SpecialOutfitKey))
+                        if (Worker.SimDescription.IsRobot)
                         {
-                            Worker.SimDescription.AddOutfit(new SimOutfit(Worker.SimDescription.GetSpecialOutfit(outfitAssignment.SpecialOutfitKey).Key), OutfitCategories.Career, true);
-                            for (var i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
-                            {
-                                Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
-                            }
-                            if (!Worker.SimDescription.IsRobot)
-                            {
-                                if (pushAsInteraction)
-                                {
-                                    Worker.PushSwitchToOutfitInteraction(Sim.ClothesChangeReason.Force, OutfitCategories.Career, new InteractionPriority(InteractionPriorityLevel.Autonomous, 50f));
-                                    return;
-                                }
-                                Worker.SwitchToOutfitWithoutSpin(OutfitCategories.Career);
-                            }
                             return;
                         }
+                        if (pushAsInteraction)
+                        {
+                            Worker.PushSwitchToOutfitInteraction(Sim.ClothesChangeReason.Force, OutfitCategories.Career, new InteractionPriority(InteractionPriorityLevel.Autonomous, 50f));
+                            return;
+                        }
+                        Worker.SwitchToOutfitWithoutSpin(OutfitCategories.Career);
+                        return;
                     }
                     if ((service.Profile as ServiceUtils.ServiceProfile)?.GetUniformFromName ?? false)
                     {
@@ -630,15 +624,16 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                     {
                         Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
                     }
-                    if (!Worker.SimDescription.IsRobot)
+                    if (Worker.SimDescription.IsRobot)
                     {
-                        if (pushAsInteraction)
-                        {
-                            Worker.PushSwitchToOutfitInteraction(Sim.ClothesChangeReason.Force, OutfitCategories.Career, new InteractionPriority(InteractionPriorityLevel.Autonomous, 50f));
-                            return;
-                        }
-                        Worker.SwitchToOutfitWithoutSpin(OutfitCategories.Career);
+                        return;
                     }
+                    if (pushAsInteraction)
+                    {
+                        Worker.PushSwitchToOutfitInteraction(Sim.ClothesChangeReason.Force, OutfitCategories.Career, new InteractionPriority(InteractionPriorityLevel.Autonomous, 50f));
+                        return;
+                    }
+                    Worker.SwitchToOutfitWithoutSpin(OutfitCategories.Career);
                 });
         }
 
