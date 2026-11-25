@@ -116,53 +116,47 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
         {
             private AlarmHandle mAlarmHandle = AlarmHandle.kInvalidHandle;
 
-            public bool HasDuties
-            {
-                get
+            public bool HasDuties => !DebugUtils.TryDisplayScriptError(() =>
                 {
-                    return !DebugUtils.TryDisplayScriptError(() =>
+                    Parent.MoveAllPossibleToTargetInventory();
+                    var service = Parent.Service as CustomService;
+                    if (service?.Profile.IsScaredOfBonehilda ?? false)
+                    {
+                        foreach (var sim in Lot.GetObjects<Sim>())
                         {
-                            Parent.MoveAllPossibleToTargetInventory();
-                            var service = Parent.Service as CustomService;
-                            if (service?.Profile.IsScaredOfBonehilda ?? false)
+                            if (sim.SimDescription.IsBonehilda && sim.RoomId == Parent.Worker.RoomId)
                             {
-                                foreach (var sim in Lot.GetObjects<Sim>())
-                                {
-                                    if (sim.SimDescription.IsBonehilda && sim.RoomId == Parent.Worker.RoomId)
-                                    {
-                                        Parent.Worker.BuffManager.AddElement(BuffNames.Scared, Origin.FromSeeingBonehilda);
-                                        Parent.SetState(new QuitCauseOfBonehilda(Parent));
-                                        return false;
-                                    }
-                                }
+                                Parent.Worker.BuffManager.AddElement(BuffNames.Scared, Origin.FromSeeingBonehilda);
+                                Parent.SetState(new QuitCauseOfBonehilda(Parent));
+                                return false;
                             }
-                            if (Parent.Worker.CurrentInteraction == null)
-                            {
-                                PushSwitchToServiceUniform();
-                            }
-                            else if (Parent.Worker.CurrentInteraction.GetPriority().Level <= InteractionPriorityLevel.Autonomous)
-                            {
-                                var interactionInstance = AutonomyUtils.FindBestAction(Parent.Worker.Autonomy);
-                                if (interactionInstance != null && Parent.IsInteractionBetterThanCurrent(interactionInstance))
-                                {
-                                    Parent.Worker.AddExitReason(ExitReason.CanceledByScript);
-                                    return true;
-                                }
-                            }
-                            /*
-                            if (Parent.Worker.InteractionQueue != null)
-                            {
-                                var headInteraction = Parent.Worker.InteractionQueue.GetHeadInteraction();
-                                if (headInteraction != null && service != null && headInteraction.SatisfiesCommodity(service.ServiceMotive))
-                                {
-                                    return true;
-                                }
-                            }
-                            */
+                        }
+                    }
+                    if (Parent.Worker.CurrentInteraction == null)
+                    {
+                        PushSwitchToServiceUniform();
+                    }
+                    else if (Parent.Worker.CurrentInteraction.GetPriority().Level <= InteractionPriorityLevel.Autonomous)
+                    {
+                        var interactionInstance = AutonomyUtils.FindBestAction(Parent.Worker.Autonomy);
+                        if (interactionInstance != null && Parent.IsInteractionBetterThanCurrent(interactionInstance))
+                        {
+                            Parent.Worker.AddExitReason(ExitReason.CanceledByScript);
                             return true;
-                        }, out var retVal) && retVal;
-                }
-            }
+                        }
+                    }
+                    /*
+                    if (Parent.Worker.InteractionQueue != null)
+                    {
+                        var headInteraction = Parent.Worker.InteractionQueue.GetHeadInteraction();
+                        if (headInteraction != null && service != null && headInteraction.SatisfiesCommodity(service.ServiceMotive))
+                        {
+                            return true;
+                        }
+                    }
+                    */
+                    return true;
+                }, out var retVal) && retVal;
 
             public PerformDuties()
             {
@@ -427,14 +421,10 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
                 }
                 foreach (var sim in Lot.EffectiveHousehold.Sims)
                 {
-                    if (sim.SimDescription.YoungAdultOrAbove)
+                    if (sim.SimDescription.YoungAdultOrAbove && Relationship.Get(Worker, sim, true).LTR.Liking < ((CustomService)Service).RelationshipLevelForQuit)
                     {
-                        var relationship = Relationship.Get(Worker, sim, true);
-                        if (relationship.LTR.Liking < ((CustomService)Service).RelationshipLevelForQuit)
-                        {
-                            SetToFire(Worker, Worker);
-                            return true;
-                        }
+                        SetToFire(Worker, Worker);
+                        return true;
                     }
                 }
                 return false;
@@ -459,13 +449,13 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             {
                 return true;
             }
-            if (sim.Motives.IsLonely() && !attendingToChild && !preparingFood && (sim.Conversation == null || !sim.Conversation.ContainsSim(Worker)))
+            if (!sim.Motives.IsLonely() || attendingToChild || preparingFood || (sim.Conversation != null && sim.Conversation.ContainsSim(Worker)))
             {
-                Worker.AddExitReason(ExitReason.Finished);
-                Worker.InteractionQueue.AddNext(new SocialInteractionA.Definition("Chat", new string[0], null, false).CreateInstance(sim, Worker, new InteractionPriority(InteractionPriorityLevel.NonCriticalNPCBehavior, GetNewInteractionPriorityValue()), true, true));
-                return true;
+                return false;
             }
-            return false;
+            Worker.AddExitReason(ExitReason.Finished);
+            Worker.InteractionQueue.AddNext(new SocialInteractionA.Definition("Chat", new string[0], null, false).CreateInstance(sim, Worker, new InteractionPriority(InteractionPriorityLevel.NonCriticalNPCBehavior, GetNewInteractionPriorityValue()), true, true));
+            return true;
         }
 
         public override void ChargeForService(Callback callbackOnCompletion)
@@ -490,10 +480,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
             }
             MoveAllPossibleToTargetInventory();
             mbHasCharged = true;
-            if (callbackOnCompletion != null)
-            {
-                callbackOnCompletion(Worker, 0f);
-            }
+            callbackOnCompletion?.Invoke(Worker, 0f);
         }
 
         public override CarService CreateServiceCar()
@@ -546,10 +533,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
         public void MoveAllPossibleToTargetInventory()
         {
-            if (mProtectedInventory == null)
-            {
-                mProtectedInventory = Worker.Inventory.FindAll<IGameObject>(false);
-            }
+            mProtectedInventory = mProtectedInventory ?? Worker.Inventory.FindAll<IGameObject>(false);
             Worker.Inventory.FindAll<IGameObject>(true, (gameObject, customData) => !mProtectedInventory.Contains(gameObject) && gameObject.ObjectOwnerComponent?.Thief != Worker && !Lot.EffectiveHousehold.Sims.Contains(gameObject.ObjectOwnerComponent?.GameObjectStolenFrom as Sim) && gameObject.ObjectOwnerComponent?.GameObjectStolenFrom != Lot && !((gameObject as MusicalInstrument)?.IsInBeingPlayedInteraction ?? false)).ForEach(x => TryMoveToTargetInventory(x));
         }
 
@@ -639,14 +623,7 @@ namespace Sims3.Gameplay.Destrospean.ExpandedHouseholdStaff.Situations
 
         public bool TryMoveToTargetInventory(IGameObject gameObject)
         {
-            if (Lot.EffectiveHousehold != null && !(FindTargetSimInventory(Lot.EffectiveHousehold)?.TryToMove(gameObject) ?? false))
-            {
-                if (!(Lot.EffectiveHousehold.SharedFridgeInventory?.Inventory?.TryToMove(gameObject) ?? false))
-                {
-                    return Lot.EffectiveHousehold.SharedFamilyInventory?.Inventory?.TryToMove(gameObject) ?? false;
-                }
-            }
-            return true;
+            return Lot.EffectiveHousehold == null || (FindTargetSimInventory(Lot.EffectiveHousehold)?.TryToMove(gameObject) ?? false) || (Lot.EffectiveHousehold.SharedFridgeInventory?.Inventory?.TryToMove(gameObject) ?? false) || (Lot.EffectiveHousehold.SharedFamilyInventory?.Inventory?.TryToMove(gameObject) ?? false);
         }
     }
 }

@@ -337,15 +337,12 @@ namespace Sims3.Gameplay.Abstracts.Destrospean.ExpandedHouseholdStaff
         public virtual void SwitchWorkerToServiceOutfit(bool pushAsInteraction)
         {
             var uniformName = GetUniformName(Worker.SimDescription);
-            if (uniformName != null)
+            if (uniformName != null && OutfitUtils.TryApplyUniformToOutfit(Worker.SimDescription.GetOutfit(OutfitCategories.Everyday, 0), new SimOutfit(ResourceKey.CreateOutfitKeyFromProductVersion(uniformName, ProductVersion.BaseGame)), Worker.SimDescription, DerivedType.Name + ".SwitchWorkerToServiceOutfit", out var resultOutfit))
             {
-                if (OutfitUtils.TryApplyUniformToOutfit(Worker.SimDescription.GetOutfit(OutfitCategories.Everyday, 0), new SimOutfit(ResourceKey.CreateOutfitKeyFromProductVersion(uniformName, ProductVersion.BaseGame)), Worker.SimDescription, DerivedType.Name + ".SwitchWorkerToServiceOutfit", out var resultOutfit))
+                Worker.SimDescription.AddOutfit(resultOutfit, OutfitCategories.Career, true);
+                for (var i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
                 {
-                    Worker.SimDescription.AddOutfit(resultOutfit, OutfitCategories.Career, true);
-                    for (var i = Worker.SimDescription.GetOutfitCount(OutfitCategories.Career) - 1; i > 0; i--)
-                    {
-                        Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
-                    }
+                    Worker.SimDescription.RemoveOutfit(OutfitCategories.Career, i, true);
                 }
             }
             if (pushAsInteraction)
