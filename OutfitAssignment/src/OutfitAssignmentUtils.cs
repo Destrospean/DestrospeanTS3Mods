@@ -99,7 +99,8 @@ namespace Destrospean.OutfitAssignment
 
         public static Dictionary<string, AssignedOutfit> AssignedOutfits => (Dictionary<string, AssignedOutfit>)typeof(OutfitAssignmentUtils).GetField("GlobalOutfits").GetValue(null);
 
-        [Obsolete("Use `AssignedOutfits` instead", true), PersistableStatic(true)]
+        [Obsolete("Use `AssignedOutfits` instead", true)]
+        [PersistableStatic(true)]
         public static Dictionary<string, AssignedOutfit> GlobalOutfits = new Dictionary<string, AssignedOutfit>();
 
         public static Dictionary<string, OutfitAssignment> IndexedOutfitAssignments
