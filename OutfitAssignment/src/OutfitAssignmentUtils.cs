@@ -71,11 +71,15 @@ namespace Destrospean.OutfitAssignment
         [Persistable]
         public class OutfitAssignment
         {
-            public InteractionInstanceTypeUtils.CallbackTypes EntryCallbackType, ExitCallbackType;
-
-            public string InteractionInstanceType, SpecialOutfitKey;
-
+            public InteractionInstanceTypeUtils.CallbackTypes EntryCallbackType;
+            
+            public InteractionInstanceTypeUtils.CallbackTypes ExitCallbackType;
+            
+            public string InteractionInstanceType;
+            
             public SimDescription SimDescription;
+            
+            public string SpecialOutfitKey;
 
             public OutfitAssignment()
             {
