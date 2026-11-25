@@ -212,7 +212,7 @@ namespace Destrospean.Utils.HairTrouble
                         {
                             continue;
                         }
-                        SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState[specialOutfitKey].PreferredHairstylesByGrowthState[hairGrowthState] = new CASPart(ResourceKey.FromString(node.Attributes["partKey"].Value));
+                        SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState[specialOutfitKey].PreferredHairstylesByGrowthState[hairGrowthState] = new CASPart(ResourceKey.FromString(node.Attributes?["partKey"].Value));
                         SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState[specialOutfitKey].PreferredHatPresetsByGrowthState[hairGrowthState] = WrapInnerXmlAsDocument(hairstyleNode);
                     }
                 }
@@ -276,8 +276,8 @@ namespace Destrospean.Utils.HairTrouble
                     foreach (var hairGrowthState in entry.Value.PreferredHairstylesByGrowthState.Keys)
                     {
                         xmlWriter.WriteStartElement("Hairstyle");
-                        xmlWriter.WriteAttributeString("partKey", entry.Value.PreferredHairstylesByGrowthState[hairGrowthState].Key.ToString().ToUpperInvariant());
                         xmlWriter.WriteAttributeString("growthState", hairGrowthState.ToString());
+                        xmlWriter.WriteAttributeString("partKey", entry.Value.PreferredHairstylesByGrowthState[hairGrowthState].Key.ToString().ToUpperInvariant());
                         xmlWriter.WriteRaw(entry.Value.PreferredHatPresetsByGrowthState[hairGrowthState].Substring(entry.Value.PreferredHatPresetsByGrowthState[hairGrowthState].IndexOf("\n", StringComparison.Ordinal)));
                         xmlWriter.WriteEndElement();
                     }
