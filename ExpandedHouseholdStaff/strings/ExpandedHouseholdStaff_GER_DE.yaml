@@ -2,417 +2,417 @@
     "/UI":
         "/Dialogs":
             "/NamespaceListDialog":
-                ":Title": "Select Namespace"
+                ":Title": "Namensraum auswählen"
                 "/Titles":
-                    ":InteractionDefinition": "Select Interaction Definition Namespace"
-                    ":Target": "Select Target Namespace"
+                    ":InteractionDefinition": "Namensraum der Interaktionsdefinition auswählen"
+                    ":Target": "Namensraum des Ziels auswählen"
                 "/Headers":
                     "/Text":
-                        ":Text": "Namespace"
-                        ":Tooltip": "The namespace of the class"
+                        ":Text": "Namensraum"
+                        ":Tooltip": "Namensraum der Klasse"
             "/TypeListDialog":
-                ":Title": "Select Class"
+                ":Title": "Klasse auswählen"
                 "/Titles":
-                    ":InteractionDefinition": "Select Interaction Definition Class"
-                    ":Target": "Select Target Class"
+                    ":InteractionDefinition": "Klasse der Interaktionsdefinition auswählen"
+                    ":Target": "Zielklasse auswählen"
                 "/Headers":
                     "/Type":
-                        ":Text": "Class"
-                        ":Tooltip": "The name of the class"
+                        ":Text": "Klasse"
+                        ":Tooltip": "Name der Klasse"
             "/SkillListDialog":
-                ":Title": "Specify Skill Levels"
+                ":Title": "Fähigkeitenstufen festlegen"
                 "/SubmenuTitles":
-                    ":SkillLevel": "Specify Skill Level"
+                    ":SkillLevel": "Fähigkeitsstufe festlegen"
                 "/SubmenuPrompts":
-                    ":SkillLevel": "Enter in the skill level (a value greater than maximum sets it to maximum)."
+                    ":SkillLevel": "Gebe die Fähigkeitenstufe ein (ein Wert größer als das Maximum setzt den Wert auf Maximum)"
                 "/Headers":
                     "/Skill":
-                        ":Text": "Skill"
-                        ":Tooltip": "The name of the skill"
+                        ":Text": "Fähigkeit"
+                        ":Tooltip": "Name der Fähigkeit"
                     "/Level":
-                        ":Text": "Level"
-                        ":Tooltip": "The skill level"
+                        ":Text": "Stufe"
+                        ":Tooltip": "Fähigkeitenstufe"
             "/TraitListDialog":
-                ":Title": "Select Traits"
+                ":Title": "Merkmale auswählen"
                 "/Titles":
-                    ":Explicit": "Select Explicit Traits"
-                    ":Hidden": "Select Hidden Traits"
-                    ":Potential": "Select Possible Random Traits"
+                    ":Explicit": "Geforderte Merkmale auswählen"
+                    ":Hidden": "Versteckte Merkmale auswählen"
+                    ":Potential": "Mögliche zufällige Merkmale auswählen"
                 "/Headers":
                     "/Trait":
-                        ":Text": "Trait"
-                        ":Tooltip": "The name of the trait"
+                        ":Text": "Merkmal"
+                        ":Tooltip": "Name des Merkmals"
                     "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the trait is enabled"
+                        ":Text": "Aktiviert"
+                        ":Tooltip": "Ob das Merkmal aktiviert ist"
                 "/Options":
                     "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
+                        ":True": "Ja"
+                        ":False": "Nein"
             "/MotiveListDialog":
-                ":Title": "Select Motives"
+                ":Title": "Bedürfnisse auswählen:"
                 "/Headers":
                     "/Text":
-                        ":Text": "Motive"
-                        ":Tooltip": "The name of the motive"
+                        ":Text": "Bedürfnis"
+                        ":Tooltip": "Name des Bedürfnisses"
                     "/TextInList":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the motive is enabled"
+                        ":Text": "Aktiviert"
+                        ":Tooltip": "Ob das Bedürfnis aktiviert ist"
                 "/Options":
                     "/TextInList":
-                        ":True": "True"
-                        ":False": "False"
+                        ":True": "Ja"
+                        ":False": "Nein"
             "/CASAgeGenderFlagListDialog":
-                ":Title": "Select Allowed Demographics"
+                ":Title": "Erlaubte demografische Gruppe auswählen"
                 "/Titles":
-                    ":Age": "Select Allowed Ages"
-                    ":Gender": "Select Allowed Genders"
+                    ":Age": "Erlaubte Altersstufen auswählen"
+                    ":Gender": "Erlaubte Geschlechter auswählen"
                 "/Headers":
                     "/CASAgeGenderFlag":
-                        ":Text": "Setting"
-                        ":Tooltip": "The name of the setting corresponding to the demographic to allow"
+                        ":Text": "Einstellung"
+                        ":Tooltip": "Name der Einstellung, die der zu erlaubenden demografischen Gruppe entspricht"
                     "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the demographic is allowed"
+                        ":Text": "Aktiviert"
+                        ":Tooltip": "Ob diese demografische Gruppe aktiviert ist"
                 "/Options":
                     "/CASAgeGenderFlag":
-                        ":Baby": "Allow Babies"
-                        ":Toddler": "Allow Toddlers"
-                        ":Child": "Allow Children"
-                        ":Teen": "Allow Teens"
-                        ":YoungAdult": "Allow Young Adults"
-                        ":Adult": "Allow Adults"
-                        ":Elder": "Allow Elders"
-                        ":Male": "Allow Males"
-                        ":Female": "Allow Females"
+                        ":Baby": "Babys erlauben"
+                        ":Toddler": "Kleinkinder erlauben"
+                        ":Child": "Kinder erlauben"
+                        ":Teen": "Teenager erlauben"
+                        ":YoungAdult": "Junge Erwachsene erlauben"
+                        ":Adult": "Erwachsene erlauben"
+                        ":Elder": "Senioren erlauben"
+                        ":Male": "Männer erlauben"
+                        ":Female": "Frauen erlauben"
                     "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
+                        ":True": "Ja"
+                        ":False": "Nein"
             "/ServiceOutfitDemographicDialog":
-                ":Title": "Select Demographic"
+                ":Title": "Demografische Gruppe auswählen"
                 "/Titles":
-                    ":Age": "Select Age"
-                    ":Gender": "Select Gender"
+                    ":Age": "Alter auswählen"
+                    ":Gender": "Geschlecht auswählen"
                 "/Headers":
                     "/CASAgeGenderFlag":
-                        ":Text": "Demographic"
-                        ":Tooltip": "The name of the demographic"
+                        ":Text": "Demografische Gruppe"
+                        ":Tooltip": "Name der demografischen Gruppe"
                 "/Options":
                     "/CASAgeGenderFlag":
                         ":Baby": "Baby"
-                        ":Toddler": "Toddler"
-                        ":Child": "Child"
-                        ":Teen": "Teen"
-                        ":Adult": "Young Adult/Adult"
-                        ":Elder": "Elder"
-                        ":Male": "Male"
-                        ":Female": "Female"
+                        ":Toddler": "Kleinkind"
+                        ":Child": "Kind"
+                        ":Teen": "Teenager"
+                        ":Adult": "Junger Erwachsener / Erwachsener"
+                        ":Elder": "Senior"
+                        ":Male": "Männlich"
+                        ":Female": "Weiblich"
             "/PartOverrideListDialog":
-                ":Title": "Select Part Overrides"
+                ":Title": "Zu überschreibende Partien auswählen"
                 "/Headers":
                     "/PartType":
-                        ":Text": "Part Type"
-                        ":Tooltip": "The name of the part type"
+                        ":Text": "Partie"
+                        ":Tooltip": "Name der Partie"
                     "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the part override is enabled"
+                        ":Text": "Aktiviert"
+                        ":Tooltip": "Ob die Überschreibung der Partie aktiviert ist"
                 "/Options":
                     "/PartType":
-                        ":Accessories": "Accessories"
+                        ":Accessories": "Accessoires"
                         ":Armband": "Armband"
-                        ":Beard": "Facial Hair"
-                        ":Blush": "Blush"
-                        ":BodyHairCalves": "Body Hair (Calves)"
-                        ":BodyHairFeet": "Body Hair (Feet)"
-                        ":BodyHairForearms": "Body Hair (Forearms)"
-                        ":BodyHairFullBack": "Body Hair (Full Back)"
-                        ":BodyHairLowerBack": "Body Hair (Lower Back)"
-                        ":BodyHairStomach": "Body Hair (Stomach)"
-                        ":BodyHairUpperBack": "Body Hair (Upper Back)"
-                        ":BodyHairUpperChest": "Body Hair (Upper Chest)"
-                        ":Bracelet": "Bracelet"
-                        ":CostumeMakeup": "Costume Makeup"
-                        ":Earrings": "Earrings"
-                        ":Eyebrows": "Eyebrows"
+                        ":Beard": "Gesichtsbehaarung"
+                        ":Blush": "Rouge"
+                        ":BodyHairCalves": "Körperbehaarung (Waden)"
+                        ":BodyHairFeet": "Körperbehaarung (Füße)"
+                        ":BodyHairForearms": "Körperbehaarung (Unterarme)"
+                        ":BodyHairFullBack": "Körperbehaarung (Ganzer Rücken)"
+                        ":BodyHairLowerBack": "Körperbehaarung (Unterer Rücken)"
+                        ":BodyHairStomach": "Körperbehaarung (Bauch)"
+                        ":BodyHairUpperBack": "Körperbehaarung (Oberer Rücken)"
+                        ":BodyHairUpperChest": "Körperbehaarung (Brust)"
+                        ":Bracelet": "Armband"
+                        ":CostumeMakeup": "Kostüm-Makeup"
+                        ":Earrings": "Ohrringe"
+                        ":Eyebrows": "Augenbrauen"
                         ":EyeLiner": "Eyeliner"
-                        ":EyeShadow": "Eyeshadow"
-                        ":FirstAccessories": "Accessories"
-                        ":FirstFace": "Lipstick"
-                        ":FullBody": "Full Body"
-                        ":Glasses": "Glasses"
-                        ":Gloves": "Gloves"
-                        ":Hair": "Hair"
-                        ":Lipstick": "Lipstick"
-                        ":LeftEarring": "Left Earring"
-                        ":LeftGarter": "Left Garter"
-                        ":LowerBody": "Lower Body"
+                        ":EyeShadow": "Lidschatten"
+                        ":FirstAccessories": "Accessoires"
+                        ":FirstFace": "Lippenstift"
+                        ":FullBody": "Ganzer Körper"
+                        ":Glasses": "Brillen"
+                        ":Gloves": "Handschuhe"
+                        ":Hair": "Haare"
+                        ":Lipstick": "Lippenstift"
+                        ":LeftEarring": "Linker Ohrring"
+                        ":LeftGarter": "Linke Socke"
+                        ":LowerBody": "Unterer Körper"
                         ":Mascara": "Mascara"
-                        ":Necklace": "Necklace"
-                        ":NoseRing": "Nose Ring"
-                        ":RightEarring": "Right Earring"
-                        ":RightGarter": "Right Garter"
+                        ":Necklace": "Kette"
+                        ":NoseRing": "Nasenring"
+                        ":RightEarring": "Rechter Ohrring"
+                        ":RightGarter": "Rechte Socke"
                         ":Ring": "Ring"
-                        ":Shoes": "Shoes"
-                        ":Socks": "Socks"
-                        ":UpperBody": "Upper Body"
-                        ":WeddingRing": "Wedding Ring"
+                        ":Shoes": "Schuhe"
+                        ":Socks": "Socken"
+                        ":UpperBody": "Oberer Körper"
+                        ":WeddingRing": "Ehering"
                     "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
+                        ":True": "Ja"
+                        ":False": "Nein"
             "/ServiceProfileFlagListDialog":
-                ":Title": "Select Service Properties"
+                ":Title": "Diensteigenschaften auswählen"
                 "/Headers":
                     "/ServiceProfileFlag":
-                        ":Text": "Property"
-                        ":Tooltip": "The name of the property"
+                        ":Text": "Eigenschaft"
+                        ":Tooltip": "Name der Eigenschaft"
                     "/Enabled":
-                        ":Text": "Enabled"
-                        ":Tooltip": "Whether the property is enabled"
+                        ":Text": "Aktiviert"
+                        ":Tooltip": "Ob die Eigenschaft aktiviert ist oder nicht"
                 "/Options":
                     "/ServiceProfileFlag":
-                        ":LiveInService": "Live-In Service"
-                        ":QuietAroundSleepingSims": "Quiet Around Sleeping Sims"
-                        ":ReportsFires": "Report Fires to the Fire Department"
-                        ":ScaredOfBonehilda": "Scared of Bonehilda"
-                        ":WaitsBeforePuttingAwayLeftovers": "Wait Before Putting Away Leftovers"
-                        ":Recurrent": "Recurring"
-                        ":EmergencyService": "Emergency Service"
-                        ":AlwaysTryToSendTheSameSim": "Always Try to Send the Same Sim"
-                        ":BabysittingService": "Care for Babies, Toddlers, and Children"
-                        ":RequireBeInSameRoom": "Must Be in the Same Room As Babies, Toddlers, and Children"
-                        ":PreventSocialization": "Prevent Socializing"
+                        ":LiveInService": "Im Haushalt lebender Dienst"
+                        ":QuietAroundSleepingSims": "Ruhig in der Nähe von schlafenden Sims"
+                        ":ReportsFires": "Feuer bei Feuerwehr melden"
+                        ":ScaredOfBonehilda": "Angst vor Bonehilda"
+                        ":WaitsBeforePuttingAwayLeftovers": "Warte bevor Reste weglegen"
+                        ":Recurrent": "Wiederkehrend"
+                        ":EmergencyService": "Notfalldienst"
+                        ":AlwaysTryToSendTheSameSim": "Versuche immer denselben Sim zu schicken"
+                        ":BabysittingService": "Kümmere um Babys, Kleinkinder und Kinder"
+                        ":RequireBeInSameRoom": "Muss im selben Raum sein wie Babys, Kleinkinder und Kinder"
+                        ":PreventSocialization": "Verhindere Geselligkeit"
                     "/Enabled":
-                        ":True": "True"
-                        ":False": "False"
+                        ":True": "Ja"
+                        ":False": "Nein"
             "/ActiveTopicActionActivenessDialog":
-                ":Title": "Select Actor Type"
+                ":Title": "Akteurtyp auswählen"
                 "/Options":
-                    ":FPA": "First Person Actor"
-                    ":SPA": "Second Person Actor"
+                    ":FPA": "Erster Akteur"
+                    ":SPA": "Zweiter Akteur"
             "/LongTermRelationshipTypeDialog":
-                ":Title": "Select Long Term Relationship"
+                ":Title": "Langzeitbeziehung auswählen"
                 "/Options":
-                    ":All": "All"
-                    ":Default": "Default"
-                    ":Spouse": "Spouse"
+                    ":All": "Alle"
+                    ":Default": "Standard"
+                    ":Spouse": "Ehepartner"
                     ":Ex": "Ex"
-                    ":ExSpouse": "Ex-Spouse"
+                    ":ExSpouse": "Ex-Ehepartner"
             "/UpdateTypeDialog":
-                ":Title": "Select Update Type"
+                ":Title": "Update-Typ auswählen"
                 "/Options":
-                    ":First": "Continuous Flow"
-                    ":ContinuousFlow": "Continuous Flow"
-                    ":ImmediateDelta": "Immediate Delta"
+                    ":First": "Kontinuierlicher Fluss"
+                    ":ContinuousFlow": "Kontinuierlicher Fluss"
+                    ":ImmediateDelta": "Sofortige Änderung"
             "/ServiceProfileListDialog":
                 "/Titles":
-                    ":Singular": "Select Service"
-                    ":Plural": "Select Services"
+                    ":Singular": "Dienst auswählen"
+                    ":Plural": "Dienste auswählen"
                 "/Headers":
                     "/Name":
                         ":Text": "Name"
-                        ":Tooltip": "The internal name of the profile"
+                        ":Tooltip": "Interner Name vom Dienst"
                     "/Title":
-                        ":Text": "Title"
-                        ":Tooltip": "The display name of the profile"
+                        ":Text": "Titel"
+                        ":Tooltip": "Angezeigter Name vom Dienst"
             "/ActiveTopicActionListDialog":
                 "/Titles":
-                    ":Singular": "Select Action"
-                    ":Plural": "Select Actions"
+                    ":Singular": "Aktion auswählen"
+                    ":Plural": "Aktionen auswählen"
                 "/Headers":
                     "/ActiveTopicAction":
-                        ":Text": "Action"
-                        ":Tooltip": "The name of the action"
+                        ":Text": "Aktion"
+                        ":Tooltip": "Name der Aktion"
                     "/Grouping":
-                        ":Text": "Grouping"
-                        ":Tooltip": "The grouping of the action"
+                        ":Text": "Gruppierung"
+                        ":Tooltip": "Gruppierung der Aktion"
                     "/Activeness":
                         ":Text": "FPA/SPA"
-                        ":Tooltip": "Whether the actor of the action is the first person actor (FPA) or second person actor (SPA)"
+                        ":Tooltip": "Ob der Akteur der Aktion erster Akteur (FPA) oder zweiter Akteur (SPA) ist"
                 "/Options":
                     "/Activeness":
                         ":FPA": "FPA"
                         ":SPA": "SPA"
             "/OutputListDialog":
                 "/Titles":
-                    ":Singular": "Select Output"
-                    ":Plural": "Select Outputs"
+                    ":Singular": "Ausgabe auswählen"
+                    ":Plural": "Ausgaben auswählen"
                 "/Headers":
                     "/InteractionDefinitionType":
-                        ":Text": "Interaction Definition"
-                        ":Tooltip": "The namespace + class name of the interaction definition"
+                        ":Text": "Interaktionsdefinition"
+                        ":Tooltip": "Namensraum + Klassenname der Interaktionsdefinition"
                     "/TargetType":
-                        ":Text": "Target Type"
-                        ":Tooltip": "The namespace + class name of the target object type"
+                        ":Text": "Zieltyp"
+                        ":Tooltip": "Namensraum + Klassenname des Zieltyps"
             "/InventoryObjectListDialog":
                 "/Titles":
-                    ":Singular": "Select Inventory Item"
-                    ":Plural": "Select Inventory Items"
+                    ":Singular": "Inventarobjekt auswählen"
+                    ":Plural": "Inventarobjekte auswählen"
                 "/Headers":
                     "/InstanceName":
-                        ":Text": "Instance Name"
-                        ":Tooltip": "The instance name of the inventory item"
+                        ":Text": "Instanzenname"
+                        ":Tooltip": "Instanzenname des Inventarobjekts"
                     "/Group":
-                        ":Text": "Group"
-                        ":Tooltip": "The group ID of the inventory item"
+                        ":Text": "Gruppe"
+                        ":Tooltip": "Gruppen-ID des Inventarobjekts"
                     "/Count":
-                        ":Text": "Count"
-                        ":Tooltip": "The number of instances of the inventory item"
+                        ":Text": "Anzahl"
+                        ":Tooltip": "Anzahl der Instanzen des Inventarobjekts"
             "/CreateServiceProfileDialog":
-                ":Title": "Create Service"
+                ":Title": "Dienst erstellen"
                 "/Prompts":
-                    ":Name": "Enter in the internal name of the service (must be unique)."
-                    ":Title": "Enter in the display name of the service (what shows up in the UI)."
-                ":ServiceCreationFailed": "Service Creation Failed"
-                ":NotUnique": "The internal name was not unique."
-                ":NameEmpty": "The internal name was not specified."
-                ":TitleEmpty": "The display name was not specified."
+                    ":Name": "Gebe den internen Namen des Dienstes ein (muss einzigartig sein)"
+                    ":Title": "Gebe den angezeigten Namen des Dienstes ein (was in der Benutzeroberfläche gezeigt wird)"
+                ":ServiceCreationFailed": "Erstellung des Dienstes fehlgeschlagen"
+                ":NotUnique": "Der interne Name war nicht einzigartig."
+                ":NameEmpty": "Der interne Name wurde nicht angegeben."
+                ":TitleEmpty": "Der angezeigte Name wurde nicht angegeben."
             "/CloneServiceProfileDialog":
-                ":Title": "Clone Service"
-                ":Prompt": "Enter in the new internal name of the cloned service (must be unique)."
+                ":Title": "Dienst kopieren"
+                ":Prompt": "Gebe den neuen internen Namen des kopierten Dienstes ein (muss einzigartig sein)"
             "/EditServiceProfileDialog":
-                ":Title": "Specify Display Name"
-                ":Prompt": "Enter in display name of the service (what shows up in the UI)."
-                ":TitleChangeFailed": "Invalid Input"
+                ":Title": "Angezeigten Namen eingeben"
+                ":Prompt": "Gebe den angezeigten Namen des Dienstes ein (was in der Benutzeroberfläche gezeigt wird)"
+                ":TitleChangeFailed": "Ungültige Eingabe"
             "/PhoneCallFeedbackDialog":
-                ":Title": "Specify Phone Call Feedback"
+                ":Title": "Telefonanruf-Antwort festlegen"
                 "/Prompts":
-                    ":SetCancelledMessage": "Enter in the feedback for cancelling the service."
-                    ":SetCancelledWhileActiveMessage": "Enter in the feedback for cancelling the service while it's active."
-                    ":SetRequestedMessage": "Enter in the feedback for requesting the service."
+                    ":SetCancelledMessage": "Gebe die Antwort für die Stornierung des Dienstes ein."
+                    ":SetCancelledWhileActiveMessage": "Gebe die Antwort für die Stornierung des Dienstes ein, während dieser aktiv ist."
+                    ":SetRequestedMessage": "Gebe die Antwort für die Bestellung des Dienstes ein."
             "/DelaysDialog":
-                ":Title": "Specify Arrival and Departure Delays"
+                ":Title": "Ankunfts- und Abreiseverzögerung festlegen"
                 "/Prompts":
-                    ":SetDelayBeforeArriving": "Enter in the delay (in minutes) for the worker to arrive."
-                    ":SetDelayBeforeLeaving": "Enter in the delay (in minutes) for the worker to leave."
-                    ":SetExtraWaitTimeAfterSocializing": "Enter in the time added to the delay (in minutes) from socializing before the worker leaves."
+                    ":SetDelayBeforeArriving": "Gebe die Verzögerung (in Minuten) für die Ankunft des Dienstleistenden ein."
+                    ":SetDelayBeforeLeaving": "Gebe die Verzögerung (in Minuten) für die Abreise des Dienstleistenden ein."
+                    ":SetExtraWaitTimeAfterSocializing": "Gebe die zur Verzögerung addierte Zeit (in Minuten) für soziale Interaktionen ein, bevor der Dienstleistende abreist."
             "/AddInventoryObjectDialog":
-                ":Title": "Specify Inventory Item Properties"
+                ":Title": "Eigenschaften des Inventarobjekts festlegen"
                 "/Prompts":
-                    ":SetInstanceName": "Enter in the instance name of the inventory item the worker spawns with."
-                    ":SetGroup": "Enter in the group ID of the inventory item the worker spawns with."
-                    ":SetCount": "Enter in the number of instances of the inventory item the worker spawns with."
+                    ":SetInstanceName": "Gebe den Instanzennamen des Inventarobjekts ein, mit dem der Dienstleistende erscheint."
+                    ":SetGroup": "Gebe die Gruppen-ID des Inventarobjekts ein, mit der der Dienstleistende erscheint."
+                    ":SetCount": "Gebe die Anzahl der Instanzen des Inventarobjekts ein, mit der der Dienstleistende erscheint."
             "/CostDialog":
-                ":Title": "Specify Cost"
+                ":Title": "Kosten festlegen"
                 "/Prompts":
-                    ":Daily": "Enter in the daily cost of the service."
-                    ":Weekly": "Enter in the weekly cost of the service."
+                    ":Daily": "Gebe die täglichen Kosten für den Dienst ein."
+                    ":Weekly": "Gebe die wöchentlichen Kosten für den Dienst ein."
             "/TimeToSpendWorkingDialog":
-                ":Title": "Specify Hours"
-                ":Prompt": "Enter in the number of hours the worker spends performing their service."
+                ":Title": "Stunden festlegen"
+                ":Prompt": "Gebe die Anzahl der Stunden ein, die der Dienstleistende mit der Ausführung des Dienstes verbringt."
             "/TimeToStartWorkingDialog":
-                ":Title": "Specify Start of Shift"
-                ":Prompt": "Enter in the time the worker starts their shift (in the format of HH:mm:ss)."
+                ":Title": "Lege den Anfang der Arbeitszeit fest"
+                ":Prompt": "Gebe die Uhrzeit an, zu der der Dienstleistende die Arbeit beginnt (im Format von HH:mm:ss)."
             "/TimeToStopWorkingDialog":
-                ":Title": "Specify End of Shift"
-                ":Prompt": "Enter in the time the worker ends their shift (in the format of HH:mm:ss)."
+                ":Title": "Lege das Ende der Arbeitszeit fest"
+                ":Prompt": "Gebe die Uhrzeit an, zu der der Dienstleistende die Arbeit beendet (im Format von HH:mm:ss)."
             "/PotentialTraitCountDialog":
-                ":Title": "Specify Possible Random Trait Count"
-                ":Prompt": "Enter in number of traits that will be selected randomly from the possible random traits pool."
+                ":Title": "Lege die Anzal der möglichen zufälligen Merkmale fest."
+                ":Prompt": "Gebe die Anzahl der Merkmale ein, die zufällig aus der Menge der möglichen zufälligen Merkmale ausgewählt werden."
             "/ActionNameDialog":
-                ":Title": "Specify Action Name"
-                ":Prompt": "Enter in the name of the action."
+                ":Title": "Aktionsname festlegen"
+                ":Prompt": "Gebe den Namen der Aktion ein."
             "/ActualValueDialog":
-                ":Title": "Specify Actual Priority"
-                ":Prompt": "Enter in the actual priority value."
+                ":Title": "Tatsächliche Priorität festlegen"
+                ":Prompt": "Gebe den Wert der tatsächlichen Priorität ein."
             "/AdvertisedValueDialog":
-                ":Title": "Specify Advertised Priority"
-                ":Prompt": "Enter in the advertised priority value."
+                ":Title": "Aufgeforderte Priorität festlegen"
+                ":Prompt": "Gebe den Wert der aufgeforderten Priorität ein."
             "/ServiceCollectionListDialog":
-                ":Title": "Select Service Collection"
+                ":Title": "Dienstsammlung auswählen"
                 "/Headers":
                     "/Text":
-                        ":Text": "Service Collection"
-                        ":Tooltip": "The name of the service collection"
+                        ":Text": "Dienstsammlung"
+                        ":Tooltip": "Name der Dienstsammlung"
             "/ExportServiceCollectionFilenameDialog":
-                ":Title": "Export Services"
-                ":Prompt": "Enter in the name of the service collection to export."
+                ":Title": "Dienste exportieren"
+                ":Prompt": "Gebe den Namen der zu exportierenden Dienstsammlung ein."
             "/ImportServiceCollectionSuccessDialog":
-                ":Title": "Import Successful"
-                ":Message": "The selected service collection was successfully imported."
+                ":Title": "Importierung erfolgreich"
+                ":Message": "Die ausgewählte Dienstsammlung wurde erfolgreich importiert."
             "/ExportServiceCollectionSuccessDialog":
-                ":Title": "Export Successful"
-                ":Message": "The service collection was successfully exported."
+                ":Title": "Exportierung erfolgreich"
+                ":Message": "Die Dienstsammlung wurde erfolgreich exportiert."
             "/DeleteServiceCollectionSuccessDialog":
-                ":Title": "Deletion Successful"
-                ":Message": "The selected service collections were successfully deleted."
+                ":Title": "Löschung erfolgreich"
+                ":Message": "Die ausgewählten Dienstsammlungen wurden erfolgreich gelöscht."
             "/NoServiceCollectionsExistDialog":
-                ":Title": "Import Failed"
-                ":Message": "No service collections currently exist."
+                ":Title": "Importierung fehlgeschlagen"
+                ":Message": "Es sind momentan keine Dienstsammlungen vorhanden."
             "/ServiceCollectionExistsDialog":
-                ":Title": "Export Failed"
-                ":Message": "A service collection of this name already exists."
+                ":Title": "Exportierung fehlgeschlagen"
+                ":Message": "Eine Dienstsammlung mit diesem Namen existiert bereits."
     "/ExpandedHouseholdStaff":
         "/Interactions":
             "/ListInteractions":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "List Internal Data of Interactions"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Interne Daten der Interaktionen auflisten"
                 "/Headers":
-                    ":ObjectName": "Object Name: "
-                    ":InteractionName": "Interaction Name: "
-                    ":InteractionDefinitionType": "Interaction Definition Type: "
-                    ":TargetType": "Target Type: "
+                    ":ObjectName": "Objektname: "
+                    ":InteractionName": "Interaktionsname: "
+                    ":InteractionDefinitionType": "Interaktionsdefinition-Typ: "
+                    ":TargetType": "Zieltyp: "
             "/CreateServiceProfile":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Create Service"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Dienst erstellen"
             "/CloneServiceProfile":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Clone Service"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Dienst kopieren"
             "/DeleteServiceProfile":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Delete Services"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Dienst löschen"
             "/EditServiceProfile":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Edit Service"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Dienst bearbeiten"
             "/EditServiceUniform":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Edit Service Uniform"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Dienstuniform bearbeiten"
             "/ResetServiceUniform":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Reset Service Uniform"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Dienstuniform zurücksetzen"
             "/AssignCarToService":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Assign Car to Service"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Auto für Dienst festlegen"
             "/ResetServiceCar":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Reset Service Cars"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Auto für Dienst zurücksetzen"
             "/AddActiveTopicAction":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Add Active Topic Action"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Aktive Aktion hinzufügen"
             "/RemoveActiveTopicAction":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Remove Active Topic Actions"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Aktive Aktion löschen"
             "/AddAutonomousInteraction":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Add Autonomous Interaction"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Autonome Interaktionen hinzufügen"
             "/RemoveAutonomousInteraction":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Remove Autonomous Interactions"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Autonome Interaktionen entfernen"
             "/AddInventoryObjectToService":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Add As Inventory Item for Service"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Als Inventarobjekt für Dienst hinzufügen"
             "/AddInventoryObject":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Add Inventory Item"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Inventarobjekt hinzufügen"
             "/RemoveInventoryObject":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Remove Inventory Items"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Inventarobjekte entfernen"
             "/ImportServiceCollection":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Import Service Collection"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Dienstsammlung importieren"
             "/ExportServiceCollection":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Export Service Collection"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Dienstsammlung exportieren"
             "/DeleteServiceCollection":
-                ":Path": "Expanded Household Staff..."
-                ":Name": "Delete Service Collections"
+                ":Path": "Erweiterte Haushaltsdienste..."
+                ":Name": "Dienstsammlung löschen"
         "/Services":
             "/CustomService":
-                ":RequestService": "Hire {0.String}"
-                ":ServiceRequested": "Thanks for the call. I'll be over as soon as I can."
-                ":ServiceCancelled": "The {0.String} service has been cancelled."
-                ":ServiceCancelledWhileActive": "We have already sent a {0.String} over today, but we have cancelled your recurring service."
-                ":NotEnoughFunds": "You don't have enough funds to pay the {0.String}."
-                ":WeeklyPayment": "I'll be taking my weekly salary of {0.Money}. Good Day."
+                ":RequestService": "{0.String} einstellen"
+                ":ServiceRequested": "Vielen Dank für den Anruf. Ich werde so schnell es geht da sein."
+                ":ServiceCancelled": "Der {0.String}-Dienst wurde gekündigt."
+                ":ServiceCancelledWhileActive": "Wir haben heute bereits einen {0.String}-Dienst vorbeigeschickt, aber den regelmäßigen Service gekündigt."
+                ":NotEnoughFunds": "Du hast nicht genug Geld um den {0.String}-Dienst zu bezahlen."
+                ":WeeklyPayment": "Ich nehme somit meinen wöchentlichen Lohn von {0.Money} mit. Einen schönen Tag noch."
                 "/SetUnsetServiceBed":
-                    ":SetInteractionName": "Set as {1.String} {0.SimFirstName}'s Bed"
-                    ":UnsetInteractionName": "Unset as {1.String} {0.SimFirstName}'s Bed"
+                    ":SetInteractionName": "Als {1.String} {0.SimFirstName}s Bett festlegen"
+                    ":UnsetInteractionName": "Als {1.String} {0.SimFirstName}s Bett zurücksetzen"
