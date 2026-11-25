@@ -52,7 +52,7 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
         {
             return ImportFromTuning(name, Localization.LocalizeString(kLocalizationKey + "/ImportServiceCollectionSuccessDialog:Title"), Localization.LocalizeString(kLocalizationKey + "/ImportServiceCollectionSuccessDialog:Message"));
         }
-        
+
         public override void LoadXml(string text)
         {
             using (var stringReader = new StringReader(text))
@@ -64,296 +64,285 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 {
                     var xmlDocument = new XmlDocument();
                     xmlDocument.Load(xmlReader);
-                    foreach (XmlNode node in xmlDocument.DocumentElement.ChildNodes)
-                    {
-                        if (node.Name == "ServiceProfile" && node is XmlElement element)
-                        {
-                            var serviceName = element.GetAttribute("name");
-                            var importedServiceMotiveName = element.GetAttribute("workMotive") ?? "Be" + serviceName;
-                            var profile = new ServiceUtils.ServiceProfile(serviceName, null)
-                                {
-                                    ServiceMotive = CommodityUtils.GetCommodityKind(importedServiceMotiveName, CommodityKindType.Motive),
-                                    VersionString = element.GetAttribute("version")
-                                };
-                            var serviceMotiveName = importedServiceMotiveName;
-                            while (ServiceUtils.ServiceMotiveExists(profile.ServiceMotive))
-                            {
-                                serviceMotiveName = importedServiceMotiveName + "_" + DownloadContent.GenerateGUID();
-                                profile.ServiceMotive = CommodityUtils.GetCommodityKind(serviceMotiveName, CommodityKindType.Motive);
-                            }
-                            CommonUtils.AddEnumValue<CommodityKind>(serviceMotiveName, profile.ServiceMotive);
-                            profile.Motives = new List<CommodityKind>
-                                {
-                                    profile.ServiceMotive
-                                };
-                            foreach (XmlNode profilePropertyNode in node.ChildNodes)
-                            {
-                                if (!(profilePropertyNode is XmlElement profilePropertyElement))
-                                {
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "Title")
-                                {
-                                    profile.Title = ParserFunctions.ParseBool(profilePropertyElement.GetAttribute("localize")) ? Localization.LocalizeString(profilePropertyNode.InnerText) : profilePropertyNode.InnerText;
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "RequestedMessage")
-                                {
-                                    profile.RequestedMessage = ParserFunctions.ParseBool(profilePropertyElement.GetAttribute("localize")) ? Localization.LocalizeString(profilePropertyNode.InnerText) : profilePropertyNode.InnerText;
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "CancelledMessage")
-                                {
-                                    profile.CancelledMessage = ParserFunctions.ParseBool(profilePropertyElement.GetAttribute("localize")) ? Localization.LocalizeString(profilePropertyNode.InnerText) : profilePropertyNode.InnerText;
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "CancelledWhileActiveMessage")
-                                {
-                                    profile.CancelledWhileActiveMessage = ParserFunctions.ParseBool(profilePropertyElement.GetAttribute("localize")) ? Localization.LocalizeString(profilePropertyNode.InnerText) : profilePropertyNode.InnerText;
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "DelayBeforeArriving")
-                                {
-                                    profile.DelayBeforeArriving = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.DelayBeforeArriving);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "DelayBeforeLeaving")
-                                {
-                                    profile.DelayBeforeLeaving = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.DelayBeforeLeaving);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "ExtraWaitTimeAfterSocializing")
-                                {
-                                    profile.ExtraWaitTimeAfterSocializing = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.ExtraWaitTimeAfterSocializing);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "ValidAges")
-                                {
-                                    try
-                                    {
-                                        profile.ValidAges = (CASAgeGenderFlags)Enum.Parse(typeof(CASAgeGenderFlags), profilePropertyNode.InnerText);
-                                    }
-                                    catch (ArgumentException)
-                                    {
-                                    }
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "ValidGenders")
-                                {
-                                    try
-                                    {
-                                        profile.ValidGenders = (CASAgeGenderFlags)Enum.Parse(typeof(CASAgeGenderFlags), profilePropertyNode.InnerText);
-                                    }
-                                    catch (ArgumentException)
-                                    {
-                                    }
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "ServiceProfileFlags")
-                                {
-                                    try
-                                    {
-                                        profile.SetFlags((ServiceProfileFlags)Enum.Parse(typeof(ServiceProfileFlags), profilePropertyNode.InnerText));
-                                    }
-                                    catch (ArgumentException)
-                                    {
-                                    }
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "TimeToStartWorking")
-                                {
-                                    profile.TimeToStartWorking = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.TimeToStartWorking);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "TimeToStopWorking")
-                                {
-                                    profile.TimeToStopWorking = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.TimeToStopWorking);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "Cost")
-                                {
-                                    profile.Cost = ParserFunctions.ParseInt(profilePropertyNode.InnerText, profile.Cost);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "Motives")
-                                {
-                                    foreach (XmlNode motiveNode in profilePropertyNode.ChildNodes)
-                                    {
-                                        if (motiveNode.Attributes["name"].Value != importedServiceMotiveName && ParserFunctions.TryParseEnum(motiveNode.Attributes["name"].Value, out var motive, CommodityKind.None))
-                                        {
-                                            profile.AddMotives(motive);
-                                        }
-                                    }
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "Traits")
-                                {
-                                    foreach (XmlNode traitNode in profilePropertyNode.ChildNodes)
-                                    {
-                                        var traitName = traitNode.Attributes["name"].Value;
-                                        profile.AddTraits(ParserFunctions.TryParseEnum(traitName, out var trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
-                                    }
-                                    profile.RemoveTraits(x => x == TraitNames.Unknown);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "PotentialTraits")
-                                {
-                                    profile.PotentialTraitCount = ParserFunctions.ParseInt(profilePropertyElement.GetAttribute("count"), profile.PotentialTraitCount);
-                                    foreach (XmlNode traitNode in profilePropertyNode.ChildNodes)
-                                    {
-                                        var traitName = traitNode.Attributes["name"].Value;
-                                        profile.AddPotentialTraits(ParserFunctions.TryParseEnum(traitName, out var trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
-                                    }
-                                    profile.RemovePotentialTraits(x => x == TraitNames.Unknown);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "HiddenTraits")
-                                {
-                                    foreach (XmlNode traitNode in profilePropertyNode.ChildNodes)
-                                    {
-                                        var traitName = traitNode.Attributes["name"].Value;
-                                        profile.AddHiddenTraits(ParserFunctions.TryParseEnum(traitName, out var trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
-                                    }
-                                    profile.RemoveHiddenTraits(x => x == TraitNames.Unknown);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "Skills")
-                                {
-                                    foreach (XmlNode skillNode in profilePropertyNode.ChildNodes)
-                                    {
-                                        var skillName = skillNode.Attributes["name"].Value;
-                                        profile.AddSkills(new SkillLevelPair(ParserFunctions.TryParseEnum(skillName, out var skill, SkillNames.None) ? skill : (SkillNames)ParserFunctions.ParseUlong(skillName, 0uL), ParserFunctions.ParseInt((skillNode as XmlElement)?.GetAttribute("level"), -1)));
-                                    }
-                                    profile.RemoveSkills(x => x.SkillName == SkillNames.None);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "Actions")
-                                {
-                                    foreach (XmlNode actionNode in profilePropertyNode.ChildNodes)
-                                    {
-                                        bool isActive;
-                                        switch (actionNode.Name)
-                                        {
-                                            case "FPA":
-                                                isActive = true;
-                                                break;
-                                            case "SPA":
-                                                isActive = false;
-                                                break;
-                                            default:
-                                                continue;
-                                        }
-                                        profile.AddActions(new ServiceUtils.ActiveTopicAction(actionNode.Attributes["name"].Value, ParserFunctions.TryParseEnum((actionNode as XmlElement)?.GetAttribute("group"), out var grouping, LongTermRelationshipTypes.Undefined) ? grouping : LongTermRelationshipTypes.Default, isActive));
-                                    }
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "Outputs")
-                                {
-                                    foreach (XmlNode outputNode in profilePropertyNode.ChildNodes)
-                                    {
-                                        if (outputNode is XmlElement outputElement)
-                                        {
-                                            profile.AddOutputs(new ServiceUtils.CommodityChange(outputElement.GetAttribute("interactionDefinitionType"), outputElement.GetAttribute("targetType"), ParserFunctions.ParseFloat(outputElement.GetAttribute("advertised"), 200f), ParserFunctions.ParseBool("locked"), ParserFunctions.ParseFloat(outputElement.GetAttribute("actual"), 200f), ParserFunctions.TryParseEnum(outputElement.GetAttribute("updateType"), out var updateType, OutputUpdateType.ContinuousFlow) ? updateType : OutputUpdateType.ContinuousFlow, ParserFunctions.ParseBool(outputElement.GetAttribute("timeDependsOnCommodityFilling")), ParserFunctions.ParseBool(outputElement.GetAttribute("updateEvenOnFailure")), ParserFunctions.TryParseEnum(outputElement.GetAttribute("updateAboveAndBelowZero"), out var updateAboveAndBelowZero, UpdateAboveAndBelowZeroType.Either) ? updateAboveAndBelowZero : UpdateAboveAndBelowZeroType.Either));
-                                        }
-                                    }
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "Inventory")
-                                {
-                                    foreach (XmlNode inventoryObjectNode in profilePropertyNode.ChildNodes)
-                                    {
-                                        var instanceName = inventoryObjectNode.Attributes["instanceName"].Value;
-                                        profile.Inventory.Add(new InventoryObjectCreationParameters(instanceName, ulong.Parse((inventoryObjectNode as XmlElement)?.GetAttribute("instance") ?? NameGuidMap.GetGuidByName(instanceName).ToString("X16"), NumberStyles.HexNumber), uint.Parse(inventoryObjectNode.Attributes["group"].Value, NumberStyles.HexNumber), int.Parse(inventoryObjectNode.Attributes["count"].Value), WrapInnerXmlAsDocument(profilePropertyNode)));
-                                    }
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "Car")
-                                {
-                                    profile.CarInstanceName = profilePropertyElement.GetAttribute("instanceName");
-                                    profile.CarInstanceId = ulong.Parse(profilePropertyElement.GetAttribute("instance") ?? NameGuidMap.GetGuidByName(profile.CarInstanceName).ToString("X16"), NumberStyles.HexNumber);
-                                    profile.CarGroupId = uint.Parse(profilePropertyElement.GetAttribute("group"), NumberStyles.HexNumber);
-                                    profile.CarPreset = WrapInnerXmlAsDocument(profilePropertyNode);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "CheckTime")
-                                {
-                                    profile.CheckTime = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.CheckTime);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "DriveTime")
-                                {
-                                    profile.DriveTime = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.DriveTime);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "MaxNumNPCsInPool")
-                                {
-                                    profile.MaxNumNPCsInPool = ParserFunctions.ParseInt(profilePropertyNode.InnerText, profile.MaxNumNPCsInPool);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "RelationshipLevelForQuit")
-                                {
-                                    profile.RelationshipLevelForQuit = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.RelationshipLevelForQuit);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "TimeWaitBeforePutawayLeftovers")
-                                {
-                                    profile.TimeWaitBeforePutawayLeftovers = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.TimeWaitBeforePutawayLeftovers);
-                                    continue;
-                                }
-                                if (profilePropertyNode.Name == "UseObjectInSameRoomAsSleeperMultiplier")
-                                {
-                                    profile.UseObjectInSameRoomAsSleeperMultiplier = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.UseObjectInSameRoomAsSleeperMultiplier);
-                                }
-                            }
-                            profile.FixUp();
-                            if (profile.CanAddServiceToSaveGame())
-                            {
-                                ServiceUtils.ServiceProfiles.Add(profile);
-                            }
-                        }
-                    }
-                    foreach (XmlNode node in xmlDocument.DocumentElement.ChildNodes)
-                    {
-                        if (node.Name == "ServiceUniform" && node is XmlElement)
-                        {
-                            var assignedOutfit = new OutfitAssignmentUtils.AssignedOutfit();
-                            assignedOutfit.PartOverrides.Clear();
-                            var serviceName = node.Attributes["profile"].Value;
-                            var profileIndex = ServiceUtils.ServiceProfiles.FindIndex(x => x.Name == serviceName);
-                            if (profileIndex == -1)
-                            {
-                                continue;
-                            }
-                            foreach (XmlNode serviceUniformPropertyNode in node.ChildNodes)
-                            {
-                                if (serviceUniformPropertyNode.Name == "Parts")
-                                {
-                                    foreach (XmlNode partNode in serviceUniformPropertyNode.ChildNodes)
-                                    {
-                                        assignedOutfit.Parts.Add(new OutfitAssignmentUtils.AssignedOutfit.SavedPart(new CASPart(ResourceKey.FromString(partNode.Attributes["key"].Value)), WrapInnerXmlAsDocument(partNode)));
-                                    }
-                                }
-                                if (serviceUniformPropertyNode.Name == "PartOverrides")
-                                {
-                                    foreach (XmlNode partOverrideNode in serviceUniformPropertyNode.ChildNodes)
-                                    {
-                                        if (ParserFunctions.TryParseEnum(partOverrideNode.Attributes["name"].Value, out var partType, BodyTypes.None))
-                                        {
-                                            assignedOutfit.PartOverrides.Add(partType);
-                                        }
-                                    }
-                                }
-                            }
-                            var specialOutfitKey = ((ParserFunctions.TryParseEnum(node.Attributes["age"].Value, out var age, CASAgeGenderFlags.None) ? age : CASAgeGenderFlags.None) | (ParserFunctions.TryParseEnum(node.Attributes["gender"].Value, out var gender, CASAgeGenderFlags.None) ? gender : CASAgeGenderFlags.None)).GetGlobalAssignedOutfitPrefix() + serviceName;
-                            OutfitAssignmentUtils.OutfitAssignments.Add(new OutfitAssignmentUtils.OutfitAssignment(null, specialOutfitKey, ServiceUtils.ServiceProfiles[profileIndex]));
-                            OutfitAssignmentUtils.IndexOutfitAssignments();
-                            OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey] = assignedOutfit;
-                        }
-                    }
+                    ParseServiceProfiles(xmlDocument);
+                    ParseServiceUniforms(xmlDocument);
                 }
             }
         }
         
+        public static void ParseServiceProfiles(XmlDocument xmlDocument)
+        {
+            if (xmlDocument.DocumentElement == null)
+            {
+                return;
+            }
+            foreach (XmlNode node in xmlDocument.DocumentElement.ChildNodes)
+            {
+                if (node.Name != "ServiceProfile" || !(node is XmlElement element))
+                {
+                    continue;
+                }
+                var serviceName = element.GetAttribute("name");
+                var importedServiceMotiveName = element.GetAttribute("workMotive") ?? "Be" + serviceName;
+                var profile = new ServiceUtils.ServiceProfile(serviceName, null)
+                    {
+                        ServiceMotive = CommodityUtils.GetCommodityKind(importedServiceMotiveName, CommodityKindType.Motive),
+                        VersionString = element.GetAttribute("version")
+                    };
+                var serviceMotiveName = importedServiceMotiveName;
+                while (ServiceUtils.ServiceMotiveExists(profile.ServiceMotive))
+                {
+                    serviceMotiveName = importedServiceMotiveName + "_" + DownloadContent.GenerateGUID();
+                    profile.ServiceMotive = CommodityUtils.GetCommodityKind(serviceMotiveName, CommodityKindType.Motive);
+                }
+                CommonUtils.AddEnumValue<CommodityKind>(serviceMotiveName, profile.ServiceMotive);
+                profile.Motives = new List<CommodityKind>
+                    {
+                        profile.ServiceMotive
+                    };
+                foreach (XmlNode profilePropertyNode in node.ChildNodes)
+                {
+                    if (!(profilePropertyNode is XmlElement profilePropertyElement))
+                    {
+                        continue;
+                    }
+                    switch (profilePropertyNode.Name)
+                    {
+                        case "Title":
+                            profile.Title = ParserFunctions.ParseBool(profilePropertyElement.GetAttribute("localize")) ? Localization.LocalizeString(profilePropertyNode.InnerText) : profilePropertyNode.InnerText;
+                            continue;
+                        case "RequestedMessage":
+                            profile.RequestedMessage = ParserFunctions.ParseBool(profilePropertyElement.GetAttribute("localize")) ? Localization.LocalizeString(profilePropertyNode.InnerText) : profilePropertyNode.InnerText;
+                            continue;
+                        case "CancelledMessage":
+                            profile.CancelledMessage = ParserFunctions.ParseBool(profilePropertyElement.GetAttribute("localize")) ? Localization.LocalizeString(profilePropertyNode.InnerText) : profilePropertyNode.InnerText;
+                            continue;
+                        case "CancelledWhileActiveMessage":
+                            profile.CancelledWhileActiveMessage = ParserFunctions.ParseBool(profilePropertyElement.GetAttribute("localize")) ? Localization.LocalizeString(profilePropertyNode.InnerText) : profilePropertyNode.InnerText;
+                            continue;
+                        case "DelayBeforeArriving":
+                            profile.DelayBeforeArriving = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.DelayBeforeArriving);
+                            continue;
+                        case "DelayBeforeLeaving":
+                            profile.DelayBeforeLeaving = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.DelayBeforeLeaving);
+                            continue;
+                        case "ExtraWaitTimeAfterSocializing":
+                            profile.ExtraWaitTimeAfterSocializing = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.ExtraWaitTimeAfterSocializing);
+                            continue;
+                        case "ValidAges":
+                            try
+                            {
+                                profile.ValidAges = (CASAgeGenderFlags)Enum.Parse(typeof(CASAgeGenderFlags), profilePropertyNode.InnerText);
+                            }
+                            catch (ArgumentException)
+                            {
+                            }
+                            continue;
+                        case "ValidGenders":
+                            try
+                            {
+                                profile.ValidGenders = (CASAgeGenderFlags)Enum.Parse(typeof(CASAgeGenderFlags), profilePropertyNode.InnerText);
+                            }
+                            catch (ArgumentException)
+                            {
+                            }
+                            continue;
+                        case "ServiceProfileFlags":
+                            try
+                            {
+                                profile.SetFlags((ServiceProfileFlags)Enum.Parse(typeof(ServiceProfileFlags), profilePropertyNode.InnerText));
+                            }
+                            catch (ArgumentException)
+                            {
+                            }
+                            continue;
+                        case "TimeToStartWorking":
+                            profile.TimeToStartWorking = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.TimeToStartWorking);
+                            continue;
+                        case "TimeToStopWorking":
+                            profile.TimeToStopWorking = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.TimeToStopWorking);
+                            continue;
+                        case "Cost":
+                            profile.Cost = ParserFunctions.ParseInt(profilePropertyNode.InnerText, profile.Cost);
+                            continue;
+                        case "Motives":
+                        {
+                            foreach (XmlNode motiveNode in profilePropertyNode.ChildNodes)
+                            {
+                                if (motiveNode.Attributes["name"].Value != importedServiceMotiveName && ParserFunctions.TryParseEnum(motiveNode.Attributes["name"].Value, out var motive, CommodityKind.None))
+                                {
+                                    profile.AddMotives(motive);
+                                }
+                            }
+                            continue;
+                        }
+                        case "Traits":
+                        {
+                            foreach (XmlNode traitNode in profilePropertyNode.ChildNodes)
+                            {
+                                var traitName = traitNode.Attributes["name"].Value;
+                                profile.AddTraits(ParserFunctions.TryParseEnum(traitName, out var trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
+                            }
+                            profile.RemoveTraits(x => x == TraitNames.Unknown);
+                            continue;
+                        }
+                        case "PotentialTraits":
+                        {
+                            profile.PotentialTraitCount = ParserFunctions.ParseInt(profilePropertyElement.GetAttribute("count"), profile.PotentialTraitCount);
+                            foreach (XmlNode traitNode in profilePropertyNode.ChildNodes)
+                            {
+                                var traitName = traitNode.Attributes["name"].Value;
+                                profile.AddPotentialTraits(ParserFunctions.TryParseEnum(traitName, out var trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
+                            }
+                            profile.RemovePotentialTraits(x => x == TraitNames.Unknown);
+                            continue;
+                        }
+                        case "HiddenTraits":
+                        {
+                            foreach (XmlNode traitNode in profilePropertyNode.ChildNodes)
+                            {
+                                var traitName = traitNode.Attributes["name"].Value;
+                                profile.AddHiddenTraits(ParserFunctions.TryParseEnum(traitName, out var trait, TraitNames.Unknown) ? trait : (TraitNames)ParserFunctions.ParseUlong(traitName, 0uL));
+                            }
+                            profile.RemoveHiddenTraits(x => x == TraitNames.Unknown);
+                            continue;
+                        }
+                        case "Skills":
+                        {
+                            foreach (XmlNode skillNode in profilePropertyNode.ChildNodes)
+                            {
+                                var skillName = skillNode.Attributes["name"].Value;
+                                profile.AddSkills(new SkillLevelPair(ParserFunctions.TryParseEnum(skillName, out var skill, SkillNames.None) ? skill : (SkillNames)ParserFunctions.ParseUlong(skillName, 0uL), ParserFunctions.ParseInt((skillNode as XmlElement)?.GetAttribute("level"), -1)));
+                            }
+                            profile.RemoveSkills(x => x.SkillName == SkillNames.None);
+                            continue;
+                        }
+                        case "Actions":
+                        {
+                            foreach (XmlNode actionNode in profilePropertyNode.ChildNodes)
+                            {
+                                bool isActive;
+                                switch (actionNode.Name)
+                                {
+                                    case "FPA":
+                                        isActive = true;
+                                        break;
+                                    case "SPA":
+                                        isActive = false;
+                                        break;
+                                    default:
+                                        continue;
+                                }
+                                profile.AddActions(new ServiceUtils.ActiveTopicAction(actionNode.Attributes["name"].Value, ParserFunctions.TryParseEnum((actionNode as XmlElement)?.GetAttribute("group"), out var grouping, LongTermRelationshipTypes.Undefined) ? grouping : LongTermRelationshipTypes.Default, isActive));
+                            }
+                            continue;
+                        }
+                        case "Outputs":
+                        {
+                            foreach (XmlNode outputNode in profilePropertyNode.ChildNodes)
+                            {
+                                if (outputNode is XmlElement outputElement)
+                                {
+                                    profile.AddOutputs(new ServiceUtils.CommodityChange(outputElement.GetAttribute("interactionDefinitionType"), outputElement.GetAttribute("targetType"), ParserFunctions.ParseFloat(outputElement.GetAttribute("advertised"), 200f), ParserFunctions.ParseBool("locked"), ParserFunctions.ParseFloat(outputElement.GetAttribute("actual"), 200f), ParserFunctions.TryParseEnum(outputElement.GetAttribute("updateType"), out var updateType, OutputUpdateType.ContinuousFlow) ? updateType : OutputUpdateType.ContinuousFlow, ParserFunctions.ParseBool(outputElement.GetAttribute("timeDependsOnCommodityFilling")), ParserFunctions.ParseBool(outputElement.GetAttribute("updateEvenOnFailure")), ParserFunctions.TryParseEnum(outputElement.GetAttribute("updateAboveAndBelowZero"), out var updateAboveAndBelowZero, UpdateAboveAndBelowZeroType.Either) ? updateAboveAndBelowZero : UpdateAboveAndBelowZeroType.Either));
+                                }
+                            }
+                            continue;
+                        }
+                        case "Inventory":
+                        {
+                            foreach (XmlNode inventoryObjectNode in profilePropertyNode.ChildNodes)
+                            {
+                                var instanceName = inventoryObjectNode.Attributes["instanceName"].Value;
+                                profile.Inventory.Add(new InventoryObjectCreationParameters(instanceName, ulong.Parse((inventoryObjectNode as XmlElement)?.GetAttribute("instance") ?? NameGuidMap.GetGuidByName(instanceName).ToString("X16"), NumberStyles.HexNumber), uint.Parse(inventoryObjectNode.Attributes["group"].Value, NumberStyles.HexNumber), int.Parse(inventoryObjectNode.Attributes["count"].Value), WrapInnerXmlAsDocument(profilePropertyNode)));
+                            }
+                            continue;
+                        }
+                        case "Car":
+                            profile.CarInstanceName = profilePropertyElement.GetAttribute("instanceName");
+                            profile.CarInstanceId = ulong.Parse(profilePropertyElement.GetAttribute("instance") ?? NameGuidMap.GetGuidByName(profile.CarInstanceName).ToString("X16"), NumberStyles.HexNumber);
+                            profile.CarGroupId = uint.Parse(profilePropertyElement.GetAttribute("group"), NumberStyles.HexNumber);
+                            profile.CarPreset = WrapInnerXmlAsDocument(profilePropertyNode);
+                            continue;
+                        case "CheckTime":
+                            profile.CheckTime = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.CheckTime);
+                            continue;
+                        case "DriveTime":
+                            profile.DriveTime = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.DriveTime);
+                            continue;
+                        case "MaxNumNPCsInPool":
+                            profile.MaxNumNPCsInPool = ParserFunctions.ParseInt(profilePropertyNode.InnerText, profile.MaxNumNPCsInPool);
+                            continue;
+                        case "RelationshipLevelForQuit":
+                            profile.RelationshipLevelForQuit = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.RelationshipLevelForQuit);
+                            continue;
+                        case "TimeWaitBeforePutawayLeftovers":
+                            profile.TimeWaitBeforePutawayLeftovers = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.TimeWaitBeforePutawayLeftovers);
+                            continue;
+                        case "UseObjectInSameRoomAsSleeperMultiplier":
+                            profile.UseObjectInSameRoomAsSleeperMultiplier = ParserFunctions.ParseFloat(profilePropertyNode.InnerText, profile.UseObjectInSameRoomAsSleeperMultiplier);
+                            break;
+                    }
+                }
+                profile.FixUp();
+                if (profile.CanAddServiceToSaveGame())
+                {
+                    ServiceUtils.ServiceProfiles.Add(profile);
+                }
+            }
+        }
+
+        public static void ParseServiceUniforms(XmlDocument xmlDocument)
+        {
+            if (xmlDocument.DocumentElement == null)
+            {
+                return;
+            }
+            foreach (XmlNode node in xmlDocument.DocumentElement.ChildNodes)
+            {
+                if (node.Name != "ServiceUniform" || !(node is XmlElement))
+                {
+                    continue;
+                }
+                var assignedOutfit = new OutfitAssignmentUtils.AssignedOutfit();
+                assignedOutfit.PartOverrides.Clear();
+                var serviceName = node.Attributes?["profile"].Value;
+                var profileIndex = ServiceUtils.ServiceProfiles.FindIndex(x => x.Name == serviceName);
+                if (profileIndex == -1)
+                {
+                    continue;
+                }
+                foreach (XmlNode serviceUniformPropertyNode in node.ChildNodes)
+                {
+                    switch (serviceUniformPropertyNode.Name)
+                    {
+                        case "Parts":
+                        {
+                            foreach (XmlNode partNode in serviceUniformPropertyNode.ChildNodes)
+                            {
+                                assignedOutfit.Parts.Add(new OutfitAssignmentUtils.AssignedOutfit.SavedPart(new CASPart(ResourceKey.FromString(partNode.Attributes?["key"].Value)), WrapInnerXmlAsDocument(partNode)));
+                            }
+                            break;
+                        }
+                        case "PartOverrides":
+                        {
+                            foreach (XmlNode partOverrideNode in serviceUniformPropertyNode.ChildNodes)
+                            {
+                                if (ParserFunctions.TryParseEnum(partOverrideNode.Attributes?["name"].Value, out var partType, BodyTypes.None))
+                                {
+                                    assignedOutfit.PartOverrides.Add(partType);
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+                var specialOutfitKey = ((ParserFunctions.TryParseEnum(node.Attributes?["age"].Value, out var age, CASAgeGenderFlags.None) ? age : CASAgeGenderFlags.None) | (ParserFunctions.TryParseEnum(node.Attributes?["gender"].Value, out var gender, CASAgeGenderFlags.None) ? gender : CASAgeGenderFlags.None)).GetGlobalAssignedOutfitPrefix() + serviceName;
+                OutfitAssignmentUtils.OutfitAssignments.Add(new OutfitAssignmentUtils.OutfitAssignment(null, specialOutfitKey, ServiceUtils.ServiceProfiles[profileIndex]));
+                OutfitAssignmentUtils.IndexOutfitAssignments();
+                OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey] = assignedOutfit;
+            }
+        }
+
         public override string ToXml(IEnumerable<IServiceProfile> profiles)
         {
             var stringBuilder = new StringBuilder();
@@ -366,237 +355,9 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 {
                     xmlWriter.WriteStartDocument();
                     xmlWriter.WriteStartElement("ExpandedHouseholdStaffData");
-                    foreach (ServiceUtils.ServiceProfile profile in profiles)
-                    {
-                        xmlWriter.WriteStartElement("ServiceProfile");
-                        xmlWriter.WriteAttributeString("version", profile.VersionString);
-                        xmlWriter.WriteAttributeString("name", profile.Name);
-                        foreach (var entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
-                        {
-                            if ((CommodityKind)entry.Value == profile.ServiceMotive)
-                            {
-                                xmlWriter.WriteAttributeString("workMotive", entry.Key);
-                                break;
-                            }
-                        }
-
-                        xmlWriter.WriteStartElement("Title");
-                        xmlWriter.WriteAttributeString("localize", false.ToString());
-                        xmlWriter.WriteString(profile.Title);
-                        xmlWriter.WriteEndElement();
-
-                        xmlWriter.WriteStartElement("RequestedMessage");
-                        xmlWriter.WriteAttributeString("localize", false.ToString());
-                        xmlWriter.WriteString(profile.RequestedMessage);
-                        xmlWriter.WriteEndElement();
-
-                        xmlWriter.WriteStartElement("CancelledMessage");
-                        xmlWriter.WriteAttributeString("localize", false.ToString());
-                        xmlWriter.WriteString(profile.CancelledMessage);
-                        xmlWriter.WriteEndElement();
-
-                        xmlWriter.WriteStartElement("CancelledWhileActiveMessage");
-                        xmlWriter.WriteAttributeString("localize", false.ToString());
-                        xmlWriter.WriteString(profile.CancelledWhileActiveMessage);
-                        xmlWriter.WriteEndElement();
-
-                        xmlWriter.WriteElementString("DelayBeforeArriving", profile.DelayBeforeArriving.ToString(CultureInfo.InvariantCulture));
-
-                        xmlWriter.WriteElementString("DelayBeforeLeaving", profile.DelayBeforeLeaving.ToString(CultureInfo.InvariantCulture));
-
-                        xmlWriter.WriteElementString("ExtraWaitTimeAfterSocializing", profile.ExtraWaitTimeAfterSocializing.ToString(CultureInfo.InvariantCulture));
-
-                        xmlWriter.WriteElementString("ValidAges", profile.ValidAges.ToString());
-
-                        xmlWriter.WriteElementString("ValidGenders", profile.ValidGenders.ToString());
-
-                        xmlWriter.WriteElementString("ServiceProfileFlags", profile.GetFlags().ToString());
-
-                        xmlWriter.WriteElementString("TimeToStartWorking", profile.TimeToStartWorking.ToString(CultureInfo.InvariantCulture));
-
-                        xmlWriter.WriteElementString("TimeToStopWorking", profile.TimeToStopWorking.ToString(CultureInfo.InvariantCulture));
-
-                        xmlWriter.WriteElementString("Cost", profile.Cost.ToString());
-
-                        xmlWriter.WriteStartElement("Motives");
-                        foreach (var entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
-                        {
-                            if (profile.Motives.Contains((CommodityKind)entry.Value))
-                            {
-                                xmlWriter.WriteStartElement("Motive");
-                                xmlWriter.WriteAttributeString("name", entry.Key);
-                                xmlWriter.WriteEndElement();
-                            }
-                        }
-                        xmlWriter.WriteFullEndElement();
-
-                        xmlWriter.WriteStartElement("Traits");
-                        foreach (var trait in profile.Traits)
-                        {
-                            xmlWriter.WriteStartElement("Trait");
-                            xmlWriter.WriteAttributeString("name", trait.ToString());
-                            xmlWriter.WriteEndElement();
-                        }
-                        xmlWriter.WriteFullEndElement();
-
-                        xmlWriter.WriteStartElement("PotentialTraits");
-                        xmlWriter.WriteAttributeString("count", profile.PotentialTraitCount.ToString());
-                        foreach (var trait in profile.PotentialTraits)
-                        {
-                            xmlWriter.WriteStartElement("Trait");
-                            xmlWriter.WriteAttributeString("name", trait.ToString());
-                            xmlWriter.WriteEndElement();
-                        }
-                        xmlWriter.WriteFullEndElement();
-
-                        xmlWriter.WriteStartElement("HiddenTraits");
-                        foreach (var trait in profile.HiddenTraits)
-                        {
-                            xmlWriter.WriteStartElement("Trait");
-                            xmlWriter.WriteAttributeString("name", trait.ToString());
-                            xmlWriter.WriteEndElement();
-                        }
-                        xmlWriter.WriteFullEndElement();
-
-                        xmlWriter.WriteStartElement("Skills");
-                        foreach (var skill in profile.Skills)
-                        {
-                            xmlWriter.WriteStartElement("Skill");
-                            xmlWriter.WriteAttributeString("name", skill.SkillName.ToString());
-                            xmlWriter.WriteAttributeString("level", skill.SkillLevel.ToString());
-                            xmlWriter.WriteEndElement();
-                        }
-                        xmlWriter.WriteFullEndElement();
-
-                        xmlWriter.WriteStartElement("Actions");
-                        foreach (var action in profile.Actions)
-                        {
-                            xmlWriter.WriteStartElement(action.IsActive ? "FPA" : "SPA");
-                            xmlWriter.WriteAttributeString("group", action.Grouping.ToString());
-                            xmlWriter.WriteAttributeString("name", action.Name);
-                            xmlWriter.WriteEndElement();
-                        }
-                        xmlWriter.WriteFullEndElement();
-
-                        xmlWriter.WriteStartElement("Outputs");
-                        foreach (var output in profile.Outputs)
-                        {
-                            xmlWriter.WriteStartElement("CommodityChange");
-                            xmlWriter.WriteAttributeString("interactionDefinitionType", output.InteractionDefinitionType);
-                            xmlWriter.WriteAttributeString("targetType", output.TargetType);
-                            xmlWriter.WriteAttributeString("advertised", output.ConstantChange.ToString(CultureInfo.InvariantCulture));
-                            xmlWriter.WriteAttributeString("locked", output.Locked.ToString());
-                            xmlWriter.WriteAttributeString("actual", output.ActualValue.ToString(CultureInfo.InvariantCulture));
-                            xmlWriter.WriteAttributeString("updateType", output.UpdateType == OutputUpdateType.ContinuousFlow ? "ContinuousFlow" : output.UpdateType.ToString());
-                            xmlWriter.WriteAttributeString("timeDependsOnCommodityFilling", output.TimeDependsOnCommodityFilling.ToString());
-                            xmlWriter.WriteAttributeString("updateEvenOnFailure", output.UpdateEvenOnFailure.ToString());
-                            xmlWriter.WriteAttributeString("updateAboveAndBelowZero", output.UpdateAboveAndBelowZero.ToString());
-                            xmlWriter.WriteEndElement();
-                        }
-                        xmlWriter.WriteFullEndElement();
-
-                        xmlWriter.WriteStartElement("Inventory");
-                        foreach (var inventoryObjectCreationParameters in profile.Inventory)
-                        {
-                            xmlWriter.WriteStartElement("InventoryObject");
-                            xmlWriter.WriteAttributeString("instanceName", inventoryObjectCreationParameters.InstanceName);
-                            xmlWriter.WriteAttributeString("instance", inventoryObjectCreationParameters.InstanceId.ToString("X16"));
-                            xmlWriter.WriteAttributeString("group", inventoryObjectCreationParameters.GroupId.ToString("X8"));
-                            xmlWriter.WriteAttributeString("count", inventoryObjectCreationParameters.Count.ToString());
-                            xmlWriter.WriteRaw(inventoryObjectCreationParameters.Preset?.Substring(inventoryObjectCreationParameters.Preset.IndexOf("\n", StringComparison.Ordinal)) ?? "");
-                            xmlWriter.WriteEndElement();
-                        }
-                        xmlWriter.WriteFullEndElement();
-
-                        xmlWriter.WriteStartElement("Car");
-                        xmlWriter.WriteAttributeString("instanceName", profile.CarInstanceName ?? "");
-                        xmlWriter.WriteAttributeString("instance", profile.CarInstanceId.ToString("X16"));
-                        xmlWriter.WriteAttributeString("group", profile.CarGroupId.ToString("X8"));
-                        xmlWriter.WriteRaw(profile.CarPreset?.Substring(profile.CarPreset.IndexOf("\n", StringComparison.Ordinal)) ?? "");
-                        xmlWriter.WriteEndElement();
-
-                        xmlWriter.WriteElementString("CheckTime", profile.CheckTime.ToString(CultureInfo.InvariantCulture));
-
-                        xmlWriter.WriteElementString("DriveTime", profile.DriveTime.ToString(CultureInfo.InvariantCulture));
-
-                        xmlWriter.WriteElementString("MaxNumNPCsInPool", profile.MaxNumNPCsInPool.ToString());
-
-                        xmlWriter.WriteElementString("RelationshipLevelForQuit", profile.RelationshipLevelForQuit.ToString(CultureInfo.InvariantCulture));
-
-                        xmlWriter.WriteElementString("TimeWaitBeforePutawayLeftovers", profile.TimeWaitBeforePutawayLeftovers.ToString(CultureInfo.InvariantCulture));
-
-                        xmlWriter.WriteElementString("UseObjectInSameRoomAsSleeperMultiplier", profile.UseObjectInSameRoomAsSleeperMultiplier.ToString(CultureInfo.InvariantCulture));
-
-                        xmlWriter.WriteEndElement(); // Ends writing the "ServiceProfile" element.
-                    }
-                    foreach (var outfitAssignment in OutfitAssignmentUtils.OutfitAssignments)
-                    {
-                        if (!new List<IServiceProfile>(profiles).Exists(x => x.Name == outfitAssignment.ServiceName) || outfitAssignment.SimDescription != null || !OutfitAssignmentUtils.AssignedOutfits.TryGetValue(outfitAssignment.SpecialOutfitKey, out var assignedOutfit))
-                        {
-                            continue;
-                        }
-                        var ageGenderPrefix = outfitAssignment.SpecialOutfitKey.Substring(OutfitAssignmentUtils.OutfitAssignmentGlobalPrefix.Length, 2);
-                        var age = CASAgeGenderFlags.Adult;
-                        switch (ageGenderPrefix[0])
-                        {
-                            case 'a':
-                                age = CASAgeGenderFlags.Adult;
-                                break;
-                            case 'b':
-                                age = CASAgeGenderFlags.Baby;
-                                break;
-                            case 'c':
-                                age = CASAgeGenderFlags.Child;
-                                break;
-                            case 'e':
-                                age = CASAgeGenderFlags.Elder;
-                                break;
-                            case 'p':
-                                age = CASAgeGenderFlags.Toddler;
-                                break;
-                            case 't':
-                                age = CASAgeGenderFlags.Teen;
-                                break;
-                            case 'y':
-                                age = CASAgeGenderFlags.YoungAdult;
-                                break;
-                        }
-                        var gender = CASAgeGenderFlags.Male;
-                        switch (ageGenderPrefix[1])
-                        {
-                            case 'f':
-                                gender = CASAgeGenderFlags.Female;
-                                break;
-                            case 'm':
-                                gender = CASAgeGenderFlags.Male;
-                                break;
-                        }
-                        xmlWriter.WriteStartElement("ServiceUniform");
-                        xmlWriter.WriteAttributeString("profile", outfitAssignment.ServiceName);
-                        xmlWriter.WriteAttributeString("age", age.ToString());
-                        xmlWriter.WriteAttributeString("gender", gender.ToString());
-
-                        xmlWriter.WriteStartElement("Parts");
-                        foreach (var part in assignedOutfit.Parts)
-                        {
-                            xmlWriter.WriteStartElement("Part");
-                            xmlWriter.WriteAttributeString("key", part.Part.Key.ToString().ToUpperInvariant());
-                            xmlWriter.WriteRaw(part.Preset?.Substring(part.Preset.IndexOf("\n", StringComparison.Ordinal)) ?? "");
-                            xmlWriter.WriteEndElement();
-                        }
-                        xmlWriter.WriteEndElement();
-
-                        xmlWriter.WriteStartElement("PartOverrides");
-                        foreach (var partType in assignedOutfit.PartOverrides)
-                        {
-                            xmlWriter.WriteStartElement("PartType");
-                            xmlWriter.WriteAttributeString("name", partType.ToString());
-                            xmlWriter.WriteEndElement();
-                        }
-                        xmlWriter.WriteEndElement();
-
-                        xmlWriter.WriteEndElement(); // Ends writing the "ServiceUniform" element.
-                    }
+                    var profileList = new List<IServiceProfile>(profiles);
+                    WriteServiceProfiles(xmlWriter, profileList);
+                    WriteServiceUniforms(xmlWriter, profileList);
                     xmlWriter.WriteEndElement();
                     xmlWriter.WriteEndDocument();
                     xmlWriter.Flush();
@@ -610,10 +371,10 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
             {
                 using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
                     {
-                        Encoding = Encoding.UTF8,
-                        Indent = true,
-                        IndentChars = "  ",
-                        OmitXmlDeclaration = false
+                       Encoding = Encoding.UTF8,
+                       Indent = true,
+                       IndentChars = "  ",
+                       OmitXmlDeclaration = false
                     }))
                 {
                     xmlDocument.WriteTo(xmlWriter);
@@ -622,6 +383,246 @@ namespace Destrospean.Utils.ExpandedHouseholdStaff
                 stringWriter.Flush();
             }
             return stringBuilder.ToString();
+        }
+
+        public static void WriteServiceProfiles(XmlWriter xmlWriter, IEnumerable<IServiceProfile> profiles)
+        {
+            foreach (var profile in profiles)
+            {
+                xmlWriter.WriteStartElement("ServiceProfile");
+                xmlWriter.WriteAttributeString("version", profile.VersionString);
+                xmlWriter.WriteAttributeString("name", profile.Name);
+                foreach (var entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
+                {
+                    if ((CommodityKind)entry.Value == profile.ServiceMotive)
+                    {
+                        xmlWriter.WriteAttributeString("workMotive", entry.Key);
+                        break;
+                    }
+                }
+
+                xmlWriter.WriteStartElement("Title");
+                xmlWriter.WriteAttributeString("localize", false.ToString());
+                xmlWriter.WriteString(profile.Title);
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("RequestedMessage");
+                xmlWriter.WriteAttributeString("localize", false.ToString());
+                xmlWriter.WriteString(profile.RequestedMessage);
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("CancelledMessage");
+                xmlWriter.WriteAttributeString("localize", false.ToString());
+                xmlWriter.WriteString(profile.CancelledMessage);
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("CancelledWhileActiveMessage");
+                xmlWriter.WriteAttributeString("localize", false.ToString());
+                xmlWriter.WriteString(profile.CancelledWhileActiveMessage);
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteElementString("DelayBeforeArriving", profile.DelayBeforeArriving.ToString(CultureInfo.InvariantCulture));
+
+                xmlWriter.WriteElementString("DelayBeforeLeaving", profile.DelayBeforeLeaving.ToString(CultureInfo.InvariantCulture));
+
+                xmlWriter.WriteElementString("ExtraWaitTimeAfterSocializing", profile.ExtraWaitTimeAfterSocializing.ToString(CultureInfo.InvariantCulture));
+
+                xmlWriter.WriteElementString("ValidAges", profile.ValidAges.ToString());
+
+                xmlWriter.WriteElementString("ValidGenders", profile.ValidGenders.ToString());
+
+                xmlWriter.WriteElementString("ServiceProfileFlags", profile.GetFlags().ToString());
+
+                xmlWriter.WriteElementString("TimeToStartWorking", profile.TimeToStartWorking.ToString(CultureInfo.InvariantCulture));
+
+                xmlWriter.WriteElementString("TimeToStopWorking", profile.TimeToStopWorking.ToString(CultureInfo.InvariantCulture));
+
+                xmlWriter.WriteElementString("Cost", profile.ServiceTuning.kCost.ToString());
+
+                xmlWriter.WriteStartElement("Motives");
+                foreach (var entry in ParserFunctions.sCaseSensitiveEnumParsers[typeof(CommodityKind)].mLookup)
+                {
+                    if (profile.Motives.Contains((CommodityKind)entry.Value))
+                    {
+                        xmlWriter.WriteStartElement("Motive");
+                        xmlWriter.WriteAttributeString("name", entry.Key);
+                        xmlWriter.WriteEndElement();
+                    }
+                }
+                xmlWriter.WriteFullEndElement();
+
+                xmlWriter.WriteStartElement("Traits");
+                foreach (var trait in profile.Traits)
+                {
+                    xmlWriter.WriteStartElement("Trait");
+                    xmlWriter.WriteAttributeString("name", trait.ToString());
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteFullEndElement();
+
+                xmlWriter.WriteStartElement("PotentialTraits");
+                xmlWriter.WriteAttributeString("count", profile.PotentialTraitCount.ToString());
+                foreach (var trait in profile.PotentialTraits)
+                {
+                    xmlWriter.WriteStartElement("Trait");
+                    xmlWriter.WriteAttributeString("name", trait.ToString());
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteFullEndElement();
+
+                xmlWriter.WriteStartElement("HiddenTraits");
+                foreach (var trait in profile.HiddenTraits)
+                {
+                    xmlWriter.WriteStartElement("Trait");
+                    xmlWriter.WriteAttributeString("name", trait.ToString());
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteFullEndElement();
+
+                xmlWriter.WriteStartElement("Skills");
+                foreach (var skill in profile.Skills)
+                {
+                    xmlWriter.WriteStartElement("Skill");
+                    xmlWriter.WriteAttributeString("name", skill.SkillName.ToString());
+                    xmlWriter.WriteAttributeString("level", skill.SkillLevel.ToString());
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteFullEndElement();
+
+                xmlWriter.WriteStartElement("Actions");
+                foreach (var action in profile.Actions)
+                {
+                    xmlWriter.WriteStartElement(action.IsActive ? "FPA" : "SPA");
+                    xmlWriter.WriteAttributeString("group", action.Grouping.ToString());
+                    xmlWriter.WriteAttributeString("name", action.Name);
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteFullEndElement();
+
+                xmlWriter.WriteStartElement("Outputs");
+                foreach (var output in profile.Outputs)
+                {
+                    xmlWriter.WriteStartElement("CommodityChange");
+                    xmlWriter.WriteAttributeString("interactionDefinitionType", output.InteractionDefinitionType);
+                    xmlWriter.WriteAttributeString("targetType", output.TargetType);
+                    xmlWriter.WriteAttributeString("advertised", output.ConstantChange.ToString(CultureInfo.InvariantCulture));
+                    xmlWriter.WriteAttributeString("locked", output.Locked.ToString());
+                    xmlWriter.WriteAttributeString("actual", output.ActualValue.ToString(CultureInfo.InvariantCulture));
+                    xmlWriter.WriteAttributeString("updateType", output.UpdateType == OutputUpdateType.ContinuousFlow ? "ContinuousFlow" : output.UpdateType.ToString());
+                    xmlWriter.WriteAttributeString("timeDependsOnCommodityFilling", output.TimeDependsOnCommodityFilling.ToString());
+                    xmlWriter.WriteAttributeString("updateEvenOnFailure", output.UpdateEvenOnFailure.ToString());
+                    xmlWriter.WriteAttributeString("updateAboveAndBelowZero", output.UpdateAboveAndBelowZero.ToString());
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteFullEndElement();
+
+                xmlWriter.WriteStartElement("Inventory");
+                foreach (var inventoryObjectCreationParameters in profile.Inventory)
+                {
+                    xmlWriter.WriteStartElement("InventoryObject");
+                    xmlWriter.WriteAttributeString("instanceName", inventoryObjectCreationParameters.InstanceName);
+                    xmlWriter.WriteAttributeString("instance", inventoryObjectCreationParameters.InstanceId.ToString("X16"));
+                    xmlWriter.WriteAttributeString("group", inventoryObjectCreationParameters.GroupId.ToString("X8"));
+                    xmlWriter.WriteAttributeString("count", inventoryObjectCreationParameters.Count.ToString());
+                    xmlWriter.WriteRaw(inventoryObjectCreationParameters.Preset?.Substring(inventoryObjectCreationParameters.Preset.IndexOf("\n", StringComparison.Ordinal)) ?? "");
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteFullEndElement();
+
+                xmlWriter.WriteStartElement("Car");
+                xmlWriter.WriteAttributeString("instanceName", profile.CarInstanceName ?? "");
+                xmlWriter.WriteAttributeString("instance", profile.CarInstanceId.ToString("X16"));
+                xmlWriter.WriteAttributeString("group", profile.CarGroupId.ToString("X8"));
+                xmlWriter.WriteRaw(profile.CarPreset?.Substring(profile.CarPreset.IndexOf("\n", StringComparison.Ordinal)) ?? "");
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteElementString("CheckTime", profile.CheckTime.ToString(CultureInfo.InvariantCulture));
+
+                xmlWriter.WriteElementString("DriveTime", profile.DriveTime.ToString(CultureInfo.InvariantCulture));
+
+                xmlWriter.WriteElementString("MaxNumNPCsInPool", profile.ServiceTuning.kMaxNumNPCsInPool.ToString());
+
+                xmlWriter.WriteElementString("RelationshipLevelForQuit", profile.RelationshipLevelForQuit.ToString(CultureInfo.InvariantCulture));
+
+                xmlWriter.WriteElementString("TimeWaitBeforePutawayLeftovers", profile.TimeWaitBeforePutawayLeftovers.ToString(CultureInfo.InvariantCulture));
+
+                xmlWriter.WriteElementString("UseObjectInSameRoomAsSleeperMultiplier", profile.UseObjectInSameRoomAsSleeperMultiplier.ToString(CultureInfo.InvariantCulture));
+
+                xmlWriter.WriteEndElement(); // Ends writing the "ServiceProfile" element.
+            }
+        }
+
+        public static void WriteServiceUniforms(XmlWriter xmlWriter, IEnumerable<IServiceProfile> profiles)
+        {
+            var profileList = new List<IServiceProfile>(profiles);
+            foreach (var outfitAssignment in OutfitAssignmentUtils.OutfitAssignments)
+            {
+                if (!profileList.Exists(x => x.Name == outfitAssignment.ServiceName) || outfitAssignment.SimDescription != null || !OutfitAssignmentUtils.AssignedOutfits.TryGetValue(outfitAssignment.SpecialOutfitKey, out var assignedOutfit))
+                {
+                    continue;
+                }
+                var ageGenderPrefix = outfitAssignment.SpecialOutfitKey.Substring(OutfitAssignmentUtils.OutfitAssignmentGlobalPrefix.Length, 2);
+                var age = CASAgeGenderFlags.Adult;
+                switch (ageGenderPrefix[0])
+                {
+                    case 'a':
+                        age = CASAgeGenderFlags.Adult;
+                        break;
+                    case 'b':
+                        age = CASAgeGenderFlags.Baby;
+                        break;
+                    case 'c':
+                        age = CASAgeGenderFlags.Child;
+                        break;
+                    case 'e':
+                        age = CASAgeGenderFlags.Elder;
+                        break;
+                    case 'p':
+                        age = CASAgeGenderFlags.Toddler;
+                        break;
+                    case 't':
+                        age = CASAgeGenderFlags.Teen;
+                        break;
+                    case 'y':
+                        age = CASAgeGenderFlags.YoungAdult;
+                        break;
+                }
+                var gender = CASAgeGenderFlags.Male;
+                switch (ageGenderPrefix[1])
+                {
+                    case 'f':
+                        gender = CASAgeGenderFlags.Female;
+                        break;
+                    case 'm':
+                        gender = CASAgeGenderFlags.Male;
+                        break;
+                }
+                xmlWriter.WriteStartElement("ServiceUniform");
+                xmlWriter.WriteAttributeString("profile", outfitAssignment.ServiceName);
+                xmlWriter.WriteAttributeString("age", age.ToString());
+                xmlWriter.WriteAttributeString("gender", gender.ToString());
+
+                xmlWriter.WriteStartElement("Parts");
+                foreach (var part in assignedOutfit.Parts)
+                {
+                    xmlWriter.WriteStartElement("Part");
+                    xmlWriter.WriteAttributeString("key", part.Part.Key.ToString().ToUpperInvariant());
+                    xmlWriter.WriteRaw(part.Preset?.Substring(part.Preset.IndexOf("\n", StringComparison.Ordinal)) ?? "");
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteStartElement("PartOverrides");
+                foreach (var partType in assignedOutfit.PartOverrides)
+                {
+                    xmlWriter.WriteStartElement("PartType");
+                    xmlWriter.WriteAttributeString("name", partType.ToString());
+                    xmlWriter.WriteEndElement();
+                }
+                xmlWriter.WriteEndElement();
+
+                xmlWriter.WriteEndElement(); // Ends writing the "ServiceUniform" element.
+            }
         }
     }
 }

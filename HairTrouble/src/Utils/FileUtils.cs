@@ -53,20 +53,23 @@ namespace Destrospean.Utils.HairTrouble
         {
             using (var stringReader = new StringReader(text))
             {
-                using (var xmlReader = XmlReader.Create(stringReader, new XmlReaderSettings
-                       {
-                           IgnoreComments = true
-                       }))
+                using (var xmlReader = XmlReader.Create(stringReader, new XmlReaderSettings 
+                    {
+                        IgnoreComments = true
+                    }))
                 {
                     while (xmlReader.Read())
                     {
-                        if (xmlReader.NodeType == XmlNodeType.Element)
+                        if (xmlReader.NodeType != XmlNodeType.Element)
                         {
-                            if (xmlReader.Name == "HairTroubleData")
-                            {
+                            continue;
+                        }
+                        switch (xmlReader.Name)
+                        {
+                            case "HairTroubleData":
                                 xmlReader.MoveToContent();
-                            }
-                            else if (xmlReader.Name == "HairClassification")
+                                break;
+                            case "HairClassification":
                             {
                                 var key = xmlReader.GetAttribute("partKey");
                                 if (!string.IsNullOrEmpty(key) && (replaceExisting || !SimHairGrowth.HairClassifications.ContainsKey(key)))
@@ -79,6 +82,7 @@ namespace Destrospean.Utils.HairTrouble
                                     {
                                     }
                                 }
+                                break;
                             }
                         }
                     }
@@ -93,9 +97,9 @@ namespace Destrospean.Utils.HairTrouble
             using (var stringWriter = new Utf8StringWriter(stringBuilder))
             {
                 using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
-                   {
-                       Encoding = Encoding.UTF8
-                   }))
+                    {
+                        Encoding = Encoding.UTF8
+                    }))
                 {
                     xmlWriter.WriteStartDocument();
                     xmlWriter.WriteStartElement("HairTroubleData");
@@ -117,13 +121,13 @@ namespace Destrospean.Utils.HairTrouble
             stringBuilder.Remove(0, stringBuilder.Length);
             using (var stringWriter = new Utf8StringWriter(stringBuilder))
             {
-                using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
-                       {
-                           Encoding = Encoding.UTF8,
-                           Indent = true,
-                           IndentChars = "  ",
-                           OmitXmlDeclaration = false
-                       }))
+                using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings 
+                    {
+                        Encoding = Encoding.UTF8,
+                        Indent = true,
+                        IndentChars = "  ",
+                        OmitXmlDeclaration = false
+                    }))
                 {
                     xmlDocument.WriteTo(xmlWriter);
                     xmlWriter.Flush();
