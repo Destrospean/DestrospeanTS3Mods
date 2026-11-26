@@ -20,19 +20,19 @@ namespace Destrospean.OutfitAssignment.Interactions
             public override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair iop)
             {
                 var targetSim = IsGlobal ? null : target as Sim ?? actor;
-                return Common.Localize(targetSim != null && targetSim.IsFemale, sLocalizationKey + ":Name");
+                return Common.Localize(targetSim != null && targetSim.IsFemale, kLocalizationKey + ":Name");
             }
 
             public override string[] GetPath(bool isFemale)
             {
-                var basePath = Common.Localize(isFemale, sLocalizationKey + "/Paths:Base");
+                var basePath = Common.Localize(isFemale, kLocalizationKey + "/Paths:Base");
                 return TargetIsSim ? new[]
                 {
                     basePath
                 } : new[]
                 {
                     basePath,
-                    Common.Localize(isFemale, sLocalizationKey + "/Paths:" + (IsGlobal ? "Global" : "Individual"))
+                    Common.Localize(isFemale, kLocalizationKey + "/Paths:" + (IsGlobal ? "Global" : "Individual"))
                 };
             }
 
@@ -42,6 +42,8 @@ namespace Destrospean.OutfitAssignment.Interactions
                 return Array.Exists(targetSim.GetSimDescription().GetAllOutfitAssignments(), x => true /*targetSim != null || x.SpecialOutfitKey.StartsWith(OutfitAssignmentUtils.OutfitAssignmentCategoryPrefix) || x.SpecialOutfitKey.StartsWith(actor.GetGlobalAssignedOutfitPrefix())*/);
             }
         }
+        
+        private const string kLocalizationKey = "/Interactions/ConfigureOutfitAssignment";
         
         public static InteractionDefinition GlobalOutfitSingleton = new Definition
             {
@@ -54,9 +56,7 @@ namespace Destrospean.OutfitAssignment.Interactions
             };
 
         public static InteractionDefinition Singleton = new Definition();
-
-        public const string sLocalizationKey = "/Interactions/ConfigureOutfitAssignment";
-
+        
         public override bool Run()
         {
             var definition = (Definition)InteractionDefinition;

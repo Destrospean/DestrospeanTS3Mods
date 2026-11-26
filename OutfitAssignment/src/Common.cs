@@ -23,7 +23,7 @@ namespace Destrospean.OutfitAssignment
             }
         }
         
-        internal const string kLocalizationPath = "Destrospean/OutfitAssignment";
+        public const string LocalizationPath = "Destrospean/OutfitAssignment";
 
         public delegate bool SimDescriptionFilterFunc(SimDescription simDescription);
 
@@ -34,17 +34,17 @@ namespace Destrospean.OutfitAssignment
 
         public static string Localize(string entryKey)
         {
-            return Localization.LocalizeString(kLocalizationPath + entryKey);
+            return Localization.LocalizeString(LocalizationPath + entryKey);
         }
 
         public static string Localize(string entryKey, params object[] parameters)
         {
-            return Localization.LocalizeString(kLocalizationPath + entryKey, parameters);
+            return Localization.LocalizeString(LocalizationPath + entryKey, parameters);
         }
 
         public static string Localize(bool isFemale, string entryKey, params object[] parameters)
         {
-            return Localization.LocalizeString(isFemale, kLocalizationPath + entryKey, parameters);
+            return Localization.LocalizeString(isFemale, LocalizationPath + entryKey, parameters);
         }
 
         public static void Notify(string message, SimDescription simDescription, StyledNotification.NotificationStyle style)
@@ -76,7 +76,7 @@ namespace Destrospean.OutfitAssignment
         {
             try
             {
-                const string localizationPath = kLocalizationPath + "/Dialogs/SimListDialog";
+                const string localizationPath = LocalizationPath + "/Dialogs/SimListDialog";
                 var selectedSimList = ObjectPickerDialog.Show(Responder.Instance.LocalizationModel.LocalizeString(localizationPath + ":Title"), new List<ObjectPicker.TabInfo>
                     {
                         new ObjectPicker.TabInfo("shop_all_r2", Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/ObjectPicker:All"), Household.EverySimDescription().FindAll(x => filterBy?.Invoke(x) ?? true).ConvertAll(x => new ObjectPicker.RowInfo(x, new List<ObjectPicker.ColumnInfo>())))

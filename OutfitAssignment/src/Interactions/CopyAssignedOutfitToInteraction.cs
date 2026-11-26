@@ -21,19 +21,19 @@ namespace Destrospean.OutfitAssignment.Interactions
             public override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair iop)
             {
                 var targetSim = IsGlobal ? null : target as Sim ?? actor;
-                return Common.Localize(targetSim != null && targetSim.IsFemale, sLocalizationKey + ":Name");
+                return Common.Localize(targetSim != null && targetSim.IsFemale, kLocalizationKey + ":Name");
             }
 
             public override string[] GetPath(bool isFemale)
             {
-                var basePath = Common.Localize(isFemale, sLocalizationKey + "/Paths:Base");
+                var basePath = Common.Localize(isFemale, kLocalizationKey + "/Paths:Base");
                 return TargetIsSim ? new[]
                 {
                     basePath
                 } : new[]
                 {
                     basePath,
-                    Common.Localize(isFemale, sLocalizationKey + "/Paths:" + (IsGlobal ? "Global" : "Individual"))
+                    Common.Localize(isFemale, kLocalizationKey + "/Paths:" + (IsGlobal ? "Global" : "Individual"))
                 };
             }
 
@@ -43,6 +43,8 @@ namespace Destrospean.OutfitAssignment.Interactions
                 return Array.Exists(targetSim.GetSimDescription().GetAllOutfitAssignments(), x => !x.SpecialOutfitKey.StartsWith(OutfitAssignmentUtils.OutfitAssignmentCategoryPrefix) /*&& (targetSim != null || x.SpecialOutfitKey.StartsWith(actor.GetGlobalAssignedOutfitPrefix()))*/);
             }
         }
+        
+        private const string kLocalizationKey = "/Interactions/CopyAssignedOutfitToInteraction";
         
         public static InteractionDefinition GlobalOutfitSingleton = new Definition
             {
@@ -56,8 +58,6 @@ namespace Destrospean.OutfitAssignment.Interactions
 
         public static InteractionDefinition Singleton = new Definition();
 
-        public const string sLocalizationKey = "/Interactions/CopyAssignedOutfitToInteraction";
-
         public override bool Run()
         {
             var definition = (Definition)InteractionDefinition;
@@ -70,7 +70,7 @@ namespace Destrospean.OutfitAssignment.Interactions
             {
                 var targetSim = isGlobal ? null : target as Sim ?? actor;
                 var sourceSpecialOutfitKey = "";
-                if (!InteractionInstanceTypeUtils.TryGetSelectedInteractionInstanceTypes(out var sourceInteractionInstanceTypes, Array.ConvertAll(Array.FindAll(targetSim.GetSimDescription().GetAllOutfitAssignments(), x => (targetSim != null || x.SpecialOutfitKey.StartsWith(actor.GetGlobalAssignedOutfitPrefix())) && !x.SpecialOutfitKey.StartsWith(OutfitAssignmentUtils.OutfitAssignmentCategoryPrefix)), x => Array.Find(InteractionInstanceTypeUtils.InteractionInstanceTypes, y => y.FullName == x.InteractionInstanceType)), Common.Localize(sLocalizationKey + "/Miscellaneous:SelectSourceNamespace"), Common.Localize(sLocalizationKey + "/Miscellaneous:SelectSourceInteraction")))
+                if (!InteractionInstanceTypeUtils.TryGetSelectedInteractionInstanceTypes(out var sourceInteractionInstanceTypes, Array.ConvertAll(Array.FindAll(targetSim.GetSimDescription().GetAllOutfitAssignments(), x => (targetSim != null || x.SpecialOutfitKey.StartsWith(actor.GetGlobalAssignedOutfitPrefix())) && !x.SpecialOutfitKey.StartsWith(OutfitAssignmentUtils.OutfitAssignmentCategoryPrefix)), x => Array.Find(InteractionInstanceTypeUtils.InteractionInstanceTypes, y => y.FullName == x.InteractionInstanceType)), Common.Localize(kLocalizationKey + "/Miscellaneous:SelectSourceNamespace"), Common.Localize(kLocalizationKey + "/Miscellaneous:SelectSourceInteraction")))
                 {
                     if (isGlobal)
                     {
@@ -89,7 +89,7 @@ namespace Destrospean.OutfitAssignment.Interactions
                         sourceSpecialOutfitKey = outfitAssignment.SpecialOutfitKey;
                     }
                 }
-                if (InteractionInstanceTypeUtils.TryGetSelectedInteractionInstanceTypes(out var destinationInteractionInstanceTypes, null, Common.Localize(sLocalizationKey + "/Miscellaneous:SelectDestinationNamespace"), Common.Localize(sLocalizationKey + "/Miscellaneous:SelectDestinationInteraction")) && AssignOutfitToInteraction.TryGetEntryCallbackType(targetSim, actor, sourceInteractionInstanceTypes[0], out var entryCallbackType) && AssignOutfitToInteraction.TryGetExitCallbackType(targetSim, actor, sourceInteractionInstanceTypes[0], out var exitCallbackType))
+                if (InteractionInstanceTypeUtils.TryGetSelectedInteractionInstanceTypes(out var destinationInteractionInstanceTypes, null, Common.Localize(kLocalizationKey + "/Miscellaneous:SelectDestinationNamespace"), Common.Localize(kLocalizationKey + "/Miscellaneous:SelectDestinationInteraction")) && AssignOutfitToInteraction.TryGetEntryCallbackType(targetSim, actor, sourceInteractionInstanceTypes[0], out var entryCallbackType) && AssignOutfitToInteraction.TryGetExitCallbackType(targetSim, actor, sourceInteractionInstanceTypes[0], out var exitCallbackType))
                 {
                     var destinationSpecialOutfitKey = (targetSim == null ? actor.GetGlobalAssignedOutfitPrefix() : "OutfitAssignment_") + DownloadContent.GenerateGUID();
                     if (OutfitAssignmentUtils.AssignedOutfits.ContainsKey(sourceSpecialOutfitKey))

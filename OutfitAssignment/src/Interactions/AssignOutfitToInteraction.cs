@@ -33,19 +33,19 @@ namespace Destrospean.OutfitAssignment.Interactions
             public override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair iop)
             {
                 var targetSim = target as Sim;
-                return Common.Localize(targetSim != null && targetSim.IsFemale, sLocalizationKey + "/Names:" + (IsPartial ? "Partial" : "Full"));
+                return Common.Localize(targetSim != null && targetSim.IsFemale, kLocalizationKey + "/Names:" + (IsPartial ? "Partial" : "Full"));
             }
 
             public override string[] GetPath(bool isFemale)
             {
-                var basePath = Common.Localize(isFemale, sLocalizationKey + "/Paths:Base");
+                var basePath = Common.Localize(isFemale, kLocalizationKey + "/Paths:Base");
                 return TargetIsSim ? new[]
                 {
                     basePath
                 } : new[]
                 {
                     basePath,
-                    Common.Localize(isFemale, sLocalizationKey + "/Paths:" + (IsGlobal ? "Global" : "Individual"))
+                    Common.Localize(isFemale, kLocalizationKey + "/Paths:" + (IsGlobal ? "Global" : "Individual"))
                 };
             }
 
@@ -63,6 +63,8 @@ namespace Destrospean.OutfitAssignment.Interactions
                 return 1;
             }
         }
+        
+        private const string kLocalizationKey = "/Interactions/AssignOutfitToInteraction";
         
         public static InteractionDefinition GlobalOutfitSingleton = new Definition
             {
@@ -86,9 +88,7 @@ namespace Destrospean.OutfitAssignment.Interactions
             };
 
         public static InteractionDefinition Singleton = new Definition();
-
-        public const string sLocalizationKey = "/Interactions/AssignOutfitToInteraction";
-
+        
         public delegate bool RunInternalDelegate(bool isGlobal, bool isPartial, Sim actor, GameObject target);
 
         public static bool HandleGlobalOutfit(Sim actor, RunInternalDelegate runInternalCallback, bool filterHasOutfits = true)
@@ -218,7 +218,7 @@ namespace Destrospean.OutfitAssignment.Interactions
 
         public static bool NotifyMultipleOutfitsFound(Sim targetSim, Sim targetOrActor, bool isGlobal)
         {
-            Common.Notify(Common.Localize(targetSim == null || targetSim.IsFemale, sLocalizationKey + "/Messages:Multiple" + (isGlobal ? "Global" : "Individual") + "OutfitsForInteractionsFound", targetOrActor), targetSim.GetSimDescription(), StyledNotification.NotificationStyle.kSystemMessage);
+            Common.Notify(Common.Localize(targetSim == null || targetSim.IsFemale, kLocalizationKey + "/Messages:Multiple" + (isGlobal ? "Global" : "Individual") + "OutfitsForInteractionsFound", targetOrActor), targetSim.GetSimDescription(), StyledNotification.NotificationStyle.kSystemMessage);
             return true;
         }
 

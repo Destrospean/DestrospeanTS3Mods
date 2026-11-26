@@ -282,7 +282,7 @@ namespace Destrospean.OutfitAssignment
         {
             try
             {
-                const string localizationPath = Common.kLocalizationPath + "/Dialogs/PartOverrideListDialog";
+                const string localizationPath = Common.LocalizationPath + "/Dialogs/PartOverrideListDialog";
                 var partOverrideList = new List<BodyTypes>(preSelectedPartOverrides ?? assignedOutfit.PartOverrides.ToArray());
                 while (true)
                 {

@@ -51,8 +51,8 @@ namespace Destrospean.OutfitAssignment
         {
             try
             {
-                const string interactionListDialogLocalizationPath = Common.kLocalizationPath + "/Dialogs/InteractionListDialog";
-                const string namespaceListDialogLocalizationPath = Common.kLocalizationPath + "/Dialogs/NamespaceListDialog";
+                const string interactionListDialogLocalizationPath = Common.LocalizationPath + "/Dialogs/InteractionListDialog";
+                const string namespaceListDialogLocalizationPath = Common.LocalizationPath + "/Dialogs/NamespaceListDialog";
                 allInteractionInstanceTypes = allInteractionInstanceTypes ?? InteractionInstanceTypes;
                 Array.Sort(allInteractionInstanceTypes, (a, b) => string.Compare(a.FullName, b.FullName, StringComparison.Ordinal));
                 var namespaces = new List<string>();
@@ -63,7 +63,6 @@ namespace Destrospean.OutfitAssignment
                         namespaces.Add(interactionInstanceType.Namespace);
                     }
                 }
-
                 while (true)
                 {
                     var selectedNamespaces = ObjectPickerDialog.Show(namespaceListTitle ?? Responder.Instance.LocalizationModel.LocalizeString(namespaceListDialogLocalizationPath + ":Title"), new List<ObjectPicker.TabInfo>

@@ -8,14 +8,18 @@ using OutfitAssignment::Destrospean.Misc;
 using OutfitAssignment::Destrospean.OutfitAssignment;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
+using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.CAS;
 using Sims3.Gameplay.EventSystem;
 using Sims3.Gameplay.Interactions;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.SimIFace.CAS;
+using Sims3.SimIFace.CustomContent;
 using static Sims3.Gameplay.Gameflow;
 using AssignOutfitToInteraction_Original = OutfitAssignment::Destrospean.OutfitAssignment.Interactions.AssignOutfitToInteraction;
+using CopyAssignedOutfitToInteraction_Original = OutfitAssignment::Destrospean.OutfitAssignment.Interactions.CopyAssignedOutfitToInteraction;
+using CopyOutfitAssignmentToSim_Original = OutfitAssignment::Destrospean.OutfitAssignment.Interactions.CopyOutfitAssignmentToSim;
 using EditAssignedOutfit_Original = OutfitAssignment::Destrospean.OutfitAssignment.Interactions.EditAssignedOutfit;
 
 namespace Destrospean.Utils.HairTrouble
@@ -26,35 +30,30 @@ namespace Destrospean.Utils.HairTrouble
         {
             public new class Definition : ImmediateInteractionDefinition<Sim, GameObject, AssignOutfitToInteraction>
             {
+                private readonly AssignOutfitToInteraction_Original.Definition mBaseDefinition = new AssignOutfitToInteraction_Original.Definition();
+                
                 public bool IsGlobal;
 
                 public bool IsPartial;
 
                 public bool TargetIsSim;
 
-                public override string GetInteractionName(Sim actor, GameObject target, Sims3.Gameplay.Autonomy.InteractionObjectPair iop)
+                public override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair iop)
                 {
-                    var targetSim = target as Sim;
-                    return Common.Localize(targetSim != null && targetSim.IsFemale, sLocalizationKey + "/Names:" + (IsPartial ? "Partial" : "Full"));
+                    mBaseDefinition.IsPartial = IsPartial;
+                    return mBaseDefinition.GetInteractionName(actor, target, iop);
                 }
 
                 public override string[] GetPath(bool isFemale)
                 {
-                    var basePath = Common.Localize(isFemale, sLocalizationKey + "/Paths:Base");
-                    return TargetIsSim ? new[]
-                        {
-                            basePath
-                        } : new[]
-                        {
-                            basePath,
-                            Common.Localize(isFemale, sLocalizationKey + "/Paths:" + (IsGlobal ? "Global" : "Individual"))
-                        };
+                    mBaseDefinition.IsGlobal = IsGlobal;
+                    mBaseDefinition.TargetIsSim = TargetIsSim;
+                    return mBaseDefinition.GetPath(isFemale);
                 }
 
                 public override bool Test(Sim actor, GameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                 {
-                    var targetSim = target as Sim;
-                    return targetSim == null || targetSim.SimDescription != null && targetSim.IsHuman;
+                    return mBaseDefinition.Test(actor, target, isAutonomous, ref greyedOutTooltipCallback);
                 }
             }
             
@@ -84,11 +83,7 @@ namespace Destrospean.Utils.HairTrouble
             public override bool Run()
             {
                 var definition = (Definition)InteractionDefinition;
-                if (definition.IsGlobal)
-                {
-                    return OutfitAssignmentIntegration.HandleGlobalOutfit(Actor, RunInternal, false);
-                }
-                return RunInternal(definition.IsGlobal, definition.IsPartial, Actor, Target, out _);
+                return definition.IsGlobal ? OutfitAssignmentIntegration.HandleGlobalOutfit(Actor, RunInternal, false) : RunInternal(definition.IsGlobal, definition.IsPartial, Actor, Target, out _);
             }
             
             public static bool RunInternal(bool isGlobal, bool isPartial, Sim actor, GameObject target, out string specialOutfitKey)
@@ -109,7 +104,7 @@ namespace Destrospean.Utils.HairTrouble
                             specialOutfitKey = outfitAssignment.SpecialOutfitKey;
                         }
                     }
-                    specialOutfitKey = string.IsNullOrEmpty(specialOutfitKey) ? (targetSim == null ? actor.GetGlobalAssignedOutfitPrefix() : "OutfitAssignment_") + Sims3.SimIFace.CustomContent.DownloadContent.GenerateGUID() : specialOutfitKey;
+                    specialOutfitKey = string.IsNullOrEmpty(specialOutfitKey) ? (targetSim == null ? actor.GetGlobalAssignedOutfitPrefix() : "OutfitAssignment_") + DownloadContent.GenerateGUID() : specialOutfitKey;
                     var isPreexisting = targetSim != null && !isPartial && targetSim.SimDescription.HasSpecialOutfit(specialOutfitKey);
                     if (targetSim == null && actor.SimDescription.HasSpecialOutfit(specialOutfitKey) || isPartial && (targetSim?.SimDescription.HasSpecialOutfit(specialOutfitKey) ?? false))
                     {
@@ -153,7 +148,7 @@ namespace Destrospean.Utils.HairTrouble
                                 targetOrActor.SimDescription.RemoveSpecialOutfit(specialOutfitKey);
                             }
                         }
-                        AssignHairstyleToGrowthState(targetSim, specialOutfitKey, isPartial);
+                        AssignHairstyleToCurrentGrowthState(targetSim, specialOutfitKey, isPartial);
                     }
                     else if (!isPreexisting)
                     {
@@ -167,38 +162,226 @@ namespace Destrospean.Utils.HairTrouble
                 return true;
             }
         }
+        
+        public class CopyAssignedOutfitToInteraction : CopyAssignedOutfitToInteraction_Original
+        {
+            public new class Definition : ImmediateInteractionDefinition<Sim, GameObject, CopyAssignedOutfitToInteraction>
+            {
+                private readonly CopyAssignedOutfitToInteraction_Original.Definition mBaseDefinition = new CopyAssignedOutfitToInteraction_Original.Definition();
+                
+                public bool IsGlobal;
+
+                public bool TargetIsSim;
+
+                public override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair iop)
+                {
+                    return mBaseDefinition.GetInteractionName(actor, target, iop);
+                }
+
+                public override string[] GetPath(bool isFemale)
+                {
+                    mBaseDefinition.IsGlobal = IsGlobal;
+                    mBaseDefinition.TargetIsSim = TargetIsSim;
+                    return mBaseDefinition.GetPath(isFemale);
+                }
+
+                public override bool Test(Sim actor, GameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                {
+                    mBaseDefinition.IsGlobal = IsGlobal;
+                    mBaseDefinition.TargetIsSim = TargetIsSim;
+                    return mBaseDefinition.Test(actor, target, isAutonomous, ref greyedOutTooltipCallback);
+                }
+            }
+            
+            public new static InteractionDefinition GlobalOutfitSingleton = new Definition
+                {
+                    IsGlobal = true
+                };
+
+            public new static InteractionDefinition SimSingleton = new Definition
+                {
+                    TargetIsSim = true
+                };
+
+            public new static InteractionDefinition Singleton = new Definition();
+            
+            public override bool Run()
+            {
+                var definition = (Definition)InteractionDefinition;
+                return definition.IsGlobal ? AssignOutfitToInteraction_Original.HandleGlobalOutfit(Actor, RunInternal) : RunInternal(definition.IsGlobal, false, Actor, Target);
+            }
+
+            public new static bool RunInternal(bool isGlobal, bool isPartial, Sim actor, GameObject target)
+            {
+                while (true)
+                {
+                    var targetSim = isGlobal ? null : target as Sim ?? actor;
+                    var sourceSpecialOutfitKey = "";
+                    if (!InteractionInstanceTypeUtils.TryGetSelectedInteractionInstanceTypes(out var sourceInteractionInstanceTypes, Array.ConvertAll(Array.FindAll(targetSim.GetSimDescription().GetAllOutfitAssignments(), x => (targetSim != null || x.SpecialOutfitKey.StartsWith(actor.GetGlobalAssignedOutfitPrefix())) && !x.SpecialOutfitKey.StartsWith(OutfitAssignmentUtils.OutfitAssignmentCategoryPrefix)), x => Array.Find(InteractionInstanceTypeUtils.InteractionInstanceTypes, y => y.FullName == x.InteractionInstanceType)), Common.Localize(sLocalizationKey + "/Miscellaneous:SelectSourceNamespace"), Common.Localize(sLocalizationKey + "/Miscellaneous:SelectSourceInteraction")))
+                    {
+                        if (isGlobal)
+                        {
+                            AssignOutfitToInteraction_Original.HandleGlobalOutfit(Sim.ActiveActor, RunInternal);
+                        }
+                        return true;
+                    }
+                    foreach (var interactionInstanceType in sourceInteractionInstanceTypes)
+                    {
+                        if (targetSim.GetSimDescription().TryGetOutfitAssignment(interactionInstanceType, out var outfitAssignment, actor.SimDescription) && sourceSpecialOutfitKey != outfitAssignment.SpecialOutfitKey)
+                        {
+                            if (!string.IsNullOrEmpty(sourceSpecialOutfitKey))
+                            {
+                                return AssignOutfitToInteraction_Original.NotifyMultipleOutfitsFound(targetSim, targetSim ?? actor, isGlobal);
+                            }
+                            sourceSpecialOutfitKey = outfitAssignment.SpecialOutfitKey;
+                        }
+                    }
+                    if (InteractionInstanceTypeUtils.TryGetSelectedInteractionInstanceTypes(out var destinationInteractionInstanceTypes, null, Common.Localize(sLocalizationKey + "/Miscellaneous:SelectDestinationNamespace"), Common.Localize(sLocalizationKey + "/Miscellaneous:SelectDestinationInteraction")) && AssignOutfitToInteraction_Original.TryGetEntryCallbackType(targetSim, actor, sourceInteractionInstanceTypes[0], out var entryCallbackType) && AssignOutfitToInteraction_Original.TryGetExitCallbackType(targetSim, actor, sourceInteractionInstanceTypes[0], out var exitCallbackType))
+                    {
+                        var destinationSpecialOutfitKey = (targetSim == null ? actor.GetGlobalAssignedOutfitPrefix() : "OutfitAssignment_") + DownloadContent.GenerateGUID();
+                        if (OutfitAssignmentUtils.AssignedOutfits.ContainsKey(sourceSpecialOutfitKey))
+                        {
+                            if (OutfitAssignmentUtils.ShowPartOverrideListDialog(OutfitAssignmentUtils.AssignedOutfits[destinationSpecialOutfitKey] = new OutfitAssignmentUtils.AssignedOutfit(OutfitAssignmentUtils.AssignedOutfits[sourceSpecialOutfitKey]), out var partOverrides))
+                            {
+                                OutfitAssignmentUtils.AssignedOutfits[destinationSpecialOutfitKey].PartOverrides = new List<BodyTypes>(partOverrides);
+                            }
+                            if (SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.TryGetValue(sourceSpecialOutfitKey, out var sourceOutfitHairData))
+                            {
+                                var destinationOutfitHairData = new SimHairGrowth.OutfitHairData(targetSim?.SimDescription?.SimDescriptionId ?? 0uL, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0);
+                                foreach (var hairGrowthState in sourceOutfitHairData.PreferredHairstylesByGrowthState.Keys)
+                                {
+                                    destinationOutfitHairData.PreferredHairstylesByGrowthState[hairGrowthState] = sourceOutfitHairData.PreferredHairstylesByGrowthState[hairGrowthState];
+                                    destinationOutfitHairData.PreferredHatPresetsByGrowthState[hairGrowthState] = sourceOutfitHairData.PreferredHatPresetsByGrowthState[hairGrowthState];
+                                }
+                            }
+                        }
+                        else
+                        {
+                            targetSim?.SimDescription.AddSpecialOutfit(new SimOutfit(targetSim.SimDescription.GetSpecialOutfit(sourceSpecialOutfitKey).Key), destinationSpecialOutfitKey);
+                        }
+                        foreach (var interactionInstanceType in destinationInteractionInstanceTypes)
+                        {
+                            targetSim.GetSimDescription().AssignOutfitToInteraction(destinationSpecialOutfitKey, interactionInstanceType, entryCallbackType ?? default, exitCallbackType ?? default, actor.SimDescription);
+                        }
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        public class CopyOutfitAssignmentToSim : CopyOutfitAssignmentToSim_Original
+        {
+            public new class Definition : ImmediateInteractionDefinition<Sim, GameObject, CopyOutfitAssignmentToSim>
+            {
+                private readonly CopyOutfitAssignmentToSim_Original.Definition mBaseDefinition = new CopyOutfitAssignmentToSim_Original.Definition();
+                
+                public bool TargetIsSim;
+
+                public override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair iop)
+                {
+                    return mBaseDefinition.GetInteractionName(actor, target, iop);
+                }
+
+                public override string[] GetPath(bool isFemale)
+                {
+                    mBaseDefinition.TargetIsSim = TargetIsSim;
+                    return mBaseDefinition.GetPath(isFemale);
+                }
+
+                public override bool Test(Sim actor, GameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
+                {
+                    return mBaseDefinition.Test(actor, target, isAutonomous, ref greyedOutTooltipCallback);
+                }
+            }
+            
+            public new static InteractionDefinition SimSingleton = new Definition
+                {
+                    TargetIsSim = true
+                };
+
+            public new static InteractionDefinition Singleton = new Definition();
+            
+            public override bool Run()
+            {
+                var sourceSim = Target as Sim ?? Actor;
+                var sourceSpecialOutfitKey = "";
+                if (!Common.ShowSimListDialog(out var destinationSimDescriptions, x => x != sourceSim.SimDescription && OutfitUtils.GetAgePrefix(x.Age, true) == OutfitUtils.GetAgePrefix(sourceSim.SimDescription.Age, true) && x.Gender == sourceSim.SimDescription.Gender && x.Species == sourceSim.SimDescription.Species) || !InteractionInstanceTypeUtils.TryGetSelectedInteractionInstanceTypes(out var selectedInteractionInstanceTypes, Array.ConvertAll(Array.FindAll(sourceSim.SimDescription.GetAllOutfitAssignments(), x => !x.SpecialOutfitKey.StartsWith(OutfitAssignmentUtils.OutfitAssignmentCategoryPrefix)), x => Array.Find(InteractionInstanceTypeUtils.InteractionInstanceTypes, y => y.FullName == x.InteractionInstanceType))))
+                {
+                    return true;
+                }
+                foreach (var interactionInstanceType in selectedInteractionInstanceTypes)
+                {
+                    if (sourceSim.SimDescription.TryGetOutfitAssignment(interactionInstanceType, out var outfitAssignment, Actor.SimDescription) && sourceSpecialOutfitKey != outfitAssignment.SpecialOutfitKey)
+                    {
+                        if (!string.IsNullOrEmpty(sourceSpecialOutfitKey))
+                        {
+                            return AssignOutfitToInteraction_Original.NotifyMultipleOutfitsFound(sourceSim, sourceSim, false);
+                        }
+                        sourceSpecialOutfitKey = outfitAssignment.SpecialOutfitKey;
+                    }
+                }
+                if (AssignOutfitToInteraction_Original.TryGetEntryCallbackType(sourceSim, Actor, selectedInteractionInstanceTypes[0], out var entryCallbackType) && AssignOutfitToInteraction_Original.TryGetExitCallbackType(sourceSim, Actor, selectedInteractionInstanceTypes[0], out var exitCallbackType))
+                {
+                    foreach (var destinationSimDescription in destinationSimDescriptions)
+                    {
+                        var destinationSpecialOutfitKey = "OutfitAssignment_" + DownloadContent.GenerateGUID();
+                        if (OutfitAssignmentUtils.AssignedOutfits.ContainsKey(sourceSpecialOutfitKey))
+                        {
+                            if (OutfitAssignmentUtils.ShowPartOverrideListDialog(OutfitAssignmentUtils.AssignedOutfits[destinationSpecialOutfitKey] = new OutfitAssignmentUtils.AssignedOutfit(OutfitAssignmentUtils.AssignedOutfits[sourceSpecialOutfitKey]), out var partOverrides))
+                            {
+                                OutfitAssignmentUtils.AssignedOutfits[destinationSpecialOutfitKey].PartOverrides = new List<BodyTypes>(partOverrides);
+                            }
+                            if (SimHairGrowth.PreferredHairstylesBySpecialOutfitAndGrowthState.TryGetValue(sourceSpecialOutfitKey, out var sourceOutfitHairData))
+                            {
+                                var destinationOutfitHairData = new SimHairGrowth.OutfitHairData(destinationSimDescription.SimDescriptionId, ResourceKey.kInvalidResourceKey, OutfitCategories.None, 0);
+                                foreach (var hairGrowthState in sourceOutfitHairData.PreferredHairstylesByGrowthState.Keys)
+                                {
+                                    destinationOutfitHairData.PreferredHairstylesByGrowthState[hairGrowthState] = sourceOutfitHairData.PreferredHairstylesByGrowthState[hairGrowthState];
+                                    destinationOutfitHairData.PreferredHatPresetsByGrowthState[hairGrowthState] = sourceOutfitHairData.PreferredHatPresetsByGrowthState[hairGrowthState];
+                                }
+                            }
+                        }
+                        else
+                        {
+                            destinationSimDescription.AddAssignedOutfit(new OutfitAssignmentUtils.AssignedOutfit(sourceSim.SimDescription.GetSpecialOutfit(sourceSpecialOutfitKey)), destinationSpecialOutfitKey);
+                        }
+                        foreach (var interactionInstanceType in selectedInteractionInstanceTypes)
+                        {
+                            destinationSimDescription.AssignOutfitToInteraction(destinationSpecialOutfitKey, interactionInstanceType, entryCallbackType ?? default, exitCallbackType ?? default, Actor.SimDescription);
+                        }
+                    }
+                }
+                return true;
+            }
+        }
 
         public class EditAssignedOutfit : EditAssignedOutfit_Original
         {
             public new class Definition : ImmediateInteractionDefinition<Sim, GameObject, EditAssignedOutfit>
             {
+                private readonly EditAssignedOutfit_Original.Definition mBaseDefinition = new EditAssignedOutfit_Original.Definition();
+                
                 public bool IsGlobal;
 
                 public bool TargetIsSim;
 
-                public override string GetInteractionName(Sim actor, GameObject target, Sims3.Gameplay.Autonomy.InteractionObjectPair iop)
+                public override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair iop)
                 {
-                    var targetSim = IsGlobal ? null : target as Sim ?? actor;
-                    return Common.Localize(targetSim != null && targetSim.IsFemale, sLocalizationKey + ":Name");
+                    mBaseDefinition.IsGlobal = IsGlobal;
+                    return mBaseDefinition.GetInteractionName(actor, target, iop);
                 }
 
                 public override string[] GetPath(bool isFemale)
                 {
-                    var basePath = Common.Localize(isFemale, sLocalizationKey + "/Paths:Base");
-                    return TargetIsSim ? new[]
-                        {
-                            basePath
-                        } : new[]
-                        {
-                            basePath,
-                            Common.Localize(isFemale, sLocalizationKey + "/Paths:" + (IsGlobal ? "Global" : "Individual"))
-                        };
+                    mBaseDefinition.IsGlobal = IsGlobal;
+                    mBaseDefinition.TargetIsSim = TargetIsSim;
+                    return mBaseDefinition.GetPath(isFemale);
                 }
 
                 public override bool Test(Sim actor, GameObject target, bool isAutonomous, ref GreyedOutTooltipCallback greyedOutTooltipCallback)
                 {
-                    var targetSim = IsGlobal ? null : target as Sim ?? actor;
-                    return Array.Exists(targetSim.GetSimDescription().GetAllOutfitAssignments(), x => !x.SpecialOutfitKey.StartsWith(OutfitAssignmentUtils.OutfitAssignmentCategoryPrefix) /*&& (targetSim != null || x.SpecialOutfitKey.StartsWith(actor.GetGlobalAssignedOutfitPrefix()))*/);
+                    mBaseDefinition.IsGlobal = IsGlobal;
+                    return mBaseDefinition.Test(actor, target, isAutonomous, ref greyedOutTooltipCallback);
                 }
             }
             
@@ -262,7 +445,7 @@ namespace Destrospean.Utils.HairTrouble
                                     PartOverrides = OutfitAssignmentUtils.AssignedOutfits[specialOutfitKey].PartOverrides
                                 };
                         }
-                        AssignHairstyleToGrowthState(targetSim, specialOutfitKey, isPartial);
+                        AssignHairstyleToCurrentGrowthState(targetSim, specialOutfitKey, isPartial);
                     }
                     if ((targetSim == null || isPartial) && targetOrActor.SimDescription.HasSpecialOutfit(specialOutfitKey))
                     {
@@ -344,7 +527,7 @@ namespace Destrospean.Utils.HairTrouble
             }
         }
         
-        public static void AssignHairstyleToGrowthState(Sim sim, string specialOutfitKey, bool isPartial)
+        public static void AssignHairstyleToCurrentGrowthState(Sim sim, string specialOutfitKey, bool isPartial)
         {
             if (!isPartial || !sim.SimDescription.TryGetHairGrowthState(out var hairGrowthState))
             {
@@ -514,10 +697,15 @@ namespace Destrospean.Utils.HairTrouble
             LoadSaveManager.ObjectGroupsPreLoad += () =>
                 {
                     AssignOutfitToInteraction_Original.GlobalOutfitSingleton = AssignOutfitToInteraction.GlobalOutfitSingleton;
-                    AssignOutfitToInteraction_Original.PartialOutfitSingleton = AssignOutfitToInteraction.PartialOutfitSingleton;
                     AssignOutfitToInteraction_Original.PartialOutfitSimSingleton = AssignOutfitToInteraction.PartialOutfitSimSingleton;
+                    AssignOutfitToInteraction_Original.PartialOutfitSingleton = AssignOutfitToInteraction.PartialOutfitSingleton;
                     AssignOutfitToInteraction_Original.SimSingleton = AssignOutfitToInteraction.SimSingleton;
                     AssignOutfitToInteraction_Original.Singleton = AssignOutfitToInteraction.Singleton;
+                    CopyAssignedOutfitToInteraction_Original.GlobalOutfitSingleton = CopyAssignedOutfitToInteraction.GlobalOutfitSingleton;
+                    CopyAssignedOutfitToInteraction_Original.SimSingleton = CopyAssignedOutfitToInteraction.SimSingleton;
+                    CopyAssignedOutfitToInteraction_Original.Singleton = CopyAssignedOutfitToInteraction.Singleton;
+                    CopyOutfitAssignmentToSim_Original.SimSingleton = CopyOutfitAssignmentToSim.SimSingleton;
+                    CopyOutfitAssignmentToSim_Original.Singleton = CopyOutfitAssignmentToSim.Singleton;
                     EditAssignedOutfit_Original.GlobalOutfitSingleton = EditAssignedOutfit.GlobalOutfitSingleton;
                     EditAssignedOutfit_Original.SimSingleton = EditAssignedOutfit.SimSingleton;
                     EditAssignedOutfit_Original.Singleton = EditAssignedOutfit.Singleton;

@@ -20,19 +20,19 @@ namespace Destrospean.OutfitAssignment.Interactions
             public override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair iop)
             {
                 var targetSim = target as Sim ?? actor;
-                return Common.Localize(targetSim != null && targetSim.IsFemale, sLocalizationKey + ":Name");
+                return Common.Localize(targetSim != null && targetSim.IsFemale, kLocalizationKey + ":Name");
             }
 
             public override string[] GetPath(bool isFemale)
             {
-                var basePath = Common.Localize(isFemale, sLocalizationKey + "/Paths:Base");
+                var basePath = Common.Localize(isFemale, kLocalizationKey + "/Paths:Base");
                 return TargetIsSim ? new[]
                 {
                     basePath
                 } : new[]
                 {
                     basePath,
-                    Common.Localize(isFemale, sLocalizationKey + "/Paths:Individual")
+                    Common.Localize(isFemale, kLocalizationKey + "/Paths:Individual")
                 };
             }
 
@@ -43,15 +43,15 @@ namespace Destrospean.OutfitAssignment.Interactions
             }
         }
         
+        private const string kLocalizationKey = "/Interactions/CopyOutfitAssignmentToSim";
+        
         public static InteractionDefinition SimSingleton = new Definition
             {
                 TargetIsSim = true
             };
 
         public static InteractionDefinition Singleton = new Definition();
-
-        public const string sLocalizationKey = "/Interactions/CopyOutfitAssignmentToSim";
-
+        
         public override bool Run()
         {
             var sourceSim = Target as Sim ?? Actor;
@@ -89,7 +89,7 @@ namespace Destrospean.OutfitAssignment.Interactions
                     }
                     foreach (var interactionInstanceType in selectedInteractionInstanceTypes)
                     {
-                        destinationSimDescription.AssignOutfitToInteraction(destinationSpecialOutfitKey, interactionInstanceType, entryCallbackType.Value, exitCallbackType.Value, Actor.SimDescription);
+                        destinationSimDescription.AssignOutfitToInteraction(destinationSpecialOutfitKey, interactionInstanceType, entryCallbackType ?? default, exitCallbackType ?? default, Actor.SimDescription);
                     }
                 }
             }

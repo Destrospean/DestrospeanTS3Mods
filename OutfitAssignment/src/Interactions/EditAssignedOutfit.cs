@@ -19,19 +19,19 @@ namespace Destrospean.OutfitAssignment.Interactions
             public override string GetInteractionName(Sim actor, GameObject target, InteractionObjectPair iop)
             {
                 var targetSim = IsGlobal ? null : target as Sim ?? actor;
-                return Common.Localize(targetSim != null && targetSim.IsFemale, sLocalizationKey + ":Name");
+                return Common.Localize(targetSim != null && targetSim.IsFemale, kLocalizationKey + ":Name");
             }
 
             public override string[] GetPath(bool isFemale)
             {
-                var basePath = Common.Localize(isFemale, sLocalizationKey + "/Paths:Base");
+                var basePath = Common.Localize(isFemale, kLocalizationKey + "/Paths:Base");
                 return TargetIsSim ? new[]
                 {
                     basePath
                 } : new[]
                 {
                     basePath,
-                    Common.Localize(isFemale, sLocalizationKey + "/Paths:" + (IsGlobal ? "Global" : "Individual"))
+                    Common.Localize(isFemale, kLocalizationKey + "/Paths:" + (IsGlobal ? "Global" : "Individual"))
                 };
             }
 
@@ -52,10 +52,10 @@ namespace Destrospean.OutfitAssignment.Interactions
                 TargetIsSim = true
             };
 
+        private const string kLocalizationKey = "/Interactions/EditAssignedOutfit";
+        
         public static InteractionDefinition Singleton = new Definition();
-
-        public const string sLocalizationKey = "/Interactions/EditAssignedOutfit";
-
+        
         public override bool Run()
         {
             var definition = (Definition)InteractionDefinition;
