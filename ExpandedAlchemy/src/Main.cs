@@ -16,6 +16,8 @@ using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
 using Sims3.UI;
+using PotionShopConsignmentRegister = Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register.PotionShopConsignmentRegister;
+using PotionShopConsignmentRegister_Original = Sims3.Gameplay.Objects.Register.PotionShopConsignmentRegister;
 using Queries = Sims3.Gameplay.Queries;
 
 namespace Destrospean.ExpandedAlchemy
@@ -47,7 +49,7 @@ namespace Destrospean.ExpandedAlchemy
             Warning
         }
 
-        private const string kPotionConsignmentShopRegisterScriptClassName = "Sims3.Gameplay.Destrospean.ExpandedAlchemy.Register.PotionShopConsignmentRegister";
+        private static readonly string sPotionConsignmentShopRegisterScriptClassName = typeof(PotionShopConsignmentRegister).FullName;
 
         [Tunable]
         protected static bool kDebug;
@@ -74,9 +76,9 @@ namespace Destrospean.ExpandedAlchemy
                     if (e is World.OnObjectPlacedInLotEventArgs onObjectPlacedInLotEventArgs)
                     {
                         var gameObject = GameObject.GetObject(onObjectPlacedInLotEventArgs.ObjectId);
-                        if (gameObject is PotionShopConsignmentRegister)
+                        if (gameObject is PotionShopConsignmentRegister_Original && !(gameObject is PotionShopConsignmentRegister))
                         {
-                            gameObject.TryChangeScriptClass(kPotionConsignmentShopRegisterScriptClassName);
+                            gameObject.TryChangeScriptClass(sPotionConsignmentShopRegisterScriptClassName);
                         }
                     }
                 };
@@ -84,7 +86,7 @@ namespace Destrospean.ExpandedAlchemy
                 {
                     foreach (var register in Queries.GetObjects<PotionShopConsignmentRegister>())
                     {
-                        register.TryChangeScriptClass(kPotionConsignmentShopRegisterScriptClassName);
+                        register.TryChangeScriptClass(sPotionConsignmentShopRegisterScriptClassName);
                     }
                     listeners.Add(EventTracker.AddListener(EventTypeId.kExitInWorldSubState, evt =>
                         {
@@ -94,7 +96,7 @@ namespace Destrospean.ExpandedAlchemy
                                 {
                                     foreach (var register in Queries.GetObjects<PotionShopConsignmentRegister>())
                                     {
-                                        register.TryChangeScriptClass(kPotionConsignmentShopRegisterScriptClassName);
+                                        register.TryChangeScriptClass(sPotionConsignmentShopRegisterScriptClassName);
                                     }
                                 }
                             }
